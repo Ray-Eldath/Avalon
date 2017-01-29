@@ -3,6 +3,7 @@ package api;
 import org.json.JSONObject;
 import tool.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -12,13 +13,28 @@ import java.util.Vector;
  * @author Eldath
  */
 public class XiaoIce implements API {
-    @Override
-    public void doPost(JSONObject object) {
-        Response.responseGroup(object.getString("group_uid"), object.getString("content"));
-        List<String> keywords = new Vector<>();
+    private static XiaoIce instance = null;
+    static List<String> keywords = new ArrayList<>();
+
+    static {
         keywords.add("Avalon");
         keywords.add("阿瓦隆");
-        MainServlet.configure(keywords, this);
+    }
+
+    public static XiaoIce getInstance() {
+        if (instance == null) instance = new XiaoIce();
+        return instance;
+    }
+
+
+    @Override
+    public void doPost(JSONObject object) {
+        String content = object.get("content").toString();
+        for (String thisKeyWord : keywords)
+            content = content.replace(thisKeyWord.toLowerCase(), "小冰");
+        String XiaoIce = Response.responseXiaoIce(content);
+        if (XiaoIce == null) return;
+        Response.responseGroup(object.get("group_uid").toString(), XiaoIce);
     }
 
     @Override

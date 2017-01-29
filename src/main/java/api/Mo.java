@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import tool.Response;
 import tool.VariablePool;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -14,6 +15,25 @@ import java.util.Vector;
  * @author Eldath
  */
 public class Mo implements API {
+    private static Mo instance = null;
+
+    static List<String> keywords = new ArrayList<>();
+
+    static {
+        keywords.add("+1s");
+        keywords.add("膜蛤");
+        keywords.add("苟");
+        keywords.add("+1s");
+        keywords.add("-1s");
+        keywords.add("续命");
+        keywords.add("州长夫人");
+    }
+
+    public static Mo getInstance() {
+        if (instance == null) instance = new Mo();
+        return instance;
+    }
+
     @Override
     public void doPost(JSONObject object) {
         String group_uid = object.get("group_uid").toString();
@@ -25,15 +45,8 @@ public class Mo implements API {
         }
         response(group_uid);
         VariablePool.Mo_Count++;
-        List<String> keywords = new Vector<>();
-        keywords.add("+1s");
-        keywords.add("膜蛤");
-        keywords.add("苟");
-        keywords.add("+1s");
-        keywords.add("-1s");
-        keywords.add("续命");
-        MainServlet.configure(keywords, this);
     }
+
     @Override
     public void response(String groupNumber) {
         String[] responseMessages = {"我Avalon都迫不得已给长者+1s啊... ...",
@@ -42,7 +55,8 @@ public class Mo implements API {
                 "那首诗怎么念来着？苟利国家... ...",
                 "要不我Avalon给大家发一个念诗红包吧？",
                 "我觉得我Avalon需要给长者续什么才行啊",
-                "你们这是要负泽任的，民白不？"};
+                "你们这是要负泽任的，民白不？",
+                "还是去弹夏威夷吉他吧！"};
         Response.responseGroup(groupNumber, responseMessages[new Random().nextInt(responseMessages.length)]);
     }
 }
