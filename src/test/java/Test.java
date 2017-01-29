@@ -7,6 +7,7 @@ import org.eclipse.jetty.util.UrlEncoded;
  */
 public class Test {
     public static void main(String[] args) {
+        System.out.println(System.currentTimeMillis());
         String content = "测试而已\n测试";
         System.out.print(UrlEncoded.encodeString(content));
     }

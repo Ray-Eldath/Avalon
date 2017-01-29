@@ -34,11 +34,11 @@ public class APIManager implements API {
                 split = content.split(" ");
                 API thisAPI = MainServlet.getAPIByKeyword(split[3]);
                 action = split[2];
-                if (thisAPI == null || APISurvivePool.getInstance().containAPI(thisAPI)) {
+                if (thisAPI == null) {
                     Response.responseGroup(group_uid, "@" + sender + " 您要操作的API根本不存在！(╯︵╰,)");
                     return;
                 }
-                if (action.equals("start")) {
+                if (action.equals("start") && (sender_uid.equals("1464443139") || sender_uid.equals("951394653"))) {
                     APISurvivePool.getInstance().setAPISurvive(thisAPI, true);
                     Response.responseGroup(group_uid, "@" + sender + " 您要重启的API将会重启`(*∩_∩*)′");
                     return;
@@ -52,6 +52,7 @@ public class APIManager implements API {
                     return;
                 }
             }
+        Response.responseGroup(group_uid, "@" + sender + " 您没有权限啦！(゜д゜)");
     }
 
     @Override

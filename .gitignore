@@ -13,8 +13,7 @@ hs_err_pid*
 .gradle/
 build/
 logs/
-bin/
-/KnowledgeBase.txt
+bin/KnowledgeBase.txt
 #
 /.idea/compiler.xml
 /.idea/gradle.xml

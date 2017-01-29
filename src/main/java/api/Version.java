@@ -29,7 +29,7 @@ public class Version implements API {
                     "我是阿瓦隆，QQ群机器人。\n" +
                     "我的名字和头像均取自《Implosion》，我的父亲是Mojo-Webqq。\n" +
                     "我由Eldath Ray进行二次开发。\n" +
-                    "Mojo-Webqq Version: v2.0.4\tAvalon Version: v0.0.1 Pre-Alpha";
+                    "Mojo-Webqq Version: v2.0.4\tMojo-Weixin Version: v1.2.9\tAvalon Version: v0.0.1 Pre-Alpha";
             Response.responseGroup(groupNumber, message);
         } catch (Exception ignore) {
         }

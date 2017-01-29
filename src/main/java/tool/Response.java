@@ -24,7 +24,10 @@ public class Response {
         }
         JSONObject object = (JSONObject) tokener.nextValue();
         if (object.isNull("reply")) return null;
-        return object.getString("reply");
+        String reply = object.get("reply").toString().replace("小冰", "Avalon");
+        if (reply.contains("[语音]")) reply = "人家没办法发语音的辣、、、(╯︵╰,)";
+        if (reply.contains("[图片]")) reply = "没办法，本垃圾发不了图片=_=";
+        return reply;
     }
 
     public static void responseFriend(String friendNumber, String content) {

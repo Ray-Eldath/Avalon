@@ -10,9 +10,6 @@ A QQ group robot which based on Mojo-Webqq.
 ## 构建/维护步骤
 
 1. 请先到[Mojo-Webqq的GitHub仓库地址](https://github.com/sjdy521/Mojo-Webqq)按README文件内说明配置Mojo-Webqq；
-2. 运行本目录下的```RunSystem.pl```；
+2. 再到[Mojo-Weixin的仓库地址](https://github.com/sjdy521/Mojo-Weixin)按README文件内说明配置Mojo-Weixin；
+2. 运行``\bin``目录下的```*.pl```；
 3. 运行```MainServer```。
-
-然后你会发现一直``Timeout``，这就是我说的bug。
-
-Help-needed...

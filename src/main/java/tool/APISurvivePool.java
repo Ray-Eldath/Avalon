@@ -11,6 +11,7 @@ import java.util.HashMap;
  */
 public class APISurvivePool {
     private HashMap<API, Boolean> survive;
+    private HashMap<API, Boolean> noticed;
     private static APISurvivePool instance = null;
 
     public static APISurvivePool getInstance() {
@@ -20,14 +21,16 @@ public class APISurvivePool {
 
     private APISurvivePool() {
         survive = new HashMap<>();
+        noticed = new HashMap<>();
     }
 
     public boolean containAPI(API input) {
         return survive.containsKey(input);
     }
 
-    public boolean addAPI(API input) {
-        return survive.put(input, true);
+    public void addAPI(API input) {
+        survive.put(input, true);
+        noticed.put(input, false);
     }
 
     public void setAPISurvive(API input, boolean state) {
@@ -36,5 +39,13 @@ public class APISurvivePool {
 
     public boolean isSurvive(API input) {
         return survive.get(input);
+    }
+
+    public boolean isNoticed(API input) {
+        return noticed.get(input);
+    }
+
+    public void setNoticed(API api) {
+        noticed.put(api, true);
     }
 }

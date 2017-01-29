@@ -2,7 +2,6 @@ package api;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.slf4j.LoggerFactory;
 import tool.APISurvivePool;
 import tool.Response;
 
@@ -30,21 +29,20 @@ public class MainServlet extends HttpServlet {
         MainServlet.configure(Mo.keywords, Mo.getInstance());
         MainServlet.configure(XiaoIce.keywords, XiaoIce.getInstance());
         MainServlet.configure("avalon help", Help.getInstance());
-        MainServlet.configure("avalon APIManager ", APIManager.getInstance());
     }
 
 
-    public static API getAPIByKeyword(String keyword) {
+    static API getAPIByKeyword(String keyword) {
         if (!apiList.containsKey(keyword)) return null;
         return apiList.get(keyword);
     }
 
-    static void configure(String keyWord, API api) {
+    private static void configure(String keyWord, API api) {
         apiList.put(keyWord.toLowerCase(), api);
         APISurvivePool.getInstance().addAPI(api);
     }
 
-    static void configure(List<String> keywords, API API) {
+    private static void configure(List<String> keywords, API API) {
         for (String thisKeyWord : keywords)
             configure(thisKeyWord, API);
     }
@@ -58,19 +56,23 @@ public class MainServlet extends HttpServlet {
         String group_uid = object.get("group_uid").toString();
         String sender = object.get("sender").toString();
         String lowerContent = object.getString("content").toLowerCase();
-        LoggerFactory.getLogger(MainServlet.class).info("message in " + group_uid + " with " + lowerContent);
+        // LoggerFactory.getLogger(MainServlet.class).info("message in " + group_uid + " with " + lowerContent);
         for (String thisFollowGroup : followGroup)
             if (group_uid.equals(thisFollowGroup)) {
+                if (lowerContent.contains("avalon apimanager ")) {
+                    APIManager.getInstance().doPost(object);
+                    return;
+                }
                 for (Map.Entry<String, API> stringAPIEntry : apiList.entrySet()) {
                     String key = (String) ((Map.Entry) stringAPIEntry).getKey();
                     API value = (API) ((Map.Entry) stringAPIEntry).getValue();
-                    if (!APISurvivePool.getInstance().isSurvive(value)) {
-                        Response.responseGroup(group_uid, "@" + sender + " 对不起，您调用的方法目前已被禁止。");
-                        return;
-                    }
                     if (lowerContent.contains(key)) {
-                        value.doPost(object);
-                        return;
+                        if (!APISurvivePool.getInstance().isSurvive(value) &&
+                                !APISurvivePool.getInstance().isNoticed(value)) {
+                            Response.responseGroup(group_uid, "@" + sender +
+                                    " 对不起，您调用的方法目前已被停止；注意：此消息仅会显示一次。");
+                            APISurvivePool.getInstance().setNoticed(value);
+                        } else value.doPost(object);
                     }
                 }
             }
