@@ -10,12 +10,20 @@ import java.util.HashMap;
  * @author Eldath
  */
 public class APISurvivePool {
-    private HashMap<API, Boolean> survive = new HashMap<>();
+    private HashMap<API, Boolean> survive;
     private static APISurvivePool instance = null;
 
     public static APISurvivePool getInstance() {
         if (instance == null) instance = new APISurvivePool();
         return instance;
+    }
+
+    private APISurvivePool() {
+        survive = new HashMap<>();
+    }
+
+    public boolean containAPI(API input) {
+        return survive.containsKey(input);
     }
 
     public boolean addAPI(API input) {

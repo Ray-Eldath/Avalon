@@ -25,18 +25,23 @@ public class MainServlet extends HttpServlet {
     private static Map<String, API> apiList = new HashMap<>();
     static final String[] followPeople = {"951394653", "360736041", "1464443139", "704639565"};
 
-    static {
+    public MainServlet() {
         MainServlet.configure("avalon version", Version.getInstance());
         MainServlet.configure(Mo.keywords, Mo.getInstance());
         MainServlet.configure(XiaoIce.keywords, XiaoIce.getInstance());
+        MainServlet.configure("avalon help", Help.getInstance());
+        MainServlet.configure("avalon APIManager ", APIManager.getInstance());
     }
 
-    public API getAPIByKeyword(String keyword) {
+
+    public static API getAPIByKeyword(String keyword) {
+        if (!apiList.containsKey(keyword)) return null;
         return apiList.get(keyword);
     }
 
-    static void configure(String keyWord, API API) {
-        apiList.put(keyWord.toLowerCase(), API);
+    static void configure(String keyWord, API api) {
+        apiList.put(keyWord.toLowerCase(), api);
+        APISurvivePool.getInstance().addAPI(api);
     }
 
     static void configure(List<String> keywords, API API) {
