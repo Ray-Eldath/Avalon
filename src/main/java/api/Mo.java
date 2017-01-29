@@ -4,7 +4,9 @@ import org.json.JSONObject;
 import tool.Response;
 import tool.VariablePool;
 
+import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -12,14 +14,6 @@ import java.util.Random;
  * @author Eldath
  */
 public class Mo implements API {
-    static final String[] keyWords = {"mo", "膜蛤", "蛤？", "+1s", "-1s"};
-    private static Mo instance = null;
-
-    static API getInstance() {
-        if (instance == null) instance = new Mo();
-        return instance;
-    }
-
     @Override
     public void doPost(JSONObject object) {
         String group_uid = object.get("group_uid").toString();
@@ -31,8 +25,15 @@ public class Mo implements API {
         }
         response(group_uid);
         VariablePool.Mo_Count++;
+        List<String> keywords = new Vector<>();
+        keywords.add("+1s");
+        keywords.add("膜蛤");
+        keywords.add("苟");
+        keywords.add("+1s");
+        keywords.add("-1s");
+        keywords.add("续命");
+        MainServlet.configure(keywords, this);
     }
-
     @Override
     public void response(String groupNumber) {
         String[] responseMessages = {"我Avalon都迫不得已给长者+1s啊... ...",

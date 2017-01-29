@@ -2,15 +2,15 @@ package api;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.slf4j.LoggerFactory;
-import tool.Response;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -18,16 +18,17 @@ import java.util.List;
  * @author Eldath
  */
 public class MainServlet extends HttpServlet {
-    private static final String[] followGroup = {"399863405"};
-
+    public static final String[] followGroup = {"399863405"};
+    private static Map<String, API> apiList = new HashMap<>();
     static final String[] followPeople = {"951394653", "360736041", "1464443139", "704639565"};
 
-    protected void configure(String keyWord, API API) {
-        //TODO 到时候直接调用这个，就不用像下面那么麻烦了。不过等我整完bug再说。你们谁都别写这里！ - Eldath
+    protected static void configure(String keyWord, API API) {
+        apiList.put(keyWord.toLowerCase(), API);
     }
 
-    protected void configure(List<String> keywords, API API) {
-        //TODO 同上个TODO
+    protected static void configure(List<String> keywords, API API) {
+        for (String thisKeyWord : keywords)
+            configure(thisKeyWord, API);
     }
 
     @Override
@@ -40,17 +41,15 @@ public class MainServlet extends HttpServlet {
         String group_uid = object.get("group_uid").toString();
         String lowerContent = object.getString("content").toLowerCase();
         for (String thisFollowGroup : followGroup)
-            Response.responseGroup(thisFollowGroup, "Avalon已经上线。");
-        // here
-        LoggerFactory.getLogger(MainServlet.class).info("Client connect: " + req.getSession().getId());
-        for (String thisFollowGroup : followGroup)
             if (group_uid.equals(thisFollowGroup)) {
-                if (lowerContent.contains("version"))
-                    About.getInstance().doPost(object);
-                for (String thisKeyWord : Mo.keyWords)
-                    if (lowerContent.contains(thisKeyWord)) {
-                        Mo.getInstance().doPost(object);
+                for (Map.Entry<String, API> stringAPIEntry : apiList.entrySet()) {
+                    String key = (String) ((Map.Entry) stringAPIEntry).getKey();
+                    API value = (API) ((Map.Entry) stringAPIEntry).getValue();
+                    if (lowerContent.contains(key)) {
+                        value.doPost(object);
+                        return;
                     }
+                }
             }
     }
 }

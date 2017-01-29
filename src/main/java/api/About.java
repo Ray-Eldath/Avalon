@@ -29,15 +29,18 @@ public class About implements API {
                 response(group_uid);
                 return;
             }
+        MainServlet.configure("version", this);
     }
 
     @Override
     public void response(String groupNumber) {
         try {
-            String message = URLEncoder.encode("Hi, I'm Avalon.\n我是阿瓦隆，QQ群机器人。" +
-                    "\n我的名字取自《聚爆》，我的父亲是Mojo-Webqq。\n" +
-                    "我由Ray Eldath进行二次开发。\n" +
-                    "Mojo-Webqq Version: v2.0.4\tAvalon Version: v0.0.1 Pre-Alpha\n", "utf-8");
+            String message = URLEncoder.encode(
+                    "Hi, I'm Avalon.\n" +
+                            "我是阿瓦隆，QQ群机器人。\n" +
+                            "我的名字和头像均取自《Implosion》，我的父亲是Mojo-Webqq。\n" +
+                            "我由Eldath Ray进行二次开发。\n" +
+                            "Mojo-Webqq Version: v2.0.4\tAvalon Version: v0.0.1 Pre-Alpha", "utf-8");
             Response.responseGroup(groupNumber, message);
         } catch (Exception ignore) {
         }

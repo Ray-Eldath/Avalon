@@ -4,9 +4,11 @@ import api.MainServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import tool.Response;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.Scanner;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -25,6 +27,14 @@ public class MainServer {
         server.setStopAtShutdown(true);
         context.addServlet(new ServletHolder(new MainServlet()), "/post_api");
         server.start();
+        System.out.print("Is server on (yes or no): ");
+        Scanner scanner = new Scanner(System.in);
+        String isOn = scanner.nextLine();
+        if (isOn.toLowerCase().equals("yes"))
+            for (String thisFollowGroup : MainServlet.followGroup)
+                Response.responseGroup(thisFollowGroup, "Avalon已经上线。");
+        else System.exit(-10000);
+        System.out.println("Server running!");
         server.join();
     }
 }

@@ -30,3 +30,5 @@ build/
 .idea/dictionaries/
 .idea/dbnavigator.xml
 logs/
+KnowledgeBase.txt
+bin/
