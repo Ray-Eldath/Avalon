@@ -45,7 +45,7 @@ public class XiaoIce implements API {
         //long time = object.getLong("time");
         //long lastAllowTime = time + 2L;
         //if (first) {
-        //    XiaoIceRateLimit.getInstance().setLastAllowTime(lastAllowTime);
+        //    APIRateLimit.getInstance().setLastAllowTime(lastAllowTime);
         //    first = false;
         //}
 
@@ -77,15 +77,15 @@ public class XiaoIce implements API {
                 Response.responseGroup(group_uid, "@" + sender + " 您发送的消息含有不允许的关键词！⊙﹏⊙!");
                 return;
             }
-        //if (XiaoIceRateLimit.getInstance().isLimitNeeded(time)) {
+        //if (APIRateLimit.getInstance().isLimitNeeded(time)) {
         //    Response.responseGroup(group_uid, "@" + sender + " 指令超频！2秒内只能让阿瓦隆回答一次！(^ω^)");
-        //XiaoIceRateLimit.getInstance().setLastAllowTime(lastAllowTime);
+        //APIRateLimit.getInstance().setLastAllowTime(lastAllowTime);
         //    return;
         //}
         for (String thisKeyWord : keywords)
             content = content.replace(thisKeyWord.toLowerCase(), "小冰");
         String XiaoIce = Response.responseXiaoIce(content);
-        //XiaoIceRateLimit.getInstance().setLastAllowTime(lastAllowTime);
+        //APIRateLimit.getInstance().setLastAllowTime(lastAllowTime);
         if (XiaoIce == null) return;
         Response.responseGroup(group_uid, "@" + sender + " " + XiaoIce);
     }

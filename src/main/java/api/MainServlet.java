@@ -2,8 +2,10 @@ package api;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import tool.APIRateLimit;
 import tool.APISurvivePool;
 import tool.Response;
+import tool.VariablePool;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,14 +22,17 @@ import java.util.Map;
  * @author Eldath
  */
 public class MainServlet extends HttpServlet {
-    public static final String[] followGroup = {"399863405"};
+    public static final String[] followGroup = {"617118724"};
     private static Map<String, API> apiList = new HashMap<>();
     static final String[] followPeople = {"951394653", "360736041", "1464443139", "704639565"};
+
+    static APIRateLimit cooling = new APIRateLimit(2000L); // 刚刚写Kotlin写懵逼了 QwQ  hahah
 
     public MainServlet() {
         MainServlet.configure("avalon version", Version.getInstance());
         MainServlet.configure(Mo.keywords, Mo.getInstance());
-        MainServlet.configure(XiaoIce.keywords, XiaoIce.getInstance());
+        MainServlet.configure(XiaoIce.keywords, XiaoIce.getInstance()); // 只要限制这吧
+        //、nope
         MainServlet.configure("avalon help", Help.getInstance());
         MainServlet.configure("avalon echo", Echo.getInstance());
     }
@@ -57,9 +62,18 @@ public class MainServlet extends HttpServlet {
         String group_uid = object.get("group_uid").toString();
         String sender = object.get("sender").toString();
         String lowerContent = object.getString("content").toLowerCase();
+        long time = object.getLong("time");
         // LoggerFactory.getLogger(MainServlet.class).info("message in " + group_uid + " with " + lowerContent);
         for (String thisFollowGroup : followGroup)
             if (group_uid.equals(thisFollowGroup)) {
+                if (!cooling.trySet(time)) {
+                    if (!VariablePool.Limit_Noticed) {
+                        Response.responseGroup(group_uid, "@" + sender +
+                                " 对不起，您的指令超频。2s内仅能有一次指令输入，未到2s内的输入将被忽略。注意：此消息仅会显示一次。");
+                        VariablePool.Limit_Noticed = true;
+                    }
+                    return;
+                }
                 if (lowerContent.contains("avalon apimanager ")) {
                     APIManager.getInstance().doPost(object);
                     return;
@@ -68,7 +82,6 @@ public class MainServlet extends HttpServlet {
                     String key = (String) ((Map.Entry) stringAPIEntry).getKey();
                     API value = (API) ((Map.Entry) stringAPIEntry).getValue();
                     if (lowerContent.contains(key)) {
-                        System.out.println("API 状态： " + APISurvivePool.getInstance().isSurvive(value));
                         if (!APISurvivePool.getInstance().isSurvive(value) &&
                                 !APISurvivePool.getInstance().isNoticed(value)) {
                             Response.responseGroup(group_uid, "@" + sender +
