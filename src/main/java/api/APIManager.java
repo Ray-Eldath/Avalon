@@ -45,6 +45,7 @@ public class APIManager implements API {
                 }
                 if (action.equals("stop")) {
                     APISurvivePool.getInstance().setAPISurvive(thisAPI, false);
+                    System.out.println("API stop.");
                     Response.responseGroup(group_uid, "@" + sender + " 您要关闭的API将会关闭~");
                     return;
                 } else {

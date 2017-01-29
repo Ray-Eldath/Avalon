@@ -29,6 +29,7 @@ public class MainServlet extends HttpServlet {
         MainServlet.configure(Mo.keywords, Mo.getInstance());
         MainServlet.configure(XiaoIce.keywords, XiaoIce.getInstance());
         MainServlet.configure("avalon help", Help.getInstance());
+        MainServlet.configure("avalon echo", Echo.getInstance());
     }
 
 
@@ -67,12 +68,17 @@ public class MainServlet extends HttpServlet {
                     String key = (String) ((Map.Entry) stringAPIEntry).getKey();
                     API value = (API) ((Map.Entry) stringAPIEntry).getValue();
                     if (lowerContent.contains(key)) {
+                        System.out.println("API 状态： " + APISurvivePool.getInstance().isSurvive(value));
                         if (!APISurvivePool.getInstance().isSurvive(value) &&
                                 !APISurvivePool.getInstance().isNoticed(value)) {
                             Response.responseGroup(group_uid, "@" + sender +
                                     " 对不起，您调用的方法目前已被停止；注意：此消息仅会显示一次。");
                             APISurvivePool.getInstance().setNoticed(value);
-                        } else value.doPost(object);
+                            return;
+                        } else {
+                            value.doPost(object);
+                            return;
+                        }
                     }
                 }
             }
