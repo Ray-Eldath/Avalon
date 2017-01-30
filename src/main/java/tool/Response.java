@@ -26,7 +26,11 @@ public class Response {
         if (object.isNull("reply")) return null;
         String reply = object.get("reply").toString().replace("小冰", "Avalon");
         if (reply.contains("[语音]")) reply = "人家没办法发语音的辣、、、(╯︵╰,)";
-        if (reply.contains("[图片]")) reply = "没办法，本垃圾发不了图片=_=";
+        else if (reply.contains("[图片]")) reply = "没办法，本垃圾发不了图片=_=";
+        else if (reply.contains("小怪冰")) reply = reply.replace("小怪冰", "Avalon");
+        else if (reply.contains("小冰冰")) reply = reply.replace("小冰冰", "Avalon");
+        else if (reply.contains("冰酱")) reply = reply.replace("冰酱", "阿瓦隆");
+        else reply = reply.replace("小冰", "Avalon");
         return reply;
     }
 

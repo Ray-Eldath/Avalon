@@ -11,7 +11,7 @@ public class APIRateLimit {
     private long duration;
 
     public APIRateLimit(long duration) {
-        this.duration = duration; // kotlin 中毒 ..
+        this.duration = duration;
     }
 
     public synchronized boolean trySet(long currentInput) {

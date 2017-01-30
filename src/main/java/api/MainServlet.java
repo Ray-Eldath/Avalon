@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,18 +23,21 @@ import java.util.Map;
  */
 public class MainServlet extends HttpServlet {
     public static final String[] followGroup = {"617118724"};
-    private static Map<String, API> apiList = new HashMap<>();
+    private static Map<String, API> apiList = new LinkedHashMap<>();
     static final String[] followPeople = {"951394653", "360736041", "1464443139", "704639565"};
 
-    static APIRateLimit cooling = new APIRateLimit(2000L); // 刚刚写Kotlin写懵逼了 QwQ  hahah
+    private static APIRateLimit cooling = new APIRateLimit(3000L);
 
     public MainServlet() {
+        // CUSTOM 注意：此处configure的顺序决定优先级。
+        // 开发者非常不建议修改此处内容，容易造成奇怪的问题。
+        MainServlet.configure("avalon apimanager ", APIManager.getInstance());
+        MainServlet.configure("avalon blacklist ", Blacklist.getInstance());
+        MainServlet.configure("avalon help", Help.getInstance());
         MainServlet.configure("avalon version", Version.getInstance());
         MainServlet.configure(Mo.keywords, Mo.getInstance());
-        MainServlet.configure(XiaoIce.keywords, XiaoIce.getInstance()); // 只要限制这吧
-        //、nope
-        MainServlet.configure("avalon help", Help.getInstance());
-        MainServlet.configure("avalon echo", Echo.getInstance());
+        MainServlet.configure("avalon echo ", Echo.getInstance());
+        MainServlet.configure(XiaoIce.keywords, XiaoIce.getInstance());
     }
 
 
@@ -66,27 +69,25 @@ public class MainServlet extends HttpServlet {
         // LoggerFactory.getLogger(MainServlet.class).info("message in " + group_uid + " with " + lowerContent);
         for (String thisFollowGroup : followGroup)
             if (group_uid.equals(thisFollowGroup)) {
-                if (!cooling.trySet(time)) {
-                    if (!VariablePool.Limit_Noticed) {
-                        Response.responseGroup(group_uid, "@" + sender +
-                                " 对不起，您的指令超频。2s内仅能有一次指令输入，未到2s内的输入将被忽略。注意：此消息仅会显示一次。");
-                        VariablePool.Limit_Noticed = true;
-                    }
-                    return;
-                }
-                if (lowerContent.contains("avalon apimanager ")) {
-                    APIManager.getInstance().doPost(object);
-                    return;
-                }
                 for (Map.Entry<String, API> stringAPIEntry : apiList.entrySet()) {
                     String key = (String) ((Map.Entry) stringAPIEntry).getKey();
                     API value = (API) ((Map.Entry) stringAPIEntry).getValue();
                     if (lowerContent.contains(key)) {
-                        if (!APISurvivePool.getInstance().isSurvive(value) &&
-                                !APISurvivePool.getInstance().isNoticed(value)) {
-                            Response.responseGroup(group_uid, "@" + sender +
-                                    " 对不起，您调用的方法目前已被停止；注意：此消息仅会显示一次。");
-                            APISurvivePool.getInstance().setNoticed(value);
+                        if (!cooling.trySet(time)) {
+                            if (!VariablePool.Limit_Noticed) {
+                                Response.responseGroup(group_uid, "@" + sender +
+                                        " 对不起，您的指令超频。3s内仅能有一次指令输入，未到2s内的输入将被忽略。" +
+                                        "注意：此消息仅会显示一次。");
+                                VariablePool.Limit_Noticed = true;
+                            }
+                            return;
+                        }
+                        if (!APISurvivePool.getInstance().isSurvive(value)) {
+                            if (!APISurvivePool.getInstance().isNoticed(value)) {
+                                Response.responseGroup(group_uid, "@" + sender +
+                                        " 对不起，您调用的方法目前已被停止；注意：此消息仅会显示一次。");
+                                APISurvivePool.getInstance().setNoticed(value);
+                            }
                             return;
                         } else {
                             value.doPost(object);

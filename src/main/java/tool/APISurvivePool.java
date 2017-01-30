@@ -1,6 +1,7 @@
 package tool;
 
 import api.API;
+import api.Blacklist;
 
 import java.util.HashMap;
 
@@ -10,7 +11,7 @@ import java.util.HashMap;
  * @author Eldath
  */
 public class APISurvivePool {
-    private HashMap<API, Boolean> survive;
+    private static HashMap<API, Boolean> survive;
     private HashMap<API, Boolean> noticed;
     private static APISurvivePool instance = null;
 

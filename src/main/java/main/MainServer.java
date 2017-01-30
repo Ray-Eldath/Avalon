@@ -19,7 +19,17 @@ import java.util.Scanner;
 public class MainServer {
     private static Logger logger = LoggerFactory.getLogger(MainServer.class);
 
+    static class atShutdownDo extends Thread {
+        @Override
+        public void run() {
+            MainServer.logger.info("Do cleaning job...");
+            for (String thisFollowFollow : MainServlet.followGroup)
+                Response.responseGroup(thisFollowFollow, "服务已经停止。");
+        }
+    }
+
     public static void main(String[] args) throws Exception {
+        Runtime.getRuntime().addShutdownHook(new atShutdownDo());
         InetSocketAddress address = new InetSocketAddress("127.0.0.1", 8088);
         Server server = new Server(address);
         ServletContextHandler context =
@@ -32,8 +42,10 @@ public class MainServer {
         Scanner scanner = new Scanner(System.in);
         String isOn = scanner.nextLine();
         if (isOn.toLowerCase().equals("yes"))
-            for (String thisFollowGroup : MainServlet.followGroup)
+            for (String thisFollowGroup : MainServlet.followGroup) {
                 Response.responseGroup(thisFollowGroup, "Avalon已经上线。");
+                Response.responseGroup(thisFollowGroup, "惩罚性严格过滤已经启用。");
+            }
         else logger.info("Cancel send login message.");
         logger.info("Server now running!");
         server.join();

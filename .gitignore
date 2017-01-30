@@ -25,3 +25,5 @@ bin/KnowledgeBase.txt
 /.idea/dbnavigator.xml
 /.idea/workspace.xml
 /.idea/modules/
+KnowledgeBase.txt
+out/

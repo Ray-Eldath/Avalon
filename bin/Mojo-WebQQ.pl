@@ -25,7 +25,7 @@ $client->load("KnowledgeBase", data => {
         learn_operator  => [ 1464443139, 2276768747, 951394653, 360736041, 704639565 ], #允许学习权限的操作人qq号
         delete_operator => [ 1464443139, 951394653 ], #允许删除权限的操作人qq号
         mode            => 'fuzzy', # fuzzy|regex|exact 分别表示模糊|正则|精确, 默认模糊
-        check_time      => 10, #默认10秒检查一次文件变更
+        check_time      => 60, #默认10秒检查一次文件变更
         show_keyword    => 1, #消息是否包含触发关键字信息，默认为0
     });
 $client->load("FuckDaShen");

@@ -19,6 +19,7 @@ public class Mo implements API {
     static List<String> keywords = new ArrayList<>();
 
     static {
+        // CUSTOM 以下配置激活语句，即用户消息中出现这些关键词激活膜蛤功能
         keywords.add("+1s");
         keywords.add("膜蛤");
         keywords.add("苟");
@@ -28,7 +29,7 @@ public class Mo implements API {
         keywords.add("州长夫人");
     }
 
-    public static Mo getInstance() {
+    static Mo getInstance() {
         if (instance == null) instance = new Mo();
         return instance;
     }
@@ -48,14 +49,17 @@ public class Mo implements API {
 
     @Override
     public void response(String groupNumber) {
+        // CUSTOM 以下配置膜蛤语句。本API被激活时语句将随机显示。
         String[] responseMessages = {"我Avalon都迫不得已给长者+1s啊... ...",
-                "蛤哈哈哈",
+                "哈哈蛤哈",
                 "你们有没有... ...就是那种... ...那种... ...诗？",
                 "那首诗怎么念来着？苟利国家... ...",
                 "要不我Avalon给大家发一个念诗红包吧？",
                 "我觉得我Avalon需要给长者续什么才行啊",
                 "我跟你江，你们这是要负泽任的，民白不？",
-                "还是去弹夏威夷吉他吧！"};
+                "还是去弹夏威夷吉他吧！",
+                "枸杞有养生功效，古人云：枸利果佳生食宜，气阴火服必驱之",
+                "下面我们有请州长夫人演唱！"};
         Response.responseGroup(groupNumber, responseMessages[new Random().nextInt(responseMessages.length)]);
     }
 }

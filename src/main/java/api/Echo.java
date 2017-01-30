@@ -16,8 +16,10 @@ public class Echo implements API {
     private static List<String> allowList = new ArrayList<>();
 
     static {
+        // CUSTOM 以下为允许 使Avalon重复说指定语句 的QQ号
         allowList.add("1464443139");
         allowList.add("951394653");
+        allowList.add("1016281105");
     }
 
     static Echo getInstance() {
