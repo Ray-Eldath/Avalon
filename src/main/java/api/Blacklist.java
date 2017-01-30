@@ -49,12 +49,12 @@ public class Blacklist implements API {
         toBan = split[3];
         for (String thisAllowUid : allowList)
             if (thisAllowUid.equals(sender_uid)) {
-                if (action.equals("add")) {
+                if ("add".equals(action)) {
                     Response.responseGroup(group_uid, "@" + sender + " 帐号" + toBan + "现已被 阿瓦隆回答我 功能屏蔽。");
                     logger.info("Account " + toBan + " is baned by " + sender_uid + " : " + sender + ".");
                     XiaoIce.blackList.put(toBan, 4);
                     return;
-                } else if (action.equals("remove")) {
+                } else if ("remove".equals(action)) {
                     if (!XiaoIce.blackList.containsKey(sender_uid)) {
                         Response.responseGroup(group_uid, "@" + sender + " 好像帐号" + toBan + "没有被屏蔽过呢-。-");
                         return;
@@ -69,9 +69,5 @@ public class Blacklist implements API {
                 }
             }
         Response.responseGroup(group_uid, "@" + sender + " 您没有权限辣！（｀Δ´）！");
-    }
-
-    @Override
-    public void response(String groupNumber) {
     }
 }

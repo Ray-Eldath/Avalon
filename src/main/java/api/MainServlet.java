@@ -22,8 +22,8 @@ import java.util.Map;
  * @author Eldath
  */
 public class MainServlet extends HttpServlet {
-    public static final String[] followGroup = {"617118724"};
     private static Map<String, API> apiList = new LinkedHashMap<>();
+    public static final String[] followGroup = {"617118724"};
     static final String[] followPeople = {"951394653", "360736041", "1464443139", "704639565"};
 
     private static APIRateLimit cooling = new APIRateLimit(3000L);
@@ -59,23 +59,22 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject object = (JSONObject) new JSONTokener(req.getInputStream()).nextValue();
-        if (!(object.getString("post_type").equals("receive_message") &&
-                object.getString("type").equals("group_message")))
+        if (!("receive_message".equals(object.getString("post_type"))) &&
+                "group_message".equals(object.getString("type")))
             return;
-        String group_uid = object.get("group_uid").toString();
+        String groupUid = object.get("group_uid").toString();
         String sender = object.get("sender").toString();
         String lowerContent = object.getString("content").toLowerCase();
         long time = object.getLong("time");
-        // LoggerFactory.getLogger(MainServlet.class).info("message in " + group_uid + " with " + lowerContent);
         for (String thisFollowGroup : followGroup)
-            if (group_uid.equals(thisFollowGroup)) {
+            if (groupUid.equals(thisFollowGroup)) {
                 for (Map.Entry<String, API> stringAPIEntry : apiList.entrySet()) {
-                    String key = (String) ((Map.Entry) stringAPIEntry).getKey();
-                    API value = (API) ((Map.Entry) stringAPIEntry).getValue();
+                    String key = stringAPIEntry.getKey();
+                    API value = stringAPIEntry.getValue();
                     if (lowerContent.contains(key)) {
                         if (!cooling.trySet(time)) {
                             if (!VariablePool.Limit_Noticed) {
-                                Response.responseGroup(group_uid, "@" + sender +
+                                Response.responseGroup(groupUid, "@" + sender +
                                         " 对不起，您的指令超频。3s内仅能有一次指令输入，未到2s内的输入将被忽略。" +
                                         "注意：此消息仅会显示一次。");
                                 VariablePool.Limit_Noticed = true;
@@ -84,7 +83,7 @@ public class MainServlet extends HttpServlet {
                         }
                         if (!APISurvivePool.getInstance().isSurvive(value)) {
                             if (!APISurvivePool.getInstance().isNoticed(value)) {
-                                Response.responseGroup(group_uid, "@" + sender +
+                                Response.responseGroup(groupUid, "@" + sender +
                                         " 对不起，您调用的方法目前已被停止；注意：此消息仅会显示一次。");
                                 APISurvivePool.getInstance().setNoticed(value);
                             }

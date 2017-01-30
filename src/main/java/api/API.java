@@ -9,6 +9,4 @@ import org.json.JSONObject;
  */
 public interface API {
     void doPost(JSONObject object);
-
-    void response(String groupNumber);
 }

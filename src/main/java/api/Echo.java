@@ -44,9 +44,4 @@ public class Echo implements API {
             }
         Response.responseGroup(group_uid, "@" + sender + " 您没有权限欸... ...(゜д゜)");
     }
-
-    @Override
-    public void response(String groupNumber) {
-
-    }
 }

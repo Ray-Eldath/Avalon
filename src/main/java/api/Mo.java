@@ -43,12 +43,6 @@ public class Mo implements API {
             VariablePool.Mo_Reach_Max = true;
             return;
         }
-        response(group_uid);
-        VariablePool.Mo_Count++;
-    }
-
-    @Override
-    public void response(String groupNumber) {
         // CUSTOM 以下配置膜蛤语句。本API被激活时语句将随机显示。
         String[] responseMessages = {"我Avalon都迫不得已给长者+1s啊... ...",
                 "哈哈蛤哈",
@@ -60,6 +54,7 @@ public class Mo implements API {
                 "还是去弹夏威夷吉他吧！",
                 "枸杞有养生功效，古人云：枸利果佳生食宜，气阴火服必驱之",
                 "下面我们有请州长夫人演唱！"};
-        Response.responseGroup(groupNumber, responseMessages[new Random().nextInt(responseMessages.length)]);
+        Response.responseGroup(group_uid, responseMessages[new Random().nextInt(responseMessages.length)]);
+        VariablePool.Mo_Count++;
     }
 }

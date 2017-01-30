@@ -31,9 +31,4 @@ public class Help implements API {
         // "（我才不会告诉你我有一些没有写在这里的彩蛋指令呢~哈哈`(*∩_∩*)′）");
         // TODO v0.0.1正式版本记得写彩蛋
     }
-
-    @Override
-    public void response(String groupNumber) {
-
-    }
 }

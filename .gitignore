@@ -27,3 +27,4 @@ bin/KnowledgeBase.txt
 /.idea/modules/
 KnowledgeBase.txt
 out/
+/ShowMsg.properties

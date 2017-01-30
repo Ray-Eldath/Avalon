@@ -3,6 +3,8 @@ package tool;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,13 +15,18 @@ import java.net.URL;
  * @author Eldath
  */
 public class Response {
+    private static final Logger logger = LoggerFactory.getLogger(Response.class);
+
+    private Response() {
+    }
+
     public static String responseXiaoIce(String content) {
         JSONTokener tokener;
         try {
             tokener = new JSONTokener(new URL("http://127.0.0.1:3500/openwx/consult?account=xiaoice-ms" +
                     "&content=" + UrlEncoded.encodeString(content)).openStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn("IOException thrown while responseXiaoIce: ", e);
             return null;
         }
         JSONObject object = (JSONObject) tokener.nextValue();
@@ -39,7 +46,7 @@ public class Response {
             new URL("http://127.0.0.1:5000/openqq/send_friend_message?uid=" + friendNumber + "&content=" +
                     UrlEncoded.encodeString(content)).openStream();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn("IOException thrown while responseFriend: ", e);
         }
     }
 
@@ -48,7 +55,7 @@ public class Response {
             new URL("http://127.0.0.1:5000/openqq/send_group_message?uid=" + groupNumber + "&content=" +
                     UrlEncoded.encodeString(content)).openStream();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn("IOException thrown while responseGroup: ", e);
         }
     }
 }

@@ -1,6 +1,8 @@
 package api;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tool.Response;
 
 import java.io.UnsupportedEncodingException;
@@ -15,6 +17,7 @@ import java.util.Map;
  * @author Eldath
  */
 public class XiaoIce implements API {
+    private static final Logger logger = LoggerFactory.getLogger(XiaoIce.class);
     private static XiaoIce instance = null;
     static Map<String, Integer> blackList = new HashMap<>();
     static List<String> keywords = new ArrayList<>();
@@ -59,7 +62,6 @@ public class XiaoIce implements API {
         return instance;
     }
 
-
     @Override
     public void doPost(JSONObject object) {
         String group_uid = object.get("group_uid").toString();
@@ -76,11 +78,10 @@ public class XiaoIce implements API {
                 Response.responseGroup(group_uid, "您的指示不合规范嘛(╯︵╰,)");
                 return;
             }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (UnsupportedEncodingException ignore) {
         }
         String text = content;
-        if (text.replace(" ", "").equals("")) {
+        if ("".equals(text.replace(" ", ""))) {
             Response.responseGroup(group_uid, "@" + sender +
                     " 消息不能为空哦~(*∩_∩*)");
             return;
@@ -123,10 +124,6 @@ public class XiaoIce implements API {
         String responseXiaoIce = Response.responseXiaoIce(content);
         if (responseXiaoIce == null) return;
         Response.responseGroup(group_uid, "@" + sender + " " + responseXiaoIce);
-    }
-
-    @Override
-    public void response(String groupNumber) {
     }
 
     private boolean strIsEnglish(String word) {

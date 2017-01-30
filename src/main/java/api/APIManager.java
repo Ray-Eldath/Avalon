@@ -61,7 +61,7 @@ public class APIManager implements API {
                     Response.responseGroup(group_uid, "@" + sender + " 您要操作的API根本不存在！(╯︵╰,)");
                     return;
                 }
-                if (action.equals("start")) {
+                if ("start".equals(action)) {
                     for (String thisAllowStartUid : startAllowUid)
                         if (thisAllowStartUid.equals(sender_uid)) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, true);
@@ -71,7 +71,7 @@ public class APIManager implements API {
                             return;
                         }
                 }
-                if (action.equals("stop")) {
+                if ("stop".equals("action")) {
                     for (String thisStopAllowUid : stopAllowUid) {
                         if (thisStopAllowUid.equals(sender_uid)) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, false);
@@ -87,9 +87,5 @@ public class APIManager implements API {
                 }
             }
         Response.responseGroup(group_uid, "@" + sender + " 您没有权限啦！(゜д゜)");
-    }
-
-    @Override
-    public void response(String groupNumber) {
     }
 }

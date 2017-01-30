@@ -6,6 +6,9 @@ package tool;
  * @author Eldath
  */
 public class VariablePool {
+    private VariablePool() {
+    }
+
     public static int Mo_Count = 0;
     public static boolean Mo_Reach_Max = false;
     public static boolean Limit_Noticed = false;
