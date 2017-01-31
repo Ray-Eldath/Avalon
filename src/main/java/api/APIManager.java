@@ -71,7 +71,7 @@ public class APIManager implements API {
                             return;
                         }
                 }
-                if ("stop".equals("action")) {
+                if ("stop".equals(action)) {
                     for (String thisStopAllowUid : stopAllowUid) {
                         if (thisStopAllowUid.equals(sender_uid)) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, false);

@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tool.Response;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +32,8 @@ public class XiaoIce implements API {
         keywords.add("阿瓦隆回答我 ");
         keywords.add("阿瓦隆告诉我 ");
         // CUSTOM 以下配置不允许关键字
+        blockList.add("你是");
+        blockList.add("来一炮");
         blockList.add("寒寒");
         blockList.add("冰冰");
         blockList.add("冰封");
@@ -46,8 +47,8 @@ public class XiaoIce implements API {
         blockList.add("eldath");
         blockList.add("女装");
         blockList.add("男装");
-        blockList.add("妹妹");
-        blockList.add("姐姐");
+        blockList.add("男");
+        blockList.add("女");
         blockList.add("蛤");
         blockList.add("膜");
         blockList.add("苟");
@@ -72,27 +73,19 @@ public class XiaoIce implements API {
                 .trim()
                 .toLowerCase()
                 .replaceAll("[\\pP\\p{Punct}]", "");
-        try {
-            if (!content.contains(" ") ||
-                    !content.equals(new String(content.getBytes("GB2312"), "GB2312"))) {
-                Response.responseGroup(group_uid, "您的指示不合规范嘛(╯︵╰,)");
-                return;
-            }
-        } catch (UnsupportedEncodingException ignore) {
-        }
         String text = content;
+        for (String thisKeyWord : keywords)
+            text = text.replace(thisKeyWord, "");
         if ("".equals(text.replace(" ", ""))) {
             Response.responseGroup(group_uid, "@" + sender +
                     " 消息不能为空哦~(*∩_∩*)");
             return;
         }
-        for (String thisKeyWord : keywords)
-            text = text.replace(thisKeyWord, "");
         // CUSTOM 若不需要黑名单功能，请注释掉此处
         if (blackList.containsKey(sender_uid))
             if (blackList.get(sender_uid) > 2) {
                 Response.responseGroup(group_uid, "@" + sender +
-                        " 您的帐号由于发送过多不允许关键词，现已被屏蔽~o(╯□╰)o！");
+                        " 您的帐号由于发送过多指令或不允许关键字，现已被屏蔽~o(╯□╰)o！");
                 return;
             }
         //
@@ -107,15 +100,10 @@ public class XiaoIce implements API {
         }
         for (String thisBlockString : blockList)
             if (content.replace(" ", "").contains(thisBlockString)) {
-                if (first) {
-                    blackList.put(sender_uid, 0);
-                    first = false;
-                }
                 // CUSTOM 若不需要黑名单功能，请注释掉此处并自行修改提示语句notice。
                 String notice = "您发送的消息含有不允许的关键词，注意：3次发送不允许关键词后帐号将被屏蔽！⊙﹏⊙!";
                 Response.responseGroup(group_uid, "@" + sender + " " + notice);
-                pastValue = blackList.get(sender_uid);
-                blackList.put(sender_uid, ++pastValue);
+                blackListPlus(sender_uid);
                 //
                 return;
             }
@@ -132,5 +120,15 @@ public class XiaoIce implements API {
                     && !(word.charAt(i) >= 'a' && word.charAt(i) <= 'z'))
                 return false;
         return true;
+    }
+
+    private void blackListPlus(String sender_uid) {
+        int pastValue;
+        if (first) {
+            blackList.put(sender_uid, 0);
+            first = false;
+        }
+        pastValue = blackList.get(sender_uid);
+        blackList.put(sender_uid, ++pastValue);
     }
 }

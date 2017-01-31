@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,8 @@ public class MainServlet extends HttpServlet {
     public static final String[] followGroup = {"617118724"};
     static final String[] followPeople = {"951394653", "360736041", "1464443139", "704639565"};
 
-    private static APIRateLimit cooling = new APIRateLimit(3000L);
+    // CUSTOM 指令最小间隔，几秒才能发出一次指令（单位：毫秒），注意同步修改下文注释处。
+    private static APIRateLimit cooling = new APIRateLimit(4000L);
 
     public MainServlet() {
         // CUSTOM 注意：此处configure的顺序决定优先级。
@@ -72,11 +74,21 @@ public class MainServlet extends HttpServlet {
                     String key = stringAPIEntry.getKey();
                     API value = stringAPIEntry.getValue();
                     if (lowerContent.contains(key)) {
+                        try {
+                            if (!lowerContent.contains(" ") || !lowerContent.equals(new String(lowerContent
+                                    .getBytes("GB2312"), "GB2312"))) {
+                                Response.responseGroup(groupUid, "@" + sender + " 您的指示编码好像不对劲啊(╯︵╰,)");
+                                return;
+                            }
+                        } catch (UnsupportedEncodingException ignore) {
+                        }
                         if (!cooling.trySet(time)) {
                             if (!VariablePool.Limit_Noticed) {
+                                // CUSTOM 若修改了指令最小间隔，请同步修改此处。
                                 Response.responseGroup(groupUid, "@" + sender +
-                                        " 对不起，您的指令超频。3s内仅能有一次指令输入，未到2s内的输入将被忽略。" +
+                                        " 对不起，您的指令超频。4s内仅能有一次指令输入，未到4s内的输入将被忽略。" +
                                         "注意：此消息仅会显示一次。");
+                                //
                                 VariablePool.Limit_Noticed = true;
                             }
                             return;
