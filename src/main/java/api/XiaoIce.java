@@ -1,8 +1,6 @@
 package api;
 
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import tool.Response;
 
 import java.util.ArrayList;
@@ -16,12 +14,11 @@ import java.util.Map;
  * @author Eldath
  */
 public class XiaoIce implements API {
-    private static final Logger logger = LoggerFactory.getLogger(XiaoIce.class);
+    // private static final Logger logger = LoggerFactory.getLogger(XiaoIce.class);
     private static XiaoIce instance = null;
     static Map<String, Integer> blackList = new HashMap<>();
     static List<String> keywords = new ArrayList<>();
     private static List<String> blockList = new ArrayList<>();
-    private static boolean first = true;
 
     static {
         // CUSTOM 以下配置激活语句，即用户消息中出现这些关键词才使用本API处理
@@ -32,19 +29,13 @@ public class XiaoIce implements API {
         keywords.add("阿瓦隆回答我 ");
         keywords.add("阿瓦隆告诉我 ");
         // CUSTOM 以下配置不允许关键字
-        blockList.add("你是");
         blockList.add("来一炮");
         blockList.add("寒寒");
         blockList.add("冰冰");
         blockList.add("冰封");
-        blockList.add("小冰");
-        blockList.add("小娜");
-        blockList.add("微软");
-        blockList.add("苹果");
-        blockList.add("siri");
-        blockList.add("apple");
         blockList.add("ice1000");
         blockList.add("eldath");
+        blockList.add("hanhan");
         blockList.add("女装");
         blockList.add("男装");
         blockList.add("男");
@@ -54,6 +45,9 @@ public class XiaoIce implements API {
         blockList.add("苟");
         blockList.add("太短");
         blockList.add("变长");
+        blockList.add("baka");
+        blockList.add("笨蛋");
+        blockList.add("傻瓜");
         // CUSTOM 以下配置黑名单。如不需要黑名单功能，请按下文所述注释掉代码。
         // 注意：黑名单功能包括“直接屏蔽某人”和“若某人触发关键词屏蔽多次则屏蔽某人”两部分。
     }
@@ -68,7 +62,6 @@ public class XiaoIce implements API {
         String group_uid = object.get("group_uid").toString();
         String sender = object.get("sender").toString();
         String sender_uid = object.get("sender_uid").toString();
-        int pastValue;
         String content = object.get("content").toString()
                 .trim()
                 .toLowerCase()
@@ -82,6 +75,7 @@ public class XiaoIce implements API {
             return;
         }
         // CUSTOM 若不需要黑名单功能，请注释掉此处
+        blackList.put(sender_uid, 0);
         if (blackList.containsKey(sender_uid))
             if (blackList.get(sender_uid) > 2) {
                 Response.responseGroup(group_uid, "@" + sender +
@@ -124,10 +118,6 @@ public class XiaoIce implements API {
 
     private void blackListPlus(String sender_uid) {
         int pastValue;
-        if (first) {
-            blackList.put(sender_uid, 0);
-            first = false;
-        }
         pastValue = blackList.get(sender_uid);
         blackList.put(sender_uid, ++pastValue);
     }

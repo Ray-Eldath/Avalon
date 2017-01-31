@@ -2,6 +2,9 @@ package api;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import scheduler.Scheduler;
 import tool.APIRateLimit;
 import tool.APISurvivePool;
 import tool.Response;
@@ -23,6 +26,7 @@ import java.util.Map;
  * @author Eldath
  */
 public class MainServlet extends HttpServlet {
+    private static Logger logger = LoggerFactory.getLogger(MainServlet.class);
     private static Map<String, API> apiList = new LinkedHashMap<>();
     public static final String[] followGroup = {"617118724"};
     static final String[] followPeople = {"951394653", "360736041", "1464443139", "704639565"};
@@ -64,24 +68,20 @@ public class MainServlet extends HttpServlet {
         if (!("receive_message".equals(object.getString("post_type"))) &&
                 "group_message".equals(object.getString("type")))
             return;
+        String group = object.get("group").toString();
         String groupUid = object.get("group_uid").toString();
         String sender = object.get("sender").toString();
+        String senderUid = object.get("sender_uid").toString();
         String lowerContent = object.getString("content").toLowerCase();
         long time = object.getLong("time");
         for (String thisFollowGroup : followGroup)
             if (groupUid.equals(thisFollowGroup)) {
+                logger.info(senderUid + " : " + sender + " in " + groupUid + " : " + group + " said: " +
+                        lowerContent);
                 for (Map.Entry<String, API> stringAPIEntry : apiList.entrySet()) {
                     String key = stringAPIEntry.getKey();
                     API value = stringAPIEntry.getValue();
                     if (lowerContent.contains(key)) {
-                        try {
-                            if (!lowerContent.contains(" ") || !lowerContent.equals(new String(lowerContent
-                                    .getBytes("GB2312"), "GB2312"))) {
-                                Response.responseGroup(groupUid, "@" + sender + " 您的指示编码好像不对劲啊(╯︵╰,)");
-                                return;
-                            }
-                        } catch (UnsupportedEncodingException ignore) {
-                        }
                         if (!cooling.trySet(time)) {
                             if (!VariablePool.Limit_Noticed) {
                                 // CUSTOM 若修改了指令最小间隔，请同步修改此处。
@@ -101,6 +101,15 @@ public class MainServlet extends HttpServlet {
                             }
                             return;
                         } else {
+                            Scheduler.flush();
+                            try {
+                                if (!lowerContent.contains(" ") || !lowerContent.equals(new String(lowerContent
+                                        .getBytes("GB2312"), "GB2312"))) {
+                                    Response.responseGroup(groupUid, "@" + sender + " 您的指示编码好像不对劲啊(╯︵╰,)");
+                                    return;
+                                }
+                            } catch (UnsupportedEncodingException ignore) {
+                            }
                             value.doPost(object);
                             return;
                         }

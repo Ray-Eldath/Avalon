@@ -27,8 +27,8 @@ public class Help implements API {
                 "avalon help：显示本内容\n" +
                 "avalon echo + 指定语句：使阿瓦隆说您指定的话\n" +
                 "avalon APIManager (start/stop)：控制插件开/关，需要特定权限\n" +
-                "avalon blacklist add/remove + 需屏蔽的ID：使某账号不能调用小冰，需要特定权限\n"); //+
-        // "（我才不会告诉你我有一些没有写在这里的彩蛋指令呢~哈哈`(*∩_∩*)′）");
+                "avalon blacklist add/remove + 需屏蔽的ID：使某账号不能调用小冰，需要特定权限"); //+
+        // "\n（我才不会告诉你我有一些没有写在这里的彩蛋指令呢~哈哈`(*∩_∩*)′）");
         // TODO v0.0.1正式版本记得写彩蛋
     }
 }

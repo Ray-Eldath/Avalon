@@ -10,18 +10,18 @@ import java.util.TreeMap;
  * @author Eldath
  */
 public class Scheduler {
-    private static TreeMap<LocalDateTime, Runnable> allTask = new TreeMap<>();
+    private static TreeMap<LocalDateTime, Task> allTask = new TreeMap<>();
 
-    public static void scheduleTask(LocalDateTime runTime, Runnable doWhat) {
+    static void scheduleTask(LocalDateTime runTime, Task doWhat) {
         allTask.put(runTime, doWhat);
     }
 
     public static void flush() {
         LocalDateTime now = LocalDateTime.now();
         if (allTask.isEmpty()) return;
-        Map.Entry<LocalDateTime, Runnable> thisEntry = allTask.firstEntry();
+        Map.Entry<LocalDateTime, Task> thisEntry = allTask.firstEntry();
         LocalDateTime localDateTime = thisEntry.getKey();
-        Runnable toShow = thisEntry.getValue();
+        Task toShow = thisEntry.getValue();
         if (now.getDayOfYear() > localDateTime.getDayOfYear())
             allTask.remove(localDateTime);
         else if (now.isAfter(localDateTime)) {
