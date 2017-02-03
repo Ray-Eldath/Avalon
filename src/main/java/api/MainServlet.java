@@ -4,7 +4,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import scheduler.Scheduler;
 import tool.APIRateLimit;
 import tool.APISurvivePool;
 import tool.Response;
@@ -81,40 +80,45 @@ public class MainServlet extends HttpServlet {
                 for (Map.Entry<String, API> stringAPIEntry : apiList.entrySet()) {
                     String key = stringAPIEntry.getKey();
                     API value = stringAPIEntry.getValue();
-                    if (lowerContent.contains(key)) {
-                        if (!cooling.trySet(time)) {
-                            if (!VariablePool.Limit_Noticed) {
-                                // CUSTOM 若修改了指令最小间隔，请同步修改此处。
-                                Response.responseGroup(groupUid, "@" + sender +
-                                        " 对不起，您的指令超频。4s内仅能有一次指令输入，未到4s内的输入将被忽略。" +
-                                        "注意：此消息仅会显示一次。");
-                                //
-                                VariablePool.Limit_Noticed = true;
-                            }
-                            return;
-                        }
-                        if (!APISurvivePool.getInstance().isSurvive(value)) {
-                            if (!APISurvivePool.getInstance().isNoticed(value)) {
-                                Response.responseGroup(groupUid, "@" + sender +
-                                        " 对不起，您调用的方法目前已被停止；注意：此消息仅会显示一次。");
-                                APISurvivePool.getInstance().setNoticed(value);
-                            }
-                            return;
-                        } else {
-                            Scheduler.flush();
-                            try {
-                                if (!lowerContent.contains(" ") || !lowerContent.equals(new String(lowerContent
-                                        .getBytes("GB2312"), "GB2312"))) {
-                                    Response.responseGroup(groupUid, "@" + sender + " 您的指示编码好像不对劲啊(╯︵╰,)");
-                                    return;
-                                }
-                            } catch (UnsupportedEncodingException ignore) {
-                            }
-                            value.doPost(object);
-                            return;
-                        }
-                    }
+                    if (doCheck(key, value, lowerContent, groupUid, sender, time))
+                        value.doPost(object);
+                    else return;
                 }
             }
+    }
+
+    private boolean doCheck(String key, API value, String lowerContent, String groupUid, String sender, long time) {
+        if (lowerContent.contains(key)) {
+            if (!cooling.trySet(time)) {
+                if (!VariablePool.Limit_Noticed) {
+                    // CUSTOM 若修改了指令最小间隔，请同步修改此处。
+                    Response.responseGroup(groupUid, "@" + sender +
+                            " 对不起，您的指令超频。4s内仅能有一次指令输入，未到4s内的输入将被忽略。" +
+                            "注意：此消息仅会显示一次。");
+                    //
+                    VariablePool.Limit_Noticed = true;
+                }
+                return false;
+            }
+            if (!APISurvivePool.getInstance().isSurvive(value)) {
+                if (!APISurvivePool.getInstance().isNoticed(value)) {
+                    Response.responseGroup(groupUid, "@" + sender +
+                            " 对不起，您调用的方法目前已被停止；注意：此消息仅会显示一次。");
+                    APISurvivePool.getInstance().setNoticed(value);
+                }
+                return false;
+            } else {
+                try {
+                    if (!lowerContent.contains(" ") || !lowerContent.equals(new String(lowerContent
+                            .getBytes("GB2312"), "GB2312"))) {
+                        Response.responseGroup(groupUid, "@" + sender + " 您的指示编码好像不对劲啊(╯︵╰,)");
+                        return false;
+                    }
+                } catch (UnsupportedEncodingException ignore) {
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }

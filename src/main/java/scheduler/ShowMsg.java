@@ -3,7 +3,6 @@ package scheduler;
 import jdk.nashorn.api.scripting.URLReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import task.ShowMsgTask;
 
 import java.io.BufferedReader;
 import java.io.IOException;

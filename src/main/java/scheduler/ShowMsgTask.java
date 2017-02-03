@@ -1,7 +1,6 @@
-package task;
+package scheduler;
 
 import api.MainServlet;
-import scheduler.Task;
 import tool.Response;
 
 /**
@@ -12,14 +11,13 @@ import tool.Response;
 public class ShowMsgTask implements Task {
     private static String message;
 
-    public ShowMsgTask(String input) {
+    ShowMsgTask(String input) {
         ShowMsgTask.message = input;
     }
 
     @Override
     public void run() {
-        for (String thisNeedShow : MainServlet.followGroup) {
+        for (String thisNeedShow : MainServlet.followGroup)
             Response.responseGroup(thisNeedShow, message);
-        }
     }
 }
