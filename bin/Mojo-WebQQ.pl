@@ -11,13 +11,13 @@ my $client = Mojo::Webqq->new();
 $client->load("ShowQRcode");
 $client->load("Openqq", data => { listen => [ { host => $host, port => $port } ], post_api => $post_api });
 $client->load("Qiandao", data => {
-        allow_group         => [ 399863405 ], #可选，允许插件的群，可以是群名称或群号码
+        allow_group         => [ 617118724 ], #可选，允许插件的群，可以是群名称或群号码
         # ban_group   => ["私人群",123456], #可选，禁用该插件的群，可以是群名称或群号码
         is_qiandao_on_login => 0,        #可选，是否登录时进行签到，默认值为0
         # qiandao_time => "09:30" ,         #可选，每日签到的时间，默认是 09:30
     });
 $client->load("KnowledgeBase", data => {
-        allow_group     => [ 399863405 ], #可选，允许插件的群，可以是群名称或群号码
+        allow_group     => [ 617118724 ], #可选，允许插件的群，可以是群名称或群号码
         # ban_group   => ["私人群",123456], #可选，禁用该插件的群，可以是群名称或群号码
         file            => './KnowledgeBase.txt', #数据库保存路径，纯文本形式，可以编辑
         learn_command   => 'learn', #可选，自定义学习指令关键字
@@ -30,7 +30,7 @@ $client->load("KnowledgeBase", data => {
     });
 $client->load("FuckDaShen");
 $client->load("GroupManage", data => {
-        allow_group       => [ 399863405 ], #可选，允许插件的群，可以是群名称或群号码
+        allow_group       => [ 617118724 ], #可选，允许插件的群，可以是群名称或群号码
         # ban_group   => ["私人群",123456], #可选，禁用该插件的群，可以是群名称或群号码
         new_group_member  => 'Avalon欢迎新成员 @%s 入群', #新成员入群欢迎语，%s会被替换成群成员名称
         lose_group_member => 'Avalon对 @%s 表示遗憾', #成员离群提醒

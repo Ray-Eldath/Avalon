@@ -1,7 +1,7 @@
 package api;
 
-import org.json.JSONObject;
 import tool.Response;
+import util.GroupMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +11,13 @@ import java.util.List;
  *
  * @author Eldath
  */
-public class Echo implements API {
+public class Echo implements GroupMessageAPI {
     private static Echo instance = null;
-    private static List<String> allowList = new ArrayList<>();
+    private static List<Long> allowList = new ArrayList<>();
 
     static {
         // CUSTOM 以下为允许 使Avalon重复说指定语句 的QQ号
-        allowList.add("1464443139");
+        allowList.add(1464443139L);
     }
 
     static Echo getInstance() {
@@ -26,17 +26,17 @@ public class Echo implements API {
     }
 
     @Override
-    public void doPost(JSONObject object) {
-        String content = object.get("content").toString();
-        String sender_uid = object.get("sender_uid").toString();
-        String group_uid = object.get("group_uid").toString();
-        String sender = object.get("sender").toString();
+    public void doPost(GroupMessage message) {
+        String content = message.getContent();
+        long sender_uid = message.getSenderUid();
+        long group_uid = message.getGroupUid();
+        String sender = message.getSenderNickName();
         if (!content.contains(" ")) {
             Response.responseGroup(group_uid, "您的指示恕我不能遵守⊙﹏⊙! 因为不合规范嘛(╯︵╰,)");
             return;
         }
-        for (String thisAllow : allowList)
-            if (sender_uid.equals(thisAllow)) {
+        for (long thisAllow : allowList)
+            if (sender_uid == thisAllow) {
                 Response.responseGroup(group_uid, content.split(" ")[2]);
                 return;
             }

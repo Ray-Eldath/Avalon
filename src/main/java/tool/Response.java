@@ -41,7 +41,7 @@ public class Response {
         return reply;
     }
 
-    public static void responseFriend(String friendNumber, String content) {
+    public static void responseFriend(long friendNumber, String content) {
         try {
             new URL("http://127.0.0.1:5000/openqq/send_friend_message?uid=" + friendNumber + "&content=" +
                     UrlEncoded.encodeString(content)).openStream();
@@ -50,7 +50,7 @@ public class Response {
         }
     }
 
-    public static void responseGroup(String groupNumber, String content) {
+    public static void responseGroup(long groupNumber, String content) {
         try {
             new URL("http://127.0.0.1:5000/openqq/send_group_message?uid=" + groupNumber + "&content=" +
                     UrlEncoded.encodeString(content)).openStream();

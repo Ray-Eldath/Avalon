@@ -1,10 +1,10 @@
 package api;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tool.APISurvivePool;
 import tool.Response;
+import util.GroupMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Eldath
  */
-public class APIManager implements API {
+public class APIManager implements GroupMessageAPI {
     private static APIManager instance = null;
     private static Logger logger = LoggerFactory.getLogger(APIManager.class);
     private static List<String> stopAllowUid = new ArrayList<>();
@@ -39,53 +39,53 @@ public class APIManager implements API {
     }
 
     @Override
-    public void doPost(JSONObject object) {
-        String content = object.get("content").toString();
-        String sender = object.get("sender").toString();
-        String sender_uid = object.get("sender_uid").toString();
-        String group_uid = object.get("group_uid").toString();
+    public void doPost(GroupMessage message) {
+        String content = message.getContent();
+        String sender = message.getSenderNickName();
+        long senderUid = message.getSenderUid();
+        long groupUid = message.getGroupUid();
         String action, apiName;
-        for (String thisFollowFriend : MainServlet.followPeople)
-            if (sender_uid.equals(thisFollowFriend)) {
+        for (long thisFollowFriend : MainServlet.followPeople)
+            if (senderUid == thisFollowFriend) {
                 if (!content.contains(" ")) {
-                    Response.responseGroup(group_uid, "@" +
+                    Response.responseGroup(groupUid, "@" +
                             sender + " 您的指示格式不对辣！（｀Δ´）！请注意在API触发语句后是否缺少空格~");
                     return;
                 }
                 apiName = content.toLowerCase().
                         replace("avalon apimanager stop ", "").replace("avalon apimanager start ", "");
-                API thisAPI = MainServlet.getAPIByKeyword(apiName);
+                GroupMessageAPI thisAPI = MainServlet.getAPIByKeyword(apiName);
                 action = content.toLowerCase().
                         replace("avalon apimanager ", "").replace(apiName, "").trim();
                 if (thisAPI == null) {
-                    Response.responseGroup(group_uid, "@" + sender + " 您要操作的API根本不存在！(╯︵╰,)");
+                    Response.responseGroup(groupUid, "@" + sender + " 您要操作的API根本不存在！(╯︵╰,)");
                     return;
                 }
                 if ("start".equals(action)) {
                     for (String thisAllowStartUid : startAllowUid)
-                        if (thisAllowStartUid.equals(sender_uid)) {
+                        if (thisAllowStartUid.equals(senderUid)) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, true);
-                            Response.responseGroup(group_uid, "@" + sender + " 您要重启的API将会重启`(*∩_∩*)′");
-                            logger.info("API " + thisAPI.getClass().getName() + " is reopened by " +
-                                    sender_uid + " : " + sender + ".");
+                            Response.responseGroup(groupUid, "@" + sender + " 您要重启的API将会重启`(*∩_∩*)′");
+                            logger.info("GroupMessageAPI " + thisAPI.getClass().getName() + " is reopened by " +
+                                    senderUid + " : " + sender + ".");
                             return;
                         }
                 }
                 if ("stop".equals(action)) {
                     for (String thisStopAllowUid : stopAllowUid) {
-                        if (thisStopAllowUid.equals(sender_uid)) {
+                        if (thisStopAllowUid.equals(senderUid)) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, false);
-                            Response.responseGroup(group_uid, "@" + sender + " 您要关闭的API将会关闭~");
-                            logger.info("API " + thisAPI.getClass().getName() + " is closed by " +
-                                    sender_uid + " : " + sender + ".");
+                            Response.responseGroup(groupUid, "@" + sender + " 您要关闭的API将会关闭~");
+                            logger.info("GroupMessageAPI " + thisAPI.getClass().getName() + " is closed by " +
+                                    senderUid + " : " + sender + ".");
                             return;
                         }
                     }
                 } else {
-                    Response.responseGroup(group_uid, "@" + sender + " 您的指示格式不对辣！（｀Δ´）！");
+                    Response.responseGroup(groupUid, "@" + sender + " 您的指示格式不对辣！（｀Δ´）！");
                     return;
                 }
             }
-        Response.responseGroup(group_uid, "@" + sender + " 您没有权限啦！(゜д゜)");
+        Response.responseGroup(groupUid, "@" + sender + " 您没有权限啦！(゜д゜)");
     }
 }

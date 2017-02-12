@@ -6,8 +6,8 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import scheduler.Scheduler;
-import scheduler.ShowMsg;
+import extend.scheduler.Scheduler;
+import extend.scheduler.ShowMsg;
 import tool.Response;
 
 import java.net.InetSocketAddress;
@@ -27,7 +27,7 @@ public class MainServer {
         @Override
         public void run() {
             MainServer.logger.info("Do cleaning job...");
-            for (String thisFollowFollow : MainServlet.followGroup)
+            for (long thisFollowFollow : MainServlet.followGroup)
                 Response.responseGroup(thisFollowFollow, "服务已经停止。");
         }
     }
@@ -52,7 +52,7 @@ public class MainServer {
         Scanner scanner = new Scanner(System.in);
         String isOn = scanner.nextLine();
         if ("yes".equals(isOn.toLowerCase()))
-            for (String thisFollowGroup : MainServlet.followGroup) {
+            for (long thisFollowGroup : MainServlet.followGroup) {
                 Response.responseGroup(thisFollowGroup, "Avalon已经上线。");
                 Response.responseGroup(thisFollowGroup, "严格过滤已经启用。");
             }

@@ -1,7 +1,6 @@
 package tool;
 
-import api.API;
-import api.Blacklist;
+import api.GroupMessageAPI;
 
 import java.util.HashMap;
 
@@ -11,8 +10,8 @@ import java.util.HashMap;
  * @author Eldath
  */
 public class APISurvivePool {
-    private static HashMap<API, Boolean> survive;
-    private HashMap<API, Boolean> noticed;
+    private static HashMap<GroupMessageAPI, Boolean> survive;
+    private HashMap<GroupMessageAPI, Boolean> noticed;
     private static APISurvivePool instance = null;
 
     public static APISurvivePool getInstance() {
@@ -25,28 +24,28 @@ public class APISurvivePool {
         noticed = new HashMap<>();
     }
 
-    public boolean containAPI(API input) {
+    public boolean containAPI(GroupMessageAPI input) {
         return survive.containsKey(input);
     }
 
-    public void addAPI(API input) {
+    public void addAPI(GroupMessageAPI input) {
         survive.put(input, true);
         noticed.put(input, false);
     }
 
-    public void setAPISurvive(API input, boolean state) {
+    public void setAPISurvive(GroupMessageAPI input, boolean state) {
         survive.put(input, state);
     }
 
-    public boolean isSurvive(API input) {
+    public boolean isSurvive(GroupMessageAPI input) {
         return survive.get(input);
     }
 
-    public boolean isNoticed(API input) {
+    public boolean isNoticed(GroupMessageAPI input) {
         return noticed.get(input);
     }
 
-    public void setNoticed(API api) {
+    public void setNoticed(GroupMessageAPI api) {
         noticed.put(api, true);
     }
 }

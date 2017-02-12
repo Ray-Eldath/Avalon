@@ -1,14 +1,14 @@
 package api;
 
-import org.json.JSONObject;
 import tool.Response;
+import util.GroupMessage;
 
 /**
  * Created by Eldath on 2017/1/29 0029.
  *
  * @author Eldath
  */
-public class Help implements API {
+public class Help implements GroupMessageAPI {
     private static Help instance = null;
 
     static Help getInstance() {
@@ -17,9 +17,9 @@ public class Help implements API {
     }
 
     @Override
-    public void doPost(JSONObject object) {
+    public void doPost(GroupMessage message) {
         // CUSTOM 若更改了触发关键词，请在此修改。
-        Response.responseGroup(object.get("group_uid").toString(), "This is Avalon. 以下是我的帮助资料：\n" +
+        Response.responseGroup(message.getGroupUid(), "This is Avalon. 以下是我的帮助资料：\n" +
                 "<关键词>：<触发的作用效果>，所有关键词均忽略大小写并且以avalon开头\n" +
                 "avalon version：查看版本信息\n" +
                 "膜*关键词：随机触发膜*语句\n" +

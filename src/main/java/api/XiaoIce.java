@@ -1,7 +1,7 @@
 package api;
 
-import org.json.JSONObject;
 import tool.Response;
+import util.GroupMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,10 +13,10 @@ import java.util.Map;
  *
  * @author Eldath
  */
-public class XiaoIce implements API {
+public class XiaoIce implements GroupMessageAPI {
     // private static final Logger logger = LoggerFactory.getLogger(XiaoIce.class);
     private static XiaoIce instance = null;
-    static Map<String, Integer> blackList = new HashMap<>();
+    static Map<Long, Integer> blackList = new HashMap<>();
     static List<String> keywords = new ArrayList<>();
     private static List<String> blockList = new ArrayList<>();
 
@@ -58,11 +58,11 @@ public class XiaoIce implements API {
     }
 
     @Override
-    public void doPost(JSONObject object) {
-        String group_uid = object.get("group_uid").toString();
-        String sender = object.get("sender").toString();
-        String sender_uid = object.get("sender_uid").toString();
-        String content = object.get("content").toString()
+    public void doPost(GroupMessage message) {
+        long group_uid = message.getGroupUid();
+        String sender = message.getSenderNickName();
+        long sender_uid = message.getSenderUid();
+        String content = message.getContent()
                 .trim()
                 .toLowerCase()
                 .replaceAll("[\\pP\\p{Punct}]", "");
@@ -116,7 +116,7 @@ public class XiaoIce implements API {
         return true;
     }
 
-    private void blackListPlus(String sender_uid) {
+    private void blackListPlus(long sender_uid) {
         int pastValue;
         pastValue = blackList.get(sender_uid);
         blackList.put(sender_uid, ++pastValue);

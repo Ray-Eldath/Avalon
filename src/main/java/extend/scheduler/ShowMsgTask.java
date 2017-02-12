@@ -1,4 +1,4 @@
-package scheduler;
+package extend.scheduler;
 
 import api.MainServlet;
 import tool.Response;
@@ -17,7 +17,7 @@ public class ShowMsgTask implements Task {
 
     @Override
     public void run() {
-        for (String thisNeedShow : MainServlet.followGroup)
+        for (long thisNeedShow : MainServlet.followGroup)
             Response.responseGroup(thisNeedShow, message);
     }
 }

@@ -1,9 +1,9 @@
 package api;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tool.Response;
+import util.GroupMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,9 @@ import java.util.List;
  *
  * @author Eldath
  */
-public class Blacklist implements API {
+public class Blacklist implements GroupMessageAPI {
     private static Logger logger = LoggerFactory.getLogger(Blacklist.class);
-    private static List<String> allowList = new ArrayList<>();
+    private static List<Long> allowList = new ArrayList<>();
     private static Blacklist instance = null;
 
     static Blacklist getInstance() {
@@ -25,17 +25,18 @@ public class Blacklist implements API {
 
     static {
         // CUSTOM 以下为允许操作黑名单的QQ号
-        allowList.add("1464443139");
+        allowList.add(1464443139L);
     }
 
     @Override
-    public void doPost(JSONObject object) {
-        String sender_uid = object.get("sender_uid").toString();
-        String group_uid = object.get("group_uid").toString();
-        String content = object.get("content").toString();
-        String sender = object.get("sender").toString();
+    public void doPost(GroupMessage message) {
+        long sender_uid = message.getSenderUid();
+        long group_uid = message.getGroupUid();
+        String content = message.getContent();
+        String sender = message.getSenderNickName();
         String[] split;
-        String action, toBan;
+        String action;
+        long toBan;
         if (!content.contains(" ")) {
             Response.responseGroup(group_uid, "@" + sender + " 您的指示格式不对辣！（｀Δ´）！");
             return;
@@ -46,9 +47,9 @@ public class Blacklist implements API {
             return;
         }
         action = split[2];
-        toBan = split[3];
-        for (String thisAllowUid : allowList)
-            if (thisAllowUid.equals(sender_uid)) {
+        toBan = Long.parseLong(split[3]);
+        for (long thisAllowUid : allowList)
+            if (thisAllowUid == sender_uid) {
                 if ("add".equals(action)) {
                     Response.responseGroup(group_uid, "@" + sender + " 帐号" + toBan + "现已被 阿瓦隆回答我 功能屏蔽。");
                     logger.info("Account " + toBan + " is baned by " + sender_uid + " : " + sender + ".");
