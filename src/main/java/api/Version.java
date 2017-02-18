@@ -3,12 +3,14 @@ package api;
 import tool.Response;
 import util.GroupMessage;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by Eldath on 2017/1/28 0028.
  *
  * @author Eldath
  */
-public class Version implements GroupMessageAPI {
+public class Version extends GroupMessageAPI {
     private static Version instance = null;
 
     static Version getInstance() {
@@ -30,5 +32,15 @@ public class Version implements GroupMessageAPI {
             Response.responseGroup(groupUid, messageToSaid);
         } catch (Exception ignore) {
         }
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return "avalon version / avalon 版本：显示版本信息";
+    }
+
+    @Override
+    public Pattern getKeyWordRegex() {
+        return Pattern.compile("avalon version|avalon 版本");
     }
 }

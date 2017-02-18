@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -16,6 +18,14 @@ import java.net.URL;
  */
 public class Response {
     private static final Logger logger = LoggerFactory.getLogger(Response.class);
+    private static List<String> replaceList = new ArrayList<>();
+
+    static {
+        replaceList.add("小怪冰");
+        replaceList.add("小冰冰");
+        replaceList.add("冰酱");
+        replaceList.add("小冰");
+    }
 
     private Response() {
     }
@@ -32,12 +42,10 @@ public class Response {
         JSONObject object = (JSONObject) tokener.nextValue();
         if (object.isNull("reply")) return null;
         String reply = object.get("reply").toString().replace("小冰", "Avalon");
-        if (reply.contains("[语音]")) reply = "人家没办法发语音的辣、、、(╯︵╰,)";
-        else if (reply.contains("[图片]")) reply = "没办法，本垃圾发不了图片=_=";
-        else if (reply.contains("小怪冰")) reply = reply.replace("小怪冰", "Avalon");
-        else if (reply.contains("小冰冰")) reply = reply.replace("小冰冰", "Avalon");
-        else if (reply.contains("冰酱")) reply = reply.replace("冰酱", "阿瓦隆");
-        else reply = reply.replace("小冰", "Avalon");
+        if (reply.contains("[语音]")) return null;
+        else if (reply.contains("[图片]")) return null;
+        for (String thisReplaceWord : replaceList)
+            reply = reply.replace(thisReplaceWord, "Avalon");
         return reply;
     }
 

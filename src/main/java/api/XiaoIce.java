@@ -7,27 +7,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created by Eldath on 2017/1/29 0029.
  *
  * @author Eldath
  */
-public class XiaoIce implements GroupMessageAPI {
+public class XiaoIce extends GroupMessageAPI {
     // private static final Logger logger = LoggerFactory.getLogger(XiaoIce.class);
     private static XiaoIce instance = null;
     static Map<Long, Integer> blackList = new HashMap<>();
-    static List<String> keywords = new ArrayList<>();
     private static List<String> blockList = new ArrayList<>();
 
     static {
-        // CUSTOM 以下配置激活语句，即用户消息中出现这些关键词才使用本API处理
-        // 警告：必须前缀avalon/阿瓦隆并保持全小写，请在\api\Help中同步修改。
-        // 开发者不建议修改此处内容。
-        keywords.add("avalon tell me ");
-        keywords.add("avalon answer me ");
-        keywords.add("阿瓦隆回答我 ");
-        keywords.add("阿瓦隆告诉我 ");
         // CUSTOM 以下配置不允许关键字
         blockList.add("来一炮");
         blockList.add("寒寒");
@@ -67,8 +60,7 @@ public class XiaoIce implements GroupMessageAPI {
                 .toLowerCase()
                 .replaceAll("[\\pP\\p{Punct}]", "");
         String text = content;
-        for (String thisKeyWord : keywords)
-            text = text.replace(thisKeyWord, "");
+        text = text.replaceAll(getKeyWordRegex().toString(), "");
         if ("".equals(text.replace(" ", ""))) {
             Response.responseGroup(group_uid, "@" + sender +
                     " 消息不能为空哦~(*∩_∩*)");
@@ -101,8 +93,7 @@ public class XiaoIce implements GroupMessageAPI {
                 //
                 return;
             }
-        for (String thisKeyWord : keywords)
-            content = content.replace(thisKeyWord.toLowerCase(), "小冰");
+        content = content.replaceAll(getKeyWordRegex().toString(), "小冰");
         String responseXiaoIce = Response.responseXiaoIce(content);
         if (responseXiaoIce == null) return;
         Response.responseGroup(group_uid, "@" + sender + " " + responseXiaoIce);
@@ -120,5 +111,15 @@ public class XiaoIce implements GroupMessageAPI {
         int pastValue;
         pastValue = blackList.get(sender_uid);
         blackList.put(sender_uid, ++pastValue);
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return "avalon answer me / 阿瓦隆回答我 / avalon tell me / 阿瓦隆告诉我：激活智能回复功能";
+    }
+
+    @Override
+    public Pattern getKeyWordRegex() {
+        return Pattern.compile("avalon answer me |阿瓦隆回答我 |avalon tell me |阿瓦隆告诉我 ");
     }
 }

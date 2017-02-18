@@ -21,8 +21,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -31,9 +31,13 @@ import java.util.Map;
  */
 public class MainServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
-    private static Map<String, GroupMessageAPI> apiList = new LinkedHashMap<>();
+    private static Map<Pattern, GroupMessageAPI> apiList = new LinkedHashMap<>();
     public static final long[] followGroup = {617118724};
     static final long[] followPeople = {951394653, 360736041, 1464443139, 704639565};
+
+    static Map<Pattern, GroupMessageAPI> getApiList() {
+        return apiList;
+    }
 
     // CUSTOM 指令最小间隔，几秒才能发出一次指令（单位：毫秒），注意同步修改下文注释处。
     private static APIRateLimit cooling = new APIRateLimit(4000L);
@@ -41,29 +45,29 @@ public class MainServlet extends HttpServlet {
     public MainServlet() {
         // CUSTOM 注意：此处configure的顺序决定优先级。
         // 开发者非常不建议修改此处内容，容易造成奇怪的问题。
-        MainServlet.configure("avalon apimanager ", APIManager.getInstance());
-        MainServlet.configure("avalon blacklist ", Blacklist.getInstance());
-        MainServlet.configure("avalon help", Help.getInstance());
-        MainServlet.configure("avalon version", Version.getInstance());
-        MainServlet.configure(Mo.keywords, Mo.getInstance());
-        MainServlet.configure("avalon echo ", Echo.getInstance());
-        MainServlet.configure(XiaoIce.keywords, XiaoIce.getInstance());
+        MainServlet.configure(APIManager.getInstance().getKeyWordRegex(), APIManager.getInstance());
+        MainServlet.configure(Blacklist.getInstance().getKeyWordRegex(), Blacklist.getInstance());
+        MainServlet.configure(Help.getInstance().getKeyWordRegex(), Help.getInstance());
+        MainServlet.configure(Version.getInstance().getKeyWordRegex(), Version.getInstance());
+        MainServlet.configure(Mo.getInstance().getKeyWordRegex(), Mo.getInstance());
+        MainServlet.configure(Echo.getInstance().getKeyWordRegex(), Echo.getInstance());
+        MainServlet.configure(XiaoIce.getInstance().getKeyWordRegex(), XiaoIce.getInstance());
     }
 
 
     static GroupMessageAPI getAPIByKeyword(String keyword) {
-        if (!apiList.containsKey(keyword)) return null;
-        return apiList.get(keyword);
+        for (Map.Entry<Pattern, GroupMessageAPI> patternAPIEntry : apiList.entrySet()) {
+            Pattern key = patternAPIEntry.getKey();
+            GroupMessageAPI value = patternAPIEntry.getValue();
+            if (key.matcher(keyword).find())
+                return value;
+        }
+        return null;
     }
 
-    private static void configure(String keyWord, GroupMessageAPI api) {
-        apiList.put(keyWord.toLowerCase(), api);
+    private static void configure(Pattern regex, GroupMessageAPI api) {
+        apiList.put(regex, api);
         APISurvivePool.getInstance().addAPI(api);
-    }
-
-    private static void configure(List<String> keywords, GroupMessageAPI API) {
-        for (String thisKeyWord : keywords)
-            configure(thisKeyWord, API);
     }
 
     @Override
@@ -84,12 +88,11 @@ public class MainServlet extends HttpServlet {
         String sender = object.get("sender").toString();
         String content = object.get("content").toString();
         String lowerContent = content.toLowerCase();
-
         //recodeMessage(senderUid, sender, time, content, groupUid, group);
         for (long thisFollowGroup : followGroup)
             if (groupUid == thisFollowGroup) {
-                for (Map.Entry<String, GroupMessageAPI> stringAPIEntry : apiList.entrySet()) {
-                    String key = stringAPIEntry.getKey();
+                for (Map.Entry<Pattern, GroupMessageAPI> stringAPIEntry : apiList.entrySet()) {
+                    Pattern key = stringAPIEntry.getKey();
                     GroupMessageAPI value = stringAPIEntry.getValue();
                     if (doCheck(key, value, lowerContent, groupUid, sender, timeLong))
                         value.doPost(new GroupMessage(Id, time, senderUid, sender, receiverUid,
@@ -113,8 +116,8 @@ public class MainServlet extends HttpServlet {
                 groupUid);
     }
 
-    private boolean doCheck(String key, GroupMessageAPI value, String lowerContent, long groupUid, String sender, long time) {
-        if (lowerContent.contains(key)) {
+    private boolean doCheck(Pattern key, GroupMessageAPI value, String lowerContent, long groupUid, String sender, long time) {
+        if (key.matcher(lowerContent).find()) {
             if (!cooling.trySet(time)) {
                 if (!VariablePool.Limit_Noticed) {
                     // CUSTOM 若修改了指令最小间隔，请同步修改此处。

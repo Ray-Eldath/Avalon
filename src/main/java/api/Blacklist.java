@@ -7,13 +7,14 @@ import util.GroupMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by Eldath on 2017/1/30 0030.
  *
  * @author Eldath
  */
-public class Blacklist implements GroupMessageAPI {
+public class Blacklist extends GroupMessageAPI {
     private static Logger logger = LoggerFactory.getLogger(Blacklist.class);
     private static List<Long> allowList = new ArrayList<>();
     private static Blacklist instance = null;
@@ -70,5 +71,15 @@ public class Blacklist implements GroupMessageAPI {
                 }
             }
         Response.responseGroup(group_uid, "@" + sender + " 您没有权限辣！（｀Δ´）！");
+    }
+
+    @Override
+    public String getHelpMessage() {
+        return "avalon blacklist (add/remove)：将指定的QQ号 添加至黑名单/从黑名单移除";
+    }
+
+    @Override
+    public Pattern getKeyWordRegex() {
+        return Pattern.compile("avalon blacklist add |avalon blacklist remove ");
     }
 }
