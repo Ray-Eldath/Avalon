@@ -1,14 +1,16 @@
 package main;
 
 import api.MainServlet;
+import api.Recorder;
+import extend.scheduler.Scheduler;
+import extend.scheduler.ShowMsg;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import extend.scheduler.Scheduler;
-import extend.scheduler.ShowMsg;
 import tool.Response;
+import tool.SQLiteDatabaseOperator;
 
 import java.net.InetSocketAddress;
 import java.util.Scanner;
@@ -29,6 +31,8 @@ public class MainServer {
             MainServer.logger.info("Do cleaning job...");
             for (long thisFollowFollow : MainServlet.followGroup)
                 Response.responseGroup(thisFollowFollow, "服务已经停止。");
+            Recorder.getInstance().flushNow();
+            SQLiteDatabaseOperator.getInstance().closeResource();
         }
     }
 

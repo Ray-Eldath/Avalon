@@ -27,7 +27,7 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
     private SQLiteDatabaseOperator() {
         try {
             Class.forName("org.sqlite.JDBC");
-            statement = DriverManager.getConnection("jdbc:sqlite:recode.db").createStatement();
+            statement = DriverManager.getConnection("jdbc:sqlite:res/record.db").createStatement();
         } catch (Exception e) {
             logger.error("Fatal error while load SQLite driver: ", e);
             System.exit(-1);
@@ -35,14 +35,21 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
     }
 
     @Override
+    public void closeResource() {
+        try {
+            statement.close();
+        } catch (SQLException e) {
+            logger.warn("Error while saving group message to SQLite: ", e);
+        }
+    }
+
+    @Override
     public boolean addGroupMessage(GroupMessage input) {
         try {
-            String value = "(" + input.getId() + ", \'" + input.getTime().toString() +
-                    "\', " + input.getSenderUid() + ", \'" + input.getSenderNickName() +
-                    "\', " + input.getReceiverUid() + ", \'" + input.getReceiverNickName() +
-                    ", " + input.getGroupUid() + ", \'" + input.getGroupName() + "\', " +
-                    "\', \'" + input.getContent() + "\')";
-            statement.executeQuery("INSERT INTO GroupMessage " + value);
+            String value = "(" + input.getId() + ", '" + input.getTime().toString() +
+                    "', " + input.getSenderUid() + ", '" + input.getSenderNickName() +
+                    "', " + input.getGroupUid() + ", '" + input.getGroupName() + "', '" + input.getContent() + "')";
+            statement.executeUpdate("INSERT INTO GroupMessage VALUES " + value);
         } catch (SQLException e) {
             logger.warn("Error while saving group message to SQLite: ", e);
             return false;
@@ -55,7 +62,7 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
         try {
             String value = "(" + input.getId() + ", \'" + input.getTime().toString() +
                     "\' ," + input.getSenderUid() + ", \'" + input.getSenderNickName() + "\', " + input.getContent();
-            statement.executeQuery("INSERT INTO FriendMessage " + value);
+            statement.executeUpdate("INSERT INTO FriendMessage VALUES " + value);
         } catch (SQLException e) {
             logger.warn("Error while saving friend message to SQLite: ", e);
             return false;

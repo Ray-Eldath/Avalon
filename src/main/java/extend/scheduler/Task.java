@@ -8,7 +8,4 @@ package extend.scheduler;
 public interface Task extends Runnable {
     @Override
     void run();
-
-    @Override
-    String toString();
 }

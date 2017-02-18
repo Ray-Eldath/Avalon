@@ -12,4 +12,6 @@ public interface DatabaseOperator {
     boolean addGroupMessage(GroupMessage input);
 
     boolean addFriendMessage(FriendMessage input);
+
+    void closeResource();
 }

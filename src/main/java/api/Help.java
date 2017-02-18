@@ -23,8 +23,11 @@ public class Help extends GroupMessageAPI {
     public void doPost(GroupMessage message) {
         Map<Pattern, GroupMessageAPI> apiList = MainServlet.getApiList();
         String messageShow = "";
-        for (GroupMessageAPI api : apiList.values())
+        for (GroupMessageAPI api : apiList.values()) {
+            String helpMessage = api.getHelpMessage();
+            if (helpMessage == null || "".equals(helpMessage)) continue;
             messageShow += "\n" + api.getHelpMessage();
+        }
         Response.responseGroup(message.getGroupUid(), "This is Avalon. 以下是我的帮助资料：\n" +
                 "<关键词>：<触发的作用效果>，所有关键词均忽略大小写并且以avalon开头" + messageShow);
         // "\n（我才不会告诉你我有一些没有写在这里的彩蛋指令呢~哈哈`(*∩_∩*)′）");

@@ -3,8 +3,6 @@ CREATE TABLE GroupMessage(
   time TEXT,
   senderUid INTEGER,
   senderNickName TEXT,
-  receiverUid INTEGER,
-  receiverNickName TEXT,
   groupUid INTEGER,
   groupName TEXT,
   content TEXT
@@ -16,4 +14,4 @@ CREATE TABLE FriendMessage(
   senderUid INTEGER,
   senderNickName TEXT,
   content TEXT
-)
+);

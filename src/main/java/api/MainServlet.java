@@ -1,14 +1,12 @@
 package api;
 
-import extend.Recorder;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import tool.APIRateLimit;
 import tool.APISurvivePool;
 import tool.Response;
 import tool.VariablePool;
+import util.FriendMessage;
 import util.GroupMessage;
 
 import javax.servlet.ServletException;
@@ -30,7 +28,7 @@ import java.util.regex.Pattern;
  * @author Eldath
  */
 public class MainServlet extends HttpServlet {
-    private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
+    // private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
     private static Map<Pattern, GroupMessageAPI> apiList = new LinkedHashMap<>();
     public static final long[] followGroup = {617118724};
     static final long[] followPeople = {951394653, 360736041, 1464443139, 704639565};
@@ -74,49 +72,43 @@ public class MainServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject object = (JSONObject) new JSONTokener(req.getInputStream()).nextValue();
         if (object.isNull("post_type") || object.isNull("type")) return;
-        if (!("receive_message".equals(object.getString("post_type"))) &&
-                !("group_message".equals(object.getString("type"))))
+        if (!"receive_message".equals(object.getString("post_type")))
             return;
-        String group = object.get("group").toString();
+        //
         long timeLong = object.getLong("time");
         LocalDateTime time = LocalDateTime.ofInstant(Instant.ofEpochSecond(timeLong), ZoneId.of("Asia/Shanghai"));
         int Id = object.getInt("id");
-        long groupUid = object.getLong("group_uid");
         long senderUid = object.getLong("sender_uid");
-        long receiverUid = object.getLong("receiver_uid");
-        String receiver = object.get("receiver").toString();
         String sender = object.get("sender").toString();
         String content = object.get("content").toString();
+        String type = object.getString("type");
         String lowerContent = content.toLowerCase();
-        //recodeMessage(senderUid, sender, time, content, groupUid, group);
+        //
+        if ("friend_message".equals(type)) {
+            Recorder.getInstance().recodeFriendMessage(new FriendMessage(Id, time, senderUid, sender, content));
+            return;
+        }
+        long groupUid = object.getLong("group_uid");
+        String group = object.get("group").toString();
+        GroupMessage message = new GroupMessage(Id, time, senderUid, sender, groupUid, group, content);
+        if ("group_message".equals(type))
+            Recorder.getInstance().recodeGroupMessage(message);
+        else return;
+        //
         for (long thisFollowGroup : followGroup)
             if (groupUid == thisFollowGroup) {
                 for (Map.Entry<Pattern, GroupMessageAPI> stringAPIEntry : apiList.entrySet()) {
                     Pattern key = stringAPIEntry.getKey();
                     GroupMessageAPI value = stringAPIEntry.getValue();
                     if (doCheck(key, value, lowerContent, groupUid, sender, timeLong))
-                        value.doPost(new GroupMessage(Id, time, senderUid, sender, receiverUid,
-                                receiver, groupUid, group, content));
+                        value.doPost(message);
                     else return;
                 }
             }
     }
 
-    private void recodeMessage(long senderUid,
-                               String sender,
-                               long timeLong,
-                               String content,
-                               String groupUid,
-                               String groupName) {
-        LocalDateTime time = LocalDateTime.ofInstant(Instant.ofEpochMilli(timeLong * 1000), ZoneId.of("Asia/Shanghai"));
-        Recorder.getInstance().recode("[" +
-                time.toString() + "]\tGroupMessage: \"" + content +
-                "\"\n\t\tsaid by " + sender + " : " + senderUid + " in " +
-                groupName + " : " +
-                groupUid);
-    }
-
-    private boolean doCheck(Pattern key, GroupMessageAPI value, String lowerContent, long groupUid, String sender, long time) {
+    private boolean doCheck(Pattern key, GroupMessageAPI value, String lowerContent, long groupUid, String sender,
+                            long time) {
         if (key.matcher(lowerContent).find()) {
             if (!cooling.trySet(time)) {
                 if (!VariablePool.Limit_Noticed) {

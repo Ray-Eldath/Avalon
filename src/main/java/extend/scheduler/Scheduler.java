@@ -18,7 +18,7 @@ public class Scheduler extends Thread {
 
     static void scheduleTask(LocalDateTime runTime, Task doWhat) {
         allTask.put(runTime, doWhat);
-        logger.info("Task " + doWhat.getClass().getName() + " is now scheduled.");
+        logger.info("Task " + doWhat.getClass().toString() + ":" + doWhat.hashCode() + " is now scheduled.");
     }
 
     @Override
