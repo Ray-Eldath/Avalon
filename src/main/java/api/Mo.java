@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class Mo extends GroupMessageAPI {
     private static Mo instance = null;
 
-    static Mo getInstance() {
+    public static Mo getInstance() {
         if (instance == null) instance = new Mo();
         return instance;
     }
@@ -48,6 +48,6 @@ public class Mo extends GroupMessageAPI {
 
     @Override
     public Pattern getKeyWordRegex() {
-        return Pattern.compile("\\S(/+1s|-1s|膜蛤|苟|续命|州长夫人)\\S");
+        return Pattern.compile("\\w?(\\+1s|-1s|膜蛤|苟|续命|州长夫人)\\w?");
     }
 }

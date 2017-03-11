@@ -45,7 +45,7 @@ public class XiaoIce extends GroupMessageAPI {
         // 注意：黑名单功能包括“直接屏蔽某人”和“若某人触发关键词屏蔽多次则屏蔽某人”两部分。
     }
 
-    static XiaoIce getInstance() {
+    public static XiaoIce getInstance() {
         if (instance == null) instance = new XiaoIce();
         return instance;
     }

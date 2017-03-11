@@ -19,7 +19,7 @@ public class Blacklist extends GroupMessageAPI {
     private static List<Long> allowList = new ArrayList<>();
     private static Blacklist instance = null;
 
-    static Blacklist getInstance() {
+    public static Blacklist getInstance() {
         if (instance == null) instance = new Blacklist();
         return instance;
     }

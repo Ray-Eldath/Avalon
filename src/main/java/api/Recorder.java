@@ -1,5 +1,6 @@
 package api;
 
+import org.eclipse.jetty.util.UrlEncoded;
 import tool.ConstantPool;
 import util.FriendMessage;
 import util.GroupMessage;
@@ -23,14 +24,19 @@ public class Recorder {
         return instance;
     }
 
-    void recodeGroupMessage(GroupMessage message) {
-        groupMessageRecord.add(message);
+    public void recodeGroupMessage(GroupMessage message) {
+        GroupMessage newMessage = new GroupMessage(message.getId(), message.getTime(), message.getSenderUid(),
+                message.getSenderNickName(), message.getGroupUid(), message.getGroupName(),
+                encodeString(message.getContent()));
+        groupMessageRecord.add(newMessage);
         if (groupMessageRecord.size() > MAX_RECODE_LIST_SIZE)
             flushNow();
     }
 
-    void recodeFriendMessage(FriendMessage message) {
-        friendMessageRecord.add(message);
+    public void recodeFriendMessage(FriendMessage message) {
+        FriendMessage newMessage = new FriendMessage(message.getId(), message.getTime(), message.getSenderUid(),
+                message.getSenderNickName(), encodeString(message.getContent()));
+        friendMessageRecord.add(newMessage);
         if (friendMessageRecord.size() > MAX_RECODE_LIST_SIZE)
             flushNow();
     }
@@ -42,5 +48,9 @@ public class Recorder {
         for (FriendMessage thisFriendMessage : friendMessageRecord)
             ConstantPool.Database.currentDatabaseOperator.addFriendMessage(thisFriendMessage);
         friendMessageRecord.clear();
+    }
+
+    private String encodeString(String input) {
+        return UrlEncoded.encodeString(input);
     }
 }

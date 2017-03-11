@@ -21,7 +21,7 @@ public class Echo extends GroupMessageAPI {
         allowList.add(1464443139L);
     }
 
-    static Echo getInstance() {
+    public static Echo getInstance() {
         if (instance == null) instance = new Echo();
         return instance;
     }
@@ -32,13 +32,14 @@ public class Echo extends GroupMessageAPI {
         long sender_uid = message.getSenderUid();
         long group_uid = message.getGroupUid();
         String sender = message.getSenderNickName();
-        if (!content.contains(" ")) {
+        String[] split = content.split(" ");
+        if (split.length < 1) {
             Response.responseGroup(group_uid, "您的指示恕我不能遵守⊙﹏⊙! 因为不合规范嘛(╯︵╰,)");
             return;
         }
         for (long thisAllow : allowList)
             if (sender_uid == thisAllow) {
-                Response.responseGroup(group_uid, content.split(" ")[2]);
+                Response.responseGroup(group_uid, split[1]);
                 return;
             }
         Response.responseGroup(group_uid, "@" + sender + " 您没有权限欸... ...(゜д゜)");

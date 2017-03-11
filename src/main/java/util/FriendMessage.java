@@ -1,5 +1,8 @@
 package util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.LocalDateTime;
 
 /**
@@ -8,6 +11,7 @@ import java.time.LocalDateTime;
  * @author Eldath
  */
 public class FriendMessage implements Message {
+    private static Logger logger = LoggerFactory.getLogger(FriendMessage.class);
     private int id;
     private LocalDateTime time;
     private long senderUid;
@@ -19,6 +23,12 @@ public class FriendMessage implements Message {
         this.senderUid = senderUid;
         this.senderNickName = senderNickName;
         this.content = content;
+    }
+
+    @Override
+    public void response(String reply) {
+        logger.warn("Unsupported operation.",
+                new UnsupportedOperationException("Unsupported operation: reply friend message."));
     }
 
     @Override

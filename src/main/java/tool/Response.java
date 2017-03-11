@@ -49,6 +49,9 @@ public class Response {
         return reply;
     }
 
+    /**
+     * @deprecated Since 0.0.1 release, this method is replaced by {@link util.FriendMessage#response(String)}.
+     */
     public static void responseFriend(long friendNumber, String content) {
         try {
             new URL("http://127.0.0.1:5000/openqq/send_friend_message?uid=" + friendNumber + "&content=" +
@@ -58,6 +61,10 @@ public class Response {
         }
     }
 
+    /**
+     * @deprecated Since 0.0.1 release, this method is replaced by
+     * {@link util.GroupMessage#response(String)} and {@link util.GroupMessage#response(String, boolean, int)}.
+     */
     public static void responseGroup(long groupNumber, String content) {
         try {
             new URL("http://127.0.0.1:5000/openqq/send_group_message?uid=" + groupNumber + "&content=" +

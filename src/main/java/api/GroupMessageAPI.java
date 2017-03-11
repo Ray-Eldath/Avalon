@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * @author Eldath
  */
 public abstract class GroupMessageAPI implements BaseAPI {
-    abstract void doPost(GroupMessage message);
+    public abstract void doPost(GroupMessage message);
 
     public abstract String getHelpMessage();
 

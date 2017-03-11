@@ -1,5 +1,6 @@
 package api;
 
+import main.MainServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tool.APISurvivePool;
@@ -34,7 +35,7 @@ public class APIManager extends GroupMessageAPI {
         startAllowUid.add(951394653L);
     }
 
-    static APIManager getInstance() {
+    public static APIManager getInstance() {
         if (instance == null) instance = new APIManager();
         return instance;
     }

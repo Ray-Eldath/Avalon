@@ -29,4 +29,5 @@ KnowledgeBase.txt
 out/
 /ShowMsg.properties
 /.idea/
-/res/recode.db
+/res/record.db
+src/main/java/META-INF/

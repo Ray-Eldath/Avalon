@@ -9,7 +9,7 @@ $post_api = 'http://127.0.0.1:8088';  #接收到的消息上报接口，如果�
 my $client = Mojo::Webqq->new();
 
 $client->load("ShowQRcode");
-$client->load("Openqq", data => { listen => [ { host => $host, port => $port } ], post_api => $post_api });
+$client->load("Openqq", data => { listen => [ { host => $host, port => $port } ], post_api => $post_api, post_event_list => ['receive_message']});
 $client->load("Qiandao", data => {
         allow_group         => [ 617118724 ], #可选，允许插件的群，可以是群名称或群号码
         # ban_group   => ["私人群",123456], #可选，禁用该插件的群，可以是群名称或群号码
@@ -28,7 +28,7 @@ $client->load("KnowledgeBase", data => {
         check_time      => 60, #默认10秒检查一次文件变更
         show_keyword    => 1, #消息是否包含触发关键字信息，默认为0
     });
-$client->load("FuckDaShen");
+# $client->load("FuckDaShen");
 $client->load("GroupManage", data => {
         allow_group       => [ 617118724 ], #可选，允许插件的群，可以是群名称或群号码
         # ban_group   => ["私人群",123456], #可选，禁用该插件的群，可以是群名称或群号码

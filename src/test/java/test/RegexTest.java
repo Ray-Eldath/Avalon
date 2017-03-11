@@ -9,8 +9,7 @@ import java.util.regex.Pattern;
  */
 public class RegexTest {
     public static void main(String[] args) {
-        Pattern pattern = Pattern.compile("啦啦啦|lizhaohan");
-        System.out.println(pattern.matcher("lizhaohan").find());
-        System.out.println(pattern.toString());
+        Pattern pattern = Pattern.compile("\\w?(\\+1s|-1s|膜蛤|苟|续命|州长夫人)\\w?");
+        System.out.println(pattern.matcher("啦啦啦+1s").find());
     }
 }

@@ -17,4 +17,9 @@ public interface Message {
     long getSenderUid();
 
     String getSenderNickName();
+
+    void response(String reply);
+
+    @Override
+    String toString();
 }

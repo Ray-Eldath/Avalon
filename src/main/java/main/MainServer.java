@@ -1,6 +1,5 @@
 package main;
 
-import api.MainServlet;
 import api.Recorder;
 import extend.scheduler.Scheduler;
 import extend.scheduler.ShowMsg;
@@ -56,10 +55,10 @@ public class MainServer {
         Scanner scanner = new Scanner(System.in);
         String isOn = scanner.nextLine();
         if ("yes".equals(isOn.toLowerCase()))
-            for (long thisFollowGroup : MainServlet.followGroup) {
-                Response.responseGroup(thisFollowGroup, "Avalon已经上线。");
-                Response.responseGroup(thisFollowGroup, "严格过滤已经启用。");
-            }
+            for (long thisFollowGroup : MainServlet.followGroup)
+                Response.responseGroup(thisFollowGroup, "Avalon已经上线。\nAvalon现存在一个与膜蛤插件有关的可能影响" +
+                        "群内交流的bug，开发者目前仍未能有办法修复。若因此bug影响群内正常交流，请使用APIManager（具体请见帮助）" +
+                        "关闭膜蛤插件。抱歉。");
         else logger.info("Cancel send login message.");
         logger.info("Server now running!");
         server.join();

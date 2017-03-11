@@ -1,5 +1,6 @@
 package api;
 
+import main.MainServlet;
 import tool.Response;
 import util.GroupMessage;
 
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
 public class Help extends GroupMessageAPI {
     private static Help instance = null;
 
-    static Help getInstance() {
+    public static Help getInstance() {
         if (instance == null) instance = new Help();
         return instance;
     }
