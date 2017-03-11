@@ -1,6 +1,6 @@
 package test;
 
-import java.time.LocalTime;
+import java.nio.charset.Charset;
 
 /**
  * Created by Eldath on 2017/1/29 0029.
@@ -9,7 +9,5 @@ import java.time.LocalTime;
  */
 public class Test {
     public static void main(String[] args) {
-        LocalTime thisTime = LocalTime.parse("20:15:13");
-        System.out.println(thisTime.plusHours(24).toString());
     }
 }

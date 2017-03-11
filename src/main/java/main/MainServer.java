@@ -51,6 +51,7 @@ public class MainServer {
         server.setStopAtShutdown(true);
         context.addServlet(new ServletHolder(new MainServlet()), "/");
         server.start();
+        //
         logger.info("Is server on (yes or no): ");
         Scanner scanner = new Scanner(System.in);
         String isOn = scanner.nextLine();

@@ -75,8 +75,10 @@ public class MainServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject object = (JSONObject) new JSONTokener(req.getInputStream()).nextValue();
-        logger.warn(object.toString());
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        JSONObject object = (JSONObject) new JSONTokener(req.getReader()).nextValue();
+        // logger.info(object.toString());
         if (object.isNull("post_type") || object.isNull("type")) return;
         if (!"receive_message".equals(object.getString("post_type")))
             return;

@@ -50,7 +50,7 @@ public class Response {
     }
 
     /**
-     * @deprecated Since 0.0.1 release, this method is replaced by {@link util.FriendMessage#response(String)}.
+     * // @deprecated Since 0.0.1-beta, this method is replaced by {@link util.FriendMessage#response(String)}.
      */
     public static void responseFriend(long friendNumber, String content) {
         try {
@@ -62,7 +62,7 @@ public class Response {
     }
 
     /**
-     * @deprecated Since 0.0.1 release, this method is replaced by
+     * // @deprecated Since 0.0.1-beta, this method is replaced by
      * {@link util.GroupMessage#response(String)} and {@link util.GroupMessage#response(String, boolean, int)}.
      */
     public static void responseGroup(long groupNumber, String content) {
