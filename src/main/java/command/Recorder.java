@@ -1,4 +1,4 @@
-package api;
+package command;
 
 import org.eclipse.jetty.util.UrlEncoded;
 import tool.ConstantPool;

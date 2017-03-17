@@ -1,6 +1,6 @@
 package main;
 
-import api.*;
+import command.*;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
@@ -34,7 +34,6 @@ public class MainServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
     private static Map<Pattern, GroupMessageAPI> apiList = new LinkedHashMap<>();
     public static final long[] followGroup = {617118724};
-    public static final long[] followPeople = {951394653, 360736041, 1464443139, 704639565};
     private static final long[] blackListPeople = {2980403073L};
 
     public static Map<Pattern, GroupMessageAPI> getApiList() {

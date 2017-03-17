@@ -1,4 +1,4 @@
-package api;
+package command;
 
 import util.GroupMessage;
 

@@ -1,6 +1,6 @@
 package tool;
 
-import api.GroupMessageAPI;
+import command.GroupMessageAPI;
 
 import java.util.HashMap;
 

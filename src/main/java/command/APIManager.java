@@ -1,4 +1,4 @@
-package api;
+package command;
 
 import main.MainServlet;
 import org.slf4j.Logger;
@@ -21,6 +21,7 @@ public class APIManager extends GroupMessageAPI {
     private static Logger logger = LoggerFactory.getLogger(APIManager.class);
     private static List<Long> stopAllowUid = new ArrayList<>();
     private static List<Long> startAllowUid = new ArrayList<>();
+    public static final long[] allowPeople = {951394653, 360736041, 1464443139, 704639565};
 
     static {
         // CUSTOM 以下为允许关闭API的QQ号
@@ -47,7 +48,7 @@ public class APIManager extends GroupMessageAPI {
         long senderUid = message.getSenderUid();
         long groupUid = message.getGroupUid();
         String action, apiName;
-        for (long thisFollowFriend : MainServlet.followPeople)
+        for (long thisFollowFriend : allowPeople)
             if (senderUid == thisFollowFriend) {
                 if (!content.contains(" ")) {
                     Response.responseGroup(groupUid, "@" +
