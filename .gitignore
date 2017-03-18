@@ -21,6 +21,4 @@ out/
 /.idea/
 /res/record.db
 src/main/java/META-INF/
-releases/
 config.json
-/bin/user.crt

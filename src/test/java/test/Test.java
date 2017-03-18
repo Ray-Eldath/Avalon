@@ -1,6 +1,6 @@
 package test;
 
-import java.nio.charset.Charset;
+import util.Option;
 
 /**
  * Created by Eldath on 2017/1/29 0029.
@@ -9,5 +9,9 @@ import java.nio.charset.Charset;
  */
 public class Test {
     public static void main(String[] args) {
+        new Option('A', () -> {
+            System.out.println("Hello!");
+            return false;
+        });
     }
 }
