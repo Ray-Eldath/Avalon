@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class Version extends GroupMessageAPI {
+public class Version extends GroupMessageCommand {
     private static Version instance = null;
 
     public static Version getInstance() {

@@ -1,4 +1,4 @@
-package extend.scheduler;
+package extend;
 
 /**
  * Created by Eldath on 2017/1/31 0031.

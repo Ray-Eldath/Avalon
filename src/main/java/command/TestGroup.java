@@ -1,5 +1,7 @@
 package command;
 
+import tool.ConfigSystem;
+import tool.Response;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -9,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class TestGroup extends GroupMessageAPI {
+public class TestGroup extends GroupMessageCommand {
     private static TestGroup instance = null;
 
     public static TestGroup getInstance() {
@@ -17,10 +19,16 @@ public class TestGroup extends GroupMessageAPI {
         return instance;
     }
 
+    private void doTest(GroupMessage message) {
+        Response.responseGroup(message.getGroupUid(), "@\u2005测试？");
+    }
+
     @Override
     public void doPost(GroupMessage message) {
-        System.out.println("actived by " + message.getSenderNickName());
-        message.response("xxx");
+        for (long thisAdminUid : (long[]) ConfigSystem.getInstance().getConfig("Admin_Uid")) {
+            if (message.getSenderUid() == thisAdminUid)
+                doTest(message);
+        }
     }
 
     @Override
@@ -30,6 +38,6 @@ public class TestGroup extends GroupMessageAPI {
 
     @Override
     public Pattern getKeyWordRegex() {
-        return Pattern.compile("avalon test");
+        return Pattern.compile("avalon test group");
     }
 }

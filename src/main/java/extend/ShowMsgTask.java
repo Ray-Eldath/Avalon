@@ -1,4 +1,4 @@
-package extend.scheduler;
+package extend;
 
 import main.MainServlet;
 import tool.Response;

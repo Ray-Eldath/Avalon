@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class Help extends GroupMessageAPI {
+public class Help extends GroupMessageCommand {
     private static Help instance = null;
 
     public static Help getInstance() {
@@ -22,9 +22,9 @@ public class Help extends GroupMessageAPI {
 
     @Override
     public void doPost(GroupMessage message) {
-        Map<Pattern, GroupMessageAPI> apiList = MainServlet.getApiList();
+        Map<Pattern, GroupMessageCommand> apiList = MainServlet.getApiList();
         String messageShow = "";
-        for (GroupMessageAPI api : apiList.values()) {
+        for (GroupMessageCommand api : apiList.values()) {
             String helpMessage = api.getHelpMessage();
             if (helpMessage == null || "".equals(helpMessage)) continue;
             messageShow += "\n" + api.getHelpMessage();

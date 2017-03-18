@@ -12,5 +12,5 @@ A QQ group robot which based on Mojo-Webqq.
 2. 请先到[Mojo-Webqq的GitHub仓库地址](https://github.com/sjdy521/Mojo-Webqq)按README文件内说明配置Mojo-Webqq；
 3. 再到[Mojo-Weixin的仓库地址](https://github.com/sjdy521/Mojo-Weixin)按README文件内说明配置Mojo-Weixin；
 4. 运行``\bin``目录下的```*.pl```；
-5. 将``\res``目录下的``black_record.db``文件重命名为``record.db``；
-6. 运行提供的```.jar```文件。
+5. 将``\res``目录下的``empty_record.db``文件重命名为``record.db``；
+6. 运行提供的```.zip```中的`bin\Avalon.bat`或`bin\Avalon`文件。

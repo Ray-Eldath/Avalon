@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class Mo extends GroupMessageAPI {
+public class Mo extends GroupMessageCommand {
     private static Mo instance = null;
 
     public static Mo getInstance() {

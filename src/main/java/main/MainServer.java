@@ -1,8 +1,8 @@
 package main;
 
 import command.Recorder;
-import extend.scheduler.Scheduler;
-import extend.scheduler.ShowMsg;
+import extend.Scheduler;
+import extend.ShowMsg;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -43,7 +43,8 @@ public class MainServer {
         new ShowMsg();
         // 关车钩子
         Runtime.getRuntime().addShutdownHook(new atShutdownDo());
-        InetSocketAddress address = new InetSocketAddress("127.0.0.1", 8088);
+        InetSocketAddress address = new InetSocketAddress("127.0.0.1", 5050);
+        //
         Server server = new Server(address);
         ServletContextHandler context =
                 new ServletContextHandler(ServletContextHandler.SESSIONS);

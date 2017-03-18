@@ -1,6 +1,5 @@
 package tool;
 
-import command.APIManager;
 import main.MainServlet;
 import org.json.JSONObject;
 
@@ -19,14 +18,28 @@ import java.util.Map;
  * @since v0.0.1 Beta
  */
 public class GenerateConfigFile {
-    private static HashMap<String, Object> allConfigs = new HashMap<>();
-
-    private static HashMap<String,Object> pluginAllowPeoples=new HashMap<>();
+    private static Map<String, Object> allConfigs = new HashMap<>();
+    private static Map<String, Object> pluginAllowPeoples = new HashMap<>();
+    private static Map<String, Object> pluginConfig = new HashMap<>();
 
     static {
-        allConfigs.put("follow_group", MainServlet.followGroup);
-        pluginAllowPeoples.put("APIManager", APIManager.allowPeople);
-        allConfigs.put("plugin_allow_peoples",pluginAllowPeoples);
+        pluginAllowPeoples.put("CommandManager_basic", new long[]{951394653, 360736041, 1464443139, 704639565});
+        pluginAllowPeoples.put("CommandManager_stop", new long[]{1464443139, 360736041, 704639565, 951394653, 1016281105});
+        pluginAllowPeoples.put("CommandManager_restart", new long[]{1464443139, 704639565, 951394653});
+        pluginAllowPeoples.put("Blacklist_basic", new long[]{1464443139});
+        pluginAllowPeoples.put("Echo_basic", new long[]{1464443139});
+        //
+        Map<String, Object> loopUsing = new HashMap<>();
+        loopUsing.put("Uid_BlackList_Enabled", true);
+        loopUsing.put("BlockList_Words", new String[]{"来一炮", "寒寒", "冰冰", "冰封", "ice1000",
+                "eldath", "hanhan", "男", "女", "蛤", "膜", "苟", "太短", "变长", "baka", "笨蛋", "傻瓜", "操", "艹", "fuck"});
+        pluginConfig.put("XiaoIce", loopUsing);
+        // loopUsing.clear();
+        //
+        allConfigs.put("Follow_Group_Uid", MainServlet.followGroup);
+        allConfigs.put("Admin_Uid", new long[]{1464443139});
+        allConfigs.put("plugin_allowed_account", pluginAllowPeoples);
+        allConfigs.put("plugin_config", pluginConfig);
     }
 
     public static void main(String[] args) {
@@ -35,10 +48,10 @@ public class GenerateConfigFile {
             Map.Entry mapEntry = (Map.Entry) m;
             String key = (String) mapEntry.getKey();
             Object value = mapEntry.getValue();
-            object.append(key, value);
+            object.put(key, value);
         }
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("config.json"), StandardCharsets.UTF_8)) {
-            object.write(writer);
+            writer.write(JSONFormatter.format(object.toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }

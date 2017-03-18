@@ -32,11 +32,11 @@ import java.util.regex.Pattern;
  */
 public class MainServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
-    private static Map<Pattern, GroupMessageAPI> apiList = new LinkedHashMap<>();
+    private static Map<Pattern, GroupMessageCommand> apiList = new LinkedHashMap<>();
     public static final long[] followGroup = {617118724};
     private static final long[] blackListPeople = {2980403073L};
 
-    public static Map<Pattern, GroupMessageAPI> getApiList() {
+    public static Map<Pattern, GroupMessageCommand> getApiList() {
         return apiList;
     }
 
@@ -47,7 +47,7 @@ public class MainServlet extends HttpServlet {
         // CUSTOM 注意：此处configure的顺序决定优先级。
         // 开发者非常不建议修改此处内容，容易造成奇怪的问题。
         MainServlet.configure(TestGroup.getInstance().getKeyWordRegex(), TestGroup.getInstance());
-        MainServlet.configure(APIManager.getInstance().getKeyWordRegex(), APIManager.getInstance());
+        MainServlet.configure(CommandManager.getInstance().getKeyWordRegex(), CommandManager.getInstance());
         MainServlet.configure(Blacklist.getInstance().getKeyWordRegex(), Blacklist.getInstance());
         MainServlet.configure(Help.getInstance().getKeyWordRegex(), Help.getInstance());
         MainServlet.configure(Version.getInstance().getKeyWordRegex(), Version.getInstance());
@@ -57,17 +57,17 @@ public class MainServlet extends HttpServlet {
     }
 
 
-    public static GroupMessageAPI getAPIByKeyword(String keyword) {
-        for (Map.Entry<Pattern, GroupMessageAPI> patternAPIEntry : apiList.entrySet()) {
+    public static GroupMessageCommand getAPIByKeyword(String keyword) {
+        for (Map.Entry<Pattern, GroupMessageCommand> patternAPIEntry : apiList.entrySet()) {
             Pattern key = patternAPIEntry.getKey();
-            GroupMessageAPI value = patternAPIEntry.getValue();
+            GroupMessageCommand value = patternAPIEntry.getValue();
             if (key.matcher(keyword).find())
                 return value;
         }
         return null;
     }
 
-    private static void configure(Pattern regex, GroupMessageAPI api) {
+    private static void configure(Pattern regex, GroupMessageCommand api) {
         apiList.put(regex, api);
         APISurvivePool.getInstance().addAPI(api);
     }
@@ -77,7 +77,7 @@ public class MainServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         JSONObject object = (JSONObject) new JSONTokener(req.getReader()).nextValue();
-        // logger.info(object.toString());
+        logger.info(object.toString());
         if (object.isNull("post_type") || object.isNull("type")) return;
         if (!"receive_message".equals(object.getString("post_type")))
             return;
@@ -106,21 +106,21 @@ public class MainServlet extends HttpServlet {
         //
         for (long thisFollowGroup : followGroup)
             if (groupUid == thisFollowGroup) {
-                for (Map.Entry<Pattern, GroupMessageAPI> patternAPIEntry : apiList.entrySet()) {
-                    GroupMessageAPI value = patternAPIEntry.getValue();
+                for (Map.Entry<Pattern, GroupMessageCommand> patternAPIEntry : apiList.entrySet()) {
+                    GroupMessageCommand value = patternAPIEntry.getValue();
                     if (doCheck(patternAPIEntry.getKey(), value, lowerContent, groupUid, sender, timeLong))
                         value.doPost(message);
                 }
             }
     }
 
-    private boolean doCheck(Pattern key, GroupMessageAPI value, String lowerContent, long groupUid, String sender,
+    private boolean doCheck(Pattern key, GroupMessageCommand value, String lowerContent, long groupUid, String sender,
                             long time) {
         if (!key.matcher(lowerContent).find()) return false;
         if (!cooling.trySet(time)) {
             if (!VariablePool.Limit_Noticed) {
                 // CUSTOM 若修改了指令最小间隔，请同步修改此处。
-                Response.responseGroup(groupUid, "@" + sender +
+                Response.responseGroup(groupUid, "@\u2005" + sender +
                         " 对不起，您的指令超频。4s内仅能有一次指令输入，未到4s内的输入将被忽略。" +
                         "注意：此消息仅会显示一次。");
                 //
@@ -130,7 +130,7 @@ public class MainServlet extends HttpServlet {
         }
         if (!APISurvivePool.getInstance().isSurvive(value)) {
             if (!APISurvivePool.getInstance().isNoticed(value)) {
-                Response.responseGroup(groupUid, "@" + sender +
+                Response.responseGroup(groupUid, "@\u2005" + sender +
                         " 对不起，您调用的方法目前已被停止；注意：此消息仅会显示一次。");
                 APISurvivePool.getInstance().setNoticed(value);
             }
@@ -139,7 +139,7 @@ public class MainServlet extends HttpServlet {
             try {
                 if (!lowerContent.equals(new String(lowerContent
                         .getBytes("GB2312"), "GB2312"))) {
-                    Response.responseGroup(groupUid, "@" + sender + " 您的指示编码好像不对劲啊(╯︵╰,)");
+                    Response.responseGroup(groupUid, "@\u2005" + sender + " 您的指示编码好像不对劲啊(╯︵╰,)");
                     return false;
                 }
             } catch (UnsupportedEncodingException ignore) {

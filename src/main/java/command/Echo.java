@@ -1,5 +1,6 @@
 package command;
 
+import tool.ConfigSystem;
 import tool.Response;
 import util.GroupMessage;
 
@@ -12,14 +13,9 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class Echo extends GroupMessageAPI {
+public class Echo extends GroupMessageCommand {
     private static Echo instance = null;
-    private static List<Long> allowList = new ArrayList<>();
-
-    static {
-        // CUSTOM 以下为允许 使Avalon重复说指定语句 的QQ号
-        allowList.add(1464443139L);
-    }
+    private static final long[] allowList = ConfigSystem.getInstance().getCommandAllowArray("Echo_basic");
 
     public static Echo getInstance() {
         if (instance == null) instance = new Echo();
@@ -42,7 +38,7 @@ public class Echo extends GroupMessageAPI {
                 Response.responseGroup(group_uid, split[1]);
                 return;
             }
-        Response.responseGroup(group_uid, "@" + sender + " 您没有权限欸... ...(゜д゜)");
+        Response.responseGroup(group_uid, "@\u2005" + sender + " 您没有权限欸... ...(゜д゜)");
     }
 
     @Override

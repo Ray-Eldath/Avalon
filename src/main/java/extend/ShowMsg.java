@@ -1,4 +1,4 @@
-package extend.scheduler;
+package extend;
 
 import jdk.nashorn.api.scripting.URLReader;
 import org.slf4j.Logger;
