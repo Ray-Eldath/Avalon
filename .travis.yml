@@ -8,4 +8,4 @@ before_install:
 - chmod a+x gradlew
 notifications:
   email:
-    - lizhaohan001@live.cn
+  - lizhaohan001@live.cn
