@@ -1,4 +1,4 @@
-# Avalon [![Build Status](https://travis-ci.org/Ray-Eldath/Avalon.svg?branch=master)](https://travis-ci.org/Ray-Eldath/Avalon)
+# Avalon [![Build Status](https://travis-ci.org/Ray-Eldath/Avalon.svg?branch=master)](https://travis-ci.org/Ray-Eldath/Avalon)[![GNU General Public License, version 2](https://img.shields.io/badge/license-GNU%202.0-yellow.svg)](https://www.gnu.org/licenses/gpl-2.0.html)[![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-ProgramLeague-blue.svg)](https://jq.qq.com/?_wv=1027&k=46GveNI)
 A QQ group robot which based on Mojo-Webqq.
 
 一个基于Mojo-Webqq的QQ机器人。
