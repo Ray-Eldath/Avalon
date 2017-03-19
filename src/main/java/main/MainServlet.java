@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,6 +37,8 @@ public class MainServlet extends HttpServlet {
             ConfigSystem.getInstance().getConfig("Follow_Group_Uid");
     private static final List<Integer> blackListPeople = (ArrayList<Integer>)
             ConfigSystem.getInstance().getConfig("BlackList_Uid");
+    private static final List<Integer> recordGroup = (ArrayList<Integer>)
+            ConfigSystem.getInstance().getConfig("Record_Group_Uid");
 
     public static Map<Pattern, GroupMessageCommand> getApiList() {
         return apiList;
@@ -100,8 +101,11 @@ public class MainServlet extends HttpServlet {
         long groupUid = object.getLong("group_uid");
         String group = object.get("group").toString();
         GroupMessage message = new GroupMessage(Id, timeLong, senderUid, sender, groupUid, group, content);
-//      FIXME 问题代码 if ("group_message".equals(type))
-//      FIXME 问题代码      Recorder.getInstance().recodeGroupMessage(message);
+        for (int thisRecordGroup : recordGroup) {
+            if (thisRecordGroup == groupUid)
+                if ("group_message".equals(type))
+                    Recorder.getInstance().recodeGroupMessage(message);
+        }
         for (long thisFollowGroup : followGroup)
             if (groupUid == thisFollowGroup) {
                 for (Map.Entry<Pattern, GroupMessageCommand> patternAPIEntry : apiList.entrySet()) {
@@ -114,15 +118,13 @@ public class MainServlet extends HttpServlet {
 
     private boolean doCheck(Pattern key, GroupMessageCommand value, GroupMessage groupMessage) {
         String lowerContent = groupMessage.getContent().toLowerCase();
-        long time = groupMessage.getTime().getLong(ChronoField.EPOCH_DAY);
+        long time = groupMessage.getTimeLong();
         String sender = groupMessage.getSenderNickName();
         if (!key.matcher(lowerContent).find()) return false;
         if (!cooling.trySet(time)) {
             if (!VariablePool.Limit_Noticed) {
-                // CUSTOM 若修改了指令最小间隔，请同步修改此处。
                 groupMessage.response("@\u2005" + sender +
                         " 对不起，您的指令超频。4s内仅能有一次指令输入，未到4s内的输入将被忽略。注意：此消息仅会显示一次。");
-                //
                 VariablePool.Limit_Noticed = true;
             }
             return false;

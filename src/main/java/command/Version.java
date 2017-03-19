@@ -1,7 +1,12 @@
 package command;
 
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import tool.ConstantPool;
 import util.GroupMessage;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.regex.Pattern;
 
 /**
@@ -19,13 +24,29 @@ public class Version extends GroupMessageCommand {
 
     @Override
     public void doPost(GroupMessage message) {
-        String messageToSaid = "Hi, I'm Avalon.\n" +
-                "我是阿瓦隆，QQ群机器人。\n" +
-                "我的名字和头像均取自《Implosion》，我的父亲是Mojo-Webqq。\n" +
-                "我由Eldath Ray进行二次开发。\n" +
-                "我在GitHub上开源，欢迎访问我的仓库：https://github.com/ProgramLeague/Avalon\n" +
-                "Mojo-Webqq Version: v2.0.4\tMojo-Weixin Version: v1.2.9\tAvalon Version: v0.0.1 Alpha";
-        message.response(messageToSaid);
+        try {
+            String webqqVersion = "v" + ((JSONObject) new JSONTokener(
+                    new URL(ConstantPool.Address.APIServer + "/openqq/get_client_info")
+                            .openStream()).nextValue()).getString("version");
+            String weixinVersion;
+            try {
+                weixinVersion = "v" + ((JSONObject) new JSONTokener(
+                        new URL(ConstantPool.Address.weChatAPIServer + "/openwx/get_client_info")
+                                .openStream()).nextValue()).getString("version");
+            } catch (IOException e) {
+                weixinVersion = "UNKNOWN";
+            }
+            String messageToSaid = "Hi, I'm Avalon.\n" +
+                    "我是阿瓦隆，QQ群机器人。\n" +
+                    "我的名字和头像均取自《Implosion》，我的父亲是Mojo-Webqq。\n" +
+                    "我由Eldath Ray进行二次开发。\n" +
+                    "我在GitHub上开源，欢迎访问我的仓库：https://github.com/ProgramLeague/Avalon\n" +
+                    "Mojo-Webqq Version: " + webqqVersion + "\tMojo-Weixin Version: " + weixinVersion +
+                    "\tAvalon Version: v" + ConstantPool.Basic.Version;
+            message.response(messageToSaid);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
