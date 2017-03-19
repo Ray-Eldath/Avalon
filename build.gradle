@@ -2,7 +2,6 @@ group 'eldath.ray'
 version '0.0.1-Beta'
 
 apply plugin: 'java'
-apply plugin: 'jacoco'
 apply plugin: 'application'
 
 mainClassName = 'main.MainServer'
@@ -29,17 +28,4 @@ dependencies {
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.16.1'
     // https://mvnrepository.com/artifact/org.fusesource.jansi/jansi
     compile group: 'org.fusesource.jansi', name: 'jansi', version: '1.14'
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        xml.destination "${buildDir}/reports/report.xml"
-        html.enabled true
-        html.destination "${buildDir}/reports/report_html"
-    }
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
 }
