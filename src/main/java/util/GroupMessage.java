@@ -3,7 +3,6 @@ package util;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tool.ConfigSystem;
 
 import java.io.IOException;
 import java.net.URL;
@@ -11,6 +10,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+
+import static tool.ConstantPool.Address.APIServer;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
@@ -23,7 +24,6 @@ public class GroupMessage implements Message {
     private final LocalDateTime time;
     private final long senderUid, groupUid, timeLong;
     private final String groupName, content, senderNickName;
-    private static final String APIServer = (String) ConfigSystem.getInstance().getConfig("Mojo-Webqq_API_Address");
 
     public GroupMessage(int id, LocalDateTime time, long senderUid, String senderNickName, long groupUid,
                         String groupName, String content) {

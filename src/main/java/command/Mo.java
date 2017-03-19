@@ -21,14 +21,12 @@ public class Mo extends GroupMessageCommand {
 
     @Override
     public void doPost(GroupMessage message) {
-        long groupUid = message.getGroupUid();
         if (VariablePool.Mo_Reach_Max) return;
         if (VariablePool.Mo_Count >= 50) {
             message.response("哼！你们今天膜的太多啦！长者肯定会生气的！");
             VariablePool.Mo_Reach_Max = true;
             return;
         }
-        // CUSTOM 以下配置膜蛤语句。本API被激活时语句将随机显示。
         String[] responseMessages = {"哈哈蛤哈",
                 "你们有没有... ...就是那种... ...那种... ...诗？",
                 "那首诗怎么念来着？苟利国家... ...",

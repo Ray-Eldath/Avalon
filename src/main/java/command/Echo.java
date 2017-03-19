@@ -23,7 +23,6 @@ public class Echo extends GroupMessageCommand {
     public void doPost(GroupMessage message) {
         String content = message.getContent();
         long sender_uid = message.getSenderUid();
-        long group_uid = message.getGroupUid();
         String sender = message.getSenderNickName();
         String[] split = content.split(" ");
         if (split.length < 1) {
@@ -32,10 +31,10 @@ public class Echo extends GroupMessageCommand {
         }
         for (long thisAllow : allowList)
             if (sender_uid == thisAllow) {
-                message.response(split[1]);
+                message.response(split[2]);
                 return;
             }
-        message.response("@\u2005" + sender + " 您没有权限欸... ...(゜д゜)");
+        message.response("@" + sender + " 您没有权限欸... ...(゜д゜)");
     }
 
     @Override

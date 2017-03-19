@@ -9,6 +9,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tool.ConfigSystem;
+import tool.ConstantPool;
 import tool.Response;
 import tool.SQLiteDatabaseOperator;
 
@@ -32,11 +33,11 @@ public class MainServer {
         public void run() {
             MainServer.logger.info("Do cleaning job...");
             for (long thisFollowFollow : MainServlet.followGroup)
-                Response.responseGroup(thisFollowFollow, "服务已经停止。");
+                Response.sendToGroup(thisFollowFollow, "服务已经停止。");
             Recorder.getInstance().flushNow();
             SQLiteDatabaseOperator.getInstance().closeResource();
             try {
-                new URL(((String) ConfigSystem.getInstance().getConfig("Mojo-Webqq_API_Address"))).openStream();
+                new URL(ConstantPool.Address.APIServer + "/openqq/stop_client").openStream();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -74,9 +75,10 @@ public class MainServer {
         String isOn = scanner.nextLine();
         if ("yes".equals(isOn.toLowerCase()))
             for (long thisFollowGroup : MainServlet.followGroup)
-                Response.responseGroup(thisFollowGroup, "Avalon已经上线。");
+                Response.sendToGroup(thisFollowGroup, "Avalon已经上线。");
         else logger.info("Cancel send login message.");
         logger.info("Server now running!");
+        logger.error("IMPORTANCE: Please exit this system by pressed Ctrl-C, DO NOT close this window directly!");
         server.join();
     }
 }

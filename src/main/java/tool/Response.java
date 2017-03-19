@@ -62,15 +62,14 @@ public class Response {
     }
 
     /**
-     * @deprecated Since 0.0.1-beta, this method is replaced by
-     * {@link util.GroupMessage#response(String)} and {@link util.GroupMessage#response(String, int)}.
+     * @see util.GroupMessage#response(String) and {@link util.GroupMessage#response(String, int)}.
      */
-    public static void responseGroup(long groupNumber, String content) {
+    public static void sendToGroup(long groupNumber, String content) {
         try {
             new URL("http://127.0.0.1:5000/openqq/send_group_message?uid=" + groupNumber + "&content=" +
                     UrlEncoded.encodeString(content)).openStream();
         } catch (IOException e) {
-            logger.warn("IOException thrown while responseGroup: ", e);
+            logger.warn("IOException thrown while sendToGroup: ", e);
         }
     }
 }
