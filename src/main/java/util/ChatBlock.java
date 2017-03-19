@@ -9,7 +9,7 @@ import java.util.Queue;
  *
  * @author Eldath Ray
  */
-public class ChatBlock {
+class ChatBlock {
     private Queue<Chat> chats = new ArrayDeque<>();
 
     public ChatBlock(Chat... input) {

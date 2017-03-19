@@ -1,4 +1,6 @@
 ﻿#!/usr/bin/env perl
+use strict;
+use warnings;
 use Mojo::Webqq;
 
 my ($host, $port, $post_api);
@@ -9,16 +11,11 @@ $post_api = 'http://127.0.0.1:5050/post_api';  #接收到的消息上报接口�
 my $client = Mojo::Webqq->new();
 
 $client->load("ShowQRcode");
-
 $client->load("Openqq",data=>{
-    listen => [
-        {   host => $host,
-            port => $port,
-        },
-		post_api => $post_api,
-		post_event => 0,                             #可选，是否上报事件，为了向后兼容性，默认值为1
-		# post_event_list => ['login','stop','state_change','input_qrcode'],
-    ]
+        listen     => [ { host => $host, port => $port } ],
+        post_api   => $post_api,
+        post_event => 0,                             #可选，是否上报事件，为了向后兼容性，默认值为1
+        # post_event_list => ['login','stop','state_change','input_qrcode'],
 });
 
 #利用controller允许指定的IP可以访问，更多关于controller的资料，可以参考 Mojolicious::Controller

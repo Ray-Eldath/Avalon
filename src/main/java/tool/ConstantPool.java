@@ -9,8 +9,6 @@ public class ConstantPool {
     private ConstantPool() {
     }
 
-    public static final String recordSavePath = "/record.txt";
-
     public static class Database {
         public static final DatabaseOperator currentDatabaseOperator = SQLiteDatabaseOperator.getInstance();
     }

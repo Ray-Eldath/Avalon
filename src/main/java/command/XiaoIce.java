@@ -5,9 +5,7 @@ import tool.ConfigSystem;
 import tool.Response;
 import util.GroupMessage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -48,7 +46,7 @@ public class XiaoIce extends GroupMessageCommand {
         String text = content;
         text = text.replaceAll(getKeyWordRegex().toString(), "");
         if ("".equals(text.replace(" ", ""))) {
-            Response.responseGroup(group_uid, "@\u2005" + sender +
+            message.response("@\u2005" + sender +
                     " 消息不能为空哦~(*∩_∩*)");
             return;
         }
@@ -58,18 +56,18 @@ public class XiaoIce extends GroupMessageCommand {
             blackList.put(sender_uid, 0);
             if (blackList.containsKey(sender_uid))
                 if (blackList.get(sender_uid) > 2) {
-                    Response.responseGroup(group_uid, "@\u2005" + sender +
+                    message.response("@\u2005" + sender +
                             " 您的帐号由于发送过多指令或不允许关键字，现已被屏蔽~o(╯□╰)o！");
                     return;
                 }
         }
         if (strIsEnglish(text)) {
             if (text.length() < 5) {
-                Response.responseGroup(group_uid, "@\u2005" + sender + " 您的消息过短~o(╯□╰)o！");
+                message.response("@\u2005" + sender + " 您的消息过短~o(╯□╰)o！");
                 return;
             }
         } else if (text.length() < 3) {
-            Response.responseGroup(group_uid, "@\u2005" + sender + " 您的消息过短~o(╯□╰)o！");
+            message.response("@\u2005" + sender + " 您的消息过短~o(╯□╰)o！");
             return;
         }
         for (String thisBlockString : blockList)
@@ -79,13 +77,13 @@ public class XiaoIce extends GroupMessageCommand {
                     notice = "您发送的消息含有不允许的关键词，注意：3次发送不允许关键词后帐号将被屏蔽！⊙﹏⊙!";
                     blackListPlus(sender_uid);
                 }
-                Response.responseGroup(group_uid, "@\u2005" + sender + " " + notice);
+                message.response("@\u2005" + sender + " " + notice);
                 return;
             }
         content = content.replaceAll(getKeyWordRegex().toString(), "小冰");
         String responseXiaoIce = Response.responseXiaoIce(content);
         if (responseXiaoIce == null) return;
-        Response.responseGroup(group_uid, "@\u2005" + sender + " " + responseXiaoIce);
+        message.response("@\u2005" + sender + " " + responseXiaoIce);
     }
 
     private boolean strIsEnglish(String word) {

@@ -8,10 +8,13 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tool.ConfigSystem;
 import tool.Response;
 import tool.SQLiteDatabaseOperator;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.URL;
 import java.util.Scanner;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +35,11 @@ public class MainServer {
                 Response.responseGroup(thisFollowFollow, "服务已经停止。");
             Recorder.getInstance().flushNow();
             SQLiteDatabaseOperator.getInstance().closeResource();
+            try {
+                new URL(((String) ConfigSystem.getInstance().getConfig("Mojo-Webqq_API_Address"))).openStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -43,14 +51,22 @@ public class MainServer {
         new ShowMsg();
         // 关车钩子
         Runtime.getRuntime().addShutdownHook(new atShutdownDo());
-        InetSocketAddress address = new InetSocketAddress("127.0.0.1", 5050);
+        InetSocketAddress address;
+        final String addressString = ((String) ConfigSystem.getInstance()
+                .getConfig("Mojo-Webqq_POST_API_Address")).replace("http://", "");
+        if (!addressString.contains(":"))
+            address = new InetSocketAddress(addressString, 80);
+        else {
+            final String[] addressStringArray = addressString.split(":");
+            address = new InetSocketAddress(addressStringArray[0].replace("//", ""),
+                    Integer.parseInt(addressStringArray[1]));
+        }
         //
         Server server = new Server(address);
-        ServletContextHandler context =
-                new ServletContextHandler(ServletContextHandler.SESSIONS);
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         server.setHandler(context);
         server.setStopAtShutdown(true);
-        context.addServlet(new ServletHolder(new MainServlet()), "/");
+        context.addServlet(new ServletHolder(new MainServlet()), "/post_api");
         server.start();
         //
         logger.info("Is server on (yes or no): ");
@@ -58,9 +74,7 @@ public class MainServer {
         String isOn = scanner.nextLine();
         if ("yes".equals(isOn.toLowerCase()))
             for (long thisFollowGroup : MainServlet.followGroup)
-                Response.responseGroup(thisFollowGroup, "Avalon已经上线。\nAvalon现存在一个与膜蛤插件有关的可能影响" +
-                        "群内交流的bug，开发者目前仍未能有办法修复。若因此bug影响群内正常交流，请使用APIManager（具体请见帮助）" +
-                        "关闭膜蛤插件。抱歉。");
+                Response.responseGroup(thisFollowGroup, "Avalon已经上线。");
         else logger.info("Cancel send login message.");
         logger.info("Server now running!");
         server.join();

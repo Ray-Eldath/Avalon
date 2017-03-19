@@ -1,5 +1,6 @@
 package tool;
 
+import org.eclipse.jetty.util.UrlEncoded;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.FriendMessage;
@@ -48,7 +49,8 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
         try {
             String value = "(" + input.getId() + ", '" + input.getTime().toString() +
                     "', " + input.getSenderUid() + ", '" + input.getSenderNickName() +
-                    "', " + input.getGroupUid() + ", '" + input.getGroupName() + "', '" + input.getContent() + "')";
+                    "', " + input.getGroupUid() + ", '" + input.getGroupName() + "', '" +
+                    UrlEncoded.encodeString(input.getContent()) + "')";
             statement.executeUpdate("INSERT INTO GroupMessage VALUES " + value);
         } catch (SQLException e) {
             logger.warn("Error while saving group message to SQLite: ", e);
@@ -61,7 +63,8 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
     public boolean addFriendMessage(FriendMessage input) {
         try {
             String value = "(" + input.getId() + ", \'" + input.getTime().toString() +
-                    "\' ," + input.getSenderUid() + ", \'" + input.getSenderNickName() + "\', " + input.getContent();
+                    "\' ," + input.getSenderUid() + ", \'" + input.getSenderNickName() + "\', " +
+                    UrlEncoded.encodeString(input.getContent());
             statement.executeUpdate("INSERT INTO FriendMessage VALUES " + value);
         } catch (SQLException e) {
             logger.warn("Error while saving friend message to SQLite: ", e);

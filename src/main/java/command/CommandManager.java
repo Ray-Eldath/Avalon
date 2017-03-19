@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tool.APISurvivePool;
 import tool.ConfigSystem;
-import tool.Response;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -41,8 +40,8 @@ public class CommandManager extends GroupMessageCommand {
         for (long thisFollowFriend : allowPeople)
             if (senderUid == thisFollowFriend) {
                 if (!content.contains(" ")) {
-                    Response.responseGroup(groupUid, "@\u2005" +
-                            sender + " 您的指示格式不对辣！（｀Δ´）！请注意在API触发语句后是否缺少空格~");
+                    message.response("@\u2005" + sender +
+                            " 您的指示格式不对辣！（｀Δ´）！请注意在API触发语句后是否缺少空格~");
                     return;
                 }
                 apiName = content.toLowerCase().
@@ -51,14 +50,14 @@ public class CommandManager extends GroupMessageCommand {
                 action = content.toLowerCase().
                         replace("avalon commandmanager ", "").replace(apiName, "").trim();
                 if (thisAPI == null) {
-                    Response.responseGroup(groupUid, "@\u2005" + sender + " 您要操作的指令响应器根本不存在！(╯︵╰,)");
+                    message.response("@\u2005" + sender + " 您要操作的指令响应器根本不存在！(╯︵╰,)");
                     return;
                 }
                 if ("start".equals(action)) {
                     for (long thisAllowStartUid : restartAllowUid)
                         if (thisAllowStartUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, true);
-                            Response.responseGroup(groupUid, "@\u2005" + sender + " 您要重启的指令响应器将会重启`(*∩_∩*)′");
+                            message.response("@\u2005" + sender + " 您要重启的指令响应器将会重启`(*∩_∩*)′");
                             logger.info("GroupMessageCommand " + thisAPI.getClass().getName() + " is reopened by " +
                                     senderUid + " : " + sender + ".");
                             return;
@@ -68,18 +67,18 @@ public class CommandManager extends GroupMessageCommand {
                     for (long thisStopAllowUid : stopAllowUid) {
                         if (thisStopAllowUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, false);
-                            Response.responseGroup(groupUid, "@\u2005" + sender + " 您要关闭的指令响应器将会关闭~");
+                            message.response("@\u2005" + sender + " 您要关闭的指令响应器将会关闭~");
                             logger.info("GroupMessageCommand " + thisAPI.getClass().getName() + " is closed by " +
                                     senderUid + " : " + sender + ".");
                             return;
                         }
                     }
                 } else {
-                    Response.responseGroup(groupUid, "@\u2005" + sender + " 您的指示格式不对辣！（｀Δ´）！");
+                    message.response("@\u2005" + sender + " 您的指示格式不对辣！（｀Δ´）！");
                     return;
                 }
             }
-        Response.responseGroup(groupUid, "@\u2005" + sender + " 您没有权限啦！(゜д゜)");
+        message.response("@\u2005" + sender + " 您没有权限啦！(゜д゜)");
     }
 
     @Override

@@ -3,7 +3,10 @@ package util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
@@ -11,15 +14,25 @@ import java.time.LocalDateTime;
  * @author Eldath
  */
 public class FriendMessage implements Message {
-    private static Logger logger = LoggerFactory.getLogger(FriendMessage.class);
-    private int id;
-    private LocalDateTime time;
-    private long senderUid;
+    private final static Logger logger = LoggerFactory.getLogger(FriendMessage.class);
+    private final int id;
+    private final LocalDateTime time;
+    private final long senderUid, timeLong;
     private String senderNickName, content;
 
     public FriendMessage(int id, LocalDateTime time, long senderUid, String senderNickName, String content) {
         this.id = id;
         this.time = time;
+        this.timeLong = time.toEpochSecond(ZoneOffset.of("Asia/Shanghai"));
+        this.senderUid = senderUid;
+        this.senderNickName = senderNickName;
+        this.content = content;
+    }
+
+    public FriendMessage(int id, long time, long senderUid, String senderNickName, String content) {
+        this.id = id;
+        this.time = LocalDateTime.ofInstant(Instant.ofEpochSecond(time), ZoneId.of("Asia/Shanghai"));
+        this.timeLong = time;
         this.senderUid = senderUid;
         this.senderNickName = senderNickName;
         this.content = content;
@@ -39,6 +52,11 @@ public class FriendMessage implements Message {
     @Override
     public LocalDateTime getTime() {
         return time;
+    }
+
+    @Override
+    public long getTimeLong() {
+        return timeLong;
     }
 
     @Override

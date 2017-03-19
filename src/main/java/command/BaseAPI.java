@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public interface BaseAPI {
+interface BaseAPI {
     String getHelpMessage();
     Pattern getKeyWordRegex();
 }

@@ -1,7 +1,6 @@
 package command;
 
 import tool.ConfigSystem;
-import tool.Response;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -20,7 +19,7 @@ public class TestGroup extends GroupMessageCommand {
     }
 
     private void doTest(GroupMessage message) {
-        Response.responseGroup(message.getGroupUid(), "@\u2005测试？");
+        message.response("@\u2005测试？");
     }
 
     @Override

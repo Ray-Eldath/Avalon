@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tool.APIRateLimit;
 import tool.APISurvivePool;
-import tool.Response;
+import tool.ConfigSystem;
 import tool.VariablePool;
 import util.FriendMessage;
 import util.GroupMessage;
@@ -18,10 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.temporal.ChronoField;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -30,11 +30,14 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
+@SuppressWarnings("unchecked")
 public class MainServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
     private static Map<Pattern, GroupMessageCommand> apiList = new LinkedHashMap<>();
-    public static final long[] followGroup = {617118724};
-    private static final long[] blackListPeople = {2980403073L};
+    public static final List<Integer> followGroup = (ArrayList<Integer>)
+            ConfigSystem.getInstance().getConfig("Follow_Group_Uid");
+    private static final List<Integer> blackListPeople = (ArrayList<Integer>)
+            ConfigSystem.getInstance().getConfig("BlackList_Uid");
 
     public static Map<Pattern, GroupMessageCommand> getApiList() {
         return apiList;
@@ -77,52 +80,48 @@ public class MainServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         JSONObject object = (JSONObject) new JSONTokener(req.getReader()).nextValue();
-        logger.info(object.toString());
+        if ((boolean) ConfigSystem.getInstance().getConfig("Debug")) logger.info(object.toString());
         if (object.isNull("post_type") || object.isNull("type")) return;
         if (!"receive_message".equals(object.getString("post_type")))
             return;
         //
         long timeLong = object.getLong("time");
-        LocalDateTime time = LocalDateTime.ofInstant(Instant.ofEpochSecond(timeLong), ZoneId.of("Asia/Shanghai"));
         int Id = object.getInt("id");
         long senderUid = object.getLong("sender_uid");
         String sender = object.get("sender").toString();
         String content = object.get("content").toString();
         String type = object.getString("type");
-        String lowerContent = content.toLowerCase();
-        //
         for (long thisBlackPeople : blackListPeople)
             if (thisBlackPeople == senderUid) return;
         if ("friend_message".equals(type)) {
-            Recorder.getInstance().recodeFriendMessage(new FriendMessage(Id, time, senderUid, sender, content));
+            Recorder.getInstance().recodeFriendMessage(new FriendMessage(Id, timeLong, senderUid, sender, content));
             return;
         }
         long groupUid = object.getLong("group_uid");
         String group = object.get("group").toString();
-        GroupMessage message = new GroupMessage(Id, time, senderUid, sender, groupUid, group, content);
-        if ("group_message".equals(type))
-            Recorder.getInstance().recodeGroupMessage(message);
-        else return;
-        //
+        GroupMessage message = new GroupMessage(Id, timeLong, senderUid, sender, groupUid, group, content);
+//      FIXME 问题代码 if ("group_message".equals(type))
+//      FIXME 问题代码      Recorder.getInstance().recodeGroupMessage(message);
         for (long thisFollowGroup : followGroup)
             if (groupUid == thisFollowGroup) {
                 for (Map.Entry<Pattern, GroupMessageCommand> patternAPIEntry : apiList.entrySet()) {
                     GroupMessageCommand value = patternAPIEntry.getValue();
-                    if (doCheck(patternAPIEntry.getKey(), value, lowerContent, groupUid, sender, timeLong))
+                    if (doCheck(patternAPIEntry.getKey(), value, message))
                         value.doPost(message);
                 }
             }
     }
 
-    private boolean doCheck(Pattern key, GroupMessageCommand value, String lowerContent, long groupUid, String sender,
-                            long time) {
+    private boolean doCheck(Pattern key, GroupMessageCommand value, GroupMessage groupMessage) {
+        String lowerContent = groupMessage.getContent().toLowerCase();
+        long time = groupMessage.getTime().getLong(ChronoField.EPOCH_DAY);
+        String sender = groupMessage.getSenderNickName();
         if (!key.matcher(lowerContent).find()) return false;
         if (!cooling.trySet(time)) {
             if (!VariablePool.Limit_Noticed) {
                 // CUSTOM 若修改了指令最小间隔，请同步修改此处。
-                Response.responseGroup(groupUid, "@\u2005" + sender +
-                        " 对不起，您的指令超频。4s内仅能有一次指令输入，未到4s内的输入将被忽略。" +
-                        "注意：此消息仅会显示一次。");
+                groupMessage.response("@\u2005" + sender +
+                        " 对不起，您的指令超频。4s内仅能有一次指令输入，未到4s内的输入将被忽略。注意：此消息仅会显示一次。");
                 //
                 VariablePool.Limit_Noticed = true;
             }
@@ -130,8 +129,8 @@ public class MainServlet extends HttpServlet {
         }
         if (!APISurvivePool.getInstance().isSurvive(value)) {
             if (!APISurvivePool.getInstance().isNoticed(value)) {
-                Response.responseGroup(groupUid, "@\u2005" + sender +
-                        " 对不起，您调用的方法目前已被停止；注意：此消息仅会显示一次。");
+                groupMessage.response("@\u2005" + sender + " 对不起，您调用的指令响应器目前已被停止；" +
+                        "注意：此消息仅会显示一次。");
                 APISurvivePool.getInstance().setNoticed(value);
             }
             return false;
@@ -139,7 +138,7 @@ public class MainServlet extends HttpServlet {
             try {
                 if (!lowerContent.equals(new String(lowerContent
                         .getBytes("GB2312"), "GB2312"))) {
-                    Response.responseGroup(groupUid, "@\u2005" + sender + " 您的指示编码好像不对劲啊(╯︵╰,)");
+                    groupMessage.response("@\u2005" + sender + " 您的指示编码好像不对劲啊(╯︵╰,)");
                     return false;
                 }
             } catch (UnsupportedEncodingException ignore) {

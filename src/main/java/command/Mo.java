@@ -1,6 +1,5 @@
 package command;
 
-import tool.Response;
 import tool.VariablePool;
 import util.GroupMessage;
 
@@ -25,7 +24,7 @@ public class Mo extends GroupMessageCommand {
         long groupUid = message.getGroupUid();
         if (VariablePool.Mo_Reach_Max) return;
         if (VariablePool.Mo_Count >= 50) {
-            Response.responseGroup(groupUid, "哼！你们今天膜的太多啦！长者肯定会生气的！");
+            message.response("哼！你们今天膜的太多啦！长者肯定会生气的！");
             VariablePool.Mo_Reach_Max = true;
             return;
         }
@@ -37,7 +36,7 @@ public class Mo extends GroupMessageCommand {
                 "还是去弹夏威夷吉他吧！",
                 "枸杞有养生功效，古人云：枸利果佳生食宜，气阴火服必驱之",
                 "下面我们有请州长夫人演唱！"};
-        Response.responseGroup(groupUid, responseMessages[new Random().nextInt(responseMessages.length)]);
+        message.response(responseMessages[new Random().nextInt(responseMessages.length)]);
         VariablePool.Mo_Count++;
     }
 

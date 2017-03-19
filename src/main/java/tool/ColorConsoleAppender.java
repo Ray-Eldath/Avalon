@@ -5,7 +5,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 import org.fusesource.jansi.AnsiConsole;
 
-import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.Color.RED;
+import static org.fusesource.jansi.Ansi.Color.YELLOW;
 import static org.fusesource.jansi.Ansi.ansi;
 
 /**
@@ -23,11 +24,7 @@ public class ColorConsoleAppender extends AppenderSkeleton {
     protected void append(LoggingEvent event) {
         Level level = event.getLevel();
         String message = event.getRenderedMessage();
-        if (level == Level.DEBUG)
-            System.out.println(ansi().fg(CYAN).a(message).reset());
-        else if (level == Level.INFO)
-            System.out.println(ansi().fg(BLUE).a(message).reset());
-        else if (level == Level.WARN)
+        if (level == Level.WARN)
             System.out.println(ansi().fg(YELLOW).a(message).reset());
         else if (level == Level.ERROR || level == Level.FATAL)
             System.out.println(ansi().fg(RED).a(message).reset());
@@ -42,6 +39,6 @@ public class ColorConsoleAppender extends AppenderSkeleton {
 
     @Override
     public boolean requiresLayout() {
-        return false;
+        return true;
     }
 }

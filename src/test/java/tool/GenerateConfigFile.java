@@ -1,6 +1,5 @@
 package tool;
 
-import main.MainServlet;
 import org.json.JSONObject;
 
 import java.io.BufferedWriter;
@@ -36,8 +35,12 @@ public class GenerateConfigFile {
         pluginConfig.put("XiaoIce", loopUsing);
         // loopUsing.clear();
         //
-        allConfigs.put("Follow_Group_Uid", MainServlet.followGroup);
+        allConfigs.put("Follow_Group_Uid", new long[]{617118724});
+        allConfigs.put("Mojo-Webqq_API_Address", "http://127.0.0.1:5000");
+        allConfigs.put("Mojo-Webqq_POST_API_Address", "http://127.0.0.1:5050");
         allConfigs.put("Admin_Uid", new long[]{1464443139});
+        allConfigs.put("Debug", true);
+        allConfigs.put("BlackList_Uid", new long[]{});
         allConfigs.put("plugin_allowed_account", pluginAllowPeoples);
         allConfigs.put("plugin_config", pluginConfig);
     }

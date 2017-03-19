@@ -1,7 +1,6 @@
 package command;
 
 import main.MainServlet;
-import tool.Response;
 import util.GroupMessage;
 
 import java.util.Map;
@@ -29,7 +28,7 @@ public class Help extends GroupMessageCommand {
             if (helpMessage == null || "".equals(helpMessage)) continue;
             messageShow += "\n" + api.getHelpMessage();
         }
-        Response.responseGroup(message.getGroupUid(), "This is Avalon. 以下是我的帮助资料：\n" +
+        message.response("This is Avalon. 以下是我的帮助资料：\n" +
                 "<关键词>：<触发的作用效果>，所有关键词均忽略大小写并且以avalon开头" + messageShow);
         // "\n（我才不会告诉你我有一些没有写在这里的彩蛋指令呢~哈哈`(*∩_∩*)′）");
         // TODO v0.0.1正式版本记得写彩蛋

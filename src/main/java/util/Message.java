@@ -12,6 +12,8 @@ public interface Message {
 
     LocalDateTime getTime();
 
+    long getTimeLong();
+
     int getId();
 
     long getSenderUid();

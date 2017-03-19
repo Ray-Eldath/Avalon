@@ -1,11 +1,8 @@
 package command;
 
 import tool.ConfigSystem;
-import tool.Response;
 import util.GroupMessage;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -30,15 +27,15 @@ public class Echo extends GroupMessageCommand {
         String sender = message.getSenderNickName();
         String[] split = content.split(" ");
         if (split.length < 1) {
-            Response.responseGroup(group_uid, "您的指示恕我不能遵守⊙﹏⊙! 因为不合规范嘛(╯︵╰,)");
+            message.response("您的指示恕我不能遵守⊙﹏⊙! 因为不合规范嘛(╯︵╰,)");
             return;
         }
         for (long thisAllow : allowList)
             if (sender_uid == thisAllow) {
-                Response.responseGroup(group_uid, split[1]);
+                message.response(split[1]);
                 return;
             }
-        Response.responseGroup(group_uid, "@\u2005" + sender + " 您没有权限欸... ...(゜д゜)");
+        message.response("@\u2005" + sender + " 您没有权限欸... ...(゜д゜)");
     }
 
     @Override
