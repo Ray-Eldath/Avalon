@@ -5,16 +5,16 @@ package util;
  *
  * @author Eldath Ray
  */
-public class Chat {
-    private Person talker;
+public class GChat {
+    private GPerson talker;
     private String content;
 
-    public Chat(Person talker, String content) {
+    public GChat(GPerson talker, String content) {
         this.talker = talker;
         this.content = content;
     }
 
-    public Person getTalker() {
+    public GPerson getTalker() {
         return talker;
     }
 

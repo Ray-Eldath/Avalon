@@ -5,11 +5,11 @@ package util;
  *
  * @author Eldath Ray
  */
-public class Choice {
+public class GChoice {
     private int id;
-    private Option[] options;
+    private GOption[] options;
 
-    public Choice(int id, Option[] options) {
+    public GChoice(int id, GOption[] options) {
         this.id = id;
         this.options = options;
     }
@@ -18,7 +18,7 @@ public class Choice {
         return id;
     }
 
-    public Option[] getOptions() {
+    public GOption[] getOptions() {
         return options;
     }
 }

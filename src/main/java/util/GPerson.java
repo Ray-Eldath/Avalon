@@ -5,11 +5,11 @@ package util;
  *
  * @author Eldath Ray
  */
-public class Person {
+public class GPerson {
     private int Id;
     private String name;
 
-    public Person(int id, String name) {
+    GPerson(int id, String name) {
         Id = id;
         this.name = name;
     }

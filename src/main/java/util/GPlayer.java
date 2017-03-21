@@ -5,8 +5,8 @@ package util;
  *
  * @author Eldath Ray
  */
-public class Player extends Person {
-    public Player(int id, String name) {
+public class GPlayer extends GPerson {
+    public GPlayer(int id, String name) {
         super(id, name);
     }
 }

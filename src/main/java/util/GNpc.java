@@ -5,8 +5,8 @@ package util;
  *
  * @author Eldath Ray
  */
-public class NPC extends Person {
-    public NPC(int id, String name) {
+public class GNpc extends GPerson {
+    public GNpc(int id, String name) {
         super(id, name);
     }
 }

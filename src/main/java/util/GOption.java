@@ -1,17 +1,17 @@
 package util;
 
-import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 
 /**
  * Created by Eldath Ray on 2017/3/19 0019.
  *
  * @author Eldath Ray
  */
-public class Option {
+public class GOption {
     private char option;
-    private BooleanSupplier sequel;
+    private Consumer<Boolean> sequel;
 
-    public Option(char option, BooleanSupplier sequel) {
+    public GOption(char option, Consumer<Boolean> sequel) {
         this.option = option;
         this.sequel = sequel;
     }
@@ -20,7 +20,7 @@ public class Option {
         return option;
     }
 
-    public boolean doSequel() {
-        return sequel.getAsBoolean();
+    public void doSequel() {
+        sequel.accept(true);
     }
 }

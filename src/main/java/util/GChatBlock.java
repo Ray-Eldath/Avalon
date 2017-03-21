@@ -9,18 +9,18 @@ import java.util.Queue;
  *
  * @author Eldath Ray
  */
-class ChatBlock {
-    private Queue<Chat> chats = new ArrayDeque<>();
+class GChatBlock {
+    private Queue<GChat> chats = new ArrayDeque<>();
 
-    public ChatBlock(Chat... input) {
+    public GChatBlock(GChat... input) {
         Collections.addAll(chats, input);
     }
 
-    public boolean addChat(Chat chat) {
+    public boolean addChat(GChat chat) {
         return chats.add(chat);
     }
 
-    public Chat poll() {
+    public GChat poll() {
         return chats.poll();
     }
 }
