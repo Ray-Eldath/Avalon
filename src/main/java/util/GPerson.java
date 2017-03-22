@@ -6,15 +6,15 @@ package util;
  * @author Eldath Ray
  */
 public class GPerson {
-    private int Id;
+    private long Id;
     private String name;
 
-    GPerson(int id, String name) {
+    GPerson(long id, String name) {
         Id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return Id;
     }
 

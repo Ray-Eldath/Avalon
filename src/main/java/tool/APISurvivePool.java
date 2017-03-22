@@ -1,6 +1,6 @@
 package tool;
 
-import command.GroupMessageCommand;
+import command.BaseGroupMessageCommand;
 
 import java.util.HashMap;
 
@@ -10,8 +10,8 @@ import java.util.HashMap;
  * @author Eldath
  */
 public class APISurvivePool {
-    private static HashMap<GroupMessageCommand, Boolean> survive;
-    private HashMap<GroupMessageCommand, Boolean> noticed;
+    private static HashMap<BaseGroupMessageCommand, Boolean> survive;
+    private HashMap<BaseGroupMessageCommand, Boolean> noticed;
     private static APISurvivePool instance = null;
 
     public static APISurvivePool getInstance() {
@@ -24,28 +24,28 @@ public class APISurvivePool {
         noticed = new HashMap<>();
     }
 
-    public boolean containAPI(GroupMessageCommand input) {
+    public boolean containAPI(BaseGroupMessageCommand input) {
         return survive.containsKey(input);
     }
 
-    public void addAPI(GroupMessageCommand input) {
+    public void addAPI(BaseGroupMessageCommand input) {
         survive.put(input, true);
         noticed.put(input, false);
     }
 
-    public void setAPISurvive(GroupMessageCommand input, boolean state) {
+    public void setAPISurvive(BaseGroupMessageCommand input, boolean state) {
         survive.put(input, state);
     }
 
-    public boolean isSurvive(GroupMessageCommand input) {
+    public boolean isSurvive(BaseGroupMessageCommand input) {
         return survive.get(input);
     }
 
-    public boolean isNoticed(GroupMessageCommand input) {
+    public boolean isNoticed(BaseGroupMessageCommand input) {
         return noticed.get(input);
     }
 
-    public void setNoticed(GroupMessageCommand api) {
+    public void setNoticed(BaseGroupMessageCommand api) {
         noticed.put(api, true);
     }
 }

@@ -1,6 +1,6 @@
 package command;
 
-import tool.ConfigSystem;
+import data.ConfigSystem;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class TestGroup extends GroupMessageCommand {
+public class TestGroup extends BaseGroupMessageCommand {
     private static TestGroup instance = null;
 
     public static TestGroup getInstance() {

@@ -1,8 +1,8 @@
 package command;
 
+import data.ConfigSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tool.ConfigSystem;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -13,14 +13,14 @@ import java.util.regex.Pattern;
  * @author Eldath
  */
 @SuppressWarnings("ALL")
-public class Blacklist extends GroupMessageCommand {
-    private static Logger logger = LoggerFactory.getLogger(Blacklist.class);
+public class GBlacklist extends BaseGroupMessageCommand {
+    private static Logger logger = LoggerFactory.getLogger(GBlacklist.class);
     private static final long[] allowList = ConfigSystem.getInstance()
             .getCommandAllowArray("Blacklist_basic");
-    private static Blacklist instance = null;
+    private static GBlacklist instance = null;
 
-    public static Blacklist getInstance() {
-        if (instance == null) instance = new Blacklist();
+    public static GBlacklist getInstance() {
+        if (instance == null) instance = new GBlacklist();
         return instance;
     }
 
@@ -49,16 +49,16 @@ public class Blacklist extends GroupMessageCommand {
                 if ("add".equals(action)) {
                     message.response("@\u2005" + sender + " 帐号" + toBan + "现已被 阿瓦隆回答我 功能屏蔽。");
                     logger.info("Account " + toBan + " is baned by " + sender_uid + " : " + sender + ".");
-                    XiaoIce.blackList.put(toBan, 4);
+                    GXiaoIce.blackList.put(toBan, 4);
                     return;
                 } else if ("remove".equals(action)) {
-                    if (!XiaoIce.blackList.containsKey(sender_uid)) {
+                    if (!GXiaoIce.blackList.containsKey(sender_uid)) {
                         message.response("@\u2005" + sender + " 好像帐号" + toBan + "没有被屏蔽过呢-。-");
                         return;
                     }
                     message.response("@\u2005" + sender + " 帐号" + toBan + "的屏蔽已被解除(^.^)");
                     logger.info("Account " + toBan + " is allowed again by " + sender_uid + " : " + sender + ".");
-                    XiaoIce.blackList.put(toBan, 0);
+                    GXiaoIce.blackList.put(toBan, 0);
                     return;
                 } else {
                     message.response("@\u2005" + sender + " 您的指示格式不对辣！（｀Δ´）！");

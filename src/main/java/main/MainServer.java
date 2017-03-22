@@ -1,6 +1,7 @@
 package main;
 
 import command.Recorder;
+import data.ConfigSystem;
 import extend.Scheduler;
 import extend.ShowMsg;
 import org.eclipse.jetty.server.Server;
@@ -8,8 +9,8 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tool.ConfigSystem;
 import tool.ConstantPool;
+import tool.DelayResponse;
 import tool.Response;
 import tool.SQLiteDatabaseOperator;
 
@@ -77,6 +78,9 @@ public class MainServer {
             for (long thisFollowGroup : MainServlet.followGroup)
                 Response.sendToGroup(thisFollowGroup, "Avalon已经上线。");
         else logger.info("Cancel send login message.");
+        DelayResponse delayResponse = new DelayResponse();
+        delayResponse.start();
+        logger.info("DelayResponse thread is loaded.");
         logger.info("Server now running!");
         logger.error("IMPORTANCE: Please exit this system by pressed Ctrl-C, DO NOT close this window directly!");
         server.join();

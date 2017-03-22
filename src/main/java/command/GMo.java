@@ -11,11 +11,11 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class Mo extends GroupMessageCommand {
-    private static Mo instance = null;
+public class GMo extends BaseGroupMessageCommand {
+    private static GMo instance = null;
 
-    public static Mo getInstance() {
-        if (instance == null) instance = new Mo();
+    public static GMo getInstance() {
+        if (instance == null) instance = new GMo();
         return instance;
     }
 

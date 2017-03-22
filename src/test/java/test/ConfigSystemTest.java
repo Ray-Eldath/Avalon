@@ -1,6 +1,6 @@
 package test;
 
-import tool.ConfigSystem;
+import data.ConfigSystem;
 
 /**
  * Created by Eldath Ray on 2017/3/18 0018.
@@ -10,7 +10,7 @@ import tool.ConfigSystem;
 public class ConfigSystemTest {
     public static void main(String[] args) {
         long[] test = ConfigSystem.getInstance().getCommandAllowArray("CommandManager_basic");
-        System.out.println(ConfigSystem.getInstance().getCommandConfig("XiaoIce", "BlockList_Words").getClass().toString());
+        System.out.println(ConfigSystem.getInstance().getCommandConfig("GXiaoIce", "BlockList_Words").getClass().toString());
         for (Long long1 : test)
             System.out.println(long1);
     }

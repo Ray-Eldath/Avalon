@@ -1,6 +1,6 @@
 package command;
 
-import tool.ConfigSystem;
+import data.ConfigSystem;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class Echo extends GroupMessageCommand {
-    private static Echo instance = null;
+public class GEcho extends BaseGroupMessageCommand {
+    private static GEcho instance = null;
     private static final long[] allowList = ConfigSystem.getInstance().getCommandAllowArray("Echo_basic");
 
-    public static Echo getInstance() {
-        if (instance == null) instance = new Echo();
+    public static GEcho getInstance() {
+        if (instance == null) instance = new GEcho();
         return instance;
     }
 

@@ -14,11 +14,11 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class Version extends GroupMessageCommand {
-    private static Version instance = null;
+public class GVersion extends BaseGroupMessageCommand {
+    private static GVersion instance = null;
 
-    public static Version getInstance() {
-        if (instance == null) instance = new Version();
+    public static GVersion getInstance() {
+        if (instance == null) instance = new GVersion();
         return instance;
     }
 
@@ -41,8 +41,8 @@ public class Version extends GroupMessageCommand {
                     "我的名字和头像均取自《Implosion》，我的父亲是Mojo-Webqq。\n" +
                     "我由Eldath Ray进行二次开发。\n" +
                     "我在GitHub上开源，欢迎访问我的仓库：https://github.com/ProgramLeague/Avalon\n" +
-                    "Mojo-Webqq Version: " + webqqVersion + "\tMojo-Weixin Version: " + weixinVersion +
-                    "\tAvalon Version: v" + ConstantPool.Basic.Version;
+                    "Mojo-Webqq GVersion: " + webqqVersion + "\tMojo-Weixin GVersion: " + weixinVersion +
+                    "\tAvalon GVersion: v" + ConstantPool.Basic.Version;
             message.response(messageToSaid);
         } catch (IOException e) {
             e.printStackTrace();

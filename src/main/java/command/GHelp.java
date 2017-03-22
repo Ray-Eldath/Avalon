@@ -11,19 +11,19 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class Help extends GroupMessageCommand {
-    private static Help instance = null;
+public class GHelp extends BaseGroupMessageCommand {
+    private static GHelp instance = null;
 
-    public static Help getInstance() {
-        if (instance == null) instance = new Help();
+    public static GHelp getInstance() {
+        if (instance == null) instance = new GHelp();
         return instance;
     }
 
     @Override
     public void doPost(GroupMessage message) {
-        Map<Pattern, GroupMessageCommand> apiList = MainServlet.getApiList();
+        Map<Pattern, BaseGroupMessageCommand> apiList = MainServlet.getApiList();
         String messageShow = "";
-        for (GroupMessageCommand api : apiList.values()) {
+        for (BaseGroupMessageCommand api : apiList.values()) {
             String helpMessage = api.getHelpMessage();
             if (helpMessage == null || "".equals(helpMessage)) continue;
             messageShow += "\n" + api.getHelpMessage();

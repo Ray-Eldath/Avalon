@@ -9,15 +9,15 @@ import java.util.Queue;
  *
  * @author Eldath Ray
  */
-class GChatBlock {
+public class GChatBlock extends GSection {
     private Queue<GChat> chats = new ArrayDeque<>();
 
     public GChatBlock(GChat... input) {
         Collections.addAll(chats, input);
     }
 
-    public boolean addChat(GChat chat) {
-        return chats.add(chat);
+    public boolean offer(GChat chat) {
+        return chats.offer(chat);
     }
 
     public GChat poll() {

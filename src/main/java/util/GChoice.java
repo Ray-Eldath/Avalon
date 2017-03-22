@@ -5,7 +5,7 @@ package util;
  *
  * @author Eldath Ray
  */
-public class GChoice {
+public class GChoice extends GSection {
     private int id;
     private GOption[] options;
 

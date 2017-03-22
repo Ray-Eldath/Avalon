@@ -6,7 +6,7 @@ package util;
  * @author Eldath Ray
  */
 @SuppressWarnings("WeakerAccess")
-public class GReaction {
+public class GReaction extends GSection {
     private GItem A, B, product;
     private boolean reversible;
 

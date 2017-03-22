@@ -30,6 +30,10 @@ public class GRoom {
         Collections.addAll(this.itemSets, itemSets);
     }
 
+    public void setExits(List<GExit> exits) {
+        this.exits = exits;
+    }
+
     public boolean addExit(GExit exit) {
         return this.exits.add(exit);
     }
@@ -59,6 +63,6 @@ public class GRoom {
     }
 
     public List<GExit> getExits() {
-        return exits;
+        return this.exits;
     }
 }

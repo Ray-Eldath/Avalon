@@ -1,7 +1,7 @@
 package command;
 
+import data.ConfigSystem;
 import org.json.JSONArray;
-import tool.ConfigSystem;
 import tool.Response;
 import util.GroupMessage;
 
@@ -14,20 +14,20 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class XiaoIce extends GroupMessageCommand {
-    // private static final Logger logger = LoggerFactory.getLogger(XiaoIce.class);
-    private static XiaoIce instance = null;
+public class GXiaoIce extends BaseGroupMessageCommand {
+    // private static final Logger logger = LoggerFactory.getLogger(GXiaoIce.class);
+    private static GXiaoIce instance = null;
     static Map<Long, Integer> blackList = new HashMap<>();
     private static String[] blockList = getBlockList();
 
-    public static XiaoIce getInstance() {
-        if (instance == null) instance = new XiaoIce();
+    public static GXiaoIce getInstance() {
+        if (instance == null) instance = new GXiaoIce();
         return instance;
     }
 
     private static String[] getBlockList() {
         JSONArray array = (JSONArray) ConfigSystem.getInstance()
-                .getCommandConfig("XiaoIce", "BlockList_Words");
+                .getCommandConfig("GXiaoIce", "BlockList_Words");
         String[] strings = new String[array.length()];
         for (int i = 0; i < array.length(); i++)
             strings[i] = array.getString(i);
@@ -51,7 +51,7 @@ public class XiaoIce extends GroupMessageCommand {
             return;
         }
         boolean blockListEnabled = (boolean) ConfigSystem.getInstance()
-                .getCommandConfig("XiaoIce", "Uid_BlackList_Enabled");
+                .getCommandConfig("GXiaoIce", "Uid_BlackList_Enabled");
         if (blockListEnabled) {
             blackList.put(sender_uid, 0);
             if (blackList.containsKey(sender_uid))

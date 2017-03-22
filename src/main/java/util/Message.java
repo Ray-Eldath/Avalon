@@ -21,7 +21,4 @@ public interface Message {
     String getSenderNickName();
 
     void response(String reply);
-
-    @Override
-    String toString();
 }

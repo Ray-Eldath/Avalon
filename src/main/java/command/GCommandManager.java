@@ -1,10 +1,10 @@
 package command;
 
+import data.ConfigSystem;
 import main.MainServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tool.APISurvivePool;
-import tool.ConfigSystem;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -14,9 +14,9 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class CommandManager extends GroupMessageCommand {
-    private static CommandManager instance = null;
-    private static Logger logger = LoggerFactory.getLogger(CommandManager.class);
+public class GCommandManager extends BaseGroupMessageCommand {
+    private static GCommandManager instance = null;
+    private static Logger logger = LoggerFactory.getLogger(GCommandManager.class);
     private static final long[] restartAllowUid = ConfigSystem.getInstance()
             .getCommandAllowArray("CommandManager_restart");
     private static final long[] allowPeople = ConfigSystem.getInstance()
@@ -25,8 +25,8 @@ public class CommandManager extends GroupMessageCommand {
             .getCommandAllowArray("CommandManager_stop");
 
 
-    public static CommandManager getInstance() {
-        if (instance == null) instance = new CommandManager();
+    public static GCommandManager getInstance() {
+        if (instance == null) instance = new GCommandManager();
         return instance;
     }
 
@@ -46,7 +46,7 @@ public class CommandManager extends GroupMessageCommand {
                 }
                 apiName = content.toLowerCase().
                         replace("avalon commandmanager stop ", "").replace("avalon commandmanager start ", "");
-                GroupMessageCommand thisAPI = MainServlet.getAPIByKeyword(apiName);
+                BaseGroupMessageCommand thisAPI = MainServlet.getAPIByKeyword(apiName);
                 action = content.toLowerCase().
                         replace("avalon commandmanager ", "").replace(apiName, "").trim();
                 if (thisAPI == null) {
@@ -58,7 +58,7 @@ public class CommandManager extends GroupMessageCommand {
                         if (thisAllowStartUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, true);
                             message.response("@\u2005" + sender + " 您要重启的指令响应器将会重启`(*∩_∩*)′");
-                            logger.info("GroupMessageCommand " + thisAPI.getClass().getName() + " is reopened by " +
+                            logger.info("BaseGroupMessageCommand " + thisAPI.getClass().getName() + " is reopened by " +
                                     senderUid + " : " + sender + ".");
                             return;
                         }
@@ -68,7 +68,7 @@ public class CommandManager extends GroupMessageCommand {
                         if (thisStopAllowUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, false);
                             message.response("@\u2005" + sender + " 您要关闭的指令响应器将会关闭~");
-                            logger.info("GroupMessageCommand " + thisAPI.getClass().getName() + " is closed by " +
+                            logger.info("BaseGroupMessageCommand " + thisAPI.getClass().getName() + " is closed by " +
                                     senderUid + " : " + sender + ".");
                             return;
                         }

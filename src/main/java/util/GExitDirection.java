@@ -1,13 +1,29 @@
 package util;
 
 /**
- * Created by Eldath Ray on 2017/3/21.
+ * Created by Eldath Ray on 2017/3/22.
  *
  * @author Eldath Ray
  */
+@SuppressWarnings("WeakerAccess")
 public class GExitDirection {
-    public static final String UP = "上出口";
-    public static final String DOWN = "下出口";
-    public static final String LEFT = "左出口";
-    public static final String RIGHT = "右出口";
+    private String name, opposite;
+
+    public GExitDirection(String name, String opposite) {
+        this.name = name;
+        this.opposite = opposite;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getOppositeName() {
+        return opposite;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof GExitDirection && getName().equals(((GExitDirection) o).getName());
+    }
 }

@@ -7,12 +7,12 @@ import java.util.function.Consumer;
  *
  * @author Eldath Ray
  */
-public class GInteraction {
+public class GTextBox extends GSection {
     private int id;
     private String question, answer;
     private Consumer<Boolean> rightSequel, wrongSequel;
 
-    public GInteraction(int id, String question, String answer, Consumer<Boolean> rightSequel, Consumer<Boolean> wrongSequel) {
+    public GTextBox(int id, String question, String answer, Consumer<Boolean> rightSequel, Consumer<Boolean> wrongSequel) {
         this.id = id;
         this.question = question;
         this.answer = answer;
