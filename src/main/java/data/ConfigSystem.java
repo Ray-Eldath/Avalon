@@ -21,7 +21,7 @@ import java.util.Map;
 public class ConfigSystem {
     private static ConfigSystem instance = null;
     private static Map<String, Object> allConfigs = new HashMap<>();
-    private static JSONObject pluginConfig = new JSONObject();
+    private static Map<String, Object> pluginConfigs = new HashMap<>();
     private static JSONObject allCommandAllow = new JSONObject();
     private static final Logger logger = LoggerFactory.getLogger(ConfigSystem.class);
 
@@ -38,29 +38,70 @@ public class ConfigSystem {
         try {
             JSONObject object = (JSONObject) new JSONTokener(new FileReader(new File("config.json")))
                     .nextValue();
-            allConfigs = new HashMap<>(object.toMap());
+            allConfigs = jsonObjectToMap(object);
             allCommandAllow = (JSONObject) object.get("plugin_allowed_account");
-            pluginConfig = (JSONObject) object.get("plugin_config");
+            pluginConfigs = jsonObjectToMap((JSONObject) object.get("plugin_config"));
         } catch (FileNotFoundException e) {
             logger.error("Exception thrown while init ConfigSystem: ", e);
         }
     }
 
-    public Object getConfig(String key) {
-        return allConfigs.get(key);
-    }
-
-    public long[] getCommandAllowArray(String commandName) {
-        JSONArray convert = (JSONArray) allCommandAllow.get(commandName);
-        long[] result = new long[convert.length()];
-        for (int i = 0; i < result.length; i++) {
-            Object tmp = convert.get(i);
-            result[i] = ((Integer) tmp).longValue();
+    private Map<String, Object> jsonObjectToMap(JSONObject object) {
+        Map<String, Object> result = new HashMap<>();
+        JSONArray names = object.names();
+        for (int i = 0; i < object.length(); i++) {
+            String key = names.get(i).toString();
+            Object thisObject = object.get(key);
+            result.put(key, thisObject);
         }
         return result;
     }
 
+    // 没卵用？
+    /*private Object[] jsonObjectToObjectArray(JSONObject object, String key) {
+        JSONArray convert = object.getJSONArray(key);
+        Object[] result = new Object[convert.length()];
+        for (int i = 0; i < convert.length(); i++)
+            result[i] = convert.get(i);
+        return result;
+    }*/
+
+    public Object getConfig(String key) {
+        return allConfigs.get(key);
+    }
+
+    public Object[] getConfigArray(String key) {
+        JSONArray array = (JSONArray) allConfigs.get(key);
+        Object[] result = new Object[array.length()];
+        for (int i = 0; i < array.length(); i++) {
+            Object thisObject = array.get(i);
+            result[i] = thisObject;
+//            System.out.println(thisObject.getClass().getSimpleName());
+//            if (thisObject.getClass().getClass().getSimpleName().equals("Integer"))
+//                result[i] = (long) array.get(i);
+//            System.out.println(result[i].getClass().getSimpleName());
+        }
+        return result;
+    }
+
+    public long[] getCommandAllowArray(String commandName) {
+        JSONArray convert = allCommandAllow.getJSONArray(commandName);
+        long[] result = new long[convert.length()];
+        for (int i = 0; i < convert.length(); i++)
+            result[i] = convert.getLong(i);
+        return result;
+    }
+
+    @SuppressWarnings("SameParameterValue")
     public Object getCommandConfig(String commandName, String key) {
-        return pluginConfig.getJSONObject(commandName).get(key);
+        return ((JSONObject) pluginConfigs.get(commandName)).get(key);
+    }
+
+    public Object[] getCommandConfigArray(String commandName, String key) {
+        JSONArray convert = ((JSONObject) pluginConfigs.get(commandName)).getJSONArray(key);
+        Object[] result = new Object[convert.length()];
+        for (int i = 0; i < convert.length(); i++)
+            result[i] = convert.get(i);
+        return result;
     }
 }

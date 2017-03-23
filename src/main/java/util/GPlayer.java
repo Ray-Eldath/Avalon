@@ -12,11 +12,29 @@ import java.util.Map;
  */
 @SuppressWarnings("WeakerAccess")
 public class GPlayer extends GPerson {
+    private GRoom location;
+    private GPacket personalPacket;
     private List<GEvent> activatedEvents = new ArrayList<>();
     private Map<GNpc, Integer> meetNpc = new HashMap<>();
 
-    public GPlayer(int id, String name) {
+    public GPlayer(long id, String name) {
         super(id, name);
+    }
+
+    public GRoom getLocation() {
+        return location;
+    }
+
+    public GPacket getPersonalPacket() {
+        return personalPacket;
+    }
+
+    public void setLocation(GRoom location) {
+        this.location = location;
+    }
+
+    public void setPersonalPacket(GPacket personalPacket) {
+        this.personalPacket = personalPacket;
     }
 
     public List<GEvent> getActivatedEvents() {

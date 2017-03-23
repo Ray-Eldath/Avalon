@@ -1,6 +1,6 @@
 package test;
 
-import util.GExitDirections;
+import main.MainServlet;
 
 /**
  * Created by Eldath on 2017/1/29 0029.
@@ -9,6 +9,6 @@ import util.GExitDirections;
  */
 public class Test {
     public static void main(java.lang.String[] args) throws Exception {
-        GExitDirections direction = new GExitDirections();
+        System.out.println(MainServlet.followGroup[0]);
     }
 }

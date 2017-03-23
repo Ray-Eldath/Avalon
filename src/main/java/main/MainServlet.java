@@ -18,33 +18,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import static tool.ObjectArrayCaster.toLong;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
  *
  * @author Eldath
  */
-@SuppressWarnings("unchecked")
 public class MainServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
     private static Map<Pattern, BaseGroupMessageCommand> apiList = new LinkedHashMap<>();
-    public static final List<Integer> followGroup = (ArrayList<Integer>)
-            ConfigSystem.getInstance().getConfig("Follow_Group_Uid");
-    private static final List<Integer> blackListPeople = (ArrayList<Integer>)
-            ConfigSystem.getInstance().getConfig("BlackList_Uid");
-    private static final List<Integer> recordGroup = (ArrayList<Integer>)
-            ConfigSystem.getInstance().getConfig("Record_Group_Uid");
+    public static final long[] followGroup = toLong(ConfigSystem.getInstance().getConfigArray("Follow_Group_Uid"));
+    private static final long[] blackListPeople = toLong(ConfigSystem.getInstance().getConfigArray("BlackList_Uid"));
+    private static final long[] recordGroup = toLong(ConfigSystem.getInstance().getConfigArray("Record_Group_Uid"));
 
     public static Map<Pattern, BaseGroupMessageCommand> getApiList() {
         return apiList;
     }
 
-    // CUSTOM 指令最小间隔，几秒才能发出一次指令（单位：毫秒），注意同步修改下文注释处。
     private static APIRateLimit cooling = new APIRateLimit(4000L);
 
     MainServlet() {
@@ -101,7 +96,7 @@ public class MainServlet extends HttpServlet {
         long groupUid = object.getLong("group_uid");
         String group = object.get("group").toString();
         GroupMessage message = new GroupMessage(Id, timeLong, senderUid, sender, groupUid, group, content);
-        for (int thisRecordGroup : recordGroup) {
+        for (long thisRecordGroup : recordGroup) {
             if (thisRecordGroup == groupUid)
                 if ("group_message".equals(type))
                     Recorder.getInstance().recodeGroupMessage(message);

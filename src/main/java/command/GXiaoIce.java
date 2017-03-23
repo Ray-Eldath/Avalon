@@ -1,7 +1,6 @@
 package command;
 
 import data.ConfigSystem;
-import org.json.JSONArray;
 import tool.Response;
 import util.GroupMessage;
 
@@ -26,12 +25,8 @@ public class GXiaoIce extends BaseGroupMessageCommand {
     }
 
     private static String[] getBlockList() {
-        JSONArray array = (JSONArray) ConfigSystem.getInstance()
-                .getCommandConfig("GXiaoIce", "BlockList_Words");
-        String[] strings = new String[array.length()];
-        for (int i = 0; i < array.length(); i++)
-            strings[i] = array.getString(i);
-        return strings;
+        return (String[]) ConfigSystem.getInstance()
+                .getCommandConfigArray("GXiaoIce", "BlockList_Words");
     }
 
     @Override
