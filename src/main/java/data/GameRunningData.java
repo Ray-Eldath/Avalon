@@ -14,8 +14,8 @@ import java.util.List;
 public class GameRunningData {
     public static class GroupAndPlayer {
         private static int totalGroup = 0, totalPlayer = 0;
-        private static List<GGroup> groups = new ArrayList<>();
-        private static List<GPlayer> players = new ArrayList<>();
+        private static final List<GGroup> groups = new ArrayList<>();
+        private static final List<GPlayer> players = new ArrayList<>();
 
         public static List<GPlayer> getPlayers() {
             return players;
@@ -26,9 +26,37 @@ public class GameRunningData {
             return players.add(player);
         }
 
+        public static boolean isPlayerExist(long id) {
+            return players.stream().anyMatch((player -> player.getId() == id));
+        }
+
+        public static boolean isPlayerExist(String playerName) {
+            return players.stream().anyMatch((player -> player.getName().equals(playerName)));
+        }
+
+        public static GPlayer getPlayer(long uid) {
+            return players.stream().filter((player -> player.getId() == uid)).findFirst().orElse(null);
+        }
+
         public static boolean newGroup(GGroup group) {
             totalGroup++;
             return groups.add(group);
+        }
+
+        public static GGroup getGroup(int id) {
+            return groups.stream().filter((group) -> group.getId() == id).findFirst().orElse(null);
+        }
+
+        public static GGroup getGroup(String name) {
+            return groups.stream().filter((group) -> group.getName().equals(name)).findFirst().orElse(null);
+        }
+
+        public static boolean isGroupExist(String groupName) {
+            return groups.stream().anyMatch((group) -> groupName.equals(group.getName()));
+        }
+
+        public static boolean isGroupExist(int groupId) {
+            return groups.stream().anyMatch((group) -> groupId == group.getId());
         }
 
         public static boolean joinGroup(GGroup group, GPlayer player) {

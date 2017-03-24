@@ -9,9 +9,10 @@ import java.util.List;
  * @author Eldath Ray
  */
 public class GRoom {
-    private int id;
+    private final int id;
     private boolean birthplace;
-    private String name, describe;
+    private final String name;
+    private final String describe;
     private List<GItemSet> itemSets;
     private List<GPath> exits;
 
@@ -74,4 +75,6 @@ public class GRoom {
     public List<GPath> getExits() {
         return this.exits;
     }
+
+
 }

@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GEcho extends BaseGroupMessageCommand {
+public class GEcho extends BaseGroupMessageCommandRunner {
     private static GEcho instance = null;
     private static final long[] allowList = ConfigSystem.getInstance().getCommandAllowArray("Echo_basic");
 

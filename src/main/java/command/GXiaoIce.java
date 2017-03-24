@@ -13,11 +13,11 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GXiaoIce extends BaseGroupMessageCommand {
+public class GXiaoIce extends BaseGroupMessageCommandRunner {
     // private static final Logger logger = LoggerFactory.getLogger(GXiaoIce.class);
     private static GXiaoIce instance = null;
-    static Map<Long, Integer> blackList = new HashMap<>();
-    private static String[] blockList = getBlockList();
+    static final Map<Long, Integer> blackList = new HashMap<>();
+    private static final String[] blockList = getBlockList();
 
     public static GXiaoIce getInstance() {
         if (instance == null) instance = new GXiaoIce();

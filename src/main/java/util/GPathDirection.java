@@ -7,7 +7,8 @@ package util;
  */
 @SuppressWarnings("WeakerAccess")
 public class GPathDirection {
-    private String name, opposite;
+    private final String name;
+    private final String opposite;
 
     public GPathDirection(String name, String opposite) {
         this.name = name;

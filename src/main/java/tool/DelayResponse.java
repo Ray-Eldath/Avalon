@@ -11,7 +11,7 @@ import java.util.concurrent.DelayQueue;
  * @author Eldath Ray
  */
 public class DelayResponse extends Thread {
-    private DelayQueue<DelayMessage> messages = new DelayQueue<>();
+    private final DelayQueue<DelayMessage> messages = new DelayQueue<>();
 
     public boolean delay(DelayMessage message) {
         return messages.offer(message);

@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public abstract class BaseGroupMessageCommand implements BaseAPI {
+public abstract class BaseGroupMessageCommandRunner implements BaseAPI {
     public abstract void doPost(GroupMessage message);
 
     public abstract String getHelpMessage();

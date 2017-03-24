@@ -6,8 +6,8 @@ package util;
  * @author Eldath Ray
  */
 public class GChat {
-    private GPerson talker;
-    private String content;
+    private final GPerson talker;
+    private final String content;
 
     public GChat(GPerson talker, String content) {
         this.talker = talker;

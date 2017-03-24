@@ -10,7 +10,7 @@ import java.util.Queue;
  * @author Eldath Ray
  */
 public class GChatBlock extends GSection {
-    private Queue<GChat> chats = new ArrayDeque<>();
+    private final Queue<GChat> chats = new ArrayDeque<>();
 
     public GChatBlock(GChat... input) {
         Collections.addAll(chats, input);

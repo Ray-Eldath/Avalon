@@ -13,8 +13,8 @@ import java.util.List;
  * @author Eldath
  */
 public class Recorder {
-    private static List<FriendMessage> friendMessageRecord = new ArrayList<>();
-    private static List<GroupMessage> groupMessageRecord = new ArrayList<>();
+    private static final List<FriendMessage> friendMessageRecord = new ArrayList<>();
+    private static final List<GroupMessage> groupMessageRecord = new ArrayList<>();
     private static Recorder instance = null;
     private static final int MAX_RECODE_LIST_SIZE = 10;
 

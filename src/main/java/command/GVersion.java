@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GVersion extends BaseGroupMessageCommand {
+public class GVersion extends BaseGroupMessageCommandRunner {
     private static GVersion instance = null;
 
     public static GVersion getInstance() {

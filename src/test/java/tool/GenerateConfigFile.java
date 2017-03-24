@@ -17,9 +17,9 @@ import java.util.Map;
  * @since v0.0.1 Beta
  */
 public class GenerateConfigFile {
-    private static Map<String, Object> allConfigs = new HashMap<>();
-    private static Map<String, Object> pluginAllowPeoples = new HashMap<>();
-    private static Map<String, Object> pluginConfig = new HashMap<>();
+    private static final Map<String, Object> allConfigs = new HashMap<>();
+    private static final Map<String, Object> pluginAllowPeoples = new HashMap<>();
+    private static final Map<String, Object> pluginConfig = new HashMap<>();
 
     static {
         pluginAllowPeoples.put("CommandManager_basic", new long[]{951394653, 360736041, 1464443139, 704639565});
@@ -37,6 +37,8 @@ public class GenerateConfigFile {
         //
         allConfigs.put("Follow_Group_Uid", new long[]{617118724});
         allConfigs.put("Record_Group_Uid", new long[]{399863405, 617118724});
+        allConfigs.put("Game_Mode_Enabled", true);
+        allConfigs.put("Game_Mode_Enabled_Group_Uid", new long[]{617118724});
         allConfigs.put("Mojo-Webqq_API_Address", "http://127.0.0.1:5000");
         allConfigs.put("Mojo-Webqq_POST_API_Address", "http://127.0.0.1:5050");
         allConfigs.put("Mojo-Weixin_API_Address", "http://127.0.0.1:3500");

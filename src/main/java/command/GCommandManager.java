@@ -14,9 +14,9 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GCommandManager extends BaseGroupMessageCommand {
+public class GCommandManager extends BaseGroupMessageCommandRunner {
     private static GCommandManager instance = null;
-    private static Logger logger = LoggerFactory.getLogger(GCommandManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(GCommandManager.class);
     private static final long[] restartAllowUid = ConfigSystem.getInstance()
             .getCommandAllowArray("CommandManager_restart");
     private static final long[] allowPeople = ConfigSystem.getInstance()
@@ -46,7 +46,7 @@ public class GCommandManager extends BaseGroupMessageCommand {
                 }
                 apiName = content.toLowerCase().
                         replace("avalon commandmanager stop ", "").replace("avalon commandmanager start ", "");
-                BaseGroupMessageCommand thisAPI = MainServlet.getAPIByKeyword(apiName);
+                BaseGroupMessageCommandRunner thisAPI = MainServlet.getAPIByKeyword(apiName);
                 action = content.toLowerCase().
                         replace("avalon commandmanager ", "").replace(apiName, "").trim();
                 if (thisAPI == null) {
@@ -58,7 +58,7 @@ public class GCommandManager extends BaseGroupMessageCommand {
                         if (thisAllowStartUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, true);
                             message.response("@\u2005" + sender + " 您要重启的指令响应器将会重启`(*∩_∩*)′");
-                            logger.info("BaseGroupMessageCommand " + thisAPI.getClass().getName() + " is reopened by " +
+                            logger.info("BaseGroupMessageCommandRunner " + thisAPI.getClass().getName() + " is reopened by " +
                                     senderUid + " : " + sender + ".");
                             return;
                         }
@@ -68,7 +68,7 @@ public class GCommandManager extends BaseGroupMessageCommand {
                         if (thisStopAllowUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, false);
                             message.response("@\u2005" + sender + " 您要关闭的指令响应器将会关闭~");
-                            logger.info("BaseGroupMessageCommand " + thisAPI.getClass().getName() + " is closed by " +
+                            logger.info("BaseGroupMessageCommandRunner " + thisAPI.getClass().getName() + " is closed by " +
                                     senderUid + " : " + sender + ".");
                             return;
                         }

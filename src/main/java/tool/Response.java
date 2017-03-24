@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class Response {
     private static final Logger logger = LoggerFactory.getLogger(Response.class);
-    private static List<String> replaceList = new ArrayList<>();
+    private static final List<String> replaceList = new ArrayList<>();
 
     static {
         replaceList.add("小怪冰");

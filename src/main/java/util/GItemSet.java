@@ -10,7 +10,7 @@ import java.util.List;
  * @author Eldath Ray
  */
 public class GItemSet {
-    private GItem parentItem;
+    private final GItem parentItem;
     private List<GItem> sonItems = new ArrayList<>();
 
     public GItemSet(GItem parentItem, List<GItem> sonItems) {

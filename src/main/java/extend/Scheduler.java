@@ -13,7 +13,7 @@ import java.util.TreeMap;
  * @author Eldath
  */
 public class Scheduler extends Thread {
-    private static TreeMap<LocalDateTime, Task> allTask = new TreeMap<>();
+    private static final TreeMap<LocalDateTime, Task> allTask = new TreeMap<>();
     private static final Logger logger = LoggerFactory.getLogger(Scheduler.class);
 
     static void scheduleTask(LocalDateTime runTime, Task doWhat) {

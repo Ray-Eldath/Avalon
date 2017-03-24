@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @author Eldath
  */
 public class MainServer {
-    private static Logger logger = LoggerFactory.getLogger(MainServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(MainServer.class);
 
     static class atShutdownDo extends Thread {
         @Override

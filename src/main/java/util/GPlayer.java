@@ -14,8 +14,8 @@ import java.util.Map;
 public class GPlayer extends GPerson {
     private GRoom location;
     private GPacket personalPacket;
-    private List<GEvent> activatedEvents = new ArrayList<>();
-    private Map<GNpc, Integer> meetNpc = new HashMap<>();
+    private final List<GEvent> activatedEvents = new ArrayList<>();
+    private final Map<GNpc, Integer> meetNpc = new HashMap<>();
 
     public GPlayer(long id, String name) {
         super(id, name);

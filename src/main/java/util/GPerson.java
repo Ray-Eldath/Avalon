@@ -6,8 +6,8 @@ package util;
  * @author Eldath Ray
  */
 public class GPerson {
-    private long Id;
-    private String name;
+    private final long Id;
+    private final String name;
 
     GPerson(long id, String name) {
         Id = id;

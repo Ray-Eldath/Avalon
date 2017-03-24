@@ -6,8 +6,8 @@ package util;
  * @author Eldath Ray
  */
 public class GChoice extends GSection {
-    private int id;
-    private GOption[] options;
+    private final int id;
+    private final GOption[] options;
 
     public GChoice(int id, GOption[] options) {
         this.id = id;

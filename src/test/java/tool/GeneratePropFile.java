@@ -17,7 +17,7 @@ import java.util.Map;
  * @author Eldath
  */
 public class GeneratePropFile {
-    private static Map<String, String> schedule = new HashMap<>();
+    private static final Map<String, String> schedule = new HashMap<>();
     private static final String nowYear = String.valueOf(LocalDate.now().getYear());
 
     static {

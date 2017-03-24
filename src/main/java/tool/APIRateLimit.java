@@ -8,7 +8,7 @@ package tool;
 public class APIRateLimit {
     private long timestamp = 0L;
 
-    private long duration;
+    private final long duration;
 
     public APIRateLimit(long duration) {
         this.duration = duration;

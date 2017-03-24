@@ -2,12 +2,15 @@ package main;
 
 import command.*;
 import data.ConfigSystem;
+import extend.BaseGameCommandRunner;
+import extend.GRegister;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tool.APIRateLimit;
 import tool.APISurvivePool;
+import tool.ConstantPool;
 import tool.VariablePool;
 import util.FriendMessage;
 import util.GroupMessage;
@@ -31,20 +34,26 @@ import static tool.ObjectCaster.toLongArray;
  */
 public class MainServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
-    private static Map<Pattern, BaseGroupMessageCommand> apiList = new LinkedHashMap<>();
-    public static final long[] followGroup = toLongArray(ConfigSystem.getInstance().getConfigArray("Follow_Group_Uid"));
-    private static final long[] blackListPeople = toLongArray(ConfigSystem.getInstance().getConfigArray("BlackList_Uid"));
-    private static final long[] recordGroup = toLongArray(ConfigSystem.getInstance().getConfigArray("Record_Group_Uid"));
+    private static final Map<Pattern, BaseGroupMessageCommandRunner> apiList = new LinkedHashMap<>();
+    private static final Map<Pattern, BaseGameCommandRunner> gameApiList = new LinkedHashMap<>();
+    public static final long[] followGroup = toLongArray(ConfigSystem
+            .getInstance().getConfigArray("Follow_Group_Uid"));
+    private static final long[] gameModeAllowedGroup = toLongArray(ConfigSystem
+            .getInstance().getConfigArray("Game_Mode_Enabled_Group_Uid"));
+    private static final long[] blackListPeople = toLongArray(ConfigSystem
+            .getInstance().getConfigArray("BlackList_Uid"));
+    private static final long[] recordGroup = toLongArray(ConfigSystem
+            .getInstance().getConfigArray("Record_Group_Uid"));
 
-    public static Map<Pattern, BaseGroupMessageCommand> getApiList() {
+    public static Map<Pattern, BaseGroupMessageCommandRunner> getApiList() {
         return apiList;
     }
 
-    private static APIRateLimit cooling = new APIRateLimit(4000L);
+    private static final APIRateLimit cooling = new APIRateLimit(3000L);
 
     MainServlet() {
-        // CUSTOM 注意：此处configure的顺序决定优先级。
-        // 开发者非常不建议修改此处内容，容易造成奇怪的问题。
+        gameApiList.put(GRegister.getInstance().getKeyWordRegex(), GRegister.getInstance());
+        //
         MainServlet.configure(TestGroup.getInstance().getKeyWordRegex(), TestGroup.getInstance());
         MainServlet.configure(GCommandManager.getInstance().getKeyWordRegex(), GCommandManager.getInstance());
         MainServlet.configure(GBlacklist.getInstance().getKeyWordRegex(), GBlacklist.getInstance());
@@ -56,17 +65,17 @@ public class MainServlet extends HttpServlet {
     }
 
 
-    public static BaseGroupMessageCommand getAPIByKeyword(String keyword) {
-        for (Map.Entry<Pattern, BaseGroupMessageCommand> patternAPIEntry : apiList.entrySet()) {
+    public static BaseGroupMessageCommandRunner getAPIByKeyword(String keyword) {
+        for (Map.Entry<Pattern, BaseGroupMessageCommandRunner> patternAPIEntry : apiList.entrySet()) {
             Pattern key = patternAPIEntry.getKey();
-            BaseGroupMessageCommand value = patternAPIEntry.getValue();
+            BaseGroupMessageCommandRunner value = patternAPIEntry.getValue();
             if (key.matcher(keyword).find())
                 return value;
         }
         return null;
     }
 
-    private static void configure(Pattern regex, BaseGroupMessageCommand api) {
+    private static void configure(Pattern regex, BaseGroupMessageCommandRunner api) {
         apiList.put(regex, api);
         APISurvivePool.getInstance().addAPI(api);
     }
@@ -96,22 +105,37 @@ public class MainServlet extends HttpServlet {
         long groupUid = object.getLong("group_uid");
         String group = object.get("group").toString();
         GroupMessage message = new GroupMessage(Id, timeLong, senderUid, sender, groupUid, group, content);
-        for (long thisRecordGroup : recordGroup) {
+        if (!checkEncode(content.toLowerCase(), message)) return;
+        for (long thisRecordGroup : recordGroup)
             if (thisRecordGroup == groupUid)
                 if ("group_message".equals(type))
                     Recorder.getInstance().recodeGroupMessage(message);
-        }
         for (long thisFollowGroup : followGroup)
             if (groupUid == thisFollowGroup) {
-                for (Map.Entry<Pattern, BaseGroupMessageCommand> patternAPIEntry : apiList.entrySet()) {
-                    BaseGroupMessageCommand value = patternAPIEntry.getValue();
+                for (Map.Entry<Pattern, BaseGroupMessageCommandRunner> patternAPIEntry : apiList.entrySet()) {
+                    BaseGroupMessageCommandRunner value = patternAPIEntry.getValue();
                     if (doCheck(patternAPIEntry.getKey(), value, message))
                         value.doPost(message);
                 }
             }
+        if (ConstantPool.GameMode.IsEnabled)
+            for (long thisGameModeGroup : gameModeAllowedGroup)
+                if (groupUid == thisGameModeGroup)
+                    for (Map.Entry<Pattern, BaseGameCommandRunner> gameApiListEntry : gameApiList.entrySet())
+                        gameApiListEntry.getValue().doPost(message);
     }
 
-    private boolean doCheck(Pattern key, BaseGroupMessageCommand value, GroupMessage groupMessage) {
+    private boolean checkEncode(String content, GroupMessage message) {
+        try {
+            if (!content.equals(new String(content.getBytes("GB2312"), "GB2312")))
+                message.response("@\u2005" + message.getSenderNickName() + " 您的指示编码好像不对劲啊╮(╯_╰)╭");
+            return false;
+        } catch (UnsupportedEncodingException ignore) {
+        }
+        return true;
+    }
+
+    private boolean doCheck(Pattern key, BaseGroupMessageCommandRunner value, GroupMessage groupMessage) {
         String lowerContent = groupMessage.getContent().toLowerCase();
         long time = groupMessage.getTimeLong();
         String sender = groupMessage.getSenderNickName();
@@ -119,7 +143,7 @@ public class MainServlet extends HttpServlet {
         if (!cooling.trySet(time)) {
             if (!VariablePool.Limit_Noticed) {
                 groupMessage.response("@\u2005" + sender +
-                        " 对不起，您的指令超频。4s内仅能有一次指令输入，未到4s内的输入将被忽略。注意：此消息仅会显示一次。");
+                        " 对不起，您的指令超频。3s内仅能有一次指令输入，未到3s内的输入将被忽略。注意：此消息仅会显示一次。");
                 VariablePool.Limit_Noticed = true;
             }
             return false;
@@ -131,16 +155,7 @@ public class MainServlet extends HttpServlet {
                 APISurvivePool.getInstance().setNoticed(value);
             }
             return false;
-        } else {
-            try {
-                if (!lowerContent.equals(new String(lowerContent
-                        .getBytes("GB2312"), "GB2312"))) {
-                    groupMessage.response("@\u2005" + sender + " 您的指示编码好像不对劲啊(╯︵╰,)");
-                    return false;
-                }
-            } catch (UnsupportedEncodingException ignore) {
-            }
-            return true;
         }
+        return true;
     }
 }

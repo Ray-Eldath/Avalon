@@ -18,7 +18,8 @@ public class FriendMessage implements Message {
     private final int id;
     private final LocalDateTime time;
     private final long senderUid, timeLong;
-    private String senderNickName, content;
+    private final String senderNickName;
+    private final String content;
 
     public FriendMessage(int id, LocalDateTime time, long senderUid, String senderNickName, String content) {
         this.id = id;

@@ -9,6 +9,6 @@ import util.GOption;
  */
 public class GameSystemTest {
     public static void main(String[] args) {
-        new GOption('A', (a) -> System.out.println("Hello World!"));
+        new GOption('A', "", (a) -> System.out.println("Hello World!"));
     }
 }

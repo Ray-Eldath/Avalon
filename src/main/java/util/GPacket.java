@@ -9,7 +9,8 @@ import java.util.List;
  * @author Eldath Ray
  */
 public class GPacket {
-    private List<GItem> items;
+    private final List<GItem> items;
+    private int money;
 
     public GPacket(List<GItem> items) {
         this.items = items;
@@ -23,11 +24,23 @@ public class GPacket {
         return items;
     }
 
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public void plusMoney(int money) {
+        this.money += money;
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (GItem thisItem : items)
             stringBuilder.append(thisItem.toString()).append("\n");
-        return "背包中的物品有\n：" + stringBuilder.toString();
+        return "金币总数：" + money + "个\n背包中的物品有\n：" + stringBuilder.toString();
     }
 }

@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class TestGroup extends BaseGroupMessageCommand {
+public class TestGroup extends BaseGroupMessageCommandRunner {
     private static TestGroup instance = null;
 
     public static TestGroup getInstance() {

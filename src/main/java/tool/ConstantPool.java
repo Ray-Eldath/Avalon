@@ -25,4 +25,8 @@ public class ConstantPool {
     public static class Basic {
         public static final String Version = "0.0.1 Beta";
     }
+
+    public static class GameMode {
+        public static final boolean IsEnabled = (boolean) ConfigSystem.getInstance().getConfig("Game_Mode_Enabled");
+    }
 }

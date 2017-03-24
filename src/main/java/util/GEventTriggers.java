@@ -12,8 +12,8 @@ public class GEventTriggers {
     }
 
     public static class MEET_NPC extends GEventTrigger {
-        private int meetTime;
-        private GNpc target;
+        private final int meetTime;
+        private final GNpc target;
 
         public MEET_NPC(int meetTime, GNpc target) {
             this.meetTime = meetTime;
@@ -30,7 +30,7 @@ public class GEventTriggers {
     }
 
     public static class PICK_ITEM extends GEventTrigger {
-        private GItem item;
+        private final GItem item;
 
         public PICK_ITEM(GItem item) {
             this.item = item;
@@ -42,7 +42,7 @@ public class GEventTriggers {
     }
 
     public static class INTO_ROOM extends GEventTrigger {
-        private GRoom room;
+        private final GRoom room;
 
         public INTO_ROOM(GRoom room) {
             this.room = room;

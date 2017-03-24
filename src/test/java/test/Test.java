@@ -1,6 +1,6 @@
 package test;
 
-import main.MainServlet;
+import tool.ConstantPool;
 
 /**
  * Created by Eldath on 2017/1/29 0029.
@@ -9,6 +9,6 @@ import main.MainServlet;
  */
 public class Test {
     public static void main(java.lang.String[] args) throws Exception {
-        System.out.println(MainServlet.followGroup[0]);
+        System.out.println(ConstantPool.GameMode.IsEnabled);
     }
 }

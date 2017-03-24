@@ -10,7 +10,7 @@ import java.util.Queue;
  * @author Eldath Ray
  */
 public class GEvent {
-    private GEventTrigger trigger;
+    private final GEventTrigger trigger;
     private Queue<GSection> sections = new ArrayDeque<>();
 
     public GEvent(GEventTrigger trigger, Queue<GSection> sections) {

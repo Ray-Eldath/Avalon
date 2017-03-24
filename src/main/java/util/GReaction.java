@@ -7,8 +7,10 @@ package util;
  */
 @SuppressWarnings("WeakerAccess")
 public class GReaction {
-    private GItem A, B, product;
-    private boolean reversible;
+    private final GItem A;
+    private final GItem B;
+    private final GItem product;
+    private final boolean reversible;
 
     public GReaction(GItem a, GItem b, GItem product, boolean reversible) {
         A = a;

@@ -8,9 +8,9 @@ import java.util.function.Consumer;
  * @author Eldath Ray
  */
 public class GOption {
-    private char option;
-    private String question;
-    private Consumer<Boolean> sequel;
+    private final char option;
+    private final String question;
+    private final Consumer<Boolean> sequel;
 
     public GOption(char option, String question, Consumer<Boolean> sequel) {
         this.option = option;

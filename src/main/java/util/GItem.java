@@ -11,8 +11,9 @@ import java.util.List;
  */
 @SuppressWarnings("WeakerAccess")
 public class GItem {
-    private int id;
-    private String name, describe;
+    private final int id;
+    private final String name;
+    private final String describe;
     private List<GReaction> reactions = new ArrayList<>();
 
     public GItem(int id, String name, String describe) {

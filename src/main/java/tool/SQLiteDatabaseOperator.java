@@ -17,7 +17,7 @@ import java.sql.Statement;
  */
 public class SQLiteDatabaseOperator implements DatabaseOperator {
     private static SQLiteDatabaseOperator instance = null;
-    private static Logger logger = LoggerFactory.getLogger(SQLiteDatabaseOperator.class);
+    private static final Logger logger = LoggerFactory.getLogger(SQLiteDatabaseOperator.class);
     private Statement statement;
 
     public static SQLiteDatabaseOperator getInstance() {

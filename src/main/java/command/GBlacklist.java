@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * @author Eldath
  */
 @SuppressWarnings("ALL")
-public class GBlacklist extends BaseGroupMessageCommand {
+public class GBlacklist extends BaseGroupMessageCommandRunner {
     private static Logger logger = LoggerFactory.getLogger(GBlacklist.class);
     private static final long[] allowList = ConfigSystem.getInstance()
             .getCommandAllowArray("Blacklist_basic");

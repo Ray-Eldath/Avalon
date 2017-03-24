@@ -11,10 +11,10 @@ import java.util.List;
  */
 @SuppressWarnings("WeakerAccess")
 public class GGroup {
-    private int id;
-    private String name;
+    private final int id;
+    private final String name;
     private List<GPlayer> players = new ArrayList<>();
-    private GPacket packet;
+    private final GPacket packet;
 
     public GGroup(int id, String name, GPacket packet) {
         this.id = id;

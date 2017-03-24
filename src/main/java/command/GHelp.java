@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GHelp extends BaseGroupMessageCommand {
+public class GHelp extends BaseGroupMessageCommandRunner {
     private static GHelp instance = null;
 
     public static GHelp getInstance() {
@@ -21,12 +21,12 @@ public class GHelp extends BaseGroupMessageCommand {
 
     @Override
     public void doPost(GroupMessage message) {
-        Map<Pattern, BaseGroupMessageCommand> apiList = MainServlet.getApiList();
-        String messageShow = "";
-        for (BaseGroupMessageCommand api : apiList.values()) {
+        Map<Pattern, BaseGroupMessageCommandRunner> apiList = MainServlet.getApiList();
+        StringBuilder messageShow = new StringBuilder();
+        for (BaseGroupMessageCommandRunner api : apiList.values()) {
             String helpMessage = api.getHelpMessage();
             if (helpMessage == null || "".equals(helpMessage)) continue;
-            messageShow += "\n" + api.getHelpMessage();
+            messageShow.append("\n").append(api.getHelpMessage());
         }
         message.response("This is Avalon. 以下是我的帮助资料：\n" +
                 "<关键词>：<触发的作用效果>，所有关键词均忽略大小写并且以avalon开头" + messageShow);

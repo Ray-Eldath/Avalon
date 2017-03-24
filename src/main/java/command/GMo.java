@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GMo extends BaseGroupMessageCommand {
+public class GMo extends BaseGroupMessageCommandRunner {
     private static GMo instance = null;
 
     public static GMo getInstance() {

@@ -10,9 +10,10 @@ import java.util.function.Supplier;
  * @author Eldath Ray
  */
 public class DelayMessage implements Delayed {
-    private long delaySecond, delaySecondEpoch;
-    private Message message;
-    private Supplier<String> doWhat;
+    private final long delaySecond;
+    private final long delaySecondEpoch;
+    private final Message message;
+    private final Supplier<String> doWhat;
 
     public DelayMessage(long delaySecond, Message message, Supplier<String> doWhat) {
         this.delaySecond = delaySecond;

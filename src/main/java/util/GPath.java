@@ -8,10 +8,11 @@ import data.GameData;
  * @author Eldath Ray
  */
 public class GPath {
-    private GRoom from, to;
-    private GPathDirection exitDirection;
-    private boolean reversible;
-    private int moveDelaySecond;
+    private final GRoom from;
+    private final GRoom to;
+    private final GPathDirection exitDirection;
+    private final boolean reversible;
+    private final int moveDelaySecond;
 
     public GPath(GRoom from, GRoom to, GPathDirection exitDirection, int moveDelaySecond, boolean reversible) {
         this.from = from;
