@@ -21,4 +21,12 @@ public class GChoice extends GSection {
     public GOption[] getOptions() {
         return options;
     }
+
+    @Override
+    public String getString() {
+        StringBuilder string = new StringBuilder();
+        for (GOption thisOption : options)
+            string.append(thisOption.getOption()).append(". ").append(thisOption.getQuestion()).append("\n");
+        return "请选择：\n" + string.toString();
+    }
 }

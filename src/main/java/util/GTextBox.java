@@ -39,4 +39,9 @@ public class GTextBox extends GSection {
     public Consumer<Boolean> getWrongSequel() {
         return wrongSequel;
     }
+
+    @Override
+    public String getString() {
+        return "请键入您的回答：\n" + question;
+    }
 }

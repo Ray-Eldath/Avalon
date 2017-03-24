@@ -5,5 +5,5 @@ package util;
  *
  * @author Eldath Ray
  */
-public class GEventTrigger {
+class GEventTrigger {
 }

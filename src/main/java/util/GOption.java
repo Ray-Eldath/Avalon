@@ -9,15 +9,21 @@ import java.util.function.Consumer;
  */
 public class GOption {
     private char option;
+    private String question;
     private Consumer<Boolean> sequel;
 
-    public GOption(char option, Consumer<Boolean> sequel) {
+    public GOption(char option, String question, Consumer<Boolean> sequel) {
         this.option = option;
+        this.question = question;
         this.sequel = sequel;
     }
 
     public char getOption() {
         return option;
+    }
+
+    public String getQuestion() {
+        return question;
     }
 
     public void doSequel() {

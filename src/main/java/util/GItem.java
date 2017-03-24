@@ -57,4 +57,9 @@ public class GItem {
     public List<GReaction> getReactions() {
         return reactions;
     }
+
+    @Override
+    public String toString() {
+        return "物品 No." + id + " " + name + "：" + describe;
+    }
 }

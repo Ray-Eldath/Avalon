@@ -1,6 +1,8 @@
 package util;
 
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Eldath Ray on 2017/3/21.
@@ -10,24 +12,33 @@ import java.util.stream.Stream;
 @SuppressWarnings("WeakerAccess")
 public class GGroup {
     private int id;
-    private Stream<GPlayer> players;
+    private List<GPlayer> players = new ArrayList<>();
     private GPacket packet;
 
-    public GGroup(int id, Stream<GPlayer> players, GPacket packet) {
+    private void basic(int id, GPacket packet) {
         this.id = id;
-        this.players = players;
         this.packet = packet;
     }
 
-    public GGroup(int id, GPlayer[] players, GPacket packet) {
-        this(id, Stream.of(players), packet);
+    public GGroup(int id, GPacket packet, List<GPlayer> players) {
+        basic(id, packet);
+        this.players = players;
+    }
+
+    public GGroup(int id, GPacket packet, GPlayer[] players) {
+        basic(id, packet);
+        Collections.addAll(this.players, players);
     }
 
     public int getId() {
         return id;
     }
 
-    public Stream<GPlayer> getPlayers() {
+    public boolean addPlayer(GPlayer player) {
+        return players.add(player);
+    }
+
+    public List<GPlayer> getPlayers() {
         return players;
     }
 

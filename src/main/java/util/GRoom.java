@@ -10,9 +10,10 @@ import java.util.List;
  */
 public class GRoom {
     private int id;
+    private boolean birthplace;
     private String name, describe;
     private List<GItemSet> itemSets;
-    private List<GExit> exits;
+    private List<GPath> exits;
 
     private GRoom(int id, String name, String describe) {
         this.id = id;
@@ -30,20 +31,28 @@ public class GRoom {
         Collections.addAll(this.itemSets, itemSets);
     }
 
-    public void setExits(List<GExit> exits) {
+    public void setExits(List<GPath> exits) {
         this.exits = exits;
     }
 
-    public boolean addExit(GExit exit) {
+    public boolean addExit(GPath exit) {
         return this.exits.add(exit);
     }
 
-    public boolean addExit(GExit[] exitArray) {
+    public boolean addExit(GPath[] exitArray) {
         return Collections.addAll(this.exits, exitArray);
     }
 
-    public boolean addExit(List<GExit> exitList) {
+    public boolean addExit(List<GPath> exitList) {
         return this.exits.addAll(exitList);
+    }
+
+    public boolean isBirthplace() {
+        return birthplace;
+    }
+
+    public void setBirthplace(boolean birthplace) {
+        this.birthplace = birthplace;
     }
 
     public int getId() {
@@ -62,7 +71,7 @@ public class GRoom {
         return itemSets;
     }
 
-    public List<GExit> getExits() {
+    public List<GPath> getExits() {
         return this.exits;
     }
 }

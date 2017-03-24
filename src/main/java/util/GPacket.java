@@ -17,4 +17,12 @@ public class GPacket {
     public List<GItem> getItems() {
         return items;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (GItem thisItem : items)
+            stringBuilder.append(thisItem.toString()).append("\n");
+        return "背包中的物品有\n：" + stringBuilder.toString();
+    }
 }

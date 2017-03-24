@@ -5,5 +5,6 @@ package util;
  *
  * @author Eldath Ray
  */
-public class GSection {
+public abstract class GSection {
+    public abstract String getString();
 }

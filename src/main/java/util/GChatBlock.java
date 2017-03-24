@@ -23,4 +23,9 @@ public class GChatBlock extends GSection {
     public GChat poll() {
         return chats.poll();
     }
+
+    @Override
+    public String getString() {
+        throw new UnsupportedOperationException("please use method \"poll\" instead.");
+    }
 }

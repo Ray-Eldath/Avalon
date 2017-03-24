@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static tool.ObjectArrayCaster.toLong;
+import static tool.ObjectCaster.toLongArray;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -32,9 +32,9 @@ import static tool.ObjectArrayCaster.toLong;
 public class MainServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
     private static Map<Pattern, BaseGroupMessageCommand> apiList = new LinkedHashMap<>();
-    public static final long[] followGroup = toLong(ConfigSystem.getInstance().getConfigArray("Follow_Group_Uid"));
-    private static final long[] blackListPeople = toLong(ConfigSystem.getInstance().getConfigArray("BlackList_Uid"));
-    private static final long[] recordGroup = toLong(ConfigSystem.getInstance().getConfigArray("Record_Group_Uid"));
+    public static final long[] followGroup = toLongArray(ConfigSystem.getInstance().getConfigArray("Follow_Group_Uid"));
+    private static final long[] blackListPeople = toLongArray(ConfigSystem.getInstance().getConfigArray("BlackList_Uid"));
+    private static final long[] recordGroup = toLongArray(ConfigSystem.getInstance().getConfigArray("Record_Group_Uid"));
 
     public static Map<Pattern, BaseGroupMessageCommand> getApiList() {
         return apiList;

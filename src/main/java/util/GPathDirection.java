@@ -6,10 +6,10 @@ package util;
  * @author Eldath Ray
  */
 @SuppressWarnings("WeakerAccess")
-public class GExitDirection {
+public class GPathDirection {
     private String name, opposite;
 
-    public GExitDirection(String name, String opposite) {
+    public GPathDirection(String name, String opposite) {
         this.name = name;
         this.opposite = opposite;
     }
@@ -24,6 +24,6 @@ public class GExitDirection {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof GExitDirection && getName().equals(((GExitDirection) o).getName());
+        return o instanceof GPathDirection && getName().equals(((GPathDirection) o).getName());
     }
 }

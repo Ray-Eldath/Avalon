@@ -7,24 +7,24 @@ import data.GameData;
  *
  * @author Eldath Ray
  */
-public class GExit {
+public class GPath {
     private GRoom from, to;
-    private GExitDirection exitDirection;
+    private GPathDirection exitDirection;
     private boolean reversible;
     private int moveDelaySecond;
 
-    public GExit(GRoom from, GRoom to, GExitDirection exitDirection, int moveDelaySecond, boolean reversible) {
+    public GPath(GRoom from, GRoom to, GPathDirection exitDirection, int moveDelaySecond, boolean reversible) {
         this.from = from;
         this.to = to;
         this.exitDirection = exitDirection;
         this.reversible = reversible;
         this.moveDelaySecond = moveDelaySecond;
-        GameData.addExit(this);
+        GameData.Map.addPath(this);
         if (reversible)
-            GameData.addExit(new GExit(to, from, GExitDirections.getOpposite(exitDirection), moveDelaySecond));
+            GameData.Map.addPath(new GPath(to, from, GPathDirections.getOpposite(exitDirection), moveDelaySecond));
     }
 
-    public GExit(GRoom from, GRoom to, GExitDirection exitDirection, int moveDelaySecond) {
+    public GPath(GRoom from, GRoom to, GPathDirection exitDirection, int moveDelaySecond) {
         this(from, to, exitDirection, moveDelaySecond, false);
     }
 
@@ -36,7 +36,7 @@ public class GExit {
         return to;
     }
 
-    public GExitDirection getExitDirection() {
+    public GPathDirection getExitDirection() {
         return exitDirection;
     }
 
