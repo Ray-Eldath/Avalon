@@ -12,30 +12,37 @@ import java.util.List;
 @SuppressWarnings("WeakerAccess")
 public class GGroup {
     private int id;
+    private String name;
     private List<GPlayer> players = new ArrayList<>();
     private GPacket packet;
 
-    private void basic(int id, GPacket packet) {
+    public GGroup(int id, String name, GPacket packet) {
         this.id = id;
+        this.name = name;
         this.packet = packet;
     }
 
-    public GGroup(int id, GPacket packet, List<GPlayer> players) {
-        basic(id, packet);
+    public GGroup(int id, String name, GPacket packet, List<GPlayer> players) {
+        this(id, name, packet);
         this.players = players;
     }
 
-    public GGroup(int id, GPacket packet, GPlayer[] players) {
-        basic(id, packet);
+    public GGroup(int id, String name, GPacket packet, GPlayer[] players) {
+        this(id, name, packet);
         Collections.addAll(this.players, players);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getId() {
         return id;
     }
 
-    public boolean addPlayer(GPlayer player) {
-        return players.add(player);
+    public GGroup addPlayer(GPlayer player) {
+        players.add(player);
+        return this;
     }
 
     public List<GPlayer> getPlayers() {

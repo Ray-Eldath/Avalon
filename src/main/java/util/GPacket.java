@@ -1,5 +1,6 @@
 package util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +13,10 @@ public class GPacket {
 
     public GPacket(List<GItem> items) {
         this.items = items;
+    }
+
+    public GPacket() {
+        this.items = new ArrayList<>();
     }
 
     public List<GItem> getItems() {
