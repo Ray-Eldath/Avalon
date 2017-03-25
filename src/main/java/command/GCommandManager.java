@@ -23,6 +23,8 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
             .getCommandAllowArray("CommandManager_basic");
     private static final long[] stopAllowUid = ConfigSystem.getInstance()
             .getCommandAllowArray("CommandManager_stop");
+    private static final BaseGroupMessageCommandRunner[] canNotBanAPI =
+            new BaseGroupMessageCommandRunner[]{GShutdown.getInstance()};
 
 
     public static GCommandManager getInstance() {
@@ -35,7 +37,6 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
         String content = message.getContent();
         String sender = message.getSenderNickName();
         long senderUid = message.getSenderUid();
-        long groupUid = message.getGroupUid();
         String action, apiName;
         for (long thisFollowFriend : allowPeople)
             if (senderUid == thisFollowFriend) {
@@ -53,6 +54,11 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
                     message.response("@\u2005" + sender + " 您要操作的指令响应器根本不存在！(╯︵╰,)");
                     return;
                 }
+                for (BaseGroupMessageCommandRunner thisCanNotBanRunner : canNotBanAPI)
+                    if (thisAPI.equals(thisCanNotBanRunner)) {
+                        message.response("@" + sender + "您要操作的指令响应器可不能被禁止啊！(´Д` )");
+                        return;
+                    }
                 if ("start".equals(action)) {
                     for (long thisAllowStartUid : restartAllowUid)
                         if (thisAllowStartUid == senderUid) {
@@ -67,7 +73,7 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
                     for (long thisStopAllowUid : stopAllowUid) {
                         if (thisStopAllowUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, false);
-                            message.response("@\u2005" + sender + " 您要关闭的指令响应器将会关闭~");
+                            message.response("@\u2005" + sender + " 您要关闭的指令响应器将会关闭~=-=");
                             logger.info("BaseGroupMessageCommandRunner " + thisAPI.getClass().getName() + " is closed by " +
                                     senderUid + " : " + sender + ".");
                             return;

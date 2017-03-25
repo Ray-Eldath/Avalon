@@ -7,13 +7,14 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.Calendar;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
  *
  * @author Eldath
  */
-public class FriendMessage implements Message {
+public class FriendMessage implements Message, StringGetable {
     private final static Logger logger = LoggerFactory.getLogger(FriendMessage.class);
     private final int id;
     private final LocalDateTime time;
@@ -24,7 +25,7 @@ public class FriendMessage implements Message {
     public FriendMessage(int id, LocalDateTime time, long senderUid, String senderNickName, String content) {
         this.id = id;
         this.time = time;
-        this.timeLong = time.toEpochSecond(ZoneOffset.of("Asia/Shanghai"));
+        this.timeLong = time.toEpochSecond(ZoneOffset.ofHours(Calendar.ZONE_OFFSET));
         this.senderUid = senderUid;
         this.senderNickName = senderNickName;
         this.content = content;
@@ -43,6 +44,12 @@ public class FriendMessage implements Message {
     public void response(String reply) {
         logger.warn("Unsupported operation.",
                 new UnsupportedOperationException("Unsupported operation: reply friend message."));
+    }
+
+    @Override
+    public String getString() {
+        return "id=" + id + "\ttime=" + time + "\tsenderUid=" + senderUid + "\tsenderNickName=\"" +
+                senderNickName + "\"\tcontent=\"" + content + "\"";
     }
 
     @Override

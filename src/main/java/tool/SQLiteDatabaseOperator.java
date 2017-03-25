@@ -9,6 +9,7 @@ import util.GroupMessage;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
@@ -47,7 +48,8 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
     @Override
     public boolean addGroupMessage(GroupMessage input) {
         try {
-            String value = "(" + input.getId() + ", '" + input.getTime().toString() +
+            String value = "(" + input.getId() + ", '" +
+                    input.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " ") +
                     "', " + input.getSenderUid() + ", '" + input.getSenderNickName() +
                     "', " + input.getGroupUid() + ", '" + input.getGroupName() + "', '" +
                     UrlEncoded.encodeString(input.getContent()) + "')";
@@ -62,9 +64,10 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
     @Override
     public boolean addFriendMessage(FriendMessage input) {
         try {
-            String value = "(" + input.getId() + ", \'" + input.getTime().toString() +
-                    "\' ," + input.getSenderUid() + ", \'" + input.getSenderNickName() + "\', " +
-                    UrlEncoded.encodeString(input.getContent());
+            String value = "(" + input.getId() + ", '" +
+                    input.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " ") +
+                    "', " + input.getSenderUid() + ", '" + input.getSenderNickName() + "', '" +
+                    UrlEncoded.encodeString(input.getContent()) + "')";
             statement.executeUpdate("INSERT INTO FriendMessage VALUES " + value);
         } catch (SQLException e) {
             logger.warn("Error while saving friend message to SQLite: ", e);

@@ -37,7 +37,7 @@ public class MainServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
     private static final Map<Pattern, BaseGroupMessageCommandRunner> apiList = new LinkedHashMap<>();
     private static final Map<Pattern, BaseGameCommandRunner> gameApiList = new LinkedHashMap<>();
-    private static final long[] adminUid = toLongArray(ConfigSystem
+    public static final long[] adminUid = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Admin_Uid"));
     public static final long[] followGroup = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Follow_Group_Uid"));
@@ -68,6 +68,7 @@ public class MainServlet extends HttpServlet {
         MainServlet.configure(GGameInfo.getInstance().getKeyWordRegex(), GGameInfo.getInstance());
         MainServlet.configure(GGameLoad.getInstance().getKeyWordRegex(), GGameLoad.getInstance());
         MainServlet.configure(GCommandManager.getInstance().getKeyWordRegex(), GCommandManager.getInstance());
+        MainServlet.configure(GShutdown.getInstance().getKeyWordRegex(), GShutdown.getInstance());
         MainServlet.configure(GBlacklist.getInstance().getKeyWordRegex(), GBlacklist.getInstance());
         MainServlet.configure(GHelp.getInstance().getKeyWordRegex(), GHelp.getInstance());
         MainServlet.configure(GVersion.getInstance().getKeyWordRegex(), GVersion.getInstance());

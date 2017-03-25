@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,8 @@ public class Response {
         }
         JSONObject object = (JSONObject) tokener.nextValue();
         if (object.isNull("reply")) return null;
-        String reply = object.get("reply").toString().replace("小冰", "Avalon");
+        String reply = new String(object.get("reply").toString().getBytes(Charset.forName("UNICODE")));
+        //TODO 编码有问题
         if (reply.contains("[语音]")) return null;
         else if (reply.contains("[图片]")) return null;
         for (String thisReplaceWord : replaceList)

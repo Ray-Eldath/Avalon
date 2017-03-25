@@ -1,6 +1,6 @@
 CREATE TABLE GroupMessage(
   id INTEGER PRIMARY KEY,
-  time TEXT,
+  time DATETIME,
   senderUid INTEGER,
   senderNickName TEXT,
   groupUid INTEGER,
@@ -10,7 +10,7 @@ CREATE TABLE GroupMessage(
 
 CREATE TABLE FriendMessage(
   id INTEGER PRIMARY KEY,
-  time TEXT,
+  time DATETIME,
   senderUid INTEGER,
   senderNickName TEXT,
   content TEXT

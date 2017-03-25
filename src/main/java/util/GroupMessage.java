@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.Calendar;
 
 import static tool.ConstantPool.Address.APIServer;
 
@@ -18,7 +19,7 @@ import static tool.ConstantPool.Address.APIServer;
  *
  * @author Eldath
  */
-public class GroupMessage implements Message {
+public class GroupMessage implements Message, StringGetable {
     private final static Logger logger = LoggerFactory.getLogger(GroupMessage.class);
     private final int id;
     private final LocalDateTime time;
@@ -29,7 +30,7 @@ public class GroupMessage implements Message {
                         String groupName, String content) {
         this.id = id;
         this.time = time;
-        this.timeLong = time.toEpochSecond(ZoneOffset.of("Asia/Shanghai"));
+        this.timeLong = time.toEpochSecond(ZoneOffset.ofHours(Calendar.ZONE_OFFSET));
         this.senderUid = senderUid;
         this.groupUid = groupUid;
         this.senderNickName = senderNickName;
@@ -107,5 +108,12 @@ public class GroupMessage implements Message {
     @Override
     public String getContent() {
         return content;
+    }
+
+    @Override
+    public String getString() {
+        return "id=" + id + "\ttime=" + time.toString() + "\tsenderUid=" +
+                senderUid + "\tsenderNickName=\"" + senderNickName + "\"\tgroupUid=" +
+                groupUid + "\tgroupName=\"" + groupName + "\"\tcontent=\"" + content + "\"";
     }
 }

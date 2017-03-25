@@ -21,4 +21,6 @@ public interface Message {
     String getSenderNickName();
 
     void response(String reply);
+
+    String getString();
 }

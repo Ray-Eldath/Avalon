@@ -3,8 +3,6 @@ package command;
 import tool.Response;
 import util.GroupMessage;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -15,7 +13,6 @@ import java.util.regex.Pattern;
 public class GXiaoIce extends BaseGroupMessageCommandRunner {
     // private static final Logger logger = LoggerFactory.getLogger(GXiaoIce.class);
     private static GXiaoIce instance = null;
-    static final Map<Long, Integer> blackList = new HashMap<>();
 
     public static GXiaoIce getInstance() {
         if (instance == null) instance = new GXiaoIce();

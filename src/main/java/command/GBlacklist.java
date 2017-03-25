@@ -54,7 +54,7 @@ public class GBlacklist extends BaseGroupMessageCommandRunner {
                     MainServlet.blackListPeopleMap.put(toBan, max);
                     return;
                 } else if ("remove".equals(action)) {
-                    if (!MainServlet.blackListPeopleMap.containsKey(sender_uid)) {
+                    if (!MainServlet.blackListPeopleMap.containsKey(toBan)) {
                         message.response("@\u2005" + sender + " 好像帐号" + toBan + "没有被屏蔽过呢-。-");
                         return;
                     }

@@ -33,15 +33,15 @@ public class MainServer {
         @Override
         public void run() {
             MainServer.logger.info("Do cleaning job...");
-            for (long thisFollowFollow : MainServlet.followGroup)
-                Response.sendToGroup(thisFollowFollow, "服务已经停止。");
             Recorder.getInstance().flushNow();
             SQLiteDatabaseOperator.getInstance().closeResource();
             try {
                 new URL(ConstantPool.Address.APIServer + "/openqq/stop_client").openStream();
-            } catch (IOException e) {
-                e.printStackTrace();
+                new URL(ConstantPool.Address.weChatAPIServer + "/openwx/stop_client").openStream();
+            } catch (IOException ignored) {
             }
+            for (long thisFollowFollow : MainServlet.followGroup)
+                Response.sendToGroup(thisFollowFollow, "服务已经停止。");
         }
     }
 
