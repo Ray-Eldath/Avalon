@@ -3,6 +3,7 @@ package tool;
 import command.BaseGroupMessageCommandRunner;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Eldath on 2017/1/29 0029.
@@ -10,8 +11,8 @@ import java.util.HashMap;
  * @author Eldath
  */
 public class APISurvivePool {
-    private static HashMap<BaseGroupMessageCommandRunner, Boolean> survive;
-    private final HashMap<BaseGroupMessageCommandRunner, Boolean> noticed;
+    private static Map<BaseGroupMessageCommandRunner, Boolean> survive;
+    private final Map<BaseGroupMessageCommandRunner, Boolean> noticed;
     private static APISurvivePool instance = null;
 
     public static APISurvivePool getInstance() {

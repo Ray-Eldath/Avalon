@@ -11,7 +11,13 @@ import java.util.concurrent.DelayQueue;
  * @author Eldath Ray
  */
 public class DelayResponse extends Thread {
-    private final DelayQueue<DelayMessage> messages = new DelayQueue<>();
+    private static DelayResponse instance = null;
+    private DelayQueue<DelayMessage> messages = new DelayQueue<>();
+
+    public static DelayResponse getInstance() {
+        if (instance == null) instance = new DelayResponse();
+        return instance;
+    }
 
     public boolean delay(DelayMessage message) {
         return messages.offer(message);

@@ -12,4 +12,11 @@ public class ObjectCaster {
             result[i] = (long) (int) objects[i];
         return result;
     }
+
+    public static String[] toStringArray(Object[] objects) {
+        String[] result = new String[objects.length];
+        for (int i = 0; i < objects.length; i++)
+            result[i] = (String) objects[i];
+        return result;
+    }
 }

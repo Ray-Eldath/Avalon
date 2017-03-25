@@ -30,8 +30,6 @@ public class GenerateConfigFile {
         //
         Map<String, Object> loopUsing = new HashMap<>();
         loopUsing.put("Uid_BlackList_Enabled", true);
-        loopUsing.put("BlockList_Words", new String[]{"来一炮", "寒寒", "冰冰", "冰封", "ice1000",
-                "eldath", "hanhan", "男", "女", "蛤", "膜", "苟", "太短", "变长", "baka", "笨蛋", "傻瓜", "操", "艹", "fuck"});
         pluginConfig.put("GXiaoIce", loopUsing);
         // loopUsing.clear();
         //
@@ -42,9 +40,14 @@ public class GenerateConfigFile {
         allConfigs.put("Mojo-Webqq_API_Address", "http://127.0.0.1:5000");
         allConfigs.put("Mojo-Webqq_POST_API_Address", "http://127.0.0.1:5050");
         allConfigs.put("Mojo-Weixin_API_Address", "http://127.0.0.1:3500");
+        allConfigs.put("Block_Words", new String[]{"来一炮", "寒寒", "冰冰", "冰封", "ice1000",
+                "eldath", "hanhan", "男", "女", "蛤", "膜", "苟", "太短", "变长", "baka", "笨蛋", "傻瓜", "操", "艹", "fuck"});
         allConfigs.put("Admin_Uid", new long[]{1464443139});
-        allConfigs.put("Debug", false);
+        allConfigs.put("Debug", true);
         allConfigs.put("BlackList_Uid", new long[]{});
+        allConfigs.put("Block_Words_Punishment_Mode_Enabled", true);
+        allConfigs.put("Block_Words_Punish_Frequency", 3);
+        //
         allConfigs.put("plugin_allowed_account", pluginAllowPeoples);
         allConfigs.put("plugin_config", pluginConfig);
     }

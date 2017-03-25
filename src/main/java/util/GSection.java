@@ -5,6 +5,5 @@ package util;
  *
  * @author Eldath Ray
  */
-public abstract class GSection {
-    public abstract String getString();
+public abstract class GSection implements StringGetable {
 }

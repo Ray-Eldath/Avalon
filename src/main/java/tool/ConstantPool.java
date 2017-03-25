@@ -26,6 +26,13 @@ public class ConstantPool {
         public static final String Version = "0.0.1 Beta";
     }
 
+    public static class Setting {
+        public static final boolean Block_Words_Punishment_Mode_Enabled =
+                (boolean) ConfigSystem.getInstance().getConfig("Block_Words_Punishment_Mode_Enabled");
+        public static final int Block_Words_Punish_Frequency =
+                (int) ConfigSystem.getInstance().getConfig("Block_Words_Punish_Frequency");
+    }
+
     public static class GameMode {
         public static final boolean IsEnabled = (boolean) ConfigSystem.getInstance().getConfig("Game_Mode_Enabled");
     }

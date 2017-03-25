@@ -1,6 +1,7 @@
 package util;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class GRoom {
     private boolean birthplace;
     private final String name;
     private final String describe;
-    private List<GItemSet> itemSets;
+    private List<GItemSet> itemSets = new LinkedList<>();
     private List<GPath> exits;
 
     private GRoom(int id, String name, String describe) {

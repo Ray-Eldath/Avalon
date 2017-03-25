@@ -15,5 +15,6 @@ public class VariablePool {
 
     public static class GameMode {
         public static boolean Is_Game_Mode_On = false;
+        public static boolean Is_Loaded = false;
     }
 }

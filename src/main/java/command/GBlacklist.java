@@ -1,6 +1,7 @@
 package command;
 
 import data.ConfigSystem;
+import main.MainServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.GroupMessage;
@@ -26,10 +27,11 @@ public class GBlacklist extends BaseGroupMessageCommandRunner {
 
     @Override
     public void doPost(GroupMessage message) {
-        long sender_uid = message.getSenderUid();
-        long group_uid = message.getGroupUid();
-        String content = message.getContent();
-        String sender = message.getSenderNickName();
+        final long sender_uid = message.getSenderUid();
+        final long group_uid = message.getGroupUid();
+        final int max = MainServlet.punishFrequency;
+        final String content = message.getContent();
+        final String sender = message.getSenderNickName();
         String[] split;
         String action;
         long toBan;
@@ -47,18 +49,18 @@ public class GBlacklist extends BaseGroupMessageCommandRunner {
         for (long thisAllowUid : allowList)
             if (thisAllowUid == sender_uid) {
                 if ("add".equals(action)) {
-                    message.response("@\u2005" + sender + " 帐号" + toBan + "现已被 阿瓦隆回答我 功能屏蔽。");
+                    message.response("@\u2005" + sender + " 帐号" + toBan + "现已被屏蔽。");
                     logger.info("Account " + toBan + " is baned by " + sender_uid + " : " + sender + ".");
-                    GXiaoIce.blackList.put(toBan, 4);
+                    MainServlet.blackListPeopleMap.put(toBan, max);
                     return;
                 } else if ("remove".equals(action)) {
-                    if (!GXiaoIce.blackList.containsKey(sender_uid)) {
+                    if (!MainServlet.blackListPeopleMap.containsKey(sender_uid)) {
                         message.response("@\u2005" + sender + " 好像帐号" + toBan + "没有被屏蔽过呢-。-");
                         return;
                     }
                     message.response("@\u2005" + sender + " 帐号" + toBan + "的屏蔽已被解除(^.^)");
                     logger.info("Account " + toBan + " is allowed again by " + sender_uid + " : " + sender + ".");
-                    GXiaoIce.blackList.put(toBan, 0);
+                    MainServlet.blackListPeopleMap.put(toBan, 0);
                     return;
                 } else {
                     message.response("@\u2005" + sender + " 您的指示格式不对辣！（｀Δ´）！");

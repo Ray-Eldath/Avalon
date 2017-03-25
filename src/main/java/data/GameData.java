@@ -15,7 +15,11 @@ import java.util.stream.Stream;
 public class GameData {
     public static class Map {
         private static List<GPath> map = new LinkedList<>();
-        private static Stream<GPath> allExit;
+        private static Stream<GPath> allPath;
+
+        public static void setMap(Stream<GPath> allExit) {
+            Map.allPath = allExit;
+        }
 
         public static boolean addPath(GPath exit) {
             if (map == null) throw new UnsupportedOperationException("list is solid now.");
@@ -23,12 +27,12 @@ public class GameData {
         }
 
         public static Stream<GPath> getGameMap() {
-            if (allExit == null) throw new UnsupportedOperationException("please solid list first.");
-            return allExit;
+            if (allPath == null) throw new UnsupportedOperationException("please solid list first.");
+            return allPath;
         }
 
         public static void solidify() {
-            allExit = map.stream();
+            allPath = map.stream();
             map = null;
         }
     }
@@ -40,6 +44,10 @@ public class GameData {
         public static boolean addEvent(GEvent exit) {
             if (events == null) throw new UnsupportedOperationException("list is solid now.");
             return events.add(exit);
+        }
+
+        public static void setEvents(Stream<GEvent> allEvents) {
+            Event.allEvents = allEvents;
         }
 
         public static Stream<GEvent> getEvents() {

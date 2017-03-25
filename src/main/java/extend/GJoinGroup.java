@@ -13,6 +13,13 @@ import java.util.regex.Pattern;
  * @author Eldath Ray
  */
 public class GJoinGroup extends BaseGameCommandRunner {
+    private static GJoinGroup instance = null;
+
+    public static GJoinGroup getInstance() {
+        if (instance == null) instance = new GJoinGroup();
+        return instance;
+    }
+
     @Override
     public void doPost(GroupMessage message) {
         String content = message.getContent();

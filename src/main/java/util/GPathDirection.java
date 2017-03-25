@@ -1,5 +1,7 @@
 package util;
 
+import java.util.Objects;
+
 /**
  * Created by Eldath Ray on 2017/3/22.
  *
@@ -25,6 +27,7 @@ public class GPathDirection {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof GPathDirection && getName().equals(((GPathDirection) o).getName());
+        return o instanceof GPathDirection && Objects.equals(o, this) &&
+                getName().equals(((GPathDirection) o).getName());
     }
 }

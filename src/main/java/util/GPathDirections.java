@@ -22,4 +22,32 @@ public class GPathDirections {
         else if (input.equals(FRONT)) return BACK;
         return BACK;
     }
+
+    public static GPathDirection fromName(String name) {
+        GPathDirection pathDirection;
+        String nameLower = name.toLowerCase();
+        switch (nameLower) {
+            case "left":
+                pathDirection = GPathDirections.LEFT;
+                break;
+            case "right":
+                pathDirection = GPathDirections.RIGHT;
+                break;
+            case "up":
+                pathDirection = GPathDirections.UP;
+                break;
+            case "down":
+                pathDirection = GPathDirections.DOWN;
+                break;
+            case "front":
+                pathDirection = GPathDirections.FRONT;
+                break;
+            case "back":
+                pathDirection = GPathDirections.BACK;
+                break;
+            default:
+                pathDirection = null;
+        }
+        return pathDirection;
+    }
 }

@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class GNewGroup extends BaseGameCommandRunner {
     private static GNewGroup instance = null;
 
-    public GNewGroup getInstance() {
+    public static GNewGroup getInstance() {
         if (instance == null) instance = new GNewGroup();
         return instance;
     }
