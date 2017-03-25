@@ -1,10 +1,13 @@
 package data;
 
+import tool.GameScriptLoader;
 import util.GGroup;
 import util.GPlayer;
+import util.GRoom;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Eldath Ray on 2017/3/24.
@@ -16,12 +19,15 @@ public class GameRunningData {
         private static int totalGroup = 0, totalPlayer = 0;
         private static final List<GGroup> groups = new ArrayList<>();
         private static final List<GPlayer> players = new ArrayList<>();
+        private static final List<GRoom> birthplaces = GameScriptLoader.getBirthPlaces();
 
         public static List<GPlayer> getPlayers() {
             return players;
         }
 
         public static boolean newPlayer(GPlayer player) {
+            GRoom birthPlace = birthplaces.get(Math.abs(new Random().nextInt() % (birthplaces.size() + 1)));
+            player.setLocation(birthPlace);
             totalPlayer++;
             return players.add(player);
         }

@@ -33,7 +33,7 @@ public class GRegister extends BaseGameCommandRunner {
         GPlayer player = new GPlayer(id, name);
         boolean status = GameRunningData.GroupAndPlayer.newPlayer(player);
         if (status) message.response("玩家" + name + "注册成功。您现在可以使用" +
-                "\"game join group <小组ID/名称>\"来加入小组！￣O￣)ノ");
+                "\"game group join <小组ID/名称>\"来加入小组！￣O￣)ノ");
         else message.response("玩家" + name + "新建失败：未知错误╮(╯_╰)╭");
     }
 

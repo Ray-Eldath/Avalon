@@ -24,7 +24,7 @@ public class GNewGroup extends BaseGameCommandRunner {
     @Override
     public void doPost(GroupMessage message) {
         final String content = message.getContent();
-        final String groupName = content.replace("game group new", "");
+        final String groupName = content.replace("game group new ", "");
         if (GameRunningData.GroupAndPlayer.isGroupExist(groupName)) {
             message.response("指定的小组" + groupName + "已存在！");
             return;
@@ -32,7 +32,7 @@ public class GNewGroup extends BaseGameCommandRunner {
         final int id = GroupAndPlayer.getTotalGroup() + 1;
         final GGroup group = new GGroup(id, groupName, new GPacket());
         final boolean status = GroupAndPlayer.newGroup(group);
-        if (status) message.response("指定的小组" + groupName + "新建成功。\n请记住您的小组ID：" + id + "\\(^o^)/");
+        if (status) message.response("指定的小组" + groupName + "新建成功！\\(^o^)/\n请记住您的小组ID：" + id);
         else message.response("小组" + groupName + "新建失败：未知错误(＝。＝)");
     }
 

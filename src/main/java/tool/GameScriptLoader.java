@@ -3,8 +3,8 @@ package tool;
 import data.GameData;
 import util.*;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -14,9 +14,10 @@ import java.util.stream.Stream;
  */
 public class GameScriptLoader {
     private static GameScriptLoader instance = null;
-    private static Set<GScript> scripts = new LinkedHashSet<>();
-    private static Set<String> scriptMessages = new LinkedHashSet<>();
+    private static List<GScript> scripts = new ArrayList<>();
+    private static List<String> scriptMessages = new ArrayList<>();
     private static GScript script = new GScript(0, "测试剧本", "做一个测试！");
+    private static List<GRoom> birthPlaces = new ArrayList<>();
 
     static {
         GNpc npc = new GNpc(0, "测试");
@@ -25,6 +26,7 @@ public class GameScriptLoader {
         GItem parent = new GItem(0, "A", "A Test");
         GItem[] items = new GItem[]{new GItem(1, "测试", "测试")};
         GRoom from = new GRoom(0, "A", "A Test", new GItemSet[]{new GItemSet(parent, items)});
+        from.setBirthplace(true);
         script.addPath(new GPath(from, from, GPathDirections.BACK, 40));
         script.solidify();
     }
@@ -52,6 +54,10 @@ public class GameScriptLoader {
 
     public boolean load(GScript script) {
         if (script == null) return false;
+        script.getPaths().filter(path -> path.getFromRoom().isBirthplace())
+                .forEach(path -> birthPlaces.add(path.getFromRoom()));
+        script.getPaths().filter(path -> path.getToRoom().isBirthplace())
+                .forEach(path -> birthPlaces.add(path.getToRoom()));
         scriptMessages.add(script.getString());
         GameData.Map.setMap(script.getPaths());
         GameData.Map.solidify();
@@ -65,7 +71,11 @@ public class GameScriptLoader {
         return scripts.stream().filter(gScript -> gScript.getId() == scriptId).findFirst().orElse(null);
     }
 
-    public Set<String> getScriptMessages() {
+    public static List<GRoom> getBirthPlaces() {
+        return birthPlaces;
+    }
+
+    public List<String> getScriptMessages() {
         return scriptMessages;
     }
 

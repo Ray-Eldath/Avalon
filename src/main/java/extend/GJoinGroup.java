@@ -27,14 +27,14 @@ public class GJoinGroup extends BaseGameCommandRunner {
             int id = Integer.parseInt(content.replace("game group join ", ""));
             GGroup group = GameRunningData.GroupAndPlayer.getGroup(id);
             if (group == null)
-                message.response("指定的小组ID" + id + "不存在！！╮(╯_╰)╭");
+                message.response("指定的小组ID" + id + "不存在！╮(╯_╰)╭");
             else
                 checkAccount(group, message);
         } else if (Pattern.matches("game group join (\\w|[\\u4e00-\\u9fa5])+", content)) {
             String groupName = content.replace("game group join ", "");
             GGroup group = GameRunningData.GroupAndPlayer.getGroup(groupName);
             if (group == null)
-                message.response("指定的小组名" + groupName + "不存在！！(。・_・)/");
+                message.response("指定的小组名" + groupName + "不存在！(。・_・)/");
             else checkAccount(group, message);
         }
     }

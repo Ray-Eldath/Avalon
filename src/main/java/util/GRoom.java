@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class GRoom {
     private final int id;
-    private boolean birthplace;
+    private boolean birthplace = false;
     private final String name;
     private final String describe;
     private List<GItemSet> itemSets = new LinkedList<>();

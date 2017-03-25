@@ -120,9 +120,9 @@ public class MainServlet extends HttpServlet {
         GroupMessage message = new GroupMessage(Id, timeLong, senderUid, sender, groupUid, group, content);
         boolean admin = false;
         for (long thisFollowGroup : followGroup) {
-            if (!checkEncode(lowerContent, message)) return;
             if (groupUid == thisFollowGroup) {
                 if (!preCheck(lowerContent)) return;
+                if (!checkEncode(lowerContent, message)) return;
                 for (long thisAdmin : adminUid)
                     if (thisAdmin == senderUid) {
                         admin = true;
