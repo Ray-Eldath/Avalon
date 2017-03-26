@@ -54,7 +54,7 @@ public class ShowAllMessage {
 
     private static void showFriendMessage() throws SQLException {
         List<FriendMessage> friendMessages = new ArrayList<>();
-        ResultSet resultSet = statement.executeQuery("SELECT * from FriendMessage;");
+        ResultSet resultSet = statement.executeQuery("SELECT * from FriendMessage ORDER BY time ASC;");
         while (resultSet.next()) {
             friendMessages.add(new FriendMessage(resultSet.getInt("id"),
                     LocalDateTime.parse(resultSet.getString("time").replace(" ", "T")),
@@ -68,7 +68,7 @@ public class ShowAllMessage {
 
     private static void showGroupMessage() throws SQLException {
         List<GroupMessage> groupMessages = new ArrayList<>();
-        ResultSet resultSet = statement.executeQuery("SELECT * from GroupMessage;");
+        ResultSet resultSet = statement.executeQuery("SELECT * from GroupMessage ORDER BY time ASC;");
         while (resultSet.next()) {
             groupMessages.add(new GroupMessage(resultSet.getInt("id"),
                     LocalDateTime.parse(resultSet.getString("time").replace(" ", "T")),
@@ -79,6 +79,6 @@ public class ShowAllMessage {
                     UrlEncoded.decodeString(resultSet.getString("content"))));
         }
         for (GroupMessage thisGroupMessage : groupMessages)
-            System.out.println(thisGroupMessage.getString());
+            System.out.println(String.format("%s", thisGroupMessage.getString()));
     }
 }

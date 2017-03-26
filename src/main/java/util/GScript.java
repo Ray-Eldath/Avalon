@@ -9,7 +9,7 @@ import java.util.stream.Stream;
  *
  * @author Eldath Ray
  */
-public class GScript implements Solidifiable, StringGetable {
+public class GScript implements Solidifiable, Displayable {
     private int id;
     private String name, describe;
     private List<GPath> paths = new ArrayList<>();

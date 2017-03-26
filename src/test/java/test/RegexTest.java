@@ -1,6 +1,6 @@
 package test;
 
-import java.util.regex.Pattern;
+import java.util.HashMap;
 
 /**
  * Created by Eldath on 2017/2/18 0018.
@@ -8,8 +8,16 @@ import java.util.regex.Pattern;
  * @author Eldath
  */
 public class RegexTest {
+    static HashMap<String, String> stringStringHashMap = new HashMap<>();
+
     public static void main(String[] args) {
-        Pattern pattern = Pattern.compile("\\w?(\\+1s|-1s|膜蛤|苟|续命|州长夫人)\\w?");
-        System.out.println(pattern.matcher("啦啦啦+1s").find());
+        System.out.println(stringStringHashMap.size());
+        new Test();
+        System.out.println(stringStringHashMap.size());
+        System.out.println(stringStringHashMap.get("a"));
+    }
+
+    public static HashMap<String, String> getStringStringHashMap() {
+        return stringStringHashMap;
     }
 }

@@ -1,6 +1,7 @@
 package command;
 
 import main.MainServlet;
+import org.slf4j.LoggerFactory;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -20,14 +21,20 @@ public class GShutdown extends BaseGroupMessageCommandRunner {
 
     @Override
     public void doPost(GroupMessage message) {
-        for (long admin : MainServlet.adminUid)
-            if (admin == message.getSenderUid())
+        long[] admins = MainServlet.getAdminUid();
+        for (long admin : admins)
+            if (admin == message.getSenderUid()) {
                 System.exit(0);
+                LoggerFactory.getLogger(GShutdown.class).warn("Avalon is stopped remotely by " +
+                        message.getSenderUid() + " : " + message.getSenderNickName() + " on " +
+                        message.getGroupUid() + " : " + message.getGroupName() + " at " +
+                        message.getTime().toString().replace("T", " "));
+            }
     }
 
     @Override
     public String getHelpMessage() {
-        return "avalon shutdown/exit：退出Avalon。";
+        return "avalon shutdown/exit：<管理员> 退出Avalon。";
     }
 
     @Override

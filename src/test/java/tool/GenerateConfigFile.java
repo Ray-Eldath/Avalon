@@ -33,8 +33,6 @@ public class GenerateConfigFile {
         pluginConfig.put("GXiaoIce", loopUsing);
         // loopUsing.clear();
         //
-        allConfigs.put("Follow_Group_Uid", new long[]{617118724});
-        allConfigs.put("Record_Group_Uid", new long[]{399863405, 617118724});
         allConfigs.put("Game_Mode_Enabled", true);
         allConfigs.put("Game_Mode_Enabled_Group_Uid", new long[]{617118724});
         allConfigs.put("Mojo-Webqq_API_Address", "http://127.0.0.1:5000");
@@ -50,6 +48,8 @@ public class GenerateConfigFile {
         //
         allConfigs.put("plugin_allowed_account", pluginAllowPeoples);
         allConfigs.put("plugin_config", pluginConfig);
+        allConfigs.put("Follow_Group_Uid", new long[]{617118724});
+        allConfigs.put("Record_Group_Uid", new long[]{617118724, 399863405});
     }
 
     public static void main(String[] args) {

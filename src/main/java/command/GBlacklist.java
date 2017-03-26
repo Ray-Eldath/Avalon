@@ -36,12 +36,12 @@ public class GBlacklist extends BaseGroupMessageCommandRunner {
         String action;
         long toBan;
         if (!content.contains(" ")) {
-            message.response("@\u2005" + sender + " 您的指示格式不对辣！（｀Δ´）！");
+            message.response("@" + sender + " 您的指示格式不对辣！（｀Δ´）！");
             return;
         }
         split = content.split(" ");
         if (split.length < 3) {
-            message.response("@\u2005" + sender + " 您的指示格式不对辣！（｀Δ´）！");
+            message.response("@" + sender + " 您的指示格式不对辣！（｀Δ´）！");
             return;
         }
         action = split[2];
@@ -49,30 +49,30 @@ public class GBlacklist extends BaseGroupMessageCommandRunner {
         for (long thisAllowUid : allowList)
             if (thisAllowUid == sender_uid) {
                 if ("add".equals(action)) {
-                    message.response("@\u2005" + sender + " 帐号" + toBan + "现已被屏蔽。");
+                    message.response("@" + sender + " 帐号" + toBan + "现已被屏蔽。");
                     logger.info("Account " + toBan + " is baned by " + sender_uid + " : " + sender + ".");
-                    MainServlet.blackListPeopleMap.put(toBan, max);
+                    MainServlet.getSetBlackListPeopleMap().put(toBan, max);
                     return;
                 } else if ("remove".equals(action)) {
-                    if (!MainServlet.blackListPeopleMap.containsKey(toBan)) {
-                        message.response("@\u2005" + sender + " 好像帐号" + toBan + "没有被屏蔽过呢-。-");
+                    if (!MainServlet.getSetBlackListPeopleMap().containsKey(toBan)) {
+                        message.response("@" + sender + " 好像帐号" + toBan + "没有被屏蔽过呢-。-");
                         return;
                     }
-                    message.response("@\u2005" + sender + " 帐号" + toBan + "的屏蔽已被解除(^.^)");
+                    message.response("@" + sender + " 帐号" + toBan + "的屏蔽已被解除(^.^)");
                     logger.info("Account " + toBan + " is allowed again by " + sender_uid + " : " + sender + ".");
-                    MainServlet.blackListPeopleMap.put(toBan, 0);
+                    MainServlet.getSetBlackListPeopleMap().put(toBan, 0);
                     return;
                 } else {
-                    message.response("@\u2005" + sender + " 您的指示格式不对辣！（｀Δ´）！");
+                    message.response("@" + sender + " 您的指示格式不对辣！（｀Δ´）！");
                     return;
                 }
             }
-        message.response("@\u2005" + sender + " 您没有权限辣！（｀Δ´）！");
+        message.response("@" + sender + " 您没有权限辣！（｀Δ´）！");
     }
 
     @Override
     public String getHelpMessage() {
-        return "avalon blacklist (add/remove)：将指定的QQ号 添加至黑名单/从黑名单移除";
+        return "avalon blacklist (add/remove)：<管理员> 将指定的QQ号 添加至黑名单/从黑名单移除";
     }
 
     @Override

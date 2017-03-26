@@ -1,7 +1,7 @@
 package main;
 
-import command.Recorder;
 import data.ConfigSystem;
+import extend.Recorder;
 import extend.Scheduler;
 import extend.ShowMsg;
 import org.eclipse.jetty.server.Server;
@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class MainServer {
     private static final Logger logger = LoggerFactory.getLogger(MainServer.class);
+    private static long[] followGroup = MainServlet.getFollowGroup();
 
     static class atShutdownDo extends Thread {
         @Override
@@ -40,7 +41,7 @@ public class MainServer {
                 new URL(ConstantPool.Address.weChatAPIServer + "/openwx/stop_client").openStream();
             } catch (IOException ignored) {
             }
-            for (long thisFollowFollow : MainServlet.followGroup)
+            for (long thisFollowFollow : followGroup)
                 Response.sendToGroup(thisFollowFollow, "服务已经停止。");
         }
     }
@@ -75,7 +76,7 @@ public class MainServer {
         Scanner scanner = new Scanner(System.in);
         String isOn = scanner.nextLine();
         if ("yes".equals(isOn.toLowerCase()))
-            for (long thisFollowGroup : MainServlet.followGroup)
+            for (long thisFollowGroup : followGroup)
                 Response.sendToGroup(thisFollowGroup, "Avalon已经上线。");
         else logger.info("Cancel send login message.");
         DelayResponse delayResponse = new DelayResponse();

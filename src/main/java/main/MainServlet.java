@@ -37,18 +37,18 @@ public class MainServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
     private static final Map<Pattern, BaseGroupMessageCommandRunner> apiList = new LinkedHashMap<>();
     private static final Map<Pattern, BaseGameCommandRunner> gameApiList = new LinkedHashMap<>();
-    public static final long[] adminUid = toLongArray(ConfigSystem
+    private static long[] adminUid = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Admin_Uid"));
-    public static final long[] followGroup = toLongArray(ConfigSystem
+    private static long[] followGroup = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Follow_Group_Uid"));
-    private static final long[] gameModeAllowedGroup = toLongArray(ConfigSystem
+    private static long[] gameModeAllowedGroup = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Game_Mode_Enabled_Group_Uid"));
-    private static final long[] recordGroup = toLongArray(ConfigSystem
+    private static long[] recordGroup = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Record_Group_Uid"));
-    private static final long[] blackListPeople = toLongArray(ConfigSystem
+    private static long[] blackListPeople = toLongArray(ConfigSystem
             .getInstance().getConfigArray("BlackList_Uid"));
-    public static final Map<Long, Integer> blackListPeopleMap = new HashMap<>();
-    private static final String[] blockList = toStringArray(ConfigSystem
+    private static Map<Long, Integer> blackListPeopleMap = new HashMap<>();
+    private static String[] blockList = toStringArray(ConfigSystem
             .getInstance().getConfigArray("Block_Words"));
     public static final int punishFrequency = (int) ConfigSystem.getInstance()
             .getConfig("Block_Words_Punish_Frequency");
@@ -70,6 +70,7 @@ public class MainServlet extends HttpServlet {
         MainServlet.configure(GCommandManager.getInstance().getKeyWordRegex(), GCommandManager.getInstance());
         MainServlet.configure(GShutdown.getInstance().getKeyWordRegex(), GShutdown.getInstance());
         MainServlet.configure(GBlacklist.getInstance().getKeyWordRegex(), GBlacklist.getInstance());
+        MainServlet.configure(GFlush.getInstance().getKeyWordRegex(), GFlush.getInstance());
         MainServlet.configure(GHelp.getInstance().getKeyWordRegex(), GHelp.getInstance());
         MainServlet.configure(GVersion.getInstance().getKeyWordRegex(), GVersion.getInstance());
         MainServlet.configure(GMo.getInstance().getKeyWordRegex(), GMo.getInstance());
@@ -116,6 +117,12 @@ public class MainServlet extends HttpServlet {
         String type = object.getString("type");
         for (long thisBlackPeople : blackListPeople)
             if (thisBlackPeople == senderUid) return;
+        if ("friend_message".equals(type)) {
+            Recorder.getInstance().recodeFriendMessage(new FriendMessage(Id, timeLong, senderUid, sender, content));
+            return;
+        }
+        if (!("friend_message".equals(type) || "group_message".equals(type)))
+            return;
         long groupUid = object.getLong("group_uid");
         String group = object.get("group").toString();
         GroupMessage message = new GroupMessage(Id, timeLong, senderUid, sender, groupUid, group, content);
@@ -133,7 +140,7 @@ public class MainServlet extends HttpServlet {
                     if (ConstantPool.Setting.Block_Words_Punishment_Mode_Enabled) {
                         if (blackListPeopleMap.containsKey(senderUid)) {
                             if (blackListPeopleMap.get(senderUid) >= punishFrequency) {
-                                message.response("@\u2005" + sender +
+                                message.response("@" + sender +
                                         " 您的帐号由于发送过多不允许关键字，现已被屏蔽~o(╯□╰)o！");
                                 return;
                             }
@@ -142,14 +149,13 @@ public class MainServlet extends HttpServlet {
                 }
                 for (String thisBlockString : blockList)
                     if (content.replace(" ", "").contains(thisBlockString)) {
-                        if (admin) return;
                         String notice = "您发送的消息含有不允许的关键词！";
                         if (ConstantPool.Setting.Block_Words_Punishment_Mode_Enabled) {
                             notice = "您发送的消息含有不允许的关键词，注意：" + punishFrequency +
                                     "次发送不允许关键词后帐号将被屏蔽！⊙﹏⊙!";
                             blackListPlus(senderUid);
                         }
-                        message.response("@\u2005" + sender + " " + notice);
+                        message.response("@" + sender + " " + notice);
                         return;
                     }
                 for (Map.Entry<Pattern, BaseGroupMessageCommandRunner> patternAPIEntry : apiList.entrySet()) {
@@ -169,20 +175,17 @@ public class MainServlet extends HttpServlet {
                                 }
             }
         }
-        if ("friend_message".equals(type)) {
-            Recorder.getInstance().recodeFriendMessage(new FriendMessage(Id, timeLong, senderUid, sender, content));
-            return;
-        }
         for (long thisRecordGroup : recordGroup)
-            if (thisRecordGroup == groupUid)
-                if ("group_message".equals(type))
-                    Recorder.getInstance().recodeGroupMessage(message);
+            if (thisRecordGroup == groupUid) {
+                Recorder.getInstance().recodeGroupMessage(message);
+                return;
+            }
     }
 
     private boolean checkEncode(String content, GroupMessage message) {
         try {
             if (!content.equals(new String(content.getBytes("GB2312"), "GB2312"))) {
-                message.response("@\u2005" + message.getSenderNickName() + " 您的指示编码好像不对劲啊╮(╯_╰)╭");
+                message.response("@" + message.getSenderNickName() + " 您的指示编码好像不对劲啊╮(╯_╰)╭");
                 return false;
             }
         } catch (UnsupportedEncodingException ignore) {
@@ -197,7 +200,7 @@ public class MainServlet extends HttpServlet {
         if (!key.matcher(lowerContent).find()) return false;
         if (!cooling.trySet(time)) {
             if (!VariablePool.Limit_Noticed) {
-                groupMessage.response("@\u2005" + sender +
+                groupMessage.response("@" + sender +
                         " 对不起，您的指令超频。3s内仅能有一次指令输入，未到3s内的输入将被忽略。注意：此消息仅会显示一次。");
                 VariablePool.Limit_Noticed = true;
             }
@@ -205,13 +208,25 @@ public class MainServlet extends HttpServlet {
         }
         if (!APISurvivePool.getInstance().isSurvive(value)) {
             if (!APISurvivePool.getInstance().isNoticed(value)) {
-                groupMessage.response("@\u2005" + sender + " 对不起，您调用的指令响应器目前已被停止；" +
+                groupMessage.response("@" + sender + " 对不起，您调用的指令响应器目前已被停止；" +
                         "注意：此消息仅会显示一次。");
                 APISurvivePool.getInstance().setNoticed(value);
             }
             return false;
         }
         return true;
+    }
+
+    public static long[] getAdminUid() {
+        return adminUid;
+    }
+
+    public static long[] getFollowGroup() {
+        return followGroup;
+    }
+
+    public static Map<Long, Integer> getSetBlackListPeopleMap() {
+        return blackListPeopleMap;
     }
 
     private boolean preCheck(String lowerContent) {

@@ -41,7 +41,7 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
         for (long thisFollowFriend : allowPeople)
             if (senderUid == thisFollowFriend) {
                 if (!content.contains(" ")) {
-                    message.response("@\u2005" + sender +
+                    message.response("@" + sender +
                             " 您的指示格式不对辣！（｀Δ´）！请注意在API触发语句后是否缺少空格~");
                     return;
                 }
@@ -51,7 +51,7 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
                 action = content.toLowerCase().
                         replace("avalon commandmanager ", "").replace(apiName, "").trim();
                 if (thisAPI == null) {
-                    message.response("@\u2005" + sender + " 您要操作的指令响应器根本不存在！(╯︵╰,)");
+                    message.response("@" + sender + " 您要操作的指令响应器根本不存在！(╯︵╰,)");
                     return;
                 }
                 for (BaseGroupMessageCommandRunner thisCanNotBanRunner : canNotBanAPI)
@@ -63,7 +63,7 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
                     for (long thisAllowStartUid : restartAllowUid)
                         if (thisAllowStartUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, true);
-                            message.response("@\u2005" + sender + " 您要重启的指令响应器将会重启`(*∩_∩*)′");
+                            message.response("@" + sender + " 您要重启的指令响应器将会重启`(*∩_∩*)′");
                             logger.info("BaseGroupMessageCommandRunner " + thisAPI.getClass().getName() + " is reopened by " +
                                     senderUid + " : " + sender + ".");
                             return;
@@ -73,23 +73,23 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
                     for (long thisStopAllowUid : stopAllowUid) {
                         if (thisStopAllowUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, false);
-                            message.response("@\u2005" + sender + " 您要关闭的指令响应器将会关闭~=-=");
+                            message.response("@" + sender + " 您要关闭的指令响应器将会关闭~=-=");
                             logger.info("BaseGroupMessageCommandRunner " + thisAPI.getClass().getName() + " is closed by " +
                                     senderUid + " : " + sender + ".");
                             return;
                         }
                     }
                 } else {
-                    message.response("@\u2005" + sender + " 您的指示格式不对辣！（｀Δ´）！");
+                    message.response("@" + sender + " 您的指示格式不对辣！（｀Δ´）！");
                     return;
                 }
             }
-        message.response("@\u2005" + sender + " 您没有权限啦！(゜д゜)");
+        message.response("@" + sender + " 您没有权限啦！(゜д゜)");
     }
 
     @Override
     public String getHelpMessage() {
-        return "avalon commandmanager (start/stop)：控制插件开/关，需要特定权限";
+        return "avalon commandmanager (start/stop)：<管理员> 控制指令响应器开/关";
     }
 
     @Override

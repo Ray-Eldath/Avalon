@@ -29,23 +29,22 @@ public class GXiaoIce extends BaseGroupMessageCommandRunner {
         String text = content;
         text = text.replaceAll(getKeyWordRegex().toString(), "");
         if ("".equals(text.replace(" ", ""))) {
-            message.response("@\u2005" + sender +
-                    " 消息不能为空哦~(*∩_∩*)");
+            message.response("@" + sender + " 消息不能为空哦~(*∩_∩*)");
             return;
         }
         if (strIsEnglish(text)) {
             if (text.length() < 5) {
-                message.response("@\u2005" + sender + " 您的消息过短~o(╯□╰)o！");
+                message.response("@" + sender + " 您的消息过短~o(╯□╰)o！");
                 return;
             }
         } else if (text.length() < 3) {
-            message.response("@\u2005" + sender + " 您的消息过短~o(╯□╰)o！");
+            message.response("@" + sender + " 您的消息过短~o(╯□╰)o！");
             return;
         }
-        content = content.replaceAll(getKeyWordRegex().toString(), "小冰");
+        content = content.replaceAll(getKeyWordRegex().toString(), "");
         String responseXiaoIce = Response.responseXiaoIce(content);
         if (responseXiaoIce == null) return;
-        message.response("@\u2005" + sender + " " + responseXiaoIce);
+        message.response("@" + sender + " " + responseXiaoIce);
     }
 
     private boolean strIsEnglish(String word) {

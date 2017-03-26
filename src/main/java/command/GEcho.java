@@ -39,7 +39,7 @@ public class GEcho extends BaseGroupMessageCommandRunner {
 
     @Override
     public String getHelpMessage() {
-        return "avalon echo / avalon repeat / 阿瓦隆跟我说：让阿瓦隆重复给定语句，需要特定权限";
+        return "avalon echo / avalon repeat / 阿瓦隆跟我说：<管理员> 让阿瓦隆重复给定语句";
     }
 
     @Override

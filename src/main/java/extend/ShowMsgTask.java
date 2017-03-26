@@ -17,7 +17,8 @@ public class ShowMsgTask implements Task {
 
     @Override
     public void run() {
-        for (long thisNeedShow : MainServlet.followGroup)
+        long[] followGroups = MainServlet.getFollowGroup();
+        for (long thisNeedShow : followGroups)
             Response.sendToGroup(thisNeedShow, message);
     }
 }

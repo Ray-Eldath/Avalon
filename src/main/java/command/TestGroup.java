@@ -1,6 +1,5 @@
 package command;
 
-import data.ConfigSystem;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -19,15 +18,11 @@ public class TestGroup extends BaseGroupMessageCommandRunner {
     }
 
     private void doTest(GroupMessage message) {
-        message.response("@\u2005测试？");
+        message.response("@测试？");
     }
 
     @Override
     public void doPost(GroupMessage message) {
-        for (long thisAdminUid : (long[]) ConfigSystem.getInstance().getConfig("Admin_Uid")) {
-            if (message.getSenderUid() == thisAdminUid)
-                doTest(message);
-        }
     }
 
     @Override

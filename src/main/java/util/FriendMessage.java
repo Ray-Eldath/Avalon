@@ -14,7 +14,7 @@ import java.util.Calendar;
  *
  * @author Eldath
  */
-public class FriendMessage implements Message, StringGetable {
+public class FriendMessage implements Message, Displayable {
     private final static Logger logger = LoggerFactory.getLogger(FriendMessage.class);
     private final int id;
     private final LocalDateTime time;

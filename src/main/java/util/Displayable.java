@@ -5,6 +5,6 @@ package util;
  *
  * @author Eldath Ray
  */
-public interface StringGetable {
+public interface Displayable {
     String getString();
 }

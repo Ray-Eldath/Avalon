@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +42,18 @@ public class Response {
         }
         JSONObject object = (JSONObject) tokener.nextValue();
         if (object.isNull("reply")) return null;
-        String reply = new String(object.get("reply").toString().getBytes(Charset.forName("UNICODE")));
-        //TODO 编码有问题
+        String reply;
+        try {
+            reply = new String(object.get("reply").toString().getBytes(), "UTF-8");
+        } catch (UnsupportedEncodingException ignore) {
+            return null;
+        }
         if (reply.contains("[语音]")) return null;
         else if (reply.contains("[图片]")) return null;
         for (String thisReplaceWord : replaceList)
             reply = reply.replace(thisReplaceWord, "Avalon");
         return reply;
+
     }
 
     /**

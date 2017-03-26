@@ -1,4 +1,4 @@
-package command;
+package extend;
 
 import tool.ConstantPool;
 import util.FriendMessage;

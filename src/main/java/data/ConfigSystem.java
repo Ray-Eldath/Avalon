@@ -73,13 +73,10 @@ public class ConfigSystem {
     public Object[] getConfigArray(String key) {
         JSONArray array = (JSONArray) allConfigs.get(key);
         Object[] result = new Object[array.length()];
+        Object thisObject;
         for (int i = 0; i < array.length(); i++) {
-            Object thisObject = array.get(i);
+            thisObject = array.get(i);
             result[i] = thisObject;
-//            System.out.println(thisObject.getClass().getSimpleName());
-//            if (thisObject.getClass().getClass().getSimpleName().equals("Integer"))
-//                result[i] = (long) array.get(i);
-//            System.out.println(result[i].getClass().getSimpleName());
         }
         return result;
     }

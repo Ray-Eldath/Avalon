@@ -19,7 +19,7 @@ import static tool.ConstantPool.Address.APIServer;
  *
  * @author Eldath
  */
-public class GroupMessage implements Message, StringGetable {
+public class GroupMessage implements Message, Displayable {
     private final static Logger logger = LoggerFactory.getLogger(GroupMessage.class);
     private final int id;
     private final LocalDateTime time;
@@ -112,8 +112,8 @@ public class GroupMessage implements Message, StringGetable {
 
     @Override
     public String getString() {
-        return "id=" + id + "\ttime=" + time.toString() + "\tsenderUid=" +
-                senderUid + "\tsenderNickName=\"" + senderNickName + "\"\tgroupUid=" +
-                groupUid + "\tgroupName=\"" + groupName + "\"\tcontent=\"" + content + "\"";
+        return String.format("id= % 6d, time= %-18s, senderUid= % 12d, senderNickName= \"%-15s\", groupUid= % 10d, " +
+                        "groupName= \"%-18s\", content= \"%s\"", id, time.toString().replace("T", " "),
+                senderUid, senderNickName, groupUid, groupName, content);
     }
 }
