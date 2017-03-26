@@ -2,7 +2,8 @@ package main;
 
 import command.*;
 import data.ConfigSystem;
-import extend.*;
+import extend.BaseGameCommandRunner;
+import extend.Recorder;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
@@ -59,14 +60,14 @@ public class MainServlet extends HttpServlet {
     }
 
     static {
-        gameApiList.put(GRegister.getInstance().getKeyWordRegex(), GRegister.getInstance());
+        /*gameApiList.put(GRegister.getInstance().getKeyWordRegex(), GRegister.getInstance());
         gameApiList.put(GNewGroup.getInstance().getKeyWordRegex(), GNewGroup.getInstance());
         gameApiList.put(GJoinGroup.getInstance().getKeyWordRegex(), GJoinGroup.getInstance());
-        gameApiList.put(GGo.getInstance().getKeyWordRegex(), GGo.getInstance());
+        gameApiList.put(GGo.getInstance().getKeyWordRegex(), GGo.getInstance());*/
         //
         MainServlet.configure(TestGroup.getInstance().getKeyWordRegex(), TestGroup.getInstance());
-        MainServlet.configure(GGameInfo.getInstance().getKeyWordRegex(), GGameInfo.getInstance());
-        MainServlet.configure(GGameLoad.getInstance().getKeyWordRegex(), GGameLoad.getInstance());
+        /*MainServlet.configure(GGameInfo.getInstance().getKeyWordRegex(), GGameInfo.getInstance());
+        MainServlet.configure(GGameLoad.getInstance().getKeyWordRegex(), GGameLoad.getInstance());*/
         MainServlet.configure(GCommandManager.getInstance().getKeyWordRegex(), GCommandManager.getInstance());
         MainServlet.configure(GShutdown.getInstance().getKeyWordRegex(), GShutdown.getInstance());
         MainServlet.configure(GBlacklist.getInstance().getKeyWordRegex(), GBlacklist.getInstance());

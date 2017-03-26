@@ -1,0 +1,62 @@
+{
+  "plugin_allowed_account": {
+    "CommandManager_basic": [
+      100000000,
+      100000000,
+      100000000,
+      100000000
+    ],
+    "Blacklist_basic": [
+      100000000
+    ],
+    "CommandManager_restart": [
+      100000000,
+      100000000,
+      100000000
+    ],
+    "Echo_basic": [
+      100000000
+    ],
+    "CommandManager_stop": [
+      100000000,
+      100000000,
+      100000000,
+      100000000,
+      100000000
+    ]
+  },
+  "Record_Group_Uid": [
+    100000000,
+    100000000
+  ],
+  "Mojo-Weixin_API_Address": "http://127.0.0.1:3500",
+  "Admin_Uid": [
+    100000000
+  ],
+  "Follow_Group_Uid": [
+    100000000
+  ],
+  "Mojo-Webqq_POST_API_Address": "http://127.0.0.1:5050",
+  "Game_Mode_Enabled_Group_Uid": [
+    100000000
+  ],
+  "Block_Words": [
+    "baka",
+    "笨蛋",
+    "傻瓜",
+    "操",
+    "艹",
+    "fuck"
+  ],
+  "Block_Words_Punish_Frequency": 3,
+  "Mojo-Webqq_API_Address": "http://127.0.0.1:5000",
+  "plugin_config": {
+    "GXiaoIce": {
+      "Uid_BlackList_Enabled": true
+    }
+  },
+  "BlackList_Uid": [],
+  "Block_Words_Punishment_Mode_Enabled": true,
+  "Debug": false,
+  "Game_Mode_Enabled": false
+}

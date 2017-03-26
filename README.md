@@ -4,6 +4,7 @@ A QQ group robot which based on Mojo-Webqq.
 一个基于[Mojo-Webqq](https://github.com/sjdy521/Mojo-Webqq)的QQ机器人。
 
 [最新RELEASE](https://github.com/Ray-Eldath/Avalon/releases/latest)
+
 ## 维护须知
 
 1. 所有```api```目录下的类必须```implements GroupMessage```（``FriendMessage``API暂无开发计划）；
