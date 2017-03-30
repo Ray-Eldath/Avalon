@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GVersion extends BaseGroupMessageCommandRunner {
+public class GVersion extends BaseGroupMessageResponder {
     private static GVersion instance = null;
 
     public static GVersion getInstance() {

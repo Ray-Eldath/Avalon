@@ -14,7 +14,7 @@ import static util.GPathDirections.fromName;
  *
  * @author Eldath Ray
  */
-public class GGo extends BaseGameCommandRunner {
+public class GGo extends BaseGameResponder {
     private static GGo instance = null;
 
     public static GGo getInstance() {

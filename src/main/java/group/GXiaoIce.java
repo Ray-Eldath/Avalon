@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import tool.Response;
 import util.GroupMessage;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GXiaoIce extends BaseGroupMessageCommandRunner {
+public class GXiaoIce extends BaseGroupMessageResponder {
     // private static final Logger logger = LoggerFactory.getLogger(GXiaoIce.class);
     private static GXiaoIce instance = null;
 

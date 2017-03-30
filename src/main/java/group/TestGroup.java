@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import util.GroupMessage;
 
@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class TestGroup extends BaseGroupMessageCommandRunner {
+public class TestGroup extends BaseGroupMessageResponder {
     private static TestGroup instance = null;
 
     public static TestGroup getInstance() {

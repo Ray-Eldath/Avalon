@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import tool.GameScriptLoader;
 import util.GScript;
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class GGameLoad extends BaseGroupMessageCommandRunner {
+public class GGameLoad extends BaseGroupMessageResponder {
     private static GGameLoad ourInstance = new GGameLoad();
 
     public static GGameLoad getInstance() {

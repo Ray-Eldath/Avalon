@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import data.ConfigSystem;
 import util.GroupMessage;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GEcho extends BaseGroupMessageCommandRunner {
+public class GEcho extends BaseGroupMessageResponder {
     private static GEcho instance = null;
     private static final long[] allowList = ConfigSystem.getInstance().getCommandAllowArray("Echo_basic");
 

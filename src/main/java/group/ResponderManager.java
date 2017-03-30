@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import data.ConfigSystem;
 import main.MainServlet;
@@ -14,21 +14,21 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GCommandManager extends BaseGroupMessageCommandRunner {
-    private static GCommandManager instance = null;
-    private static final Logger logger = LoggerFactory.getLogger(GCommandManager.class);
+public class ResponderManager extends BaseGroupMessageResponder {
+    private static ResponderManager instance = null;
+    private static final Logger logger = LoggerFactory.getLogger(ResponderManager.class);
     private static final long[] restartAllowUid = ConfigSystem.getInstance()
-            .getCommandAllowArray("CommandManager_restart");
+            .getCommandAllowArray("ResponderManager_restart");
     private static final long[] allowPeople = ConfigSystem.getInstance()
-            .getCommandAllowArray("CommandManager_basic");
+            .getCommandAllowArray("ResponderManager_basic");
     private static final long[] stopAllowUid = ConfigSystem.getInstance()
-            .getCommandAllowArray("CommandManager_stop");
-    private static final BaseGroupMessageCommandRunner[] canNotBanAPI =
-            new BaseGroupMessageCommandRunner[]{GShutdown.getInstance()};
+            .getCommandAllowArray("ResponderManager_stop");
+    private static final BaseGroupMessageResponder[] canNotBanAPI =
+            new BaseGroupMessageResponder[]{GShutdown.getInstance()};
 
 
-    public static GCommandManager getInstance() {
-        if (instance == null) instance = new GCommandManager();
+    public static ResponderManager getInstance() {
+        if (instance == null) instance = new ResponderManager();
         return instance;
     }
 
@@ -46,15 +46,15 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
                     return;
                 }
                 apiName = content.toLowerCase().
-                        replace("avalon commandmanager stop ", "").replace("avalon commandmanager start ", "");
-                BaseGroupMessageCommandRunner thisAPI = MainServlet.getAPIByKeyword(apiName);
+                        replace("avalon respondermanager stop ", "").replace("avalon respondermanager start ", "");
+                BaseGroupMessageResponder thisAPI = MainServlet.getAPIByKeyword(apiName);
                 action = content.toLowerCase().
-                        replace("avalon commandmanager ", "").replace(apiName, "").trim();
+                        replace("avalon respondermanager ", "").replace(apiName, "").trim();
                 if (thisAPI == null) {
                     message.response("@" + sender + " 您要操作的指令响应器根本不存在！(╯︵╰,)");
                     return;
                 }
-                for (BaseGroupMessageCommandRunner thisCanNotBanRunner : canNotBanAPI)
+                for (BaseGroupMessageResponder thisCanNotBanRunner : canNotBanAPI)
                     if (thisAPI.equals(thisCanNotBanRunner)) {
                         message.response("@" + sender + "您要操作的指令响应器可不能被禁止啊！(´Д` )");
                         return;
@@ -64,7 +64,7 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
                         if (thisAllowStartUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, true);
                             message.response("@" + sender + " 您要重启的指令响应器将会重启`(*∩_∩*)′");
-                            logger.info("BaseGroupMessageCommandRunner " + thisAPI.getClass().getName() + " is reopened by " +
+                            logger.info("BaseGroupMessageResponder " + thisAPI.getClass().getName() + " is reopened by " +
                                     senderUid + " : " + sender + ".");
                             return;
                         }
@@ -74,7 +74,7 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
                         if (thisStopAllowUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, false);
                             message.response("@" + sender + " 您要关闭的指令响应器将会关闭~=-=");
-                            logger.info("BaseGroupMessageCommandRunner " + thisAPI.getClass().getName() + " is closed by " +
+                            logger.info("BaseGroupMessageResponder " + thisAPI.getClass().getName() + " is closed by " +
                                     senderUid + " : " + sender + ".");
                             return;
                         }
@@ -89,11 +89,11 @@ public class GCommandManager extends BaseGroupMessageCommandRunner {
 
     @Override
     public String getHelpMessage() {
-        return "avalon commandmanager (start/stop)：<管理员> 控制指令响应器开/关";
+        return "avalon respondermanager (start/stop)：<管理员> 控制指令响应器开/关";
     }
 
     @Override
     public Pattern getKeyWordRegex() {
-        return Pattern.compile("avalon commandmanager ");
+        return Pattern.compile("avalon respondermanager ");
     }
 }

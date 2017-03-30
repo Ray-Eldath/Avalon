@@ -1,6 +1,6 @@
 package extend;
 
-import command.BaseGroupMessageCommandRunner;
+import group.BaseGroupMessageResponder;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public abstract class BaseGameCommandRunner extends BaseGroupMessageCommandRunner {
+public abstract class BaseGameResponder extends BaseGroupMessageResponder {
     public abstract void doPost(GroupMessage message);
 
     public String getHelpMessage() {

@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class GJoinGroup extends BaseGameCommandRunner {
+public class GJoinGroup extends BaseGameResponder {
     private static GJoinGroup instance = null;
 
     public static GJoinGroup getInstance() {

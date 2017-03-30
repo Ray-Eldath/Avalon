@@ -1,5 +1,6 @@
-package command;
+package group;
 
+import util.BaseResponder;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -9,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public abstract class BaseGroupMessageCommandRunner implements BaseAPI {
+public abstract class BaseGroupMessageResponder implements BaseResponder {
     public abstract void doPost(GroupMessage message);
 
     public abstract String getHelpMessage();
@@ -19,7 +20,7 @@ public abstract class BaseGroupMessageCommandRunner implements BaseAPI {
     @Override
     public boolean equals(Object object) {
         return object != null &&
-                object instanceof BaseGroupMessageCommandRunner &&
-                getKeyWordRegex().toString().equals(((BaseGroupMessageCommandRunner) object).getKeyWordRegex().toString());
+                object instanceof BaseGroupMessageResponder &&
+                getKeyWordRegex().toString().equals(((BaseGroupMessageResponder) object).getKeyWordRegex().toString());
     }
 }

@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import tool.GameScriptLoader;
 import tool.VariablePool;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class GGameInfo extends BaseGroupMessageCommandRunner {
+public class GGameInfo extends BaseGroupMessageResponder {
     private static GGameInfo ourInstance = new GGameInfo();
 
     public static GGameInfo getInstance() {

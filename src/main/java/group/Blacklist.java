@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import data.ConfigSystem;
 import main.MainServlet;
@@ -14,14 +14,14 @@ import java.util.regex.Pattern;
  * @author Eldath
  */
 @SuppressWarnings("ALL")
-public class GBlacklist extends BaseGroupMessageCommandRunner {
-    private static Logger logger = LoggerFactory.getLogger(GBlacklist.class);
+public class Blacklist extends BaseGroupMessageResponder {
+    private static Logger logger = LoggerFactory.getLogger(Blacklist.class);
     private static final long[] allowList = ConfigSystem.getInstance()
             .getCommandAllowArray("Blacklist_basic");
-    private static GBlacklist instance = null;
+    private static Blacklist instance = null;
 
-    public static GBlacklist getInstance() {
-        if (instance == null) instance = new GBlacklist();
+    public static Blacklist getInstance() {
+        if (instance == null) instance = new Blacklist();
         return instance;
     }
 

@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import main.MainServlet;
 import util.GroupMessage;
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GHelp extends BaseGroupMessageCommandRunner {
+public class GHelp extends BaseGroupMessageResponder {
     private static GHelp instance = null;
 
     public static GHelp getInstance() {
@@ -21,9 +21,9 @@ public class GHelp extends BaseGroupMessageCommandRunner {
 
     @Override
     public void doPost(GroupMessage message) {
-        Map<Pattern, BaseGroupMessageCommandRunner> apiList = MainServlet.getApiList();
+        Map<Pattern, BaseGroupMessageResponder> apiList = MainServlet.getApiList();
         StringBuilder messageShow = new StringBuilder();
-        for (BaseGroupMessageCommandRunner api : apiList.values()) {
+        for (BaseGroupMessageResponder api : apiList.values()) {
             String helpMessage = api.getHelpMessage();
             if (helpMessage == null || "".equals(helpMessage)) continue;
             messageShow.append("\n").append(api.getHelpMessage());

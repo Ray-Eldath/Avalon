@@ -1,4 +1,4 @@
-package command;
+package util;
 
 import java.util.regex.Pattern;
 
@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-interface BaseAPI {
+public interface BaseResponder {
     String getHelpMessage();
     Pattern getKeyWordRegex();
 }

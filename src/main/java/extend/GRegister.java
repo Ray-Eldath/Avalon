@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class GRegister extends BaseGameCommandRunner {
+public class GRegister extends BaseGameResponder {
     private static GRegister instance = null;
 
     public static GRegister getInstance() {

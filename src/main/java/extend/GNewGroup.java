@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class GNewGroup extends BaseGameCommandRunner {
+public class GNewGroup extends BaseGameResponder {
     private static GNewGroup instance = null;
 
     public static GNewGroup getInstance() {

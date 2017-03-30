@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import main.MainServlet;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class GShutdown extends BaseGroupMessageCommandRunner {
+public class GShutdown extends BaseGroupMessageResponder {
     private static GShutdown instance = null;
 
     public static GShutdown getInstance() {

@@ -22,9 +22,9 @@ public class GenerateConfigFile {
     private static final Map<String, Object> pluginConfig = new HashMap<>();
 
     static {
-        pluginAllowPeoples.put("CommandManager_basic", new long[]{951394653, 360736041, 1464443139, 704639565});
-        pluginAllowPeoples.put("CommandManager_stop", new long[]{1464443139, 360736041, 704639565, 951394653, 1016281105});
-        pluginAllowPeoples.put("CommandManager_restart", new long[]{1464443139, 704639565, 951394653});
+        pluginAllowPeoples.put("ResponderManager_basic", new long[]{951394653, 360736041, 1464443139, 704639565});
+        pluginAllowPeoples.put("ResponderManager_stop", new long[]{1464443139, 360736041, 704639565, 951394653, 1016281105});
+        pluginAllowPeoples.put("ResponderManager_restart", new long[]{1464443139, 704639565, 951394653});
         pluginAllowPeoples.put("Blacklist_basic", new long[]{1464443139});
         pluginAllowPeoples.put("Echo_basic", new long[]{1464443139});
         //

@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import tool.VariablePool;
 import util.GroupMessage;
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GMo extends BaseGroupMessageCommandRunner {
+public class GMo extends BaseGroupMessageResponder {
     private static GMo instance = null;
 
     public static GMo getInstance() {

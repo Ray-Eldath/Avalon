@@ -1,4 +1,4 @@
-package command;
+package group;
 
 import extend.Recorder;
 import main.MainServlet;
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class GFlush extends BaseGroupMessageCommandRunner {
+public class GFlush extends BaseGroupMessageResponder {
     private static GFlush ourInstance = new GFlush();
 
     public static GFlush getInstance() {
