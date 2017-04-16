@@ -1,20 +1,24 @@
 package group;
 
+import data.ConfigSystem;
 import extend.BaseGameResponder;
 import extend.Recorder;
-import main.MainServlet;
+import main.MessageChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tool.APIRateLimit;
 import tool.APISurvivePool;
 import tool.ConstantPool;
 import tool.VariablePool;
 import util.GroupMessage;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static main.MainServlet.*;
+import static tool.ObjectCaster.toLongArray;
+import static tool.ObjectCaster.toStringArray;
 
 /**
  * Created by Eldath Ray on 2017/3/30.
@@ -22,11 +26,51 @@ import static main.MainServlet.*;
  * @author Eldath Ray
  */
 public class MainGroupMessageHandler {
-    private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
+    private static final Logger logger = LoggerFactory.getLogger(MainGroupMessageHandler.class);
     private static final Map<Pattern, BaseGroupMessageResponder> apiList = new LinkedHashMap<>();
     private static final Map<Pattern, BaseGameResponder> gameApiList = new LinkedHashMap<>();
+    private static MainGroupMessageHandler instance = new MainGroupMessageHandler();
+    private static long[] adminUid = toLongArray(ConfigSystem
+            .getInstance().getConfigArray("Admin_Uid"));
+    private static long[] followGroup = toLongArray(ConfigSystem
+            .getInstance().getConfigArray("Follow_Group_Uid"));
+    private static long[] gameModeAllowedGroup = toLongArray(ConfigSystem
+            .getInstance().getConfigArray("Game_Mode_Enabled_Group_Uid"));
+    private static long[] recordGroup = toLongArray(ConfigSystem
+            .getInstance().getConfigArray("Record_Group_Uid"));
+    private static long[] blackListPeople = toLongArray(ConfigSystem
+            .getInstance().getConfigArray("BlackList_Uid"));
+    private static Map<Long, Integer> blackListPeopleMap = new HashMap<>();
+    private static String[] blockList = toStringArray(ConfigSystem
+            .getInstance().getConfigArray("Block_Words"));
+    private static final int punishFrequency = (int) ConfigSystem.getInstance()
+            .getConfig("Block_Words_Punish_Frequency");
+    private static final APIRateLimit cooling = new APIRateLimit(3000L);
 
-    public static void handle(GroupMessage message) {
+    public static Map<Pattern, BaseGroupMessageResponder> getApiList() {
+        return apiList;
+    }
+
+    public static MainGroupMessageHandler getInstance() {
+        return instance;
+    }
+
+    private MainGroupMessageHandler() {
+        for (long thisBlackPeople : blackListPeople)
+            blackListPeopleMap.put(thisBlackPeople, punishFrequency + 1);
+    }
+
+    public static BaseGroupMessageResponder getGroupResponderByKeyword(String keyword) {
+        for (Map.Entry<Pattern, BaseGroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
+            Pattern key = patternAPIEntry.getKey();
+            BaseGroupMessageResponder value = patternAPIEntry.getValue();
+            if (key.matcher(keyword).find())
+                return value;
+        }
+        return null;
+    }
+
+    public void handle(GroupMessage message) {
         Recorder.getInstance().recodeGroupMessage(message);
         long groupUid = message.getGroupUid();
         String content = message.getContent();
@@ -67,6 +111,7 @@ public class MainGroupMessageHandler {
                 for (Map.Entry<Pattern, BaseGroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
                     BaseGroupMessageResponder value = patternAPIEntry.getValue();
                     if (doCheck(patternAPIEntry.getKey(), value, message)) {
+                        if (MessageChecker.checkEncode(message)) return;
                         value.doPost(message);
                         return;
                     }
@@ -76,6 +121,7 @@ public class MainGroupMessageHandler {
                         if (groupUid == thisGameModeGroup)
                             for (Map.Entry<Pattern, BaseGameResponder> gameApiListEntry : gameApiList.entrySet())
                                 if (gameApiListEntry.getKey().matcher(content).find()) {
+                                    if (MessageChecker.checkEncode(message)) return;
                                     gameApiListEntry.getValue().doPost(message);
                                     return;
                                 }
@@ -88,7 +134,7 @@ public class MainGroupMessageHandler {
             }
     }
 
-    private static boolean doCheck(Pattern key, BaseGroupMessageResponder value, GroupMessage groupMessage) {
+    private boolean doCheck(Pattern key, BaseGroupMessageResponder value, GroupMessage groupMessage) {
         String lowerContent = groupMessage.getContent().toLowerCase();
         long time = groupMessage.getTimeLong();
         String sender = groupMessage.getSenderNickName();
@@ -112,7 +158,7 @@ public class MainGroupMessageHandler {
         return true;
     }
 
-    private static boolean preCheck(String lowerContent) {
+    private boolean preCheck(String lowerContent) {
         boolean match = true;
         //
         for (Pattern thisPattern : gameApiList.keySet()) {
@@ -129,7 +175,7 @@ public class MainGroupMessageHandler {
         return match;
     }
 
-    private static void blackListPlus(long senderUid) {
+    private void blackListPlus(long senderUid) {
         int pastValue;
         pastValue = blackListPeopleMap.get(senderUid);
         blackListPeopleMap.put(senderUid, ++pastValue);

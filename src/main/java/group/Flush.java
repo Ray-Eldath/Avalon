@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class GFlush extends BaseGroupMessageResponder {
-    private static GFlush ourInstance = new GFlush();
+public class Flush extends BaseGroupMessageResponder {
+    private static Flush ourInstance = new Flush();
 
-    public static GFlush getInstance() {
+    public static Flush getInstance() {
         return ourInstance;
     }
 

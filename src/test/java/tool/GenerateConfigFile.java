@@ -16,7 +16,7 @@ import java.util.Map;
  * @author Eldath Ray
  * @since v0.0.1 Beta
  */
-public class GenerateConfigFile {
+class GenerateConfigFile {
     private static final Map<String, Object> allConfigs = new HashMap<>();
     private static final Map<String, Object> pluginAllowPeoples = new HashMap<>();
     private static final Map<String, Object> pluginConfig = new HashMap<>();
@@ -30,7 +30,7 @@ public class GenerateConfigFile {
         //
         Map<String, Object> loopUsing = new HashMap<>();
         loopUsing.put("Uid_BlackList_Enabled", true);
-        pluginConfig.put("GXiaoIce", loopUsing);
+        pluginConfig.put("AnswerMe", loopUsing);
         // loopUsing.clear();
         //
         allConfigs.put("Game_Mode_Enabled", true);

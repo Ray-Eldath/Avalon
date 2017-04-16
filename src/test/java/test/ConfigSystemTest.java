@@ -7,10 +7,10 @@ import data.ConfigSystem;
  *
  * @author Eldath Ray
  */
-public class ConfigSystemTest {
+class ConfigSystemTest {
     public static void main(String[] args) {
         long[] test = ConfigSystem.getInstance().getCommandAllowArray("CommandManager_basic");
-        System.out.println(ConfigSystem.getInstance().getCommandConfig("GXiaoIce", "BlockList_Words").getClass().toString());
+        System.out.println(ConfigSystem.getInstance().getCommandConfig("AnswerMe", "BlockList_Words").getClass().toString());
         for (Long long1 : test)
             System.out.println(long1);
     }

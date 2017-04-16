@@ -1,7 +1,8 @@
-package extend;
+package group;
 
 import data.GameData;
 import data.GameRunningData;
+import extend.BaseGameResponder;
 import tool.DelayResponse;
 import util.*;
 

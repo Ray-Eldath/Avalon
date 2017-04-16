@@ -8,7 +8,7 @@ import util.GSection;
  *
  * @author Eldath Ray
  */
-public class GameSectionDisplayer {
+class GameSectionDisplayer {
     public static void display(GSection section) {
     }
 

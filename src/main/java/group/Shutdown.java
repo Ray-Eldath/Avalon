@@ -11,11 +11,11 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class GShutdown extends BaseGroupMessageResponder {
-    private static GShutdown instance = null;
+public class Shutdown extends BaseGroupMessageResponder {
+    private static Shutdown instance = null;
 
-    public static GShutdown getInstance() {
-        if (instance == null) instance = new GShutdown();
+    public static Shutdown getInstance() {
+        if (instance == null) instance = new Shutdown();
         return instance;
     }
 
@@ -25,7 +25,7 @@ public class GShutdown extends BaseGroupMessageResponder {
         for (long admin : admins)
             if (admin == message.getSenderUid()) {
                 System.exit(0);
-                LoggerFactory.getLogger(GShutdown.class).warn("Avalon is stopped remotely by " +
+                LoggerFactory.getLogger(Shutdown.class).warn("Avalon is stopped remotely by " +
                         message.getSenderUid() + " : " + message.getSenderNickName() + " on " +
                         message.getGroupUid() + " : " + message.getGroupName() + " at " +
                         message.getTime().toString().replace("T", " "));

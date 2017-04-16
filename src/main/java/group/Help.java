@@ -11,11 +11,11 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GHelp extends BaseGroupMessageResponder {
-    private static GHelp instance = null;
+public class Help extends BaseGroupMessageResponder {
+    private static Help instance = null;
 
-    public static GHelp getInstance() {
-        if (instance == null) instance = new GHelp();
+    public static Help getInstance() {
+        if (instance == null) instance = new Help();
         return instance;
     }
 

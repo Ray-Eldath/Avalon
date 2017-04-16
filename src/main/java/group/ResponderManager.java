@@ -24,7 +24,7 @@ public class ResponderManager extends BaseGroupMessageResponder {
     private static final long[] stopAllowUid = ConfigSystem.getInstance()
             .getCommandAllowArray("ResponderManager_stop");
     private static final BaseGroupMessageResponder[] canNotBanAPI =
-            new BaseGroupMessageResponder[]{GShutdown.getInstance()};
+            new BaseGroupMessageResponder[]{Shutdown.getInstance()};
 
 
     public static ResponderManager getInstance() {

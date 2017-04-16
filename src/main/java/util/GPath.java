@@ -14,7 +14,7 @@ public class GPath {
     private final boolean reversible;
     private final int moveDelaySecond;
 
-    public GPath(GRoom from, GRoom to, GPathDirection exitDirection, int moveDelaySecond, boolean reversible) {
+    private GPath(GRoom from, GRoom to, GPathDirection exitDirection, int moveDelaySecond, boolean reversible) {
         this.from = from;
         this.to = to;
         this.exitDirection = exitDirection;

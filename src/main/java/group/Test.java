@@ -9,11 +9,11 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class TestGroup extends BaseGroupMessageResponder {
-    private static TestGroup instance = null;
+public class Test extends BaseGroupMessageResponder {
+    private static Test instance = null;
 
-    public static TestGroup getInstance() {
-        if (instance == null) instance = new TestGroup();
+    public static Test getInstance() {
+        if (instance == null) instance = new Test();
         return instance;
     }
 

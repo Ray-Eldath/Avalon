@@ -11,14 +11,14 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class GGameLoad extends BaseGroupMessageResponder {
-    private static GGameLoad ourInstance = new GGameLoad();
+public class GameLoad extends BaseGroupMessageResponder {
+    private static GameLoad ourInstance = new GameLoad();
 
-    public static GGameLoad getInstance() {
+    public static GameLoad getInstance() {
         return ourInstance;
     }
 
-    private GGameLoad() {
+    private GameLoad() {
     }
 
     @Override

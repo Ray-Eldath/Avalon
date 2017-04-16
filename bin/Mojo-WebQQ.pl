@@ -18,13 +18,4 @@ $client->load("Openqq",data=>{
         # post_event_list => ['login','stop','state_change','input_qrcode'],
 });
 
-#利用controller允许指定的IP可以访问，更多关于controller的资料，可以参考 Mojolicious::Controller
-sub{
-    my ($param,$controller) = @_;
-    if($controller->tx->remote_address eq "127.0.0.1"){
-        return 1;
-    }
-    return 0;
-};
-
 $client->run();

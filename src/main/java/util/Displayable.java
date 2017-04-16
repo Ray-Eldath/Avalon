@@ -5,6 +5,7 @@ package util;
  *
  * @author Eldath Ray
  */
+@SuppressWarnings("ALL")
 public interface Displayable {
     String getString();
 }

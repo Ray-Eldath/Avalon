@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GEcho extends BaseGroupMessageResponder {
-    private static GEcho instance = null;
+public class Echo extends BaseGroupMessageResponder {
+    private static Echo instance = null;
     private static final long[] allowList = ConfigSystem.getInstance().getCommandAllowArray("Echo_basic");
 
-    public static GEcho getInstance() {
-        if (instance == null) instance = new GEcho();
+    public static Echo getInstance() {
+        if (instance == null) instance = new Echo();
         return instance;
     }
 

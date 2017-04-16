@@ -7,7 +7,7 @@ import util.GOption;
  *
  * @author Eldath Ray
  */
-public class GameSystemTest {
+class GameSystemTest {
     public static void main(String[] args) {
         new GOption('A', "", (a) -> System.out.println("Hello World!"));
     }

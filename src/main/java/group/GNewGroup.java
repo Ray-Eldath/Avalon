@@ -1,7 +1,8 @@
-package extend;
+package group;
 
 import data.GameRunningData;
 import data.GameRunningData.GroupAndPlayer;
+import extend.BaseGameResponder;
 import util.GGroup;
 import util.GPacket;
 import util.GroupMessage;

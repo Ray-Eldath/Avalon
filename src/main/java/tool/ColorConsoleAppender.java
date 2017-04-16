@@ -14,7 +14,7 @@ import static org.fusesource.jansi.Ansi.ansi;
  *
  * @author Eldath Ray
  */
-public class ColorConsoleAppender extends AppenderSkeleton {
+class ColorConsoleAppender extends AppenderSkeleton {
 
     public ColorConsoleAppender() {
         AnsiConsole.systemInstall();

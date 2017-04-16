@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GXiaoIce extends BaseGroupMessageResponder {
-    // private static final Logger logger = LoggerFactory.getLogger(GXiaoIce.class);
-    private static GXiaoIce instance = null;
+public class AnswerMe extends BaseGroupMessageResponder {
+    // private static final Logger logger = LoggerFactory.getLogger(AnswerMe.class);
+    private static AnswerMe instance = null;
 
-    public static GXiaoIce getInstance() {
-        if (instance == null) instance = new GXiaoIce();
+    public static AnswerMe getInstance() {
+        if (instance == null) instance = new AnswerMe();
         return instance;
     }
 

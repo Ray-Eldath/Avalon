@@ -14,11 +14,11 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class GVersion extends BaseGroupMessageResponder {
-    private static GVersion instance = null;
+public class Version extends BaseGroupMessageResponder {
+    private static Version instance = null;
 
-    public static GVersion getInstance() {
-        if (instance == null) instance = new GVersion();
+    public static Version getInstance() {
+        if (instance == null) instance = new Version();
         return instance;
     }
 

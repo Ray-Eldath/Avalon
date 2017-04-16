@@ -12,10 +12,10 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public class GGameInfo extends BaseGroupMessageResponder {
-    private static GGameInfo ourInstance = new GGameInfo();
+public class GameInfo extends BaseGroupMessageResponder {
+    private static GameInfo ourInstance = new GameInfo();
 
-    public static GGameInfo getInstance() {
+    public static GameInfo getInstance() {
         return ourInstance;
     }
 
