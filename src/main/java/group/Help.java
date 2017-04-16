@@ -1,6 +1,5 @@
 package group;
 
-import main.MainServlet;
 import util.GroupMessage;
 
 import java.util.Map;
@@ -21,7 +20,7 @@ public class Help extends BaseGroupMessageResponder {
 
     @Override
     public void doPost(GroupMessage message) {
-        Map<Pattern, BaseGroupMessageResponder> apiList = MainServlet.getApiList();
+        Map<Pattern, BaseGroupMessageResponder> apiList = MainGroupMessageHandler.getApiList();
         StringBuilder messageShow = new StringBuilder();
         for (BaseGroupMessageResponder api : apiList.values()) {
             String helpMessage = api.getHelpMessage();

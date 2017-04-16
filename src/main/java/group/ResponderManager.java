@@ -1,7 +1,6 @@
 package group;
 
 import data.ConfigSystem;
-import main.MainServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tool.APISurvivePool;
@@ -47,7 +46,7 @@ public class ResponderManager extends BaseGroupMessageResponder {
                 }
                 apiName = content.toLowerCase().
                         replace("avalon respondermanager stop ", "").replace("avalon respondermanager start ", "");
-                BaseGroupMessageResponder thisAPI = MainServlet.getAPIByKeyword(apiName);
+                BaseGroupMessageResponder thisAPI = MainGroupMessageHandler.getGroupResponderByKeyword(apiName);
                 action = content.toLowerCase().
                         replace("avalon respondermanager ", "").replace(apiName, "").trim();
                 if (thisAPI == null) {

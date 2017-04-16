@@ -1,6 +1,5 @@
 package group;
 
-import main.MainServlet;
 import org.slf4j.LoggerFactory;
 import util.GroupMessage;
 
@@ -21,7 +20,7 @@ public class Shutdown extends BaseGroupMessageResponder {
 
     @Override
     public void doPost(GroupMessage message) {
-        long[] admins = MainServlet.getAdminUid();
+        long[] admins = MainGroupMessageHandler.getAdminUid();
         for (long admin : admins)
             if (admin == message.getSenderUid()) {
                 System.exit(0);

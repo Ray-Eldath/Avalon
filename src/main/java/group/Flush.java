@@ -1,7 +1,6 @@
 package group;
 
 import extend.Recorder;
-import main.MainServlet;
 import util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -21,7 +20,7 @@ public class Flush extends BaseGroupMessageResponder {
     @Override
     public void doPost(GroupMessage message) {
         long senderUid = message.getSenderUid();
-        long[] admins = MainServlet.getAdminUid();
+        long[] admins = MainGroupMessageHandler.getAdminUid();
         String sender = message.getSenderNickName();
         for (long thisAdmin : admins)
             if (senderUid == thisAdmin) {

@@ -1,6 +1,6 @@
 package extend;
 
-import main.MainServlet;
+import group.MainGroupMessageHandler;
 import tool.Response;
 
 /**
@@ -17,7 +17,7 @@ public class ShowMsgTask implements Task {
 
     @Override
     public void run() {
-        long[] followGroups = MainServlet.getFollowGroup();
+        long[] followGroups = MainGroupMessageHandler.getFollowGroup();
         for (long thisNeedShow : followGroups)
             Response.sendToGroup(thisNeedShow, message);
     }

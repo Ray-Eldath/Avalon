@@ -180,4 +180,23 @@ public class MainGroupMessageHandler {
         pastValue = blackListPeopleMap.get(senderUid);
         blackListPeopleMap.put(senderUid, ++pastValue);
     }
+
+    static long[] getAdminUid() {
+        return adminUid;
+        //FIXME 是否需要adminUid.clone()以防止数据修改？
+    }
+
+    public static long[] getFollowGroup() {
+        return followGroup;
+    }
+
+    static int getPunishFrequency() {
+        return punishFrequency;
+    }
+
+    static Map<Long, Integer> getSetBlackListPeopleMap() {
+        return blackListPeopleMap;
+    }
+
+
 }

@@ -1,7 +1,6 @@
 package group;
 
 import data.ConfigSystem;
-import main.MainServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.GroupMessage;
@@ -29,7 +28,7 @@ public class Blacklist extends BaseGroupMessageResponder {
     public void doPost(GroupMessage message) {
         final long sender_uid = message.getSenderUid();
         final long group_uid = message.getGroupUid();
-        final int max = MainServlet.punishFrequency;
+        final int max = MainGroupMessageHandler.getPunishFrequency();
         final String content = message.getContent();
         final String sender = message.getSenderNickName();
         String[] split;
@@ -51,16 +50,16 @@ public class Blacklist extends BaseGroupMessageResponder {
                 if ("add".equals(action)) {
                     message.response("@" + sender + " 帐号" + toBan + "现已被屏蔽。");
                     logger.info("Account " + toBan + " is baned by " + sender_uid + " : " + sender + ".");
-                    MainServlet.getSetBlackListPeopleMap().put(toBan, max);
+                    MainGroupMessageHandler.getSetBlackListPeopleMap().put(toBan, max);
                     return;
                 } else if ("remove".equals(action)) {
-                    if (!MainServlet.getSetBlackListPeopleMap().containsKey(toBan)) {
+                    if (!MainGroupMessageHandler.getSetBlackListPeopleMap().containsKey(toBan)) {
                         message.response("@" + sender + " 好像帐号" + toBan + "没有被屏蔽过呢-。-");
                         return;
                     }
                     message.response("@" + sender + " 帐号" + toBan + "的屏蔽已被解除(^.^)");
                     logger.info("Account " + toBan + " is allowed again by " + sender_uid + " : " + sender + ".");
-                    MainServlet.getSetBlackListPeopleMap().put(toBan, 0);
+                    MainGroupMessageHandler.getSetBlackListPeopleMap().put(toBan, 0);
                     return;
                 } else {
                     message.response("@" + sender + " 您的指示格式不对辣！（｀Δ´）！");

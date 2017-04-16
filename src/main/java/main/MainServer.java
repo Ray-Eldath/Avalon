@@ -4,6 +4,7 @@ import data.ConfigSystem;
 import extend.Recorder;
 import extend.Scheduler;
 import extend.ShowMsg;
+import group.MainGroupMessageHandler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -28,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class MainServer {
     private static final Logger logger = LoggerFactory.getLogger(MainServer.class);
-    private static long[] followGroup = MainServlet.getFollowGroup();
+    private static long[] followGroup = MainGroupMessageHandler.getFollowGroup();
 
     static class atShutdownDo extends Thread {
         @Override
