@@ -10,3 +10,4 @@ notifications:
   - provider: Email
     to:
       - eldath-ray@yandex.com
+    on_build_success: false
