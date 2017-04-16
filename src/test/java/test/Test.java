@@ -1,7 +1,7 @@
 package test;
 
-import data.ConfigSystem;
-import tool.ObjectCaster;
+import avalon.data.ConfigSystem;
+import avalon.tool.ObjectCaster;
 
 /**
  * Created by Eldath on 2017/1/29 0029.

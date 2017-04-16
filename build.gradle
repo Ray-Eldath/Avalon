@@ -4,7 +4,7 @@ version 'v0.0.1-beta'
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'main.MainServer'
+mainClassName = 'avalon.main.MainServer'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 

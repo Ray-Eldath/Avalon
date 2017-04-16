@@ -22,5 +22,5 @@ out/
 /ShowMsg.properties
 /.idea/
 /res/record.db
-src/main/java/META-INF/
+src/avalon.main/java/META-INF/
 config.json

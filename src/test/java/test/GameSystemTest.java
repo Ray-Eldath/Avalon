@@ -1,6 +1,6 @@
 package test;
 
-import util.GOption;
+import avalon.util.GOption;
 
 /**
  * Created by Eldath Ray on 2017/3/20.

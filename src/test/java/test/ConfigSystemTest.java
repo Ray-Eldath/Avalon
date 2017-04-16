@@ -1,6 +1,6 @@
 package test;
 
-import data.ConfigSystem;
+import avalon.data.ConfigSystem;
 
 /**
  * Created by Eldath Ray on 2017/3/18 0018.
