@@ -1,7 +1,7 @@
 package avalon.extend;
 
 import avalon.group.MainGroupMessageHandler;
-import avalon.tool.Response;
+import avalon.tool.Responder;
 
 /**
  * Created by Eldath on 2017/1/31 0031.
@@ -19,6 +19,6 @@ public class ShowMsgTask implements Task {
     public void run() {
         long[] followGroups = MainGroupMessageHandler.getFollowGroup();
         for (long thisNeedShow : followGroups)
-            Response.sendToGroup(thisNeedShow, message);
+            Responder.sendToGroup(thisNeedShow, message);
     }
 }

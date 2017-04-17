@@ -1,7 +1,5 @@
 package avalon.tool;
 
-import avalon.data.ConfigSystem;
-
 /**
  * Created by Eldath on 2017/2/3 0003.
  *
@@ -16,10 +14,14 @@ public class ConstantPool {
     }
 
     public static class Address {
-        public static final String APIServer = (String) ConfigSystem.getInstance()
-                .getConfig("Mojo-Webqq_API_Address");
-        public static final String weChatAPIServer = (String) ConfigSystem.getInstance()
-                .getConfig("Mojo-Weixin_API_Address");
+        public static final String webqq = addressHandle((String) ConfigSystem.getInstance()
+                .getConfig("Mojo-Webqq_API_Address"));
+        public static final String wechat = addressHandle((String) ConfigSystem.getInstance()
+                .getConfig("Mojo-Weixin_API_Address"));
+
+        private static String addressHandle(String address) {
+            return address.endsWith("/") ? address.substring(0, address.length() - 1) : address;
+        }
     }
 
     public static class Basic {

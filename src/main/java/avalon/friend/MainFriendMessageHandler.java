@@ -18,5 +18,6 @@ public class MainFriendMessageHandler {
     public void handle(FriendMessage message) {
 //        if (MessageChecker.checkEncode(message)) return;
         Recorder.getInstance().recodeFriendMessage(message);
+        //MessageHooker.handle(message);
     }
 }

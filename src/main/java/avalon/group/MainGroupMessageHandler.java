@@ -1,16 +1,10 @@
 package avalon.group;
 
-import avalon.data.ConfigSystem;
-import avalon.extend.BaseGameResponder;
 import avalon.extend.Recorder;
 import avalon.main.MessageChecker;
-import avalon.tool.APIRateLimit;
-import avalon.tool.APISurvivePool;
-import avalon.tool.ConstantPool;
-import avalon.tool.VariablePool;
+import avalon.tool.*;
+import avalon.util.BaseGameResponder;
 import avalon.util.GroupMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,18 +22,17 @@ import static avalon.tool.ObjectCaster.toStringArray;
  * @author Eldath Ray
  */
 public class MainGroupMessageHandler {
-    private static final Logger logger = LoggerFactory.getLogger(MainGroupMessageHandler.class);
     private static final Map<Pattern, BaseGroupMessageResponder> apiList = new LinkedHashMap<>();
     private static final Map<Pattern, BaseGameResponder> gameApiList = new LinkedHashMap<>();
-    private static MainGroupMessageHandler instance = new MainGroupMessageHandler();
+    private static MainGroupMessageHandler instance = null;
 
     private static long[] adminUid = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Admin_Uid"));
-    private static LongStream adminUidStream = Arrays.stream(adminUid);
+    private static final LongStream adminUidStream = Arrays.stream(adminUid);
 
     private static long[] followGroup = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Follow_Group_Uid"));
-    private static LongStream followGroupStream = Arrays.stream(followGroup);
+    private static final LongStream followGroupStream = Arrays.stream(followGroup);
 
     private static long[] gameModeAllowedGroup = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Game_Mode_Enabled_Group_Uid"));
@@ -79,6 +72,7 @@ public class MainGroupMessageHandler {
 
     public void handle(GroupMessage message) {
         Recorder.getInstance().recodeGroupMessage(message);
+        //FIXME MessageHooker.handle(message);
         long groupUid = message.getGroupUid();
         String content = message.getContent();
         String lowerContent = content.toLowerCase();

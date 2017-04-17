@@ -1,4 +1,4 @@
-group 'eldath.ray'
+group 'ray-eldath'
 version 'v0.0.1-beta'
 
 apply plugin: 'java'
@@ -30,6 +30,8 @@ dependencies {
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.16.1'
     // https://mvnrepository.com/artifact/org.fusesource.jansi/jansi
     compile group: 'org.fusesource.jansi', name: 'jansi', version: '1.15'
+    // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-util
+    compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.3.v20170317'
 }
 
 tasks.withType(JavaCompile) {

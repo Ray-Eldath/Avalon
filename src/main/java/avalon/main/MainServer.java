@@ -1,13 +1,12 @@
 package avalon.main;
 
-import avalon.data.ConfigSystem;
 import avalon.extend.Recorder;
 import avalon.extend.Scheduler;
 import avalon.extend.ShowMsg;
 import avalon.group.MainGroupMessageHandler;
-import avalon.tool.ConstantPool;
+import avalon.tool.ConfigSystem;
 import avalon.tool.DelayResponse;
-import avalon.tool.Response;
+import avalon.tool.Responder;
 import avalon.tool.SQLiteDatabaseOperator;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -21,6 +20,9 @@ import java.net.URL;
 import java.util.Scanner;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import static avalon.tool.ConstantPool.Address.webqq;
+import static avalon.tool.ConstantPool.Address.wechat;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -38,12 +40,12 @@ public class MainServer {
             Recorder.getInstance().flushNow();
             SQLiteDatabaseOperator.getInstance().closeResource();
             try {
-                new URL(ConstantPool.Address.APIServer + "/openqq/stop_client").openStream();
-                new URL(ConstantPool.Address.weChatAPIServer + "/openwx/stop_client").openStream();
+                new URL(webqq + "/openqq/stop_client").openStream();
+                new URL(wechat + "/openwx/stop_client").openStream();
             } catch (IOException ignored) {
             }
             for (long thisFollowFollow : followGroup)
-                Response.sendToGroup(thisFollowFollow, "服务已经停止。");
+                Responder.sendToGroup(thisFollowFollow, "服务已经停止。");
         }
     }
 
@@ -78,7 +80,7 @@ public class MainServer {
         String isOn = scanner.nextLine();
         if ("yes".equals(isOn.toLowerCase()))
             for (long thisFollowGroup : followGroup)
-                Response.sendToGroup(thisFollowGroup, "Avalon已经上线。");
+                Responder.sendToGroup(thisFollowGroup, "Avalon已经上线。");
         else logger.info("Cancel send login message.");
         DelayResponse delayResponse = new DelayResponse();
         delayResponse.start();

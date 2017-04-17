@@ -1,8 +1,8 @@
 package avalon.main;
 
-import avalon.data.ConfigSystem;
 import avalon.friend.MainFriendMessageHandler;
 import avalon.group.MainGroupMessageHandler;
+import avalon.tool.ConfigSystem;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.json.JSONObject;

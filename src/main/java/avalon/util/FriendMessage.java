@@ -1,13 +1,11 @@
 package avalon.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
@@ -15,7 +13,7 @@ import java.util.Calendar;
  * @author Eldath
  */
 public class FriendMessage implements Message, Displayable {
-    private final static Logger logger = LoggerFactory.getLogger(FriendMessage.class);
+    private final static Logger logger = Logger.getGlobal();
     private final int id;
     private final LocalDateTime time;
     private final long senderUid, timeLong;
@@ -42,8 +40,7 @@ public class FriendMessage implements Message, Displayable {
 
     @Override
     public void response(String reply) {
-        logger.warn("Unsupported operation.",
-                new UnsupportedOperationException("Unsupported operation: reply avalon.friend message."));
+        logger.warning("Unsupported operation: reply avalon.friend message.");
     }
 
     @Override

@@ -1,8 +1,6 @@
 package avalon.util;
 
 import org.eclipse.jetty.util.UrlEncoded;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -11,8 +9,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
-import static avalon.tool.ConstantPool.Address.APIServer;
+import static avalon.tool.ConstantPool.Address.webqq;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
@@ -20,7 +19,7 @@ import static avalon.tool.ConstantPool.Address.APIServer;
  * @author Eldath
  */
 public class GroupMessage implements Message, Displayable {
-    private final static Logger logger = LoggerFactory.getLogger(GroupMessage.class);
+    private final static Logger logger = Logger.getGlobal();
     private final int id;
     private final LocalDateTime time;
     private final long senderUid, groupUid, timeLong;
@@ -53,21 +52,21 @@ public class GroupMessage implements Message, Displayable {
     @Override
     public void response(String reply) {
         try {
-            new URL(APIServer + "/openqq/send_group_message?uid=" + groupUid + "&content=" +
+            new URL(webqq + "/openqq/send_group_message?uid=" + groupUid + "&content=" +
                     UrlEncoded.encodeString(reply)).openStream();
         } catch (IOException e) {
-            logger.warn("IOException thrown while response avalon.group message: ", e);
+            logger.warning("IOException thrown while response avalon.group message: " + e.toString());
         }
     }
 
     public void response(String reply, int shutUpTime) {
         response(reply);
         try {
-            new URL(APIServer + "/openqq/shutup_group_member?time=" + shutUpTime +
+            new URL(webqq + "/openqq/shutup_group_member?time=" + shutUpTime +
                     "&group_uid=" + groupUid +
                     "&member_uid=" + senderUid).openStream();
         } catch (IOException e) {
-            logger.warn("IOException thrown while response avalon.group message and shut up: ", e);
+            logger.warning("IOException thrown while response avalon.group message and shut up: " + e.toString());
         }
     }
 

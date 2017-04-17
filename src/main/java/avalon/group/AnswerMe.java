@@ -1,6 +1,6 @@
 package avalon.group;
 
-import avalon.tool.Response;
+import avalon.tool.Responder;
 import avalon.util.GroupMessage;
 
 import java.util.regex.Pattern;
@@ -42,7 +42,7 @@ public class AnswerMe extends BaseGroupMessageResponder {
             return;
         }
         content = content.replaceAll(getKeyWordRegex().toString(), "");
-        String responseXiaoIce = Response.responseXiaoIce(content);
+        String responseXiaoIce = Responder.responseXiaoIce(content);
         if (responseXiaoIce == null) return;
         message.response("@" + sender + " " + responseXiaoIce);
     }

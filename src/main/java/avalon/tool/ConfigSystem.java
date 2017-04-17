@@ -1,4 +1,4 @@
-package avalon.data;
+package avalon.tool;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,10 +30,6 @@ public class ConfigSystem {
         return instance;
     }
 
-//    static {
-//        allConfigs.put("", "");
-//    }
-
     private ConfigSystem() {
         try {
             JSONObject object = (JSONObject) new JSONTokener(new FileReader(new File("config.json")))
@@ -56,15 +52,6 @@ public class ConfigSystem {
         }
         return result;
     }
-
-    // 没卵用？
-    /*private Object[] jsonObjectToObjectArray(JSONObject object, String key) {
-        JSONArray convert = object.getJSONArray(key);
-        Object[] result = new Object[convert.length()];
-        for (int i = 0; i < convert.length(); i++)
-            result[i] = convert.get(i);
-        return result;
-    }*/
 
     public Object getConfig(String key) {
         return allConfigs.get(key);
@@ -90,7 +77,6 @@ public class ConfigSystem {
         return result;
     }
 
-    @SuppressWarnings("SameParameterValue")
     public Object getCommandConfig(String commandName, String key) {
         return ((JSONObject) pluginConfigs.get(commandName)).get(key);
     }

@@ -1,6 +1,6 @@
 package test;
 
-import avalon.data.ConfigSystem;
+import avalon.tool.ConfigSystem;
 import avalon.tool.ObjectCaster;
 
 /**

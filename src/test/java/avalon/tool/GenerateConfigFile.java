@@ -45,6 +45,7 @@ class GenerateConfigFile {
         allConfigs.put("BlackList_Uid", new long[]{});
         allConfigs.put("Block_Words_Punishment_Mode_Enabled", true);
         allConfigs.put("Block_Words_Punish_Frequency", 3);
+        allConfigs.put("Hook_Enabled", true);
         //
         allConfigs.put("plugin_allowed_account", pluginAllowPeoples);
         allConfigs.put("plugin_config", pluginConfig);

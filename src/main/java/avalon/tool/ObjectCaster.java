@@ -11,10 +11,7 @@ public class ObjectCaster {
         Object object;
         for (int i = 0; i < objects.length; i++) {
             object = objects[i];
-            if (object instanceof Long)
-                result[i] = (long) object;
-            else
-                result[i] = (long) (int) object;
+            result[i] = object instanceof Long ? (long) object : (long) (int) object;
         }
         return result;
     }

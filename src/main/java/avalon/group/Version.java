@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.regex.Pattern;
 
+import static avalon.tool.ConstantPool.Address.webqq;
+import static avalon.tool.ConstantPool.Address.wechat;
+
 /**
  * Created by Eldath on 2017/1/28 0028.
  *
@@ -26,12 +29,12 @@ public class Version extends BaseGroupMessageResponder {
     public void doPost(GroupMessage message) {
         try {
             String webqqVersion = "v" + ((JSONObject) new JSONTokener(
-                    new URL(ConstantPool.Address.APIServer + "/openqq/get_client_info")
+                    new URL(webqq + "/openqq/get_client_info")
                             .openStream()).nextValue()).getString("version");
             String weixinVersion;
             try {
                 weixinVersion = "v" + ((JSONObject) new JSONTokener(
-                        new URL(ConstantPool.Address.weChatAPIServer + "/openwx/get_client_info")
+                        new URL(wechat + "/openwx/get_client_info")
                                 .openStream()).nextValue()).getString("version");
             } catch (IOException e) {
                 weixinVersion = "UNKNOWN";
