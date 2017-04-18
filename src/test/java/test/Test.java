@@ -1,8 +1,5 @@
 package test;
 
-import avalon.tool.ConfigSystem;
-import avalon.tool.ObjectCaster;
-
 /**
  * Created by Eldath on 2017/1/29 0029.
  *
@@ -10,6 +7,6 @@ import avalon.tool.ObjectCaster;
  */
 public class Test {
     public static void main(String[] args) {
-        ObjectCaster.toLongArray(ConfigSystem.getInstance().getConfigArray("Admin_Uid"));
+        System.out.println(System.getProperty("java.io.tmpdir"));
     }
 }

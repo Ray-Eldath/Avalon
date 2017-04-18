@@ -63,7 +63,6 @@ public class ConfigSystem {
         Object thisObject;
         for (int i = 0; i < array.length(); i++) {
             thisObject = array.get(i);
-            System.out.println(thisObject.getClass().getName());
             result[i] = thisObject;
         }
         return result;
