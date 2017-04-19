@@ -25,17 +25,21 @@ public class InstallChecker {
 
     public static boolean check() {
         try {
-            Process wechat = new ProcessHolder(Runtime.getRuntime().exec("perl " + currentPath +
-                    File.separator + "bin" + File.separator + "Mojo-Weixin.pl"), "from perl:Mojo-Weixin").getProcess();
+            String prefix = "perl " + currentPath + File.separator + "bin" + File.separator;
+            ProcessHolder wechatHolder = new ProcessHolder(Runtime.getRuntime().exec(
+                    prefix + "Mojo-Weixin.pl"), "from perl:Mojo-Weixin ");
+            wechatHolder.start();
+            Process wechat = wechatHolder.getProcess();
+            ProcessHolder webqqHolder = new ProcessHolder(Runtime.getRuntime().exec(
+                    prefix + "Mojo-Webqq.pl"), "from perl:Mojo-Webqq ");
+            webqqHolder.start();
+            Process webqq = webqqHolder.getProcess();
             if (!checkProcess(wechat)) {
                 logger.error("Can't locate Mojo-Weixin! Please sure you're install Mojo-Webqq " +
                         "with the steps in https://github.com/sjdy521/Mojo-Weixin#安装方法 !");
                 System.exit(-3);
             } else MainServer.setWechatProcess(wechat);
-            System.out.println("Webqq!");
             //
-            Process webqq = new ProcessHolder(Runtime.getRuntime().exec("perl " + currentPath +
-                    File.separator + "bin" + File.separator + "Mojo-Webqq.pl"), "from perl:Mojo-Webqq").getProcess();
             if (!checkProcess(webqq)) {
                 logger.error("Can't locate Mojo-Webqq! Please sure you're install Mojo-Webqq " +
                         "with the steps in https://github.com/sjdy521/Mojo-Webqq#安装方法 !");

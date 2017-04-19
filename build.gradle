@@ -25,6 +25,8 @@ dependencies {
     compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.3.v20170317'
     // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlet
     compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.3.v20170317'
+    // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-util
+    compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.3.v20170317'
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.8.2'
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
@@ -35,8 +37,6 @@ dependencies {
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.16.1'
     // https://mvnrepository.com/artifact/org.fusesource.jansi/jansi
     compile group: 'org.fusesource.jansi', name: 'jansi', version: '1.15'
-    // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-util
-    compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.3.v20170317'
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
     // https://jitpack.io/#Ray-Eldath/Avalon-API

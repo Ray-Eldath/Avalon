@@ -40,12 +40,13 @@ public class ConstantPool {
     public static class Version {
         public static final String avalon = Basic.Version;
 
-        private static Version instance = new Version();
+        private static Version instance = null;
 
         private String webqq;
         private String wechat;
 
         public static Version getInstance() {
+            if (instance == null) instance = new Version();
             return instance;
         }
 
@@ -54,11 +55,14 @@ public class ConstantPool {
                 webqq = ((JSONObject) new JSONTokener(
                         new URL(Address.webqq + "/openqq/get_client_info")
                                 .openStream()).nextValue()).getString("version");
-                wechat = "v" + ((JSONObject) new JSONTokener(
-                        new URL(wechat + "/openwx/get_client_info")
-                                .openStream()).nextValue()).getString("version");
             } catch (IOException ignore) {
                 webqq = "UNKNOWN";
+            }
+            try {
+                wechat = "v" + ((JSONObject) new JSONTokener(
+                        new URL(Address.wechat + "/openwx/get_client_info")
+                                .openStream()).nextValue()).getString("version");
+            } catch (IOException ignore) {
                 wechat = "UNKNOWN";
             }
         }

@@ -25,7 +25,6 @@ import java.util.concurrent.TimeUnit;
 
 import static avalon.tool.ConstantPool.Address.webqq;
 import static avalon.tool.ConstantPool.Address.wechat;
-import static avalon.tool.ConstantPool.Basic.currentPath;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -65,17 +64,12 @@ public class MainServer {
     }
 
     public static void main(String[] args) throws Exception {
+        ConfigSystem.getInstance();
         new ConstantPool.Basic();
-        InstallChecker.check();
-        // 派生Mojo-Webqq和Mojo-Weixin
-        if (!ConstantPool.Basic.Debug) {
-            webqqProcess = Runtime.getRuntime().exec("perl " + currentPath +
-                    File.separator + "bin" + File.separator + "Mojo-Webqq.pl");
-            wechatProcess = Runtime.getRuntime().exec("perl " + currentPath +
-                    File.separator + "bin" + File.separator + "Mojo-Weixin.pl");
-            new ProcessHolder(webqqProcess, "from perl-Mojo-Webqq: ").start();
-            new ProcessHolder(wechatProcess, "from perl-Mojo-Weixin: ").start();
-        }
+        new ConstantPool.Address();
+        if (!ConstantPool.Basic.Debug) InstallChecker.check();
+        System.out.println(ConstantPool.Address.webqq);
+        System.out.println(ConstantPool.Address.wechat);
         // 线程池
         ScheduledThreadPoolExecutor poolExecutor = new ScheduledThreadPoolExecutor(1);
         poolExecutor.scheduleWithFixedDelay(new Scheduler(), 5, 5, TimeUnit.SECONDS);

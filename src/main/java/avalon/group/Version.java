@@ -23,9 +23,9 @@ public class Version extends BaseGroupMessageResponder {
         String messageToSaid = "Hi, I'm Avalon.\n" +
                 "我是阿瓦隆，QQ群机器人。\n" +
                 "我的名字和头像均取自《Implosion》，我的父亲是Mojo-Webqq。\n" +
-                "我由Eldath Ray进行二次开发。\n" +
-                "我在GitHub上开源，欢迎访问我的仓库：https://github.com/ProgramLeague/Avalon\n" +
-                "Mojo-Webqq Version: " + ConstantPool.Version.getInstance().webqq() + "\tMojo-Weixin Version: " +
+                "我由Ray Eldath进行二次开发。\n" +
+                "我在GitHub上开源，欢迎访问我的仓库：https://github.com/Ray-Eldath/Avalon\n" +
+                "Mojo-Webqq Version: v" + ConstantPool.Version.getInstance().webqq() + "\tMojo-Weixin Version: v" +
                 ConstantPool.Version.getInstance().wechat() + "\tAvalon Version: v" + ConstantPool.Version.avalon;
         message.response(messageToSaid);
     }
