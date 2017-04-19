@@ -1,7 +1,7 @@
 package avalon.tool.database;
 
-import avalon.api.util.FriendMessage;
-import avalon.api.util.GroupMessage;
+import avalon.util.FriendMessage;
+import avalon.util.GroupMessage;
 
 /**
  * Created by Eldath on 2017/2/11 0011.

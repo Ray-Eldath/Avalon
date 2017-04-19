@@ -12,9 +12,6 @@ allprojects {
     repositories {
         jcenter()
         mavenCentral()
-        maven {
-            url 'https://jitpack.io'
-        }
     }
 }
 
@@ -39,8 +36,6 @@ dependencies {
     compile group: 'org.fusesource.jansi', name: 'jansi', version: '1.15'
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
-    // https://jitpack.io/#Ray-Eldath/Avalon-API
-    compile 'com.github.Ray-Eldath:Avalon-API:-SNAPSHOT'
 }
 
 tasks.withType(JavaCompile) {

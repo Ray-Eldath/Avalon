@@ -1,8 +1,8 @@
 package avalon.tool.database;
 
-import avalon.api.util.FriendMessage;
-import avalon.api.util.GroupMessage;
 import avalon.tool.DatabaseConfig;
+import avalon.util.FriendMessage;
+import avalon.util.GroupMessage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

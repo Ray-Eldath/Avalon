@@ -1,8 +1,8 @@
 package test;
 
-import avalon.api.util.FriendMessage;
-import avalon.api.util.GroupMessage;
 import avalon.tool.ConstantPool;
+import avalon.util.FriendMessage;
+import avalon.util.GroupMessage;
 
 /**
  * Created by Eldath Ray on 2017/4/19 0019.

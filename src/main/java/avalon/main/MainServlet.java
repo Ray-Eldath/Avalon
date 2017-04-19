@@ -1,10 +1,10 @@
 package avalon.main;
 
-import avalon.api.util.FriendMessage;
-import avalon.api.util.GroupMessage;
 import avalon.friend.MainFriendMessageHandler;
 import avalon.group.MainGroupMessageHandler;
 import avalon.tool.ConfigSystem;
+import avalon.util.FriendMessage;
+import avalon.util.GroupMessage;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;

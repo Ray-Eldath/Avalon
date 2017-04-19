@@ -1,8 +1,8 @@
 package avalon.tool.database;
 
-import avalon.api.util.FriendMessage;
-import avalon.api.util.GroupMessage;
 import avalon.tool.ConstantPool;
+import avalon.util.FriendMessage;
+import avalon.util.GroupMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,6 +1,5 @@
 package avalon.util;
 
-import avalon.api.util.GroupMessage;
 import avalon.group.BaseGroupMessageResponder;
 
 import java.util.regex.Pattern;

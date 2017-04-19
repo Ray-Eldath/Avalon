@@ -1,6 +1,6 @@
 package avalon.group;
 
-import avalon.api.util.GroupMessage;
+import avalon.util.GroupMessage;
 import org.slf4j.LoggerFactory;
 
 import java.util.regex.Pattern;

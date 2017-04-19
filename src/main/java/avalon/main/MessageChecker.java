@@ -1,6 +1,6 @@
 package avalon.main;
 
-import avalon.api.util.Message;
+import avalon.util.Message;
 
 import java.io.UnsupportedEncodingException;
 

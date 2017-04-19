@@ -1,6 +1,6 @@
 package avalon.tool;
 
-import avalon.api.util.*;
+import avalon.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
