@@ -5,6 +5,8 @@ import avalon.extend.Recorder;
 import avalon.main.MessageChecker;
 import avalon.tool.*;
 import avalon.util.BaseGameResponder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,6 +15,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.LongStream;
 
+import static avalon.main.RegisterResponder.register;
 import static avalon.tool.ObjectCaster.toLongArray;
 import static avalon.tool.ObjectCaster.toStringArray;
 
@@ -24,16 +27,11 @@ import static avalon.tool.ObjectCaster.toStringArray;
 public class MainGroupMessageHandler {
     private static final Map<Pattern, BaseGroupMessageResponder> apiList = new LinkedHashMap<>();
     private static final Map<Pattern, BaseGameResponder> gameApiList = new LinkedHashMap<>();
-    private static MainGroupMessageHandler instance = null;
 
     private static long[] adminUid = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Admin_Uid"));
-    private static final LongStream adminUidStream = Arrays.stream(adminUid);
-
     private static long[] followGroup = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Follow_Group_Uid"));
-    private static final LongStream followGroupStream = Arrays.stream(followGroup);
-
     private static long[] gameModeAllowedGroup = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Game_Mode_Enabled_Group_Uid"));
     private static long[] recordGroup = toLongArray(ConfigSystem
@@ -47,7 +45,10 @@ public class MainGroupMessageHandler {
             .getConfig("Block_Words_Punish_Frequency");
     private static final APIRateLimit cooling = new APIRateLimit(3000L);
 
-    static Map<Pattern, BaseGroupMessageResponder> getApiList() {
+    private static MainGroupMessageHandler instance = new MainGroupMessageHandler();
+    private static final Logger logger = LoggerFactory.getLogger(MainGroupMessageHandler.class);
+
+    Map<Pattern, BaseGroupMessageResponder> getApiList() {
         return apiList;
     }
 
@@ -58,6 +59,26 @@ public class MainGroupMessageHandler {
     private MainGroupMessageHandler() {
         for (long thisBlackPeople : blackListPeople)
             blackListPeopleMap.put(thisBlackPeople, punishFrequency + 1);
+    }
+
+    static {
+        /*
+         * 指令优先级排序依据：单词 >> 多词，管理类 >> 服务类 >> 娱乐类，触发类 >> 自由类
+         */
+        // 特殊优先
+        register(Test.getInstance());
+        // 管理类
+        register(Shutdown.getInstance());
+        register(Flush.getInstance());
+        register(Manager.getInstance());
+        register(Blacklist.getInstance());
+        // 服务类
+        register(Help.getInstance());
+        register(Version.getInstance());
+        register(Echo.getInstance());
+        // 娱乐类
+        register(Mo.getInstance());
+        register(AnswerMe.getInstance());
     }
 
     static BaseGroupMessageResponder getGroupResponderByKeyword(String keyword) {
@@ -75,21 +96,27 @@ public class MainGroupMessageHandler {
         //FIXME MessageHooker.handle(message);
         long groupUid = message.getGroupUid();
         String content = message.getContent();
-        String lowerContent = content.toLowerCase();
+        String plainContent = content.trim().toLowerCase().replaceAll("[\\pP\\p{Punct}]", "");
         String sender = message.getSenderNickName();
         long senderUid = message.getSenderUid();
+        LongStream adminUidStream = Arrays.stream(adminUid);
+        LongStream followGroupStream = Arrays.stream(followGroup);
         boolean admin = adminUidStream.anyMatch(e -> e == senderUid);
         if (followGroupStream.anyMatch(e -> e == groupUid)) {
-            if (!preCheck(lowerContent)) return;
-            if (!admin && ConstantPool.Setting.Block_Words_Punishment_Mode_Enabled)
-                if (blackListPeopleMap.containsKey(senderUid))
+            if (ConstantPool.Setting.Block_Words_Punishment_Mode_Enabled)
+                if (blackListPeopleMap.containsKey(senderUid)) {
                     if (blackListPeopleMap.get(senderUid) >= punishFrequency) {
-                        message.response("@" + sender +
-                                " 您的帐号由于发送过多不允许关键字，现已被屏蔽~o(╯□╰)o！");
+                        logger.info("Account " + senderUid + ":" + sender + " was blocked. Please entered " +
+                                "\"avalon blacklist remove " + senderUid + "\" to the group " + groupUid + ":" +
+                                message.getGroupName() + " if you really want to unblock this account.");
+                        if (!admin)
+                            message.response("@" + sender +
+                                    " 您的帐号由于发送过多不允许关键字，现已被屏蔽~o(╯□╰)o！");
                         return;
-                    } else blackListPeopleMap.put(senderUid, 0);
+                    }
+                } else blackListPeopleMap.put(senderUid, 0);
             for (String thisBlockString : blockList)
-                if (content.replace(" ", "").contains(thisBlockString)) {
+                if (plainContent.contains(thisBlockString)) {
                     String notice = "您发送的消息含有不允许的关键词！";
                     if (ConstantPool.Setting.Block_Words_Punishment_Mode_Enabled) {
                         notice = "您发送的消息含有不允许的关键词，注意：" + punishFrequency +
@@ -102,7 +129,7 @@ public class MainGroupMessageHandler {
             for (Map.Entry<Pattern, BaseGroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
                 BaseGroupMessageResponder value = patternAPIEntry.getValue();
                 if (doCheck(patternAPIEntry.getKey(), value, message)) {
-                    if (!MessageChecker.checkEncode(message))
+                    if (MessageChecker.checkEncode(message))
                         value.doPost(message);
                     return;
                 }
@@ -144,14 +171,13 @@ public class MainGroupMessageHandler {
         return true;
     }
 
-    private boolean preCheck(String lowerContent) {
-        return gameApiList.keySet().stream().anyMatch(e -> e.matcher(lowerContent).find()) ||
-                apiList.keySet().stream().anyMatch(e -> e.matcher(lowerContent).find());
-    }
-
     private void blackListPlus(long senderUid) {
         int pastValue = blackListPeopleMap.get(senderUid);
         blackListPeopleMap.put(senderUid, ++pastValue);
+    }
+
+    public static void addGroupMessageResponder(BaseGroupMessageResponder responder) {
+        apiList.put(responder.getKeyWordRegex(), responder);
     }
 
     static long[] getAdminUid() {
@@ -159,7 +185,7 @@ public class MainGroupMessageHandler {
         //FIXME 是否需要adminUid.clone()以防止数据修改？
     }
 
-    public static long[] getFollowGroup() {
+    public long[] getFollowGroup() {
         return followGroup;
     }
 

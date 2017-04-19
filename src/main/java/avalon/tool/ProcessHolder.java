@@ -1,8 +1,5 @@
 package avalon.tool;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,12 +9,11 @@ import java.io.InputStreamReader;
  *
  * @author Eldath Ray
  */
-public class ProcessHandler extends Thread {
-    private static final Logger logger = LoggerFactory.getLogger(ProcessHandler.class);
+public class ProcessHolder extends Thread {
     private Process process;
     private String[] prefix;
 
-    public ProcessHandler(Process process, String... prefix) {
+    public ProcessHolder(Process process, String... prefix) {
         this.process = process;
         this.prefix = prefix;
     }
@@ -26,16 +22,19 @@ public class ProcessHandler extends Thread {
     public void run() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                 process.getInputStream(), "GB2312"))) {
-
             String thisLine;
             if (prefix.length == 0)
                 while ((thisLine = reader.readLine()) != null)
-                    System.out.println(thisLine);
+                    System.out.println((thisLine));
             else
                 while ((thisLine = reader.readLine()) != null)
                     System.out.println(prefix[0] + thisLine);
         } catch (IOException e) {
-            logger.warn("Exception thrown while handle process: " + e);
+            throw new RuntimeException(e);
         }
+    }
+
+    public Process getProcess() {
+        return process;
     }
 }

@@ -32,7 +32,7 @@ public class Version extends BaseGroupMessageResponder {
 
     @Override
     public String getHelpMessage() {
-        return "avalon version / avalon 版本：显示版本信息";
+        return "avalon version|版本：显示版本信息";
     }
 
     @Override

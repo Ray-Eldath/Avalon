@@ -1,5 +1,5 @@
 group 'ray-eldath'
-version 'v0.0.1a-beta'
+version 'v0.0.1a'
 
 apply plugin: 'java'
 apply plugin: 'application'
@@ -37,8 +37,8 @@ dependencies {
     compile group: 'org.fusesource.jansi', name: 'jansi', version: '1.15'
     // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-util
     compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.3.v20170317'
-    // https://mvnrepository.com/artifact/org.mybatis/mybatis
-    compile group: 'org.mybatis', name: 'mybatis', version: '3.4.4'
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
     // https://jitpack.io/#Ray-Eldath/Avalon-API
     compile 'com.github.Ray-Eldath:Avalon-API:-SNAPSHOT'
 }

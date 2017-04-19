@@ -11,18 +11,13 @@ import java.util.Map;
  * @author Eldath
  */
 public class APISurvivePool {
-    private static Map<BaseGroupMessageResponder, Boolean> survive;
-    private final Map<BaseGroupMessageResponder, Boolean> noticed;
+    private static Map<BaseGroupMessageResponder, Boolean> survive = new HashMap<>();
+    private final Map<BaseGroupMessageResponder, Boolean> noticed = new HashMap<>();
     private static APISurvivePool instance = null;
 
     public static APISurvivePool getInstance() {
         if (instance == null) instance = new APISurvivePool();
         return instance;
-    }
-
-    private APISurvivePool() {
-        survive = new HashMap<>();
-        noticed = new HashMap<>();
     }
 
     public boolean containAPI(BaseGroupMessageResponder input) {

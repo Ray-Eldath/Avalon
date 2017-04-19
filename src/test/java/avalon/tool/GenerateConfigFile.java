@@ -22,9 +22,9 @@ class GenerateConfigFile {
     private static final Map<String, Object> pluginConfig = new HashMap<>();
 
     static {
-        pluginAllowPeoples.put("ResponderManager_basic", new long[]{951394653, 360736041, 1464443139, 704639565});
-        pluginAllowPeoples.put("ResponderManager_stop", new long[]{1464443139, 360736041, 704639565, 951394653, 1016281105});
-        pluginAllowPeoples.put("ResponderManager_restart", new long[]{1464443139, 704639565, 951394653});
+        pluginAllowPeoples.put("Manager_basic", new long[]{951394653, 360736041, 1464443139, 704639565});
+        pluginAllowPeoples.put("Manager_stop", new long[]{1464443139, 360736041, 704639565, 951394653, 1016281105});
+        pluginAllowPeoples.put("Manager_restart", new long[]{1464443139, 704639565, 951394653});
         pluginAllowPeoples.put("Blacklist_basic", new long[]{1464443139});
         pluginAllowPeoples.put("Echo_basic", new long[]{1464443139});
         //
@@ -46,6 +46,8 @@ class GenerateConfigFile {
         allConfigs.put("Block_Words_Punishment_Mode_Enabled", true);
         allConfigs.put("Block_Words_Punish_Frequency", 3);
         allConfigs.put("Hook_Enabled", true);
+        allConfigs.put("Max_Recorded_Group_Message_Count", 5000000);
+        allConfigs.put("Max_Recorded_Friend_Message_Count", 10000);
         //
         allConfigs.put("plugin_allowed_account", pluginAllowPeoples);
         allConfigs.put("plugin_config", pluginConfig);

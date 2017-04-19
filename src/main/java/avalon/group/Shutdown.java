@@ -33,7 +33,7 @@ public class Shutdown extends BaseGroupMessageResponder {
 
     @Override
     public String getHelpMessage() {
-        return "avalon shutdown/exit：<管理员> 退出Avalon。";
+        return "avalon shutdown|exit：<管理员> 退出Avalon。";
     }
 
     @Override

@@ -13,21 +13,20 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class ResponderManager extends BaseGroupMessageResponder {
-    private static ResponderManager instance = null;
-    private static final Logger logger = LoggerFactory.getLogger(ResponderManager.class);
+public class Manager extends BaseGroupMessageResponder {
+    private static Manager instance = null;
+    private static final Logger logger = LoggerFactory.getLogger(Manager.class);
     private static final long[] restartAllowUid = ConfigSystem.getInstance()
-            .getCommandAllowArray("ResponderManager_restart");
+            .getCommandAllowArray("Manager_restart");
     private static final long[] allowPeople = ConfigSystem.getInstance()
-            .getCommandAllowArray("ResponderManager_basic");
+            .getCommandAllowArray("Manager_basic");
     private static final long[] stopAllowUid = ConfigSystem.getInstance()
-            .getCommandAllowArray("ResponderManager_stop");
+            .getCommandAllowArray("Manager_stop");
     private static final BaseGroupMessageResponder[] canNotBanAPI =
-            new BaseGroupMessageResponder[]{Shutdown.getInstance()};
+            new BaseGroupMessageResponder[]{Shutdown.getInstance(), Flush.getInstance(), Manager.getInstance()};
 
-
-    public static ResponderManager getInstance() {
-        if (instance == null) instance = new ResponderManager();
+    public static Manager getInstance() {
+        if (instance == null) instance = new Manager();
         return instance;
     }
 
@@ -45,10 +44,10 @@ public class ResponderManager extends BaseGroupMessageResponder {
                     return;
                 }
                 apiName = content.toLowerCase().
-                        replace("avalon respondermanager stop ", "").replace("avalon respondermanager start ", "");
+                        replace("avalon manager stop ", "").replace("avalon manager start ", "");
                 BaseGroupMessageResponder thisAPI = MainGroupMessageHandler.getGroupResponderByKeyword(apiName);
                 action = content.toLowerCase().
-                        replace("avalon respondermanager ", "").replace(apiName, "").trim();
+                        replace("avalon manager ", "").replace(apiName, "").trim();
                 if (thisAPI == null) {
                     message.response("@" + sender + " 您要操作的指令响应器根本不存在！(╯︵╰,)");
                     return;
@@ -88,11 +87,11 @@ public class ResponderManager extends BaseGroupMessageResponder {
 
     @Override
     public String getHelpMessage() {
-        return "avalon respondermanager (start/stop)：<管理员> 控制指令响应器开/关";
+        return "avalon manager (start|stop)：<管理员> 打开或关闭控制指令响应器";
     }
 
     @Override
     public Pattern getKeyWordRegex() {
-        return Pattern.compile("avalon respondermanager ");
+        return Pattern.compile("avalon manager ");
     }
 }

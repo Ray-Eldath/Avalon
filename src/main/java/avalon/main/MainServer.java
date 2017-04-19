@@ -4,11 +4,10 @@ import avalon.extend.Recorder;
 import avalon.extend.Scheduler;
 import avalon.extend.ShowMsg;
 import avalon.group.MainGroupMessageHandler;
-import avalon.info.ClientStatus;
-import avalon.info.ClientVersion;
-import avalon.info.WebqqPluginInfo;
+import avalon.info.*;
 import avalon.manager.InstanceManager;
 import avalon.tool.*;
+import avalon.tool.database.SQLiteDatabaseOperator;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -26,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 import static avalon.tool.ConstantPool.Address.webqq;
 import static avalon.tool.ConstantPool.Address.wechat;
+import static avalon.tool.ConstantPool.Basic.currentPath;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -34,15 +34,16 @@ import static avalon.tool.ConstantPool.Address.wechat;
  */
 public class MainServer {
     private static final Logger logger = LoggerFactory.getLogger(MainServer.class);
-    private static long[] followGroup = MainGroupMessageHandler.getFollowGroup();
+    private static long[] followGroup = MainGroupMessageHandler.getInstance().getFollowGroup();
     private static Process webqqProcess, wechatProcess;
 
     static class atShutdownDo extends Thread {
         @Override
         public void run() {
-            MainServer.logger.info("Do cleaning job...");
+            logger.info("Catch INT signal, Bye!");
             Recorder.getInstance().flushNow();
-            SQLiteDatabaseOperator.getInstance().closeResource();
+            RunningData.getInstance().save();
+            SQLiteDatabaseOperator.getInstance().close();
             if (!ConstantPool.Basic.Debug) {
                 webqqProcess.destroy();
                 System.out.println("Mojo-Webqq exited, exit value: " + webqqProcess.exitValue());
@@ -52,7 +53,7 @@ public class MainServer {
             File[] files = new File(System.getProperty("java.io.tmpdir")).listFiles();
             if (files != null)
                 Arrays.stream(files).filter(e -> e.getName().trim().matches("mojo_")).forEach(File::delete);
-            System.out.println("Mojo-Webqq files cleaned.");
+            logger.info("Mojo-Webqq files cleaned.");
             try {
                 new URL(webqq + "/openqq/stop_client").openStream();
                 new URL(wechat + "/openwx/stop_client").openStream();
@@ -65,15 +66,15 @@ public class MainServer {
 
     public static void main(String[] args) throws Exception {
         new ConstantPool.Basic();
-        String path = new File("").getCanonicalPath();
+        InstallChecker.check();
         // 派生Mojo-Webqq和Mojo-Weixin
         if (!ConstantPool.Basic.Debug) {
-            webqqProcess = Runtime.getRuntime().exec("perl " + path +
+            webqqProcess = Runtime.getRuntime().exec("perl " + currentPath +
                     File.separator + "bin" + File.separator + "Mojo-Webqq.pl");
-            wechatProcess = Runtime.getRuntime().exec("perl " + path +
+            wechatProcess = Runtime.getRuntime().exec("perl " + currentPath +
                     File.separator + "bin" + File.separator + "Mojo-Weixin.pl");
-            new ProcessHandler(webqqProcess, "from perl-Mojo-Webqq: ").start();
-            new ProcessHandler(wechatProcess, "from perl-Mojo-Weixin: ").start();
+            new ProcessHolder(webqqProcess, "from perl-Mojo-Webqq: ").start();
+            new ProcessHolder(wechatProcess, "from perl-Mojo-Weixin: ").start();
         }
         // 线程池
         ScheduledThreadPoolExecutor poolExecutor = new ScheduledThreadPoolExecutor(1);
@@ -102,6 +103,8 @@ public class MainServer {
         context.addServlet(new ServletHolder(new WebqqPluginInfo()), "/info/get_webqq_plugin_info");
         context.addServlet(new ServletHolder(new ClientVersion()), "/info/get_client_version");
         context.addServlet(new ServletHolder(new ClientStatus()), "/info/get_client_status");
+        context.addServlet(new ServletHolder(new AvalonInfo()), "/info/get_avalon_info");
+        context.addServlet(new ServletHolder(new SystemInfo()), "/info/get_system_info");
         context.addServlet(new ServletHolder(new InstanceManager()), "/manager/manage_instance");
         //
         try {
@@ -136,12 +139,10 @@ public class MainServer {
     }
 
     public static void setWebqqProcess(Process webqqProcess) {
-        new ProcessHandler(webqqProcess, "from perl-Mojo-Webqq: ").start();
         MainServer.webqqProcess = webqqProcess;
     }
 
     public static void setWechatProcess(Process wechatProcess) {
-        new ProcessHandler(wechatProcess, "from perl-Mojo-Weixin: ").start();
         MainServer.wechatProcess = wechatProcess;
     }
 }

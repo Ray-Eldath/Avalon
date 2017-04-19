@@ -17,10 +17,9 @@ public class Blacklist extends BaseGroupMessageResponder {
     private static Logger logger = LoggerFactory.getLogger(Blacklist.class);
     private static final long[] allowList = ConfigSystem.getInstance()
             .getCommandAllowArray("Blacklist_basic");
-    private static Blacklist instance = null;
+    private static final Blacklist instance = new Blacklist();
 
     public static Blacklist getInstance() {
-        if (instance == null) instance = new Blacklist();
         return instance;
     }
 
@@ -71,7 +70,7 @@ public class Blacklist extends BaseGroupMessageResponder {
 
     @Override
     public String getHelpMessage() {
-        return "avalon blacklist (add/remove)：<管理员> 将指定的QQ号 添加至黑名单/从黑名单移除";
+        return "avalon blacklist (add|remove)：<管理员> 将指定的QQ号 添加至黑名单或从黑名单移除";
     }
 
     @Override

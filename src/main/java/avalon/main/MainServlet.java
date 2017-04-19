@@ -48,7 +48,7 @@ public class MainServlet extends HttpServlet {
             MainFriendMessageHandler.getInstance().handle(message);
         } else {
             long groupUid = object.getLong("group_uid");
-            String group = object.get("avalon/group").toString();
+            String group = object.get("group").toString();
             GroupMessage message = new GroupMessage(Id, timeLong, senderUid, sender, groupUid, group, content);
             MainGroupMessageHandler.getInstance().handle(message);
         }

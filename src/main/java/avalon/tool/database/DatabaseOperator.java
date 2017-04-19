@@ -1,4 +1,4 @@
-package avalon.tool;
+package avalon.tool.database;
 
 import avalon.api.util.FriendMessage;
 import avalon.api.util.GroupMessage;
@@ -9,9 +9,11 @@ import avalon.api.util.GroupMessage;
  * @author Eldath
  */
 public interface DatabaseOperator {
-    boolean addGroupMessage(GroupMessage input);
+    boolean initDB();
 
-    boolean addFriendMessage(FriendMessage input);
+    boolean add(GroupMessage input);
 
-    void closeResource();
+    boolean add(FriendMessage input);
+
+    void close();
 }

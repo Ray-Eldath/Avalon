@@ -24,3 +24,6 @@ out/
 /res/record.db
 src/avalon.main/java/META-INF/
 config.json
+/data.properties
+releases/
+/database.properties

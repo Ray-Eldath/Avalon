@@ -1,5 +1,5 @@
-CREATE TABLE GroupMessage(
-  id INTEGER PRIMARY KEY,
+CREATE TABLE group_ (
+  id             INTEGER PRIMARY KEY AUTOINCREMENT,
   time DATETIME,
   senderUid INTEGER,
   senderNickName TEXT,
@@ -8,8 +8,8 @@ CREATE TABLE GroupMessage(
   content TEXT
 );
 
-CREATE TABLE FriendMessage(
-  id INTEGER PRIMARY KEY,
+CREATE TABLE friend_ (
+  id             INTEGER PRIMARY KEY AUTOINCREMENT,
   time DATETIME,
   senderUid INTEGER,
   senderNickName TEXT,

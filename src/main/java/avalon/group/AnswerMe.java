@@ -57,7 +57,7 @@ public class AnswerMe extends BaseGroupMessageResponder {
 
     @Override
     public String getHelpMessage() {
-        return "avalon answer me / 阿瓦隆回答我 / avalon tell me / 阿瓦隆告诉我：激活智能回复功能";
+        return "avalon answer me | 阿瓦隆回答我 | avalon tell me | 阿瓦隆告诉我：激活智能回复功能";
     }
 
     @Override
