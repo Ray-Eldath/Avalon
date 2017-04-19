@@ -1,5 +1,5 @@
 group 'ray-eldath'
-version 'v0.0.1a'
+version 'v0.0.1b'
 
 apply plugin: 'java'
 apply plugin: 'application'
