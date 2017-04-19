@@ -1,7 +1,7 @@
 package avalon.friend;
 
+import avalon.api.util.FriendMessage;
 import avalon.extend.Recorder;
-import avalon.util.FriendMessage;
 
 /**
  * Created by Eldath Ray on 2017/4/1 0001.

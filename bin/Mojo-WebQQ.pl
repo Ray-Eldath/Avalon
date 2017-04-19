@@ -11,7 +11,7 @@ $post_api = 'http://127.0.0.1:5050/avalon/v0/post_api';  #接收到的消息上�
 my $client = Mojo::Webqq->new();
 
 # $client->load("UploadQRcode");
-# $client->load("ShowQRcode");
+$client->load("ShowQRcode");
 $client->load("Openqq",data=>{
         listen     => [ { host => $host, port => $port } ],
         post_api   => $post_api,

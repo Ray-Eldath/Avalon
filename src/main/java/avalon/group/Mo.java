@@ -1,7 +1,7 @@
 package avalon.group;
 
+import avalon.api.util.GroupMessage;
 import avalon.tool.VariablePool;
-import avalon.util.GroupMessage;
 
 import java.util.Random;
 import java.util.regex.Pattern;

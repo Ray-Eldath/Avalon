@@ -71,8 +71,8 @@ public class MainServer {
                     File.separator + "bin" + File.separator + "Mojo-Webqq.pl");
             wechatProcess = Runtime.getRuntime().exec("perl " + System.getProperty("user.dir") +
                     File.separator + "bin" + File.separator + "Mojo-Weixin.pl");
-            ManagerTool.processHandler(webqqProcess, "from perl-Mojo-Webqq: ");
-            ManagerTool.processHandler(wechatProcess, "from perl-Mojo-Weixin: ");
+            new ProcessHandler(webqqProcess, "from perl-Mojo-Webqq: ").start();
+            new ProcessHandler(wechatProcess, "from perl-Mojo-Weixin: ").start();
         }
         // 线程池
         ScheduledThreadPoolExecutor poolExecutor = new ScheduledThreadPoolExecutor(1);
@@ -135,12 +135,12 @@ public class MainServer {
     }
 
     public static void setWebqqProcess(Process webqqProcess) {
-        ManagerTool.processHandler(webqqProcess, "from perl-Mojo-Webqq: ");
+        new ProcessHandler(webqqProcess, "from perl-Mojo-Webqq: ").start();
         MainServer.webqqProcess = webqqProcess;
     }
 
     public static void setWechatProcess(Process wechatProcess) {
-        ManagerTool.processHandler(wechatProcess, "from perl-Mojo-Weixin: ");
+        new ProcessHandler(wechatProcess, "from perl-Mojo-Weixin: ").start();
         MainServer.wechatProcess = wechatProcess;
     }
 }

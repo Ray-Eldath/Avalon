@@ -1,8 +1,8 @@
 package avalon.extend;
 
+import avalon.api.util.FriendMessage;
+import avalon.api.util.GroupMessage;
 import avalon.tool.ConstantPool;
-import avalon.util.FriendMessage;
-import avalon.util.GroupMessage;
 
 import java.util.ArrayList;
 import java.util.List;

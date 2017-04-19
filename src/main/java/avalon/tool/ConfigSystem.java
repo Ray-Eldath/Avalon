@@ -47,6 +47,7 @@ public class ConfigSystem {
         JSONArray names = object.names();
         for (int i = 0; i < object.length(); i++) {
             String key = names.get(i).toString();
+            if (key.contains("comment")) continue;
             Object thisObject = object.get(key);
             result.put(key, thisObject);
         }

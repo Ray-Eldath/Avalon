@@ -1,8 +1,8 @@
 package avalon.group;
 
+import avalon.api.util.GroupMessage;
 import avalon.tool.APISurvivePool;
 import avalon.tool.ConfigSystem;
-import avalon.util.GroupMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

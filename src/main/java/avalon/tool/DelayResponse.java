@@ -1,7 +1,7 @@
 package avalon.tool;
 
+import avalon.api.util.Message;
 import avalon.util.DelayMessage;
-import avalon.util.Message;
 
 import java.util.concurrent.DelayQueue;
 

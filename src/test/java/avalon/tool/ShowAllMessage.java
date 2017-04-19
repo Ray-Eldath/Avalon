@@ -1,7 +1,7 @@
 package avalon.tool;
 
-import avalon.util.FriendMessage;
-import avalon.util.GroupMessage;
+import avalon.api.util.FriendMessage;
+import avalon.api.util.GroupMessage;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,5 +1,5 @@
 group 'ray-eldath'
-version 'v0.0.1-beta'
+version 'v0.0.1a-beta'
 
 apply plugin: 'java'
 apply plugin: 'application'
@@ -8,9 +8,14 @@ mainClassName = 'avalon.main.MainServer'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-repositories {
-    jcenter()
-    mavenCentral()
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url 'https://jitpack.io'
+        }
+    }
 }
 
 dependencies {
@@ -32,6 +37,10 @@ dependencies {
     compile group: 'org.fusesource.jansi', name: 'jansi', version: '1.15'
     // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-util
     compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.3.v20170317'
+    // https://mvnrepository.com/artifact/org.mybatis/mybatis
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.4.4'
+    // https://jitpack.io/#Ray-Eldath/Avalon-API
+    compile 'com.github.Ray-Eldath:Avalon-API:-SNAPSHOT'
 }
 
 tasks.withType(JavaCompile) {

@@ -1,5 +1,7 @@
 package avalon.util;
 
+import avalon.api.util.Message;
+
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;

@@ -1,10 +1,10 @@
 package avalon.group;
 
+import avalon.api.util.GroupMessage;
 import avalon.extend.Recorder;
 import avalon.main.MessageChecker;
 import avalon.tool.*;
 import avalon.util.BaseGameResponder;
-import avalon.util.GroupMessage;
 
 import java.util.Arrays;
 import java.util.HashMap;

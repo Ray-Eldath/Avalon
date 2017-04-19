@@ -12,13 +12,21 @@ import java.io.InputStreamReader;
  *
  * @author Eldath Ray
  */
-public class ManagerTool {
-    private static final Logger logger = LoggerFactory.getLogger(ManagerTool.class);
+public class ProcessHandler extends Thread {
+    private static final Logger logger = LoggerFactory.getLogger(ProcessHandler.class);
+    private Process process;
+    private String[] prefix;
 
-    public static boolean processHandler(Process process, String... prefix) {
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    process.getInputStream(), "GB2312"));
+    public ProcessHandler(Process process, String... prefix) {
+        this.process = process;
+        this.prefix = prefix;
+    }
+
+    @Override
+    public void run() {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                process.getInputStream(), "GB2312"))) {
+
             String thisLine;
             if (prefix.length == 0)
                 while ((thisLine = reader.readLine()) != null)
@@ -26,10 +34,8 @@ public class ManagerTool {
             else
                 while ((thisLine = reader.readLine()) != null)
                     System.out.println(prefix[0] + thisLine);
-            return true;
         } catch (IOException e) {
             logger.warn("Exception thrown while handle process: " + e);
-            return false;
         }
     }
 }

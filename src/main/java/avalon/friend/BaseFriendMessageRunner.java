@@ -1,6 +1,6 @@
 package avalon.friend;
 
-import avalon.util.FriendMessage;
+import avalon.api.util.FriendMessage;
 
 import java.util.regex.Pattern;
 
