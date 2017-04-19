@@ -65,11 +65,12 @@ public class MainServer {
 
     public static void main(String[] args) throws Exception {
         new ConstantPool.Basic();
+        String path = new File("").getCanonicalPath();
         // 派生Mojo-Webqq和Mojo-Weixin
         if (!ConstantPool.Basic.Debug) {
-            webqqProcess = Runtime.getRuntime().exec("perl " + System.getProperty("user.dir") +
+            webqqProcess = Runtime.getRuntime().exec("perl " + path +
                     File.separator + "bin" + File.separator + "Mojo-Webqq.pl");
-            wechatProcess = Runtime.getRuntime().exec("perl " + System.getProperty("user.dir") +
+            wechatProcess = Runtime.getRuntime().exec("perl " + path +
                     File.separator + "bin" + File.separator + "Mojo-Weixin.pl");
             new ProcessHandler(webqqProcess, "from perl-Mojo-Webqq: ").start();
             new ProcessHandler(wechatProcess, "from perl-Mojo-Weixin: ").start();

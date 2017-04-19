@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,12 +32,13 @@ public class ConfigSystem {
 
     private ConfigSystem() {
         try {
-            JSONObject object = (JSONObject) new JSONTokener(new FileReader(new File("config.json")))
+            String path = new File("").getCanonicalPath();
+            JSONObject object = (JSONObject) new JSONTokener(new FileReader(new File(path + File.separator + "config.json")))
                     .nextValue();
             allConfigs = jsonObjectToMap(object);
             allCommandAllow = (JSONObject) object.get("plugin_allowed_account");
             pluginConfigs = jsonObjectToMap((JSONObject) object.get("plugin_config"));
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             logger.error("Exception thrown while init ConfigSystem: ", e);
         }
     }
