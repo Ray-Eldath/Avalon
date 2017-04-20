@@ -1,8 +1,8 @@
 package avalon.extend;
 
 import avalon.tool.ConfigSystem;
-import avalon.tool.ConstantPool;
 import avalon.tool.RunningData;
+import avalon.tool.pool.ConstantPool;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 

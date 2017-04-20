@@ -1,6 +1,6 @@
 package avalon.group;
 
-import avalon.tool.ConstantPool;
+import avalon.tool.pool.ConstantPool;
 import avalon.util.GroupMessage;
 
 import java.util.regex.Pattern;

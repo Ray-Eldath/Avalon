@@ -1,6 +1,6 @@
 package avalon.info;
 
-import avalon.tool.ConstantPool;
+import avalon.tool.pool.ConstantPool;
 import com.sun.management.OperatingSystemMXBean;
 import org.json.JSONObject;
 

@@ -1,5 +1,7 @@
 package avalon.tool;
 
+import avalon.tool.pool.ConstantPool;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import static avalon.tool.ConstantPool.Basic.currentPath;
+import static avalon.tool.pool.ConstantPool.Basic.currentPath;
 
 /**
  * Created by Eldath Ray on 2017/4/19 0019.

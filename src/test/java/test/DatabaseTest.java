@@ -1,6 +1,6 @@
 package test;
 
-import avalon.tool.ConstantPool;
+import avalon.tool.pool.ConstantPool;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 

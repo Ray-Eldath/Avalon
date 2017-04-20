@@ -1,6 +1,6 @@
 package avalon.group;
 
-import avalon.tool.VariablePool;
+import avalon.tool.pool.VariablePool;
 import avalon.util.GroupMessage;
 
 import java.util.Random;

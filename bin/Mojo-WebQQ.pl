@@ -1,5 +1,4 @@
 ﻿#!/usr/bin/env perl
-use lib 'D:/Users/Eldath/Downloads/Archive/Mojo-Webqq-master/Mojo-Webqq-master/lib';
 use strict;
 use warnings;
 use Mojo::Webqq;

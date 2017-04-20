@@ -1,7 +1,5 @@
 package test;
 
-import avalon.main.InstallChecker;
-
 /**
  * Created by Eldath on 2017/1/29 0029.
  *
@@ -9,6 +7,5 @@ import avalon.main.InstallChecker;
  */
 public class Test {
     public static void main(String[] args) {
-        InstallChecker.check();
     }
 }

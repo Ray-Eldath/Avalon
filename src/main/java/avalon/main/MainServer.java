@@ -6,8 +6,12 @@ import avalon.extend.ShowMsg;
 import avalon.group.MainGroupMessageHandler;
 import avalon.info.*;
 import avalon.manager.InstanceManager;
-import avalon.tool.*;
+import avalon.tool.ConfigSystem;
+import avalon.tool.DelayResponse;
+import avalon.tool.Responder;
+import avalon.tool.RunningData;
 import avalon.tool.database.SQLiteDatabaseOperator;
+import avalon.tool.pool.ConstantPool;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -23,8 +27,8 @@ import java.util.Scanner;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import static avalon.tool.ConstantPool.Address.webqq;
-import static avalon.tool.ConstantPool.Address.wechat;
+import static avalon.tool.pool.ConstantPool.Address.webqq;
+import static avalon.tool.pool.ConstantPool.Address.wechat;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -68,8 +72,6 @@ public class MainServer {
         new ConstantPool.Basic();
         new ConstantPool.Address();
         if (!ConstantPool.Basic.Debug) InstallChecker.check();
-        System.out.println(ConstantPool.Address.webqq);
-        System.out.println(ConstantPool.Address.wechat);
         // 线程池
         ScheduledThreadPoolExecutor poolExecutor = new ScheduledThreadPoolExecutor(1);
         poolExecutor.scheduleWithFixedDelay(new Scheduler(), 5, 5, TimeUnit.SECONDS);
@@ -100,13 +102,13 @@ public class MainServer {
         context.addServlet(new ServletHolder(new AvalonInfo()), "/info/get_avalon_info");
         context.addServlet(new ServletHolder(new SystemInfo()), "/info/get_system_info");
         context.addServlet(new ServletHolder(new InstanceManager()), "/manager/manage_instance");
-        //
-        try {
-            Runtime.getRuntime().exec("perl");
-        } catch (Exception e) {
-            logger.error("Perl has NOT install yet, please install perl (Linux: perl, Windows: ActivePerl) first!");
-            System.exit(-1);
-        }
+//       //FIXME 这么写是不行的！要参照InstallChecker.check()的写法= =
+//        try {
+//            Runtime.getRuntime().exec("perl");
+//        } catch (Exception e) {
+//            logger.error("Perl has NOT install yet, please install perl (Linux: perl, Windows: ActivePerl) first!");
+//            System.exit(-1);
+//        }
         //
         server.join();
         server.start();

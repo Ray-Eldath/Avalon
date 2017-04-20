@@ -2,7 +2,7 @@ package avalon.main;
 
 import avalon.group.BaseGroupMessageResponder;
 import avalon.group.MainGroupMessageHandler;
-import avalon.tool.APISurvivePool;
+import avalon.tool.pool.APISurvivePool;
 
 /**
  * Created by Eldath Ray on 2017/4/19 0019.

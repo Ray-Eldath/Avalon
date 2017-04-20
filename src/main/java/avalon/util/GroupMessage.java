@@ -11,7 +11,7 @@ import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
-import static avalon.tool.ConstantPool.Address.webqq;
+import static avalon.tool.pool.ConstantPool.Address.webqq;
 
 /**
  * Created by Eldath on 2017/2/11 0011.

@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static avalon.tool.ConstantPool.Address.webqq;
-import static avalon.tool.ConstantPool.Address.wechat;
+import static avalon.tool.pool.ConstantPool.Address.webqq;
+import static avalon.tool.pool.ConstantPool.Address.wechat;
 
 /**
  * Created by Eldath on 2017/1/28 0028.

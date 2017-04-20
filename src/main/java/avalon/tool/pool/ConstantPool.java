@@ -1,5 +1,7 @@
-package avalon.tool;
+package avalon.tool.pool;
 
+import avalon.tool.ConfigSystem;
+import avalon.tool.DatabaseConfig;
 import avalon.tool.database.DatabaseOperator;
 import avalon.tool.database.MySQLDatabaseOperator;
 import avalon.tool.database.SQLiteDatabaseOperator;
@@ -31,6 +33,10 @@ public class ConstantPool {
                 .getConfig("Mojo-Webqq_API_Address"));
         public static final String wechat = addressHandle((String) ConfigSystem.getInstance()
                 .getConfig("Mojo-Weixin_API_Address"));
+        public static final String perlFileOfWebqq = Basic.currentPath +
+                File.separator + "bin" + File.separator + "Mojo-Webqq.pl";
+        public static final String perlFileOfWechat = Basic.currentPath +
+                File.separator + "bin" + File.separator + "Mojo-Weixin.pl";
 
         private static String addressHandle(String address) {
             return address.endsWith("/") ? address.substring(0, address.length() - 1) : address;

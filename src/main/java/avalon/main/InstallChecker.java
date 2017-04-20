@@ -1,6 +1,7 @@
 package avalon.main;
 
 import avalon.tool.ProcessHolder;
+import avalon.tool.pool.ConstantPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,23 +9,28 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import static avalon.tool.ConstantPool.Basic.currentPath;
+import static avalon.tool.pool.ConstantPool.Basic.currentPath;
 
 /**
  * Created by Eldath Ray on 2017/4/19 0019.
  *
  * @author Eldath Ray
  */
-public class InstallChecker {
+class InstallChecker {
     private static final Logger logger = LoggerFactory.getLogger(InstallChecker.class);
 
-    public static boolean check() {
+    static boolean check() {
         try {
+            handleLockFile(ConstantPool.Address.perlFileOfWebqq);
+            handleLockFile(ConstantPool.Address.perlFileOfWechat);
             String prefix = "perl " + currentPath + File.separator + "bin" + File.separator;
             ProcessHolder wechatHolder = new ProcessHolder(Runtime.getRuntime().exec(
                     prefix + "Mojo-Weixin.pl"), "from perl:Mojo-Weixin ");
@@ -46,6 +52,19 @@ public class InstallChecker {
                 System.exit(-3);
             } else MainServer.setWebqqProcess(webqq);
             return true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void handleLockFile(String filePath) {
+        try {
+            Path lockFilePath = Paths.get(filePath + ".lock");
+            Path path = Paths.get(filePath);
+            if (Files.exists(lockFilePath))
+                Files.delete(path);
+            if (!lockFilePath.toFile().renameTo(path.toFile()))
+                throw new IOException("Operation not compete: Unknown reason.");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
