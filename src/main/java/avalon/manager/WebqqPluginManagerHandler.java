@@ -1,14 +1,15 @@
 package avalon.manager;
 
-import avalon.tool.pool.WebqqPluginPool;
+import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.OnlineWebqqPluginPool;
 import avalon.util.Plugin;
-import avalon.util.PluginParameter;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -31,12 +32,12 @@ public class WebqqPluginManagerHandler {
 
     // 保证传入的name是一定存在的Plugin的name
     JSONObject getInfo(String name) {
-        return WebqqPluginPool.getInstance().getPlugin(name);
+        return OnlineWebqqPluginPool.getInstance().getPlugin(name);
     }
 
     JSONObject disabled(String name) {
         String total = "";
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get(perlFileOfWebqq))) {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(perlFileOfWebqq), StandardCharsets.UTF_8)) {
             String thisLine;
             boolean get = false;
             while ((thisLine = reader.readLine()) != null) {
@@ -51,25 +52,58 @@ public class WebqqPluginManagerHandler {
                 } else total += thisLine + "\n";
             }
         } catch (IOException e) {
-            return new JSONObject().put("error", "处理请求时发生异常：" + e.toString());
+            return errorHandler(e);
         }
         try (FileWriter writer = new FileWriter(new File(currentPath +
                 separator + "bin" + separator + "Mojo-Webqq.pl.lock"))) {
             writer.write(total);
 
         } catch (IOException e) {
-            return new JSONObject().put("error", "处理请求时发生异常：" + e.toString());
+            return errorHandler(e);
         }
         return new JSONObject().put("message", "禁用插件" + name + "成功。请重启Mojo-Webqq以生效改动！");
     }
 
-    JSONObject setParameter(Plugin plugin, Map<PluginParameter, Object> parameters) {
+    JSONObject setParameter(Plugin plugin, JSONObject parameters) {
         String command = "$client->load(\"" + plugin + "\"";
-        if (parameters.isEmpty())
+        String parameter = "";
+        getParameterString(parameter, parameters);
+        if (parameters.length() == 0)
             command += ");";
-        else {
-            String parameterString;
-            for ()
+        else command += parameter + "});";
+        disabled(plugin.getName());
+        String content = "";
+        try (BufferedReader reader = Files.newBufferedReader(
+                Paths.get(ConstantPool.Address.perlFileOfWebqq), StandardCharsets.UTF_8)) {
+            String thisLine;
+            while ((thisLine = reader.readLine()) != null) {
+                if (thisLine.contains("$client = Mojo::Webqq->new();"))
+                    content += "\n" + command;
+                content += thisLine;
+            }
+        } catch (IOException e) {
+            return errorHandler(e);
         }
+        try (FileWriter writer = new FileWriter(ConstantPool.Address.perlFileOfWebqq)) {
+            writer.write(command);
+        } catch (IOException e) {
+            errorHandler(e);
+        }
+        return new JSONObject().put("message", "修改插件" + plugin.getName() + "参数成功。请重启Mojo-Webqq以生效改动！");
+    }
+
+    private String getParameterString(String string, JSONObject object) {
+        for (Map.Entry<String, Object> entry : object.toMap().entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if (value instanceof JSONObject)
+                getParameterString(string, (JSONObject) value);
+            string += key + "=>" + String.valueOf(value) + ",\n";
+        }
+        return string;
+    }
+
+    private JSONObject errorHandler(Exception e) {
+        return new JSONObject().put("error", "处理请求时发生异常：" + e.toString());
     }
 }

@@ -49,4 +49,8 @@ public class PluginParameter {
             throw new UnsupportedOperationException("No elementType!");
         return elementType;
     }
+
+    public boolean isCollention() {
+        return elementType == null;
+    }
 }

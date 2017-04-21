@@ -1,7 +1,8 @@
 package avalon.manager;
 
-import avalon.tool.pool.WebqqPluginPool;
+import avalon.tool.pool.OnlineWebqqPluginPool;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -73,9 +74,13 @@ public class WebqqPluginManager extends HttpServlet {
         String target = req.getParameter("target");
         String operation = req.getParameter("operation");
         JSONObject object;
+        JSONObject postObject = (JSONObject) new JSONTokener(req.getReader()).nextValue();
         if (!preCheck(req, resp))
             return;
+        //FIXME 需要整个LocalWebqqPluginPool再写。今天先不玩了。
+        // Plugin plugin = OnlineWebqqPluginPool.getInstance().getPlugin(target);
         if ("set_parameter".equals(operation)) {
+            JSONObject parameters = postObject.getJSONObject("parameters");
 
         }
     }
@@ -90,7 +95,7 @@ public class WebqqPluginManager extends HttpServlet {
             resp.getWriter().print(new JSONObject().put("error", "调用格式不正确。").toString());
             return false;
         }
-        if (!WebqqPluginPool.getInstance().isPluginExist(target)) {
+        if (!OnlineWebqqPluginPool.getInstance().isPluginExist(target)) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resp.getWriter().print(new JSONObject().put("error", "指定的插件" + target + "不存在。").toString());
             return false;

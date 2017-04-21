@@ -16,17 +16,17 @@ import java.util.*;
  *
  * @author Eldath Ray
  */
-public class WebqqPluginPool {
+public class OnlineWebqqPluginPool {
     private List<Plugin> plugins = new ArrayList<>();
     private HashMap<String, JSONObject> pluginsMap = new HashMap<>();
 
-    private static WebqqPluginPool ourInstance = new WebqqPluginPool();
+    private static OnlineWebqqPluginPool ourInstance = new OnlineWebqqPluginPool();
 
-    public static WebqqPluginPool getInstance() {
+    public static OnlineWebqqPluginPool getInstance() {
         return ourInstance;
     }
 
-    private WebqqPluginPool() {
+    private OnlineWebqqPluginPool() {
         try {
             JSONArray array = ((JSONObject) new JSONTokener(new URL("https://raw.githubusercontent.com/" +
                     "Ray-Eldath/Avalon-Plugin-Info-Getter/master/plugins.json")
