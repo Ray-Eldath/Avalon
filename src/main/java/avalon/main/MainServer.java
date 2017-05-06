@@ -10,7 +10,6 @@ import avalon.tool.ConfigSystem;
 import avalon.tool.DelayResponse;
 import avalon.tool.Responder;
 import avalon.tool.RunningData;
-import avalon.tool.database.SQLiteDatabaseOperator;
 import avalon.tool.pool.ConstantPool;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -46,29 +45,31 @@ public class MainServer {
             logger.info("Catch INT signal, Bye!");
             Recorder.getInstance().flushNow();
             RunningData.getInstance().save();
-            SQLiteDatabaseOperator.getInstance().close();
-            if (!ConstantPool.Basic.Debug) {
-                webqqProcess.destroy();
-                System.out.println("Mojo-Webqq exited, exit value: " + webqqProcess.exitValue());
-                wechatProcess.destroy();
-                System.out.println("Mojo-Weixin exited, exit value: " + wechatProcess.exitValue());
-            }
-            File[] files = new File(System.getProperty("java.io.tmpdir")).listFiles();
-            if (files != null)
-                Arrays.stream(files).filter(e -> e.getName().trim().matches("mojo_")).forEach(File::delete);
-            logger.info("Mojo-Webqq files cleaned.");
+            //
+            for (long thisFollowFollow : followGroup)
+                Responder.sendToGroup(thisFollowFollow, "服务已经停止。");
             try {
                 new URL(webqq + "/openqq/stop_client").openStream();
                 new URL(wechat + "/openwx/stop_client").openStream();
             } catch (IOException ignored) {
             }
-            for (long thisFollowFollow : followGroup)
-                Responder.sendToGroup(thisFollowFollow, "服务已经停止。");
+            if (!ConstantPool.Basic.Debug) {
+                webqqProcess.destroy();
+                logger.info("Mojo-Webqq exited, exit value: " + webqqProcess.exitValue());
+                wechatProcess.destroy();
+                logger.info("Mojo-Weixin exited, exit value: " + wechatProcess.exitValue());
+            }
+            ConstantPool.Database.currentDatabaseOperator.close();
+            File[] files = new File(System.getProperty("java.io.tmpdir")).listFiles();
+            if (files != null)
+                Arrays.stream(files).filter(e -> e.getName().trim().matches("mojo_")).forEach(File::delete);
+            logger.info("Mojo-Webqq files cleaned.");
         }
     }
 
     public static void main(String[] args) throws Exception {
         ConfigSystem.getInstance();
+        RunningData.getInstance();
         new ConstantPool.Basic();
         new ConstantPool.Address();
         if (!ConstantPool.Basic.Debug) InstallChecker.check();

@@ -1,5 +1,8 @@
 #!/usr/bin/env perl
+use strict;
+use warnings;
 use Mojo::Weixin;
+
 my ($host, $port, $post_api);
 
 $host = "127.0.0.1";

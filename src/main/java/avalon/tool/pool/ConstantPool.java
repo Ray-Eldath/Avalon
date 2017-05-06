@@ -93,8 +93,10 @@ public class ConstantPool {
             String path1;
             try {
                 path1 = new File("").getCanonicalPath();
-            } catch (IOException ignore) {
+            } catch (IOException e) {
+                System.out.println("Fatal error: " + e.toString());
                 path1 = "";
+                System.exit(-1);
             }
             currentPath = path1;
         }

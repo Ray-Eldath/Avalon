@@ -31,13 +31,15 @@ class InstallChecker {
         try {
             handleLockFile(ConstantPool.Address.perlFileOfWebqq);
             handleLockFile(ConstantPool.Address.perlFileOfWechat);
-            String prefix = "perl " + currentPath + File.separator + "bin" + File.separator;
+            String prefix = "perl \"" + currentPath + File.separator + "bin" + File.separator;
+//            System.out.println("prefix: " + prefix);
+//            System.out.println("Mojo-Weixin.pl: " + prefix + "Mojo-Weixin.pl");
             ProcessHolder wechatHolder = new ProcessHolder(Runtime.getRuntime().exec(
-                    prefix + "Mojo-Weixin.pl"), "from perl:Mojo-Weixin ");
+                    prefix + "Mojo-Weixin.pl\""), "from perl:Mojo-Weixin ");
             wechatHolder.start();
             Process wechat = wechatHolder.getProcess();
             ProcessHolder webqqHolder = new ProcessHolder(Runtime.getRuntime().exec(
-                    prefix + "Mojo-Webqq.pl"), "from perl:Mojo-Webqq ");
+                    prefix + "Mojo-Webqq.pl\""), "from perl:Mojo-Webqq ");
             webqqHolder.start();
             Process webqq = webqqHolder.getProcess();
             if (!checkProcess(wechat)) {
@@ -61,10 +63,11 @@ class InstallChecker {
         try {
             Path lockFilePath = Paths.get(filePath + ".lock");
             Path path = Paths.get(filePath);
-            if (Files.exists(lockFilePath))
+            if (Files.exists(lockFilePath)) {
                 Files.delete(path);
-            if (!lockFilePath.toFile().renameTo(path.toFile()))
-                throw new IOException("Operation not compete: Unknown reason.");
+                if (!lockFilePath.toFile().renameTo(path.toFile()))
+                    throw new IOException("Operation not compete: Unknown reason.");
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

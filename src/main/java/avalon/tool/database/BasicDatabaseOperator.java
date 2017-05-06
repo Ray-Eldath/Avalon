@@ -33,7 +33,8 @@ public class BasicDatabaseOperator implements Closeable {
 
     public boolean add(Statement statement, GroupMessage message) {
         try {
-            String value = "('" + message.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " ") +
+            String value = "(" + message.getId() + ",'" +
+                    message.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " ") +
                     "', " + message.getSenderUid() + ", '" + message.getSenderNickName() +
                     "', " + message.getGroupUid() + ", '" + message.getGroupName() + "', '" +
                     UrlEncoded.encodeString(message.getContent()) + "')";

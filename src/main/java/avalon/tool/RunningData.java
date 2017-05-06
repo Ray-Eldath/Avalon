@@ -19,14 +19,23 @@ public class RunningData {
     private static final Path file = Paths.get(currentPath + File.separator + "data.properties");
     private static Properties properties = new Properties();
 
-    private static RunningData ourInstance = new RunningData();
+    private static RunningData instance = null;
 
     public static RunningData getInstance() {
-        return ourInstance;
+        if (instance == null) instance = new RunningData();
+        return instance;
     }
 
     private RunningData() {
         try {
+            if (Files.notExists(file)) {
+                properties.setProperty("friendId", "0");
+                properties.setProperty("groupId", "0");
+                properties.setProperty("group_message_recorded_count", "0");
+                properties.setProperty("friend_message_recorded_count", "0");
+                Files.createFile(file);
+                save();
+            }
             properties.load(Files.newBufferedReader(file, StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new RuntimeException(e);
