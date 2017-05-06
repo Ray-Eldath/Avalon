@@ -13,10 +13,10 @@ my $client = Mojo::Webqq->new();
 # $client->load("UploadQRcode");
 $client->load("ShowQRcode");
 $client->load("Openqq",data=>{
-        listen     => [ { host => $host, port => $port } ],
-        post_api   => $post_api,
-        post_event => 0,                             #可选，是否上报事件，为了向后兼容性，默认值为1
-        # post_event_list => ['login','stop','state_change','input_qrcode'],
+        listen          => [ { host => $host, port => $port } ],
+        post_api        => $post_api,
+        post_event      => 0,                             #可选，是否上报事件，为了向后兼容性，默认值为1
+        post_event_list => [ 'receive_message' ],
 });
 
 $client->run();

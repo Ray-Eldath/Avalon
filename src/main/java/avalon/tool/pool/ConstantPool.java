@@ -65,7 +65,7 @@ public class ConstantPool {
                 webqq = "UNKNOWN";
             }
             try {
-                wechat = "v" + ((JSONObject) new JSONTokener(
+                wechat = ((JSONObject) new JSONTokener(
                         new URL(Address.wechat + "/openwx/get_client_info")
                                 .openStream()).nextValue()).getString("version");
             } catch (IOException ignore) {

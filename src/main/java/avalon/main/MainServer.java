@@ -63,7 +63,7 @@ public class MainServer {
             File[] files = new File(System.getProperty("java.io.tmpdir")).listFiles();
             if (files != null)
                 Arrays.stream(files).filter(e -> e.getName().trim().matches("mojo_")).forEach(File::delete);
-            logger.info("Mojo-Webqq files cleaned.");
+            logger.info("Mojo-Webqq files and Mojo-Weixin files cleaned.");
         }
     }
 

@@ -37,6 +37,6 @@ public class Version extends BaseGroupMessageResponder {
 
     @Override
     public Pattern getKeyWordRegex() {
-        return Pattern.compile("avalon version|avalon 版本");
+        return Pattern.compile("avalon version|avalon 版本|avalon about");
     }
 }

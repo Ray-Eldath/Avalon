@@ -38,10 +38,18 @@ class InstallChecker {
                     prefix + "Mojo-Weixin.pl\""), "from perl:Mojo-Weixin ");
             wechatHolder.start();
             Process wechat = wechatHolder.getProcess();
+            if (wechat == null) {
+                logger.error("Fatal error: Mojo-Weixin not run currently!");
+                System.exit(-3);
+            }
             ProcessHolder webqqHolder = new ProcessHolder(Runtime.getRuntime().exec(
                     prefix + "Mojo-Webqq.pl\""), "from perl:Mojo-Webqq ");
             webqqHolder.start();
             Process webqq = webqqHolder.getProcess();
+            if (webqq == null) {
+                logger.error("Fatal error: Mojo-Webqq not run currently!");
+                System.exit(-3);
+            }
             if (!checkProcess(wechat)) {
                 logger.error("Can't locate Mojo-Weixin! Please sure you're install Mojo-Webqq " +
                         "with the steps in https://github.com/sjdy521/Mojo-Weixin#安装方法 !");
