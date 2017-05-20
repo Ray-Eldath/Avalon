@@ -4,18 +4,16 @@ import avalon.extend.Recorder;
 import avalon.main.MessageChecker;
 import avalon.tool.APIRateLimit;
 import avalon.tool.ConfigSystem;
+import avalon.tool.RunningData;
 import avalon.tool.pool.APISurvivePool;
 import avalon.tool.pool.ConstantPool;
 import avalon.tool.pool.VariablePool;
-import avalon.util.BaseGameResponder;
 import avalon.util.GroupMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.LongStream;
 
@@ -30,7 +28,6 @@ import static avalon.tool.ObjectCaster.toStringArray;
  */
 public class MainGroupMessageHandler {
     private static final Map<Pattern, BaseGroupMessageResponder> apiList = new LinkedHashMap<>();
-    private static final Map<Pattern, BaseGameResponder> gameApiList = new LinkedHashMap<>();
 
     private static long[] adminUid = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Admin_Uid"));
@@ -63,6 +60,11 @@ public class MainGroupMessageHandler {
     private MainGroupMessageHandler() {
         for (long thisBlackPeople : blackListPeople)
             blackListPeopleMap.put(thisBlackPeople, punishFrequency + 1);
+        int length = followGroup.length;
+        long[] data = new long[length + 1];
+        System.arraycopy(followGroup, 0, data, 1, length);
+        data[0] = 100000;
+        followGroup = data;
     }
 
     static {
@@ -96,7 +98,8 @@ public class MainGroupMessageHandler {
     }
 
     public void handle(GroupMessage message) {
-        Recorder.getInstance().recodeGroupMessage(message);
+        if (!ConstantPool.Basic.Debug)
+            Recorder.getInstance().recodeGroupMessage(message);
         //FIXME MessageHooker.handle(message);
         long groupUid = message.getGroupUid();
         String content = message.getContent();
@@ -138,14 +141,6 @@ public class MainGroupMessageHandler {
                     return;
                 }
             }
-            if (ConstantPool.GameMode.IsEnabled)
-                if (Arrays.stream(gameModeAllowedGroup).anyMatch(e -> e == groupUid))
-                    for (Map.Entry<Pattern, BaseGameResponder> gameApiListEntry : gameApiList.entrySet())
-                        if (gameApiListEntry.getKey().matcher(content).find()) {
-                            if (!MessageChecker.checkEncode(message))
-                                gameApiListEntry.getValue().doPost(message);
-                            return;
-                        }
         }
         if (Arrays.stream(recordGroup).anyMatch(e -> e == groupUid))
             Recorder.getInstance().recodeGroupMessage(message);
@@ -173,6 +168,25 @@ public class MainGroupMessageHandler {
             return false;
         }
         return true;
+    }
+
+    public static void main(String[] args) {
+        ConfigSystem.getInstance();
+        RunningData.getInstance();
+        new ConstantPool.Basic();
+        new ConstantPool.Address();
+        if (!ConstantPool.Basic.Debug)
+            return;
+        Scanner scanner = new Scanner(System.in);
+        int id = 0;
+        while (true) {
+            System.out.print("Input here:");
+            String content = scanner.nextLine();
+            GroupMessage message = new GroupMessage(++id, LocalDateTime.now(),
+                    10000, "Test", 100000, "Test Group", content);
+            MainGroupMessageHandler.getInstance().handle(message);
+            System.out.println("===");
+        }
     }
 
     private void blackListPlus(long senderUid) {

@@ -83,7 +83,7 @@ public class ConstantPool {
     }
 
     public static class Basic {
-        static final String Version = "0.0.1 Beta";
+        static final String Version = "0.0.1b";
         public static final boolean Debug = (boolean) ConfigSystem.getInstance().getConfig("Debug");
         public static final long startTime = System.currentTimeMillis();
         public static final int pid = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);

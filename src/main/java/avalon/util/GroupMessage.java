@@ -1,5 +1,6 @@
 package avalon.util;
 
+import avalon.tool.pool.ConstantPool;
 import org.eclipse.jetty.util.UrlEncoded;
 
 import java.io.IOException;
@@ -51,22 +52,29 @@ public class GroupMessage implements Message, Displayable {
 
     @Override
     public void response(String reply) {
-        try {
-            new URL(webqq + "/openqq/send_group_message?uid=" + groupUid + "&content=" +
-                    UrlEncoded.encodeString(reply)).openStream();
-        } catch (IOException e) {
-            logger.warning("IOException thrown while response avalon.group message: " + e.toString());
-        }
+        if (ConstantPool.Basic.Debug)
+            System.out.println("Output: " + reply);
+        else
+            try {
+                new URL(webqq + "/openqq/send_group_message?uid=" + groupUid + "&content=" +
+                        UrlEncoded.encodeString(reply)).openStream();
+            } catch (IOException e) {
+                logger.warning("IOException thrown while response avalon.group message: " + e.toString());
+            }
     }
 
     public void response(String reply, int shutUpTime) {
-        response(reply);
-        try {
-            new URL(webqq + "/openqq/shutup_group_member?time=" + shutUpTime +
-                    "&group_uid=" + groupUid +
-                    "&member_uid=" + senderUid).openStream();
-        } catch (IOException e) {
-            logger.warning("IOException thrown while response avalon.group message and shut up: " + e.toString());
+        if (ConstantPool.Basic.Debug)
+            System.out.println("Output:\n" + reply);
+        else {
+            response(reply);
+            try {
+                new URL(webqq + "/openqq/shutup_group_member?time=" + shutUpTime +
+                        "&group_uid=" + groupUid +
+                        "&member_uid=" + senderUid).openStream();
+            } catch (IOException e) {
+                logger.warning("IOException thrown while response avalon.group message and shut up: " + e.toString());
+            }
         }
     }
 

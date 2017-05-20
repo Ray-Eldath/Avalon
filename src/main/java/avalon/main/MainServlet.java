@@ -2,7 +2,7 @@ package avalon.main;
 
 import avalon.friend.MainFriendMessageHandler;
 import avalon.group.MainGroupMessageHandler;
-import avalon.tool.ConfigSystem;
+import avalon.tool.pool.ConstantPool;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.json.JSONObject;
@@ -29,7 +29,8 @@ public class MainServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         JSONObject object = (JSONObject) new JSONTokener(req.getReader()).nextValue();
-        if ((boolean) ConfigSystem.getInstance().getConfig("Debug")) logger.info(object.toString());
+        if (ConstantPool.Basic.Debug)
+            logger.info(object.toString());
         if (object.isNull("post_type") || object.isNull("type")) return;
         if (!"receive_message".equals(object.getString("post_type")))
             return;
@@ -49,8 +50,8 @@ public class MainServlet extends HttpServlet {
         } else {
             long groupUid = object.getLong("group_uid");
             String group = object.get("group").toString();
-            GroupMessage message = new GroupMessage(Id, timeLong, senderUid, sender, groupUid, group, content);
-            MainGroupMessageHandler.getInstance().handle(message);
+            MainGroupMessageHandler.getInstance().handle(new GroupMessage(Id, timeLong,
+                    senderUid, sender, groupUid, group, content));
         }
     }
 }

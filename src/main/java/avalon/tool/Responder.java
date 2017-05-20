@@ -1,5 +1,6 @@
 package avalon.tool;
 
+import avalon.tool.pool.ConstantPool;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -54,11 +55,14 @@ public class Responder {
      * @see avalon.util.GroupMessage#response(String) and {@link avalon.util.GroupMessage#response(String, int)}.
      */
     public static void sendToGroup(long groupNumber, String content) {
-        try {
-            new URL(webqq + "/openqq/send_group_message?uid=" + groupNumber
-                    + "&content=" + UrlEncoded.encodeString(content)).openStream();
-        } catch (IOException e) {
-            logger.warning("IOException thrown while sendToGroup: " + e);
-        }
+        if (ConstantPool.Basic.Debug)
+            System.out.println("Output: " + content);
+        else
+            try {
+                new URL(webqq + "/openqq/send_group_message?uid=" + groupNumber
+                        + "&content=" + UrlEncoded.encodeString(content)).openStream();
+            } catch (IOException e) {
+                logger.warning("IOException thrown while sendToGroup: " + e);
+            }
     }
 }
