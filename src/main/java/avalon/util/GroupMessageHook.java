@@ -12,7 +12,7 @@ public class GroupMessageHook {
     private HookType hookType;
 
     /**
-     * @param hookType {@link avalon.api.util.HookType}
+     * @param hookType {@link avalon.util.HookType}
      * @param consumer When message received and your hook is meet the conditions (HookType),
      *                 the consumer will be run.
      */
@@ -27,5 +27,24 @@ public class GroupMessageHook {
 
     public Consumer<GroupMessage> getConsumer() {
         return consumer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GroupMessageHook hook = (GroupMessageHook) o;
+        return new org.apache.commons.lang3.builder.EqualsBuilder()
+                .append(consumer, hook.consumer)
+                .append(hookType, hook.hookType)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new org.apache.commons.lang3.builder.HashCodeBuilder(13, 37)
+                .append(consumer)
+                .append(hookType)
+                .toHashCode();
     }
 }

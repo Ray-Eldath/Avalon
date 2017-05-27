@@ -10,6 +10,7 @@ import avalon.tool.ConfigSystem;
 import avalon.tool.DelayResponse;
 import avalon.tool.Responder;
 import avalon.tool.RunningData;
+import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -72,6 +73,7 @@ public class MainServer {
         RunningData.getInstance();
         new ConstantPool.Basic();
         new ConstantPool.Address();
+        AvalonPluginPool.getInstance().load();
         if (!ConstantPool.Basic.Debug) InstallChecker.check();
         // 线程池
         ScheduledThreadPoolExecutor poolExecutor = new ScheduledThreadPoolExecutor(1);

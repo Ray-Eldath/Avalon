@@ -6,6 +6,7 @@ import avalon.tool.APIRateLimit;
 import avalon.tool.ConfigSystem;
 import avalon.tool.RunningData;
 import avalon.tool.pool.APISurvivePool;
+import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
 import avalon.tool.pool.VariablePool;
 import avalon.util.GroupMessage;
@@ -175,6 +176,7 @@ public class MainGroupMessageHandler {
         RunningData.getInstance();
         new ConstantPool.Basic();
         new ConstantPool.Address();
+        AvalonPluginPool.getInstance().load();
         if (!ConstantPool.Basic.Debug)
             return;
         Scanner scanner = new Scanner(System.in);

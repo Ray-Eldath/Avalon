@@ -1,9 +1,14 @@
 package avalon.group;
 
+import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
+import avalon.util.AvalonPluginInfo;
 import avalon.util.GroupMessage;
+import org.sqlite.util.StringUtils;
 
 import java.util.regex.Pattern;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -25,8 +30,24 @@ public class Version extends BaseGroupMessageResponder {
                 "我的名字和头像均取自《Implosion》，我的父亲是Mojo-Webqq。\n" +
                 "我由Ray Eldath进行二次开发。\n" +
                 "我在GitHub上开源，欢迎访问我的仓库：https://github.com/Ray-Eldath/Avalon\n" +
-                "Mojo-Webqq Version: v" + ConstantPool.Version.getInstance().webqq() + "\tMojo-Weixin Version: v" +
-                ConstantPool.Version.getInstance().wechat() + "\tAvalon Version: v" + ConstantPool.Version.avalon;
+                "全部插件有：" +
+                StringUtils.join(
+                        AvalonPluginPool.getInstance()
+                                .getInfoList()
+                                .stream()
+                                .map(AvalonPluginInfo::getName)
+                                .collect(toList()), "，") + "\n" +
+                "已装载的插件有：" +
+                StringUtils.join(
+                        AvalonPluginPool.getInstance()
+                                .getInfoList()
+                                .stream()
+                                .filter(AvalonPluginInfo::isEnabled)
+                                .map(AvalonPluginInfo::getName)
+                                .collect(toList()), "，") + "\n" +
+                "Mojo-Webqq Version: v" + ConstantPool.Version.getInstance().webqq() +
+                "\tMojo-Weixin Version: v" + ConstantPool.Version.getInstance().wechat() +
+                "\tAvalon Version: v" + ConstantPool.Version.avalon;
         message.response(messageToSaid);
     }
 

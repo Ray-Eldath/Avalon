@@ -2,8 +2,8 @@ package avalon.tool;
 
 import avalon.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Eldath Ray on 2017/4/19 0019.
@@ -11,8 +11,8 @@ import java.util.List;
  * @author Eldath Ray
  */
 public class MessageHooker {
-    private static List<GroupMessageHook> groupMessageHooks = new ArrayList<>();
-    private static List<FriendMessageHook> friendMessageHooks = new ArrayList<>();
+    private static Set<GroupMessageHook> groupMessageHooks = new HashSet<>();
+    private static Set<FriendMessageHook> friendMessageHooks = new HashSet<>();
 
     public static void handle(boolean isAdmin, GroupMessage message) {
         groupMessageHooks.forEach(e -> {
