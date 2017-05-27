@@ -37,6 +37,7 @@ public class ConstantPool {
                 File.separator + "bin" + File.separator + "Mojo-Webqq.pl";
         public static final String perlFileOfWechat = Basic.currentPath +
                 File.separator + "bin" + File.separator + "Mojo-Weixin.pl";
+        public static final String dataPath = Basic.currentPath + File.separator + "data";
 
         private static String addressHandle(String address) {
             return address.endsWith("/") ? address.substring(0, address.length() - 1) : address;

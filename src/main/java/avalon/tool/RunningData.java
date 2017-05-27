@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import static avalon.tool.pool.ConstantPool.Basic.currentPath;
+import static avalon.tool.pool.ConstantPool.Address.dataPath;
 
 /**
  * Created by Eldath Ray on 2017/4/19 0019.
@@ -16,7 +16,7 @@ import static avalon.tool.pool.ConstantPool.Basic.currentPath;
  * @author Eldath Ray
  */
 public class RunningData {
-    private static final Path file = Paths.get(currentPath + File.separator + "data.properties");
+    private static final Path file = Paths.get(dataPath + File.separator + "data.properties");
     private static Properties properties = new Properties();
 
     private static RunningData instance = null;
