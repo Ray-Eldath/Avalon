@@ -4,7 +4,7 @@ import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
 import avalon.util.AvalonPluginInfo;
 import avalon.util.GroupMessage;
-import org.sqlite.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Pattern;
 
