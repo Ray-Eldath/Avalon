@@ -200,7 +200,7 @@ public class MainGroupMessageHandler {
         apiList.put(responder.getKeyWordRegex(), responder);
     }
 
-    static long[] getAdminUid() {
+    public static long[] getAdminUid() {
         return adminUid;
         //FIXME 是否需要adminUid.clone()以防止数据修改？
     }

@@ -1,5 +1,7 @@
 package avalon.tool;
 
+import avalon.group.MainGroupMessageHandler;
+import avalon.tool.pool.ConstantPool;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -72,10 +74,14 @@ public class ConfigSystem {
 
     public long[] getCommandAllowArray(String commandName) {
         JSONArray convert = allCommandAllow.getJSONArray(commandName);
+        int len = MainGroupMessageHandler.getAdminUid().length;
+        long[] r = new long[convert.length() + len];
         long[] result = new long[convert.length()];
         for (int i = 0; i < convert.length(); i++)
             result[i] = convert.getLong(i);
-        return result;
+        System.arraycopy(result, 0, r, 0, result.length);
+        System.arraycopy(MainGroupMessageHandler.getAdminUid(), 0, r, result.length, len);
+        return r;
     }
 
     public Object getCommandConfig(String commandName, String key) {

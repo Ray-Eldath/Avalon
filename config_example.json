@@ -1,44 +1,39 @@
 {
-  "plugin_allowed_account": {
+   "plugin_allowed_account": {
     "Blacklist_basic": [
-      1000000000
+      100000000
     ],
     "Manager_basic": [
-      1000000000,
-      1000000000,
-      1000000000,
-      1000000000
+      100000000
     ],
     "Manager_restart": [
-      1000000000,
-      1000000000,
-      1000000000
+     100000000
     ],
     "Echo_basic": [
-      1000000000
+      100000000
     ],
     "Manager_stop": [
-      1000000000
+      100000000
     ]
   },
   "Record_Group_Uid": [
-    1000000000
+    10000
   ],
   "Mojo-Weixin_API_Address": "http://127.0.0.1:3500",
   "Admin_Uid": [
-    1000000000
+    100000000
   ],
   "Follow_Group_Uid": [
-    1000000000
+    10000
   ],
   "Mojo-Webqq_POST_API_Address": "http://127.0.0.1:5050",
   "Max_Recorded_Group_Message_Count": 5000000,
   "Game_Mode_Enabled_Group_Uid": [
-    1000000000
+    10000
   ],
   "Hook_Enabled": true,
   "Block_Words": [
-    "傻子",
+    "傻瓜",
     "操",
     "艹",
     "fuck"
@@ -53,6 +48,6 @@
   "BlackList_Uid": [],
   "Max_Recorded_Friend_Message_Count": 10000,
   "Block_Words_Punishment_Mode_Enabled": true,
-  "Debug": false,
+  "Debug": true,
   "Game_Mode_Enabled": true
 }
