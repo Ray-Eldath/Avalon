@@ -37,7 +37,15 @@ public class MainServlet extends HttpServlet {
         //
         long timeLong = object.getLong("time");
         int Id = object.getInt("id");
-        long senderUid = object.getLong("sender_uid");
+        long senderUid;
+        if (object.isNull("sender_uid")) {
+            logger.error("\"sender_uid\" is null! \n " +
+                    "That means the your Mojo-Webqq is outdated or " +
+                    "Tencent delete some API. If this problem still exist, " +
+                    "try update Mojo-Webqq or new issues at:" +
+                    " https://github.com/sjdy521/Mojo-Webqq/issues.");
+            senderUid = 1234567890;
+        } else senderUid = object.getLong("sender_uid");
         String sender = object.get("sender").toString();
         String content = object.get("content").toString();
         String type = object.getString("type");
@@ -48,7 +56,15 @@ public class MainServlet extends HttpServlet {
             if (!MessageChecker.checkEncode(message)) return;
             MainFriendMessageHandler.getInstance().handle(message);
         } else {
-            long groupUid = object.getLong("group_uid");
+            long groupUid;
+            if (object.isNull("group_uid")) {
+                logger.error("\"group_uid\" is null! \n " +
+                        "That means the your Mojo-Webqq is outdated or " +
+                        "Tencent delete some API. If this problem still exist, " +
+                        "try update Mojo-Webqq or new issues at:" +
+                        " https://github.com/sjdy521/Mojo-Webqq/issues.");
+                groupUid = 1234567891;
+            } else groupUid = object.getLong("sender_uid");
             String group = object.get("group").toString();
             MainGroupMessageHandler.getInstance().handle(new GroupMessage(Id, timeLong,
                     senderUid, sender, groupUid, group, content));
