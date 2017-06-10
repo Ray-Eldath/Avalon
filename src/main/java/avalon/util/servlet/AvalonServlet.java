@@ -1,10 +1,14 @@
 package avalon.util.servlet;
 
+import avalon.tool.ServletConfigSystem;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.function.Consumer;
 
 /**
@@ -12,26 +16,45 @@ import java.util.function.Consumer;
  *
  * @author Eldath Ray
  */
-public interface AvalonServlet {
-    void responseGroup(long groupUid, String reply);
+public abstract class AvalonServlet extends HttpServlet {
+    abstract public String name();
 
-    void responseFriend(long friendUid, String reply);
+    public String version() {
+        return "UNKNOWN";
+    }
 
-    void shutUp(long groupUid, long senderUid, long time);
+    public String scriptFilePath() {
+        return "";
+    }
 
-    void shutdown();
+    public String apiAddress() {
+        return ServletConfigSystem.getInstance().getString(name() + "_API_Address");
+    }
 
-    default void clean() {
+    public String listenAddress() {
+        return ServletConfigSystem.getInstance().getString(name() + "_Listen_Address");
+    }
+
+    abstract public void responseGroup(long groupUid, String reply);
+
+    abstract public void responseFriend(long friendUid, String reply);
+
+    abstract public void shutUp(long groupUid, long userUid, long time);
+
+    abstract public void shutdown();
+
+    public void clean() {
         System.out.println("No clean needed.");
     }
 
-    String getGroupSenderNickname(long groupUid, long senderUid);
+    abstract public String getGroupSenderCardName(long groupUid, long userUid);
 
-    String getFriendSenderNickname(long uid);
+    abstract public String getFriendSenderNickname(long uid);
 
-    void setGroupMessageReceivedHook(Consumer<GroupMessage> hook);
+    abstract public void setGroupMessageReceivedHook(Consumer<GroupMessage> hook);
 
-    void setFriendMessageReceivedHook(Consumer<FriendMessage> hook);
+    abstract public void setFriendMessageReceivedHook(Consumer<FriendMessage> hook);
 
-    void doPost(HttpServletRequest req, HttpServletResponse resp) throws Exception;
+    @Override
+    abstract public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
 }

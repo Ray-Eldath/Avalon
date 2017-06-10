@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by Eldath Ray on 2017/4/18 0018.
  * <p>
- * Usage: GET .../avalon/v0/manager/manage_instance?action={start/stop/restart}&target={webqq/wechat/all}
+ * Usage: GET .../avalon/v0/manager/manage_instance?action={start/stop/restart}&target={servlet/wechat/all}
  *
  * @author Eldath Ray
  */
@@ -26,7 +26,7 @@ public class InstanceManager extends HttpServlet {
         String action = req.getParameter("action");
         String target = req.getParameter("target");
         JSONObject object = new JSONObject();
-        if ((action.equals("start") || action.equals("stop")) || (target.equals("webqq") ||
+        if ((action.equals("start") || action.equals("stop")) || (target.equals("servlet") ||
                 target.equals("wechat") || target.equals("Avalon") || target.equals("All"))) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             object.put("message", "调用格式不正确。");
@@ -53,7 +53,7 @@ public class InstanceManager extends HttpServlet {
 
     private void stop(String target, HttpServletResponse resp) throws IOException {
         switch (target) {
-            case "webqq":
+            case "servlet":
                 if (MainServer.getWebqqProcess().isAlive()) MainServer.getWebqqProcess().destroy();
                 else handleStopError(resp);
                 break;
@@ -62,7 +62,7 @@ public class InstanceManager extends HttpServlet {
                 else handleStopError(resp);
                 break;
             case "all":
-                stop("webqq", resp);
+                stop("servlet", resp);
                 stop("wechat", resp);
                 break;
         }
@@ -72,7 +72,7 @@ public class InstanceManager extends HttpServlet {
         Runtime runtime = Runtime.getRuntime();
         String commandPrefix = "perl " + System.getProperty("user.dir") + File.separator + "bin" + File.separator;
         switch (target) {
-            case "webqq":
+            case "servlet":
                 if (MainServer.getWebqqProcess() == null || !MainServer.getWebqqProcess().isAlive())
                     MainServer.setWebqqProcess(runtime.exec(commandPrefix + "Mojo-Webqq.pl"));
                 else handleStartError(resp);
@@ -83,7 +83,7 @@ public class InstanceManager extends HttpServlet {
                 else handleStartError(resp);
                 break;
             case "All": {
-                start("webqq", resp);
+                start("servlet", resp);
                 start("wechat", resp);
                 break;
             }

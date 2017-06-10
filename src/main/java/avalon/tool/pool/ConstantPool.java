@@ -5,6 +5,8 @@ import avalon.tool.DatabaseConfig;
 import avalon.tool.database.DatabaseOperator;
 import avalon.tool.database.MySQLDatabaseOperator;
 import avalon.tool.database.SQLiteDatabaseOperator;
+import avalon.util.servlet.AvalonServlet;
+import avalon.util.servlet.CoolqServlet;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -29,12 +31,10 @@ public class ConstantPool {
     }
 
     public static class Address {
-        public static final String webqq = addressHandle((String) ConfigSystem.getInstance()
-                .getConfig("Mojo-Webqq_API_Address"));
+        public static final String servlet = Basic.currentServlet.apiAddress();
         public static final String wechat = addressHandle((String) ConfigSystem.getInstance()
-                .getConfig("Mojo-Weixin_API_Address"));
-        public static final String perlFileOfWebqq = Basic.currentPath +
-                File.separator + "bin" + File.separator + "Mojo-Webqq.pl";
+                .get("Mojo-Weixin_API_Address"));
+        public static final String servletScriptFile = Basic.currentServlet.scriptFilePath();
         public static final String perlFileOfWechat = Basic.currentPath +
                 File.separator + "bin" + File.separator + "Mojo-Weixin.pl";
         public static final String dataPath = Basic.currentPath + File.separator + "data";
@@ -45,12 +45,10 @@ public class ConstantPool {
     }
 
     public static class Version {
-        public static final String avalon = Basic.Version;
-
+        private static final String servlet = Basic.currentServlet.version();
+        public static final String avalon = "0.0.1b";
         private static Version instance = null;
-
-        private String webqq;
-        private String wechat;
+        private static String wechat;
 
         public static Version getInstance() {
             if (instance == null) instance = new Version();
@@ -58,13 +56,6 @@ public class ConstantPool {
         }
 
         private Version() {
-            try {
-                webqq = ((JSONObject) new JSONTokener(
-                        new URL(Address.webqq + "/openqq/get_client_info")
-                                .openStream()).nextValue()).getString("version");
-            } catch (IOException ignore) {
-                webqq = "UNKNOWN";
-            }
             try {
                 wechat = ((JSONObject) new JSONTokener(
                         new URL(Address.wechat + "/openwx/get_client_info")
@@ -75,7 +66,7 @@ public class ConstantPool {
         }
 
         public String webqq() {
-            return webqq;
+            return servlet;
         }
 
         public String wechat() {
@@ -84,8 +75,8 @@ public class ConstantPool {
     }
 
     public static class Basic {
-        static final String Version = "0.0.1b";
-        public static final boolean Debug = (boolean) ConfigSystem.getInstance().getConfig("Debug");
+        public static final AvalonServlet currentServlet = new CoolqServlet(); // TODO 使用ServletGetter
+        public static final boolean Debug = (boolean) ConfigSystem.getInstance().get("Debug");
         public static final long startTime = System.currentTimeMillis();
         public static final int pid = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
         public static final String currentPath;
@@ -105,12 +96,12 @@ public class ConstantPool {
 
     public static class Setting {
         public static final boolean Block_Words_Punishment_Mode_Enabled =
-                (boolean) ConfigSystem.getInstance().getConfig("Block_Words_Punishment_Mode_Enabled");
+                (boolean) ConfigSystem.getInstance().get("Block_Words_Punishment_Mode_Enabled");
         public static final int Block_Words_Punish_Frequency =
-                (int) ConfigSystem.getInstance().getConfig("Block_Words_Punish_Frequency");
+                (int) ConfigSystem.getInstance().get("Block_Words_Punish_Frequency");
     }
 
     public static class GameMode {
-        public static final boolean IsEnabled = (boolean) ConfigSystem.getInstance().getConfig("Game_Mode_Enabled");
+        public static final boolean IsEnabled = (boolean) ConfigSystem.getInstance().get("Game_Mode_Enabled");
     }
 }

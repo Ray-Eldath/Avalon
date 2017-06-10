@@ -1,6 +1,5 @@
 package avalon.tool;
 
-import avalon.tool.pool.ConstantPool;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static avalon.tool.pool.ConstantPool.Address.webqq;
 import static avalon.tool.pool.ConstantPool.Address.wechat;
 
 /**
@@ -49,20 +47,5 @@ public class Responder {
             logger.warning("IOException thrown while responseXiaoIce: " + e);
             return null;
         }
-    }
-
-    /**
-     * @see avalon.util.GroupMessage#response(String) and {@link avalon.util.GroupMessage#response(String, int)}.
-     */
-    public static void sendToGroup(long groupNumber, String content) {
-        if (ConstantPool.Basic.Debug)
-            System.out.println("Output: " + content);
-        else
-            try {
-                new URL(webqq + "/openqq/send_group_message?uid=" + groupNumber
-                        + "&content=" + UrlEncoded.encodeString(content)).openStream();
-            } catch (IOException e) {
-                logger.warning("IOException thrown while sendToGroup: " + e);
-            }
     }
 }

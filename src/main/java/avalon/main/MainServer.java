@@ -3,12 +3,12 @@ package avalon.main;
 import avalon.extend.Recorder;
 import avalon.extend.Scheduler;
 import avalon.extend.ShowMsg;
+import avalon.friend.MainFriendMessageHandler;
 import avalon.group.MainGroupMessageHandler;
 import avalon.info.*;
 import avalon.manager.InstanceManager;
 import avalon.tool.ConfigSystem;
 import avalon.tool.DelayResponse;
-import avalon.tool.Responder;
 import avalon.tool.RunningData;
 import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
@@ -18,17 +18,12 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import static avalon.tool.pool.ConstantPool.Address.webqq;
-import static avalon.tool.pool.ConstantPool.Address.wechat;
+import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -48,23 +43,10 @@ public class MainServer {
             RunningData.getInstance().save();
             //
             for (long thisFollowFollow : followGroup)
-                Responder.sendToGroup(thisFollowFollow, "服务已经停止。");
-            try {
-                new URL(webqq + "/openqq/stop_client").openStream();
-                new URL(wechat + "/openwx/stop_client").openStream();
-            } catch (IOException ignored) {
-            }
-            if (!ConstantPool.Basic.Debug) {
-                webqqProcess.destroy();
-                logger.info("Mojo-Webqq exited, exit value: " + webqqProcess.exitValue());
-                wechatProcess.destroy();
-                logger.info("Mojo-Weixin exited, exit value: " + wechatProcess.exitValue());
-            }
+                currentServlet.responseGroup(thisFollowFollow, "服务已经停止。");
+            currentServlet.shutdown();
             ConstantPool.Database.currentDatabaseOperator.close();
-            File[] files = new File(System.getProperty("java.io.tmpdir")).listFiles();
-            if (files != null)
-                Arrays.stream(files).filter(e -> e.getName().trim().matches("mojo_")).forEach(File::delete);
-            logger.info("Mojo-Webqq files and Mojo-Weixin files cleaned.");
+            currentServlet.clean();
         }
     }
 
@@ -74,7 +56,8 @@ public class MainServer {
         new ConstantPool.Basic();
         new ConstantPool.Address();
         AvalonPluginPool.getInstance().load();
-        if (!ConstantPool.Basic.Debug) InstallChecker.check();
+        if (!ConstantPool.Basic.Debug)
+            InstallChecker.check();
         // 线程池
         ScheduledThreadPoolExecutor poolExecutor = new ScheduledThreadPoolExecutor(1);
         poolExecutor.scheduleWithFixedDelay(new Scheduler(), 5, 5, TimeUnit.SECONDS);
@@ -83,8 +66,7 @@ public class MainServer {
         // 关车钩子
         Runtime.getRuntime().addShutdownHook(new atShutdownDo());
         InetSocketAddress address;
-        final String addressString = ((String) ConfigSystem.getInstance()
-                .getConfig("Mojo-Webqq_POST_API_Address")).replace("http://", "");
+        final String addressString = currentServlet.listenAddress().replace("http://", "");
         if (!addressString.contains(":"))
             address = new InetSocketAddress(addressString, 80);
         else {
@@ -98,21 +80,18 @@ public class MainServer {
         context.setContextPath("/avalon/v0");
         server.setHandler(context);
         server.setStopAtShutdown(true);
-        context.addServlet(new ServletHolder(new MainServlet()), "/post_api");
+
+        ConstantPool.Basic.currentServlet.setGroupMessageReceivedHook(e -> MainGroupMessageHandler.getInstance().handle(e));
+        ConstantPool.Basic.currentServlet.setFriendMessageReceivedHook(e -> MainFriendMessageHandler.getInstance().handle(e));
+
+        String[] tmp = currentServlet.listenAddress().replace("http://", "").split("/");
+        context.addServlet(new ServletHolder(currentServlet), tmp.length == 1 ? "" : tmp[1]);
         context.addServlet(new ServletHolder(new WebqqPluginInfo()), "/info/get_webqq_plugin_info");
         context.addServlet(new ServletHolder(new ClientVersion()), "/info/get_client_version");
         context.addServlet(new ServletHolder(new ClientStatus()), "/info/get_client_status");
         context.addServlet(new ServletHolder(new AvalonInfo()), "/info/get_avalon_info");
         context.addServlet(new ServletHolder(new SystemInfo()), "/info/get_system_info");
         context.addServlet(new ServletHolder(new InstanceManager()), "/manager/manage_instance");
-//       //FIXME 这么写是不行的！要参照InstallChecker.check()的写法= =
-//        try {
-//            Runtime.getRuntime().exec("perl");
-//        } catch (Exception e) {
-//            logger.error("Perl has NOT install yet, please install perl (Linux: perl, Windows: ActivePerl) first!");
-//            System.exit(-1);
-//        }
-        //
         server.join();
         server.start();
         logger.info("Is server on (yes or no): ");
@@ -120,7 +99,7 @@ public class MainServer {
         String isOn = scanner.nextLine();
         if ("yes".equals(isOn.toLowerCase()))
             for (long thisFollowGroup : followGroup)
-                Responder.sendToGroup(thisFollowGroup, "Avalon已经上线。");
+                currentServlet.responseGroup(thisFollowGroup, "Avalon已经上线。");
         else logger.info("Cancel send login message.");
         DelayResponse delayResponse = new DelayResponse();
         delayResponse.start();

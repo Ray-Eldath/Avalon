@@ -1,7 +1,8 @@
 package avalon.extend;
 
 import avalon.group.MainGroupMessageHandler;
-import avalon.tool.Responder;
+
+import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
 
 /**
  * Created by Eldath on 2017/1/31 0031.
@@ -19,6 +20,6 @@ public class ShowMsgTask implements Task {
     public void run() {
         long[] followGroups = MainGroupMessageHandler.getInstance().getFollowGroup();
         for (long thisNeedShow : followGroups)
-            Responder.sendToGroup(thisNeedShow, message);
+            currentServlet.responseGroup(thisNeedShow, message);
     }
 }

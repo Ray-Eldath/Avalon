@@ -26,14 +26,14 @@ public class ClientStatus extends HttpServlet {
         JSONObject object = new JSONObject();
         JSONObject webqq = new JSONObject(), wechat = new JSONObject();
         try {
-            webqq = (JSONObject) new JSONTokener(new URL(ConstantPool.Address.webqq +
+            webqq = (JSONObject) new JSONTokener(new URL(ConstantPool.Address.servlet +
                     "/openqq/get_client_info").openStream()).nextValue();
             wechat = (JSONObject) new JSONTokener(new URL(ConstantPool.Address.wechat +
                     "/openwx/get_client_info").openStream()).nextValue();
         } catch (IOException ignore) {
         }
         JSONObject avalon = new JSONObject();
-        object.put("webqq", webqq);
+        object.put("servlet", webqq);
         object.put("wechat", wechat);
         avalon.put("code", 0);
         avalon.put("pid", ConstantPool.Basic.pid);

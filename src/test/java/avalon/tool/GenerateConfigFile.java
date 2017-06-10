@@ -15,7 +15,9 @@ import java.util.Map;
  *
  * @author Eldath Ray
  * @since v0.0.1 Beta
+ * @deprecated 已过时 请直接编辑配置文件
  */
+@Deprecated
 class GenerateConfigFile {
     private static final Map<String, Object> allConfigs = new HashMap<>();
     private static final Map<String, Object> pluginAllowPeoples = new HashMap<>();

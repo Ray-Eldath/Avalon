@@ -1,10 +1,5 @@
 package avalon.util;
 
-import avalon.tool.pool.ConstantPool;
-import org.eclipse.jetty.util.UrlEncoded;
-
-import java.io.IOException;
-import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -12,7 +7,7 @@ import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
-import static avalon.tool.pool.ConstantPool.Address.webqq;
+import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
@@ -52,30 +47,12 @@ public class GroupMessage implements Message, Displayable {
 
     @Override
     public void response(String reply) {
-        if (ConstantPool.Basic.Debug)
-            System.out.println("Output: " + reply);
-        else
-            try {
-                new URL(webqq + "/openqq/send_group_message?uid=" + groupUid + "&content=" +
-                        UrlEncoded.encodeString(reply)).openStream();
-            } catch (IOException e) {
-                logger.warning("IOException thrown while response avalon.group message: " + e.toString());
-            }
+        currentServlet.responseGroup(groupUid, reply);
     }
 
     public void response(String reply, int shutUpTime) {
-        if (ConstantPool.Basic.Debug)
-            System.out.println("Output:\n" + reply);
-        else {
-            response(reply);
-            try {
-                new URL(webqq + "/openqq/shutup_group_member?time=" + shutUpTime +
-                        "&group_uid=" + groupUid +
-                        "&member_uid=" + senderUid).openStream();
-            } catch (IOException e) {
-                logger.warning("IOException thrown while response avalon.group message and shut up: " + e.toString());
-            }
-        }
+        response(reply);
+        currentServlet.shutUp(groupUid, senderUid, shutUpTime);
     }
 
     @Override

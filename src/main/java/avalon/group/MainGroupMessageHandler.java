@@ -44,7 +44,7 @@ public class MainGroupMessageHandler {
     private static String[] blockList = toStringArray(ConfigSystem
             .getInstance().getConfigArray("Block_Words"));
     private static final int punishFrequency = (int) ConfigSystem.getInstance()
-            .getConfig("Block_Words_Punish_Frequency");
+            .get("Block_Words_Punish_Frequency");
     private static final APIRateLimit cooling = new APIRateLimit(3000L);
 
     private static MainGroupMessageHandler instance = new MainGroupMessageHandler();
@@ -201,8 +201,7 @@ public class MainGroupMessageHandler {
     }
 
     public static long[] getAdminUid() {
-        return adminUid;
-        //FIXME 是否需要adminUid.clone()以防止数据修改？
+        return adminUid.clone();
     }
 
     public long[] getFollowGroup() {

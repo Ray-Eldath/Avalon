@@ -1,7 +1,6 @@
 package avalon.tool;
 
 import avalon.group.MainGroupMessageHandler;
-import avalon.tool.pool.ConstantPool;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -20,7 +19,7 @@ import java.util.Map;
  * @author Eldath Ray
  * @since v0.0.1 Beta
  */
-public class ConfigSystem {
+public class ConfigSystem implements BaseConfigSystem {
     private static ConfigSystem instance = null;
     private static Map<String, Object> allConfigs = new HashMap<>();
     private static Map<String, Object> pluginConfigs = new HashMap<>();
@@ -50,15 +49,25 @@ public class ConfigSystem {
         JSONArray names = object.names();
         for (int i = 0; i < object.length(); i++) {
             String key = names.get(i).toString();
-            if (key.contains("comment")) continue;
+            if (key.contains("comment"))
+                continue;
             Object thisObject = object.get(key);
             result.put(key, thisObject);
         }
         return result;
     }
 
-    public Object getConfig(String key) {
+    @Override
+    public Object get(String key) {
         return allConfigs.get(key);
+    }
+
+    @Override
+    public String getString(String key) {
+        Object obj = allConfigs.get(key);
+        if (!(obj instanceof String))
+            throw new UnsupportedOperationException("value invalid: not a String");
+        return (String) obj;
     }
 
     public Object[] getConfigArray(String key) {

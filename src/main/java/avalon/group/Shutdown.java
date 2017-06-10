@@ -1,5 +1,6 @@
 package avalon.group;
 
+import avalon.tool.pool.ConstantPool;
 import avalon.util.GroupMessage;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +24,11 @@ public class Shutdown extends BaseGroupMessageResponder {
         long[] admins = MainGroupMessageHandler.getAdminUid();
         for (long admin : admins)
             if (admin == message.getSenderUid()) {
+                try {
+                    ConstantPool.Basic.currentServlet.shutdown();
+                } catch (UnsupportedOperationException e) {
+                    message.response(e.getMessage());
+                }
                 System.exit(0);
                 LoggerFactory.getLogger(Shutdown.class).warn("Avalon is stopped remotely by " +
                         message.getSenderUid() + " : " + message.getSenderNickName() + " on " +

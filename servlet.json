@@ -1,0 +1,5 @@
+{
+  "servlet": "Cooq",
+  "Cooq_Listen_Address": "http://127.0.0.1:5050",
+  "Cooq_API_Address": "http://127.0.0.1:5000"
+}

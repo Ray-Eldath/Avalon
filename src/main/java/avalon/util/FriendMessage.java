@@ -7,6 +7,8 @@ import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
+import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
+
 /**
  * Created by Eldath on 2017/2/11 0011.
  *
@@ -40,7 +42,7 @@ public class FriendMessage implements Message, Displayable {
 
     @Override
     public void response(String reply) {
-        logger.warning("Unsupported operation: reply avalon.friend message.");
+        currentServlet.responseFriend(senderUid, reply);
     }
 
     @Override

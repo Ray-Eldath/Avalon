@@ -2,6 +2,7 @@ package avalon.main;
 
 import avalon.tool.ProcessHolder;
 import avalon.tool.pool.ConstantPool;
+import avalon.util.servlet.MojoWebqqServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +19,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import static avalon.tool.pool.ConstantPool.Basic.currentPath;
+import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
 
 /**
  * Created by Eldath Ray on 2017/4/19 0019.
@@ -27,9 +29,8 @@ import static avalon.tool.pool.ConstantPool.Basic.currentPath;
 class InstallChecker {
     private static final Logger logger = LoggerFactory.getLogger(InstallChecker.class);
 
-    static boolean check() {
+    static void check() {
         try {
-            handleLockFile(ConstantPool.Address.perlFileOfWebqq);
             handleLockFile(ConstantPool.Address.perlFileOfWechat);
             String prefix = "perl \"" + currentPath + File.separator + "bin" + File.separator;
 //            System.out.println("prefix: " + prefix);
@@ -42,26 +43,28 @@ class InstallChecker {
                 logger.error("Fatal error: Mojo-Weixin not run currently!");
                 System.exit(-3);
             }
-            ProcessHolder webqqHolder = new ProcessHolder(Runtime.getRuntime().exec(
-                    prefix + "Mojo-Webqq.pl\""), "from perl:Mojo-Webqq ");
-            webqqHolder.start();
-            Process webqq = webqqHolder.getProcess();
-            if (webqq == null) {
-                logger.error("Fatal error: Mojo-Webqq not run currently!");
-                System.exit(-3);
+            if (!(currentServlet instanceof MojoWebqqServlet)) {
+                handleLockFile(ConstantPool.Address.servletScriptFile);
+                ProcessHolder webqqHolder = new ProcessHolder(Runtime.getRuntime().exec(
+                        prefix + "Mojo-Webqq.pl\""), "from perl:Mojo-Webqq ");
+                webqqHolder.start();
+                Process webqq = webqqHolder.getProcess();
+                if (webqq == null) {
+                    logger.error("Fatal error: Mojo-Webqq not run currently!");
+                    System.exit(-3);
+                }
+                //
+                if (!checkProcess(webqq)) {
+                    logger.error("Can't locate Mojo-Webqq! Please sure you're install Mojo-Webqq " +
+                            "with the steps in https://github.com/sjdy521/Mojo-Webqq#安装方法 !");
+                    System.exit(-3);
+                } else MainServer.setWebqqProcess(webqq);
+                if (!checkProcess(wechat)) {
+                    logger.error("Can't locate Mojo-Weixin! Please sure you're install Mojo-Webqq " +
+                            "with the steps in https://github.com/sjdy521/Mojo-Weixin#安装方法 !");
+                    System.exit(-3);
+                } else MainServer.setWechatProcess(wechat);
             }
-            if (!checkProcess(wechat)) {
-                logger.error("Can't locate Mojo-Weixin! Please sure you're install Mojo-Webqq " +
-                        "with the steps in https://github.com/sjdy521/Mojo-Weixin#安装方法 !");
-                System.exit(-3);
-            } else MainServer.setWechatProcess(wechat);
-            //
-            if (!checkProcess(webqq)) {
-                logger.error("Can't locate Mojo-Webqq! Please sure you're install Mojo-Webqq " +
-                        "with the steps in https://github.com/sjdy521/Mojo-Webqq#安装方法 !");
-                System.exit(-3);
-            } else MainServer.setWebqqProcess(webqq);
-            return true;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
