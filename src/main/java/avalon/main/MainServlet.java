@@ -29,7 +29,7 @@ public class MainServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         JSONObject object = (JSONObject) new JSONTokener(req.getReader()).nextValue();
-        if (ConstantPool.Basic.Debug)
+        if (ConstantPool.Basic.debug)
             logger.info(object.toString());
         if (object.isNull("post_type") || object.isNull("type")) return;
         if (!"receive_message".equals(object.getString("post_type")))

@@ -38,7 +38,7 @@ public class MojoWebqqServlet extends AvalonServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         JSONObject object = (JSONObject) new JSONTokener(req.getReader()).nextValue();
-        if (ConstantPool.Basic.Debug)
+        if (ConstantPool.Basic.debug)
             logger.info(object.toString());
         if (object.isNull("post_type") || object.isNull("type")) return;
         if (!"receive_message".equals(object.getString("post_type")))
@@ -115,28 +115,22 @@ public class MojoWebqqServlet extends AvalonServlet {
 
     @Override
     public void responseGroup(long groupUid, String reply) {
-        if (ConstantPool.Basic.Debug)
-            System.out.println("Group output: " + reply);
-        else
-            try {
-                new URL(servlet + "/openqq/send_group_message?uid=" + groupUid + "&content=" +
-                        UrlEncoded.encodeString(reply)).openStream();
-            } catch (IOException e) {
-                logger.warn("IOException thrown while response avalon.group message: " + e.toString());
-            }
+        try {
+            new URL(servlet + "/openqq/send_group_message?uid=" + groupUid + "&content=" +
+                    UrlEncoded.encodeString(reply)).openStream();
+        } catch (IOException e) {
+            logger.warn("IOException thrown while response avalon.group message: " + e.toString());
+        }
     }
 
     @Override
     public void responseFriend(long friendUid, String reply) {
-        if (ConstantPool.Basic.Debug)
-            System.out.println("Friend output: " + reply);
-        else
-            try {
-                new URL(servlet + "/openqq/send_friend_message?uid=" + friendUid + "&content=" +
-                        UrlEncoded.encodeString(reply)).openStream();
-            } catch (IOException e) {
-                logger.warn("IOException thrown while response friend message: " + e.toString());
-            }
+        try {
+            new URL(servlet + "/openqq/send_friend_message?uid=" + friendUid + "&content=" +
+                    UrlEncoded.encodeString(reply)).openStream();
+        } catch (IOException e) {
+            logger.warn("IOException thrown while response friend message: " + e.toString());
+        }
     }
 
     @Override
@@ -158,7 +152,7 @@ public class MojoWebqqServlet extends AvalonServlet {
     }
 
     @Override
-    public String getGroupSenderCardName(long groupUid, long userUid) {
+    public String getGroupSenderNickname(long groupUid, long userUid) {
         return null;
     }
 

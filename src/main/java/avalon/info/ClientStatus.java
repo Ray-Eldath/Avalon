@@ -40,7 +40,7 @@ public class ClientStatus extends HttpServlet {
         avalon.put("starttime", ConstantPool.Basic.startTime);
         avalon.put("runtime", System.currentTimeMillis() - ConstantPool.Basic.startTime);
         avalon.put("version", ConstantPool.Version.avalon);
-        avalon.put("debug", ConstantPool.Basic.Debug);
+        avalon.put("debug", ConstantPool.Basic.debug);
         object.put("avalon", avalon);
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.getWriter().print(object.toString());

@@ -99,7 +99,7 @@ public class MainGroupMessageHandler {
     }
 
     public void handle(GroupMessage message) {
-        if (!ConstantPool.Basic.Debug)
+        if (!ConstantPool.Basic.debug)
             Recorder.getInstance().recodeGroupMessage(message);
         //FIXME MessageHooker.handle(message);
         long groupUid = message.getGroupUid();
@@ -177,7 +177,7 @@ public class MainGroupMessageHandler {
         new ConstantPool.Basic();
         new ConstantPool.Address();
         AvalonPluginPool.getInstance().load();
-        if (!ConstantPool.Basic.Debug)
+        if (!ConstantPool.Basic.debug)
             return;
         Scanner scanner = new Scanner(System.in);
         int id = 0;

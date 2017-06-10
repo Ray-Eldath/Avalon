@@ -33,16 +33,16 @@ public class ShowAllMessage {
             System.exit(-1);
         }
         Scanner scanner = new Scanner(System.in);
-        logger.info("What kind of message do you want to show? (all/avalon.group/avalon.friend): ");
+        logger.info("What kind of message do you want to show? (all/group/friend): ");
         String kind = scanner.nextLine().toLowerCase();
         if ("".equals(kind))
             error();
         if ("all".equals(kind)) {
             showFriendMessage();
             showGroupMessage();
-        } else if ("avalon/group".equals(kind))
+        } else if ("group".equals(kind))
             showGroupMessage();
-        else if ("avalon/friend".contains(kind))
+        else if ("friend".contains(kind))
             showFriendMessage();
         else error();
     }
@@ -54,7 +54,7 @@ public class ShowAllMessage {
 
     private static void showFriendMessage() throws SQLException {
         List<FriendMessage> friendMessages = new ArrayList<>();
-        ResultSet resultSet = statement.executeQuery("SELECT * from FriendMessage ORDER BY time ASC;");
+        ResultSet resultSet = statement.executeQuery("SELECT * from friend_ ORDER BY time ASC;");
         while (resultSet.next()) {
             friendMessages.add(new FriendMessage(resultSet.getInt("id"),
                     LocalDateTime.parse(resultSet.getString("time").replace(" ", "T")),
@@ -68,7 +68,7 @@ public class ShowAllMessage {
 
     private static void showGroupMessage() throws SQLException {
         List<GroupMessage> groupMessages = new ArrayList<>();
-        ResultSet resultSet = statement.executeQuery("SELECT * from GroupMessage ORDER BY time ASC;");
+        ResultSet resultSet = statement.executeQuery("SELECT * from group_ ORDER BY time ASC;");
         while (resultSet.next()) {
             groupMessages.add(new GroupMessage(resultSet.getInt("id"),
                     LocalDateTime.parse(resultSet.getString("time").replace(" ", "T")),

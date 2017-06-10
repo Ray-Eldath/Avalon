@@ -33,12 +33,13 @@ public class BasicDatabaseOperator implements Closeable {
 
     public boolean add(Statement statement, GroupMessage message) {
         try {
-            String value = "(" + message.getId() + ",'" +
+            String value = "('" +
                     message.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " ") +
                     "', " + message.getSenderUid() + ", '" + message.getSenderNickName() +
                     "', " + message.getGroupUid() + ", '" + message.getGroupName() + "', '" +
                     UrlEncoded.encodeString(message.getContent()) + "')";
-            statement.executeUpdate("INSERT INTO group_ VALUES " + value);
+            statement.executeUpdate(
+                    "INSERT INTO group_ (time, senderUid, senderNickname, groupUid, groupName, content) VALUES " + value);
         } catch (SQLException e) {
             logger.warn("Error while saving group message to database: ", e);
             return false;
@@ -48,10 +49,12 @@ public class BasicDatabaseOperator implements Closeable {
 
     public boolean add(Statement statement, FriendMessage message) {
         try {
-            String value = "('" + message.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " ") +
+            String value = "('" +
+                    message.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " ") +
                     "', " + message.getSenderUid() + ", '" + message.getSenderNickName() + "', '" +
                     UrlEncoded.encodeString(message.getContent()) + "')";
-            statement.executeUpdate("INSERT INTO friend_ VALUES " + value);
+            statement.executeUpdate(
+                    "INSERT INTO friend_ (time, senderUid, senderNickname, content) VALUES " + value);
         } catch (SQLException e) {
             logger.warn("Error while saving friend message to SQLite: ", e);
             return false;

@@ -1,9 +1,9 @@
 package avalon.util.servlet;
 
-import avalon.tool.pool.ConstantPool;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.eclipse.jetty.util.UrlEncoded;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
@@ -16,10 +16,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+
+import static avalon.tool.pool.ConstantPool.Basic.debug;
 
 
 /**
@@ -31,6 +32,7 @@ public class CoolqServlet extends AvalonServlet {
     private static final Logger logger = LoggerFactory.getLogger(CoolqServlet.class);
     private static int friendMessageId = 0;
     private static int groupMessageId = 0;
+    private static Map<Long, String> groupIdToName = new HashMap<>();//TODO 最好写个定时更新
     private Consumer<GroupMessage> groupMessageConsumer;
     private Consumer<FriendMessage> friendMessageConsumer;
 
@@ -38,7 +40,7 @@ public class CoolqServlet extends AvalonServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
-        JSONObject object = ((JSONObject) (new JSONTokener(req.getInputStream()).nextValue())).getJSONObject("data");
+        JSONObject object = (JSONObject) (new JSONTokener(req.getInputStream()).nextValue());
         if (!"message".equals(object.getString("post_type")))
             return;
         String messageType = object.getString("message_type");
@@ -46,63 +48,64 @@ public class CoolqServlet extends AvalonServlet {
             long senderUid = object.getLong("user_id");
             friendMessageConsumer.accept(new FriendMessage(
                     friendMessageId++,
-                    System.currentTimeMillis(),
+                    object.getLong("time"),
                     senderUid,
                     getFriendSenderNickname(senderUid),
-                    object.getString("message")
+                    object.getString("message").replaceAll("\\[CQ:\\w*", "")
             ));
         } else if ("group".equals(messageType)) {
-            if (object.get("anonymous") != null)
+            if (!object.getString("anonymous").isEmpty())
                 return;
+            if (debug)
+                logger.info(object.toString());
             long groupUid = object.getLong("group_id");
             long senderUid = object.getLong("user_id");
             groupMessageConsumer.accept(new GroupMessage(
                     groupMessageId++,
                     System.currentTimeMillis(),
                     senderUid,
-                    getGroupSenderCardName(groupUid, senderUid),
+                    getGroupSenderNickname(groupUid, senderUid),
                     groupUid,
                     getGroupName(groupUid),
-                    object.getString("message")
+                    object.getString("message").replaceAll("\\[CQ:\\w*", "")
             ));
         }
     }
 
     private String getGroupName(long groupUid) {
-        List<Object> list = ((JSONObject) new JSONTokener(sendRequest("/get_group_list", null))
-                .nextValue()).getJSONObject("data").getJSONArray("").toList();
-        for (Object obj : list) {
-            JSONObject object = (JSONObject) obj;
-            if (object.getLong("group_id") == groupUid)
-                return object.getString("group_name");
+        if (groupIdToName.containsKey(groupUid))
+            return groupIdToName.get(groupUid);
+        JSONArray array = ((JSONObject) new JSONTokener(sendRequest("/get_group_list", null))
+                .nextValue()).getJSONArray("data");
+        String r;
+        JSONObject object;
+        for (Object obj : array) {
+            object = (JSONObject) obj;
+            if (object.getLong("group_id") == groupUid) {
+                r = object.getString("group_name");
+                groupIdToName.put(groupUid, r);
+                return r;
+            }
         }
         return "ERROR - UNKNOWN";
     }
 
     @Override
     public void responseGroup(long groupUid, String reply) {
-        if (ConstantPool.Basic.Debug)
-            System.out.println("Group output: " + reply);
-        else {
-            Map<String, Object> object = new HashMap<>();
-            object.put("group_id", groupUid);
-            object.put("message", reply);
-            object.put("is_raw", true); //TODO 未来若提供图片支持需修改这里
-            sendRequest("/send_group_msg", object);
-        }
+        Map<String, Object> object = new HashMap<>();
+        object.put("group_id", groupUid);
+        object.put("message", reply);
+        object.put("is_raw", !reply.contains("[CQ:image"));
+        sendRequest("/send_group_msg", object);
     }
 
     @Override
     public void responseFriend(long friendUid, String reply) {
-        if (ConstantPool.Basic.Debug)
-            System.out.println("Friend output: " + reply);
-        else {
-            Map<String, Object> object = new HashMap<>();
-            object.put("user_id", friendUid);
-            object.put("message", reply);
-            object.put("is_raw", true); //TODO 未来若提供图片支持需修改这里
-            sendRequest("/send_private_msg", object);
-        }
+        Map<String, Object> object = new HashMap<>();
+        object.put("user_id", friendUid);
+        object.put("message", reply);
+        object.put("is_raw", reply.contains("[CQ:image"));
+        sendRequest("/send_private_msg", object);
     }
 
     @Override
@@ -125,13 +128,10 @@ public class CoolqServlet extends AvalonServlet {
     }
 
     @Override
-    public String getGroupSenderCardName(long groupUid, long userUid) {
+    public String getGroupSenderNickname(long groupUid, long userUid) {
         Map<String, Object> object = new HashMap<>();
         object.put("group_id", groupUid);
         object.put("user_id", userUid);
-        System.out.println(object.toString());
-        System.out.println();
-        System.out.println(new JSONTokener(sendRequest("/get_group_member_info", object)).nextValue());
         return ((JSONObject) (new JSONTokener(sendRequest("/get_group_member_info", object))
                 .nextValue())).getJSONObject("data").getString("card");
     }

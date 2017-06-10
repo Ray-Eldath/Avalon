@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Pattern;
 
+import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -27,7 +28,7 @@ public class Version extends BaseGroupMessageResponder {
     public void doPost(GroupMessage message) {
         String messageToSaid = "Hi, I'm Avalon.\n" +
                 "我是阿瓦隆，QQ群机器人。\n" +
-                "我的名字和头像均取自《Implosion》，我的父亲是Mojo-Webqq。\n" +
+                "我的名字和头像均取自《Implosion》，我由" + currentServlet.name() + "提供底层服务。\n" +
                 "我由Ray Eldath进行二次开发。\n" +
                 "我在GitHub上开源，欢迎访问我的仓库：https://github.com/Ray-Eldath/Avalon\n" +
                 "全部插件有：" +
@@ -45,7 +46,7 @@ public class Version extends BaseGroupMessageResponder {
                                 .filter(AvalonPluginInfo::isEnabled)
                                 .map(AvalonPluginInfo::getName)
                                 .collect(toList()), "，") + "\n" +
-                "Mojo-Webqq Version: v" + ConstantPool.Version.getInstance().webqq() +
+                currentServlet.name() + " Version: v" + ConstantPool.Version.getInstance().servlet() +
                 "\tMojo-Weixin Version: v" + ConstantPool.Version.getInstance().wechat() +
                 "\tAvalon Version: v" + ConstantPool.Version.avalon;
         message.response(messageToSaid);

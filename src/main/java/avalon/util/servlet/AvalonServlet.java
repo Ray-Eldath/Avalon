@@ -47,7 +47,7 @@ public abstract class AvalonServlet extends HttpServlet {
         System.out.println("No clean needed.");
     }
 
-    abstract public String getGroupSenderCardName(long groupUid, long userUid);
+    abstract public String getGroupSenderNickname(long groupUid, long userUid);
 
     abstract public String getFriendSenderNickname(long uid);
 

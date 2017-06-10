@@ -56,7 +56,7 @@ public class MainServer {
         new ConstantPool.Basic();
         new ConstantPool.Address();
         AvalonPluginPool.getInstance().load();
-        if (!ConstantPool.Basic.Debug)
+        if (!ConstantPool.Basic.debug)
             InstallChecker.check();
         // 线程池
         ScheduledThreadPoolExecutor poolExecutor = new ScheduledThreadPoolExecutor(1);
@@ -84,8 +84,7 @@ public class MainServer {
         ConstantPool.Basic.currentServlet.setGroupMessageReceivedHook(e -> MainGroupMessageHandler.getInstance().handle(e));
         ConstantPool.Basic.currentServlet.setFriendMessageReceivedHook(e -> MainFriendMessageHandler.getInstance().handle(e));
 
-        String[] tmp = currentServlet.listenAddress().replace("http://", "").split("/");
-        context.addServlet(new ServletHolder(currentServlet), tmp.length == 1 ? "" : tmp[1]);
+        context.addServlet(new ServletHolder(currentServlet), "/post_api");
         context.addServlet(new ServletHolder(new WebqqPluginInfo()), "/info/get_webqq_plugin_info");
         context.addServlet(new ServletHolder(new ClientVersion()), "/info/get_client_version");
         context.addServlet(new ServletHolder(new ClientStatus()), "/info/get_client_status");
@@ -94,10 +93,10 @@ public class MainServer {
         context.addServlet(new ServletHolder(new InstanceManager()), "/manager/manage_instance");
         server.join();
         server.start();
-        logger.info("Is server on (yes or no): ");
+        logger.info("Is server on (y or n): ");
         Scanner scanner = new Scanner(System.in);
         String isOn = scanner.nextLine();
-        if ("yes".equals(isOn.toLowerCase()))
+        if ("y".equals(isOn.toLowerCase()))
             for (long thisFollowGroup : followGroup)
                 currentServlet.responseGroup(thisFollowGroup, "Avalon已经上线。");
         else logger.info("Cancel send login message.");

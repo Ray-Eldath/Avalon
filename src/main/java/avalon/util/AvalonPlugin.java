@@ -6,5 +6,9 @@ package avalon.util;
  * @author Eldath Ray
  */
 public interface AvalonPlugin {
+    String name();
+
+    String version();
+
     void main();
 }

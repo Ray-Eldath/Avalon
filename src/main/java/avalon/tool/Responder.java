@@ -1,16 +1,19 @@
 package avalon.tool;
 
+import avalon.util.servlet.CoolqServlet;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import static avalon.tool.pool.ConstantPool.Address.wechat;
+import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -47,5 +50,18 @@ public class Responder {
             logger.warning("IOException thrown while responseXiaoIce: " + e);
             return null;
         }
+    }
+
+    /**
+     * @param groupUid 目的QQ群号
+     * @param message  消息文本，用{@code [Avalon:image]}表示图像
+     * @param image    图像文件
+     * @deprecated 酷Q air不支持
+     */
+    public static void respondGroupWithImage(long groupUid, String message, Path image) {
+        if (!(currentServlet instanceof CoolqServlet))
+            throw new UnsupportedOperationException("only cooqServlet can handle image");
+        String cq = "[CQ:image,file=file://" + image.toString() + "]";
+        currentServlet.responseGroup(groupUid, message.replace("[Avalon:image]", cq));
     }
 }

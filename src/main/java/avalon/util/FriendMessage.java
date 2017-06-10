@@ -1,11 +1,12 @@
 package avalon.util;
 
+import avalon.tool.pool.ConstantPool;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Calendar;
-import java.util.logging.Logger;
 
 import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
 
@@ -15,7 +16,6 @@ import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
  * @author Eldath
  */
 public class FriendMessage implements Message, Displayable {
-    private final static Logger logger = Logger.getGlobal();
     private final int id;
     private final LocalDateTime time;
     private final long senderUid, timeLong;
@@ -42,7 +42,10 @@ public class FriendMessage implements Message, Displayable {
 
     @Override
     public void response(String reply) {
-        currentServlet.responseFriend(senderUid, reply);
+        if (ConstantPool.Basic.localOutput)
+            System.out.println("Friend output: " + reply);
+        else
+            currentServlet.responseFriend(senderUid, reply);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package avalon.util;
 
+import avalon.tool.pool.ConstantPool;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -47,7 +49,10 @@ public class GroupMessage implements Message, Displayable {
 
     @Override
     public void response(String reply) {
-        currentServlet.responseGroup(groupUid, reply);
+        if (ConstantPool.Basic.localOutput)
+            System.out.println("Group output: " + reply);
+        else
+            currentServlet.responseGroup(groupUid, reply);
     }
 
     public void response(String reply, int shutUpTime) {

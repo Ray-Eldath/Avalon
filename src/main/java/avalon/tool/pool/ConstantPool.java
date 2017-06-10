@@ -45,8 +45,8 @@ public class ConstantPool {
     }
 
     public static class Version {
-        private static final String servlet = Basic.currentServlet.version();
         public static final String avalon = "0.0.1b";
+        private static final String servlet = Basic.currentServlet.version();
         private static Version instance = null;
         private static String wechat;
 
@@ -65,7 +65,7 @@ public class ConstantPool {
             }
         }
 
-        public String webqq() {
+        public String servlet() {
             return servlet;
         }
 
@@ -76,7 +76,8 @@ public class ConstantPool {
 
     public static class Basic {
         public static final AvalonServlet currentServlet = new CoolqServlet(); // TODO 使用ServletGetter
-        public static final boolean Debug = (boolean) ConfigSystem.getInstance().get("Debug");
+        public static final boolean localOutput = (boolean) ConfigSystem.getInstance().get("Local_output");
+        public static final boolean debug = (boolean) ConfigSystem.getInstance().get("Debug");
         public static final long startTime = System.currentTimeMillis();
         public static final int pid = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
         public static final String currentPath;
