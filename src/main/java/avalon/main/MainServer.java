@@ -59,10 +59,9 @@ public class MainServer {
         if (!ConstantPool.Basic.debug)
             InstallChecker.check();
         // 线程池
-        ScheduledThreadPoolExecutor poolExecutor = new ScheduledThreadPoolExecutor(1);
-        poolExecutor.scheduleWithFixedDelay(new Scheduler(), 5, 5, TimeUnit.SECONDS);
-        // 初始化Task
         new ShowMsg();
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        executor.scheduleAtFixedRate(new Scheduler(), 1, 5, TimeUnit.SECONDS);
         // 关车钩子
         Runtime.getRuntime().addShutdownHook(new atShutdownDo());
         InetSocketAddress address;

@@ -45,7 +45,7 @@ public class ConstantPool {
     }
 
     public static class Version {
-        public static final String avalon = "0.0.1b";
+        public static final String avalon = "0.0.1";
         private static final String servlet = Basic.currentServlet.version();
         private static Version instance = null;
         private static String wechat;
