@@ -21,6 +21,7 @@ import java.util.stream.LongStream;
 import static avalon.main.RegisterResponder.register;
 import static avalon.tool.ObjectCaster.toLongArray;
 import static avalon.tool.ObjectCaster.toStringArray;
+import static avalon.tool.Responder.AT;
 
 /**
  * Created by Eldath Ray on 2017/3/30.
@@ -82,8 +83,11 @@ public class MainGroupMessageHandler {
         // 服务类
         register(Help.getInstance());
         register(Version.getInstance());
+        register(ShowAdmin.getInstance());
         register(Echo.getInstance());
+        register(Execute.getInstance());
         // 娱乐类
+        register(Wolfram.getInstance());
         register(Mo.getInstance());
         register(AnswerMe.getInstance());
     }
@@ -103,8 +107,6 @@ public class MainGroupMessageHandler {
             Recorder.getInstance().recodeGroupMessage(message);
         //FIXME MessageHooker.handle(message);
         long groupUid = message.getGroupUid();
-        String content = message.getContent();
-        String plainContent = content.trim().toLowerCase().replaceAll("[\\pP\\p{Punct}]", "");
         String sender = message.getSenderNickName();
         long senderUid = message.getSenderUid();
         LongStream adminUidStream = Arrays.stream(adminUid);
@@ -123,17 +125,6 @@ public class MainGroupMessageHandler {
                         return;
                     }
                 } else blackListPeopleMap.put(senderUid, 0);
-            for (String thisBlockString : blockList)
-                if (plainContent.contains(thisBlockString)) {
-                    String notice = "您发送的消息含有不允许的关键词！";
-                    if (ConstantPool.Setting.Block_Words_Punishment_Mode_Enabled) {
-                        notice = "您发送的消息含有不允许的关键词，注意：" + punishFrequency +
-                                "次发送不允许关键词后帐号将被屏蔽！⊙﹏⊙!";
-                        blackListPlus(senderUid);
-                    }
-                    message.response("@" + sender + " " + notice);
-                    return;
-                }
             for (Map.Entry<Pattern, BaseGroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
                 BaseGroupMessageResponder value = patternAPIEntry.getValue();
                 if (doCheck(patternAPIEntry.getKey(), value, message)) {
@@ -151,7 +142,22 @@ public class MainGroupMessageHandler {
         String lowerContent = groupMessage.getContent().toLowerCase();
         long time = groupMessage.getTimeLong();
         String sender = groupMessage.getSenderNickName();
-        if (!key.matcher(lowerContent).find()) return false;
+        if (!key.matcher(lowerContent).find())
+            return false;
+        for (String thisBlockString : blockList)
+            if (groupMessage.getContent().
+                    trim().
+                    toLowerCase().
+                    replaceAll("[\\pP\\p{Punct}]", "").contains(thisBlockString)) {
+                String notice = "您发送的消息含有不允许的关键词！";
+                if (ConstantPool.Setting.Block_Words_Punishment_Mode_Enabled) {
+                    notice = "您发送的消息含有不允许的关键词，注意：" + punishFrequency +
+                            "次发送不允许关键词后帐号将被屏蔽！⊙﹏⊙!";
+                    blackListPlus(groupMessage.getSenderUid());
+                }
+                groupMessage.response(AT(groupMessage) + " " + notice);
+                return false;
+            }
         if (!cooling.trySet(time)) {
             if (!VariablePool.Limit_Noticed) {
                 groupMessage.response("@" + sender +
@@ -162,7 +168,7 @@ public class MainGroupMessageHandler {
         }
         if (!APISurvivePool.getInstance().isSurvive(value)) {
             if (!APISurvivePool.getInstance().isNoticed(value)) {
-                groupMessage.response("@" + sender + " 对不起，您调用的指令响应器目前已被停止；" +
+                groupMessage.response(AT(groupMessage) + " 对不起，您调用的指令响应器目前已被停止；" +
                         "注意：此消息仅会显示一次。");
                 APISurvivePool.getInstance().setNoticed(value);
             }

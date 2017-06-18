@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.regex.Pattern;
 
+import static avalon.tool.Responder.AT;
+
 /**
  * Created by Eldath on 2017/1/29 0029.
  *
@@ -49,19 +51,19 @@ public class Manager extends BaseGroupMessageResponder {
                 action = content.toLowerCase().
                         replace("avalon manager ", "").replace(apiName, "").trim();
                 if (thisAPI == null) {
-                    message.response("@" + sender + " 您要操作的指令响应器根本不存在！(╯︵╰,)");
+                    message.response(AT(message) + " 您要操作的指令响应器根本不存在！(╯︵╰,)");
                     return;
                 }
                 for (BaseGroupMessageResponder thisCanNotBanRunner : canNotBanAPI)
                     if (thisAPI.equals(thisCanNotBanRunner)) {
-                        message.response("@" + sender + "您要操作的指令响应器可不能被禁止啊！(´Д` )");
+                        message.response(AT(message) + " 您要操作的指令响应器可不能被禁止啊！(´Д` )");
                         return;
                     }
                 if ("start".equals(action)) {
                     for (long thisAllowStartUid : restartAllowUid)
                         if (thisAllowStartUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, true);
-                            message.response("@" + sender + " 您要重启的指令响应器将会重启`(*∩_∩*)′");
+                            message.response(AT(message) + " 您要重启的指令响应器将会重启`(*∩_∩*)′");
                             logger.info("BaseGroupMessageResponder " + thisAPI.getClass().getName() + " is reopened by " +
                                     senderUid + " : " + sender + ".");
                             return;
@@ -71,18 +73,18 @@ public class Manager extends BaseGroupMessageResponder {
                     for (long thisStopAllowUid : stopAllowUid) {
                         if (thisStopAllowUid == senderUid) {
                             APISurvivePool.getInstance().setAPISurvive(thisAPI, false);
-                            message.response("@" + sender + " 您要关闭的指令响应器将会关闭~=-=");
+                            message.response(AT(message) + " 您要关闭的指令响应器将会关闭~=-=");
                             logger.info("BaseGroupMessageResponder " + thisAPI.getClass().getName() + " is closed by " +
                                     senderUid + " : " + sender + ".");
                             return;
                         }
                     }
                 } else {
-                    message.response("@" + sender + " 您的指示格式不对辣！（｀Δ´）！");
+                    message.response(AT(message) + " 您的指示格式不对辣！（｀Δ´）！");
                     return;
                 }
             }
-        message.response("@" + sender + " 您没有权限啦！(゜д゜)");
+        message.response(AT(message) + " 您没有权限啦！(゜д゜)");
     }
 
     @Override

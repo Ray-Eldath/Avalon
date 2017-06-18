@@ -11,7 +11,7 @@ import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
  *
  * @author Eldath Ray
  */
-public class CooqServletTest {
+public class CoolqServletTest {
     public static void main(String[] args) throws Exception {
 //         CoolqServlet servlet = new CoolqServlet();
         String cq = UrlEncoded.encodeString("[CQ:image,file=file://D:\\Users\\Eldath\\Pictures\\表情包\\tt.png]");

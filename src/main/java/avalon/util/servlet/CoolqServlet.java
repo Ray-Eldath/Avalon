@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static avalon.tool.pool.ConstantPool.Basic.debug;
-
 
 /**
  * Created by Eldath Ray on 2017/6/10 0010.
@@ -44,7 +42,7 @@ public class CoolqServlet extends AvalonServlet {
         if (!"message".equals(object.getString("post_type")))
             return;
         String messageType = object.getString("message_type");
-        if ("private".equals(messageType) && "friend".equals(object.getString("friend"))) {
+        if ("private".equals(messageType) && "friend".equals(object.getString("sub_type"))) {
             long senderUid = object.getLong("user_id");
             friendMessageConsumer.accept(new FriendMessage(
                     friendMessageId++,
@@ -56,8 +54,6 @@ public class CoolqServlet extends AvalonServlet {
         } else if ("group".equals(messageType)) {
             if (!object.getString("anonymous").isEmpty())
                 return;
-            if (debug)
-                logger.info(object.toString());
             long groupUid = object.getLong("group_id");
             long senderUid = object.getLong("user_id");
             groupMessageConsumer.accept(new GroupMessage(
@@ -95,7 +91,7 @@ public class CoolqServlet extends AvalonServlet {
         Map<String, Object> object = new HashMap<>();
         object.put("group_id", groupUid);
         object.put("message", reply);
-        object.put("is_raw", !reply.contains("[CQ:image"));
+        object.put("is_raw", !reply.contains("[CQ:"));
         sendRequest("/send_group_msg", object);
     }
 
@@ -104,7 +100,7 @@ public class CoolqServlet extends AvalonServlet {
         Map<String, Object> object = new HashMap<>();
         object.put("user_id", friendUid);
         object.put("message", reply);
-        object.put("is_raw", reply.contains("[CQ:image"));
+        object.put("is_raw", !reply.contains("[CQ:"));
         sendRequest("/send_private_msg", object);
     }
 
@@ -124,7 +120,7 @@ public class CoolqServlet extends AvalonServlet {
 
     @Override
     public String name() {
-        return "Cooq";
+        return "CoolQ";
     }
 
     @Override
@@ -155,29 +151,27 @@ public class CoolqServlet extends AvalonServlet {
     }
 
     private String sendRequest(String url, Map<String, Object> data) {
-        String requestString;
         if (data == null)
-            requestString = "";
+            url = apiAddress() + url;
         else {
-            StringBuilder request = new StringBuilder();
+            StringBuilder requestBuilder = new StringBuilder();
             Set<Map.Entry<String, Object>> entrySet = data.entrySet();
             for (Map.Entry<String, Object> entry : entrySet) {
                 String key = entry.getKey();
                 Object value = entry.getValue();
-                request.append(key).append("=");
+                requestBuilder.append(key).append("=");
                 if (value instanceof String)
-                    request.append(UrlEncoded.encodeString((String) value));
+                    requestBuilder.append(UrlEncoded.encodeString((String) value));
                 else
-                    request.append(String.valueOf(value));
-                request.append("&");
+                    requestBuilder.append(String.valueOf(value));
+                requestBuilder.append("&");
             }
-            String temp = request.toString();
-            requestString = temp.substring(0, temp.length() - 1);
+            String request = requestBuilder.toString();
+            url = apiAddress() + url + "?" + request.substring(0, request.length() - 1);
         }
         StringBuilder response = new StringBuilder();
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(
-                    apiAddress() + url + "?" + requestString).openStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
             String thisLine;
             while ((thisLine = reader.readLine()) != null)
                 response.append(thisLine);

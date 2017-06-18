@@ -27,3 +27,4 @@ config.json
 /data
 releases/
 /database.properties
+/servlet.json

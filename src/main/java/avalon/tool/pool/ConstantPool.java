@@ -98,8 +98,11 @@ public class ConstantPool {
     public static class Setting {
         public static final boolean Block_Words_Punishment_Mode_Enabled =
                 (boolean) ConfigSystem.getInstance().get("Block_Words_Punishment_Mode_Enabled");
+        public static final boolean AnswerMe_Enabled = (boolean)
+                ConfigSystem.getInstance().getCommandConfig("AnswerMe", "Enable");
         public static final int Block_Words_Punish_Frequency =
                 (int) ConfigSystem.getInstance().get("Block_Words_Punish_Frequency");
+        public static final int Max_Stream_Length = 100;
     }
 
     public static class GameMode {

@@ -1,5 +1,6 @@
 package avalon.tool;
 
+import avalon.util.GroupMessage;
 import avalon.util.servlet.CoolqServlet;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.json.JSONObject;
@@ -63,5 +64,13 @@ public class Responder {
             throw new UnsupportedOperationException("only cooqServlet can handle image");
         String cq = "[CQ:image,file=file://" + image.toString() + "]";
         currentServlet.responseGroup(groupUid, message.replace("[Avalon:image]", cq));
+    }
+
+    public static String AT(GroupMessage message) {
+        return currentServlet instanceof CoolqServlet ? "[CQ:at,qq=" + message.getSenderUid() + "]" : "@";
+    }
+
+    public static String AT(long userUid) {
+        return currentServlet instanceof CoolqServlet ? "[CQ:at,qq=" + userUid + "]" : "@";
     }
 }

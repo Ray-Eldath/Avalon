@@ -6,8 +6,7 @@ package test;
  * @author Eldath
  */
 public class Test {
-    public static void main(String[] args) {
-        String listen = "http://127.0.0.1:5000/";
-        System.out.println(listen.replace("http://", "").split("/")[1]);
+    public static void main(String[] args) throws Exception {
+        // System.out.println(new CoolqServlet().getGroupName(399863405));
     }
 }

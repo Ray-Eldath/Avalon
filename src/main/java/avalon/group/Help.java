@@ -24,6 +24,8 @@ public class Help extends BaseGroupMessageResponder {
         Map<Pattern, BaseGroupMessageResponder> apiList = MainGroupMessageHandler.getInstance().getApiList();
         StringBuilder messageShow = new StringBuilder();
         for (BaseGroupMessageResponder api : apiList.values()) {
+            if (api instanceof AnswerMe && !ConstantPool.Setting.AnswerMe_Enabled)
+                continue;
             String helpMessage = api.getHelpMessage();
             if (helpMessage == null || "".equals(helpMessage)) continue;
             messageShow.append("\n").append(api.getHelpMessage());

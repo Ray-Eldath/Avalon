@@ -2,7 +2,6 @@ package avalon.main;
 
 import avalon.friend.MainFriendMessageHandler;
 import avalon.group.MainGroupMessageHandler;
-import avalon.tool.pool.ConstantPool;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.json.JSONObject;
@@ -29,8 +28,6 @@ public class MainServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         JSONObject object = (JSONObject) new JSONTokener(req.getReader()).nextValue();
-        if (ConstantPool.Basic.debug)
-            logger.info(object.toString());
         if (object.isNull("post_type") || object.isNull("type")) return;
         if (!"receive_message".equals(object.getString("post_type")))
             return;

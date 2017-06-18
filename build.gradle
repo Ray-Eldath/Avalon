@@ -18,6 +18,12 @@ allprojects {
 dependencies {
     // https://mvnrepository.com/artifact/junit/junit
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    // https://mvnrepository.com/artifact/org.jdom/jdom2
+    compile group: 'org.jdom', name: 'jdom2', version: '2.0.6'
+    // https://mvnrepository.com/artifact/jaxen/jaxen
+    compile group: 'jaxen', name: 'jaxen', version: '1.1.6'
+    // https://mvnrepository.com/artifact/org.python/jython-standalone
+    compile group: 'org.python', name: 'jython-standalone', version: '2.7.1-rc2'
     // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server
     compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.5.v20170502'
     // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlet

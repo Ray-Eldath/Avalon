@@ -5,6 +5,8 @@ import avalon.util.GroupMessage;
 
 import java.util.regex.Pattern;
 
+import static avalon.tool.Responder.AT;
+
 /**
  * Created by Eldath Ray on 2017/3/26 0026.
  *
@@ -29,7 +31,7 @@ public class Flush extends BaseGroupMessageResponder {
                 message.response("管理员：@" + sender + "缓存及临时文件刷新成功。");
                 return;
             }
-        message.response("@" + sender + "权限不足！");
+        message.response(AT(message) + "权限不足！");
     }
 
     @Override

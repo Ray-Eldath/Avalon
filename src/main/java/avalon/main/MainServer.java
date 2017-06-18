@@ -81,10 +81,10 @@ public class MainServer {
         server.setHandler(context);
         server.setStopAtShutdown(true);
 
-        ConstantPool.Basic.currentServlet.setGroupMessageReceivedHook(e -> MainGroupMessageHandler.getInstance().handle(e));
-        ConstantPool.Basic.currentServlet.setFriendMessageReceivedHook(e -> MainFriendMessageHandler.getInstance().handle(e));
+        currentServlet.setGroupMessageReceivedHook(e -> MainGroupMessageHandler.getInstance().handle(e));
+        currentServlet.setFriendMessageReceivedHook(e -> MainFriendMessageHandler.getInstance().handle(e));
 
-        context.addServlet(new ServletHolder(currentServlet), "/post_api");
+        context.addServlet(new ServletHolder(currentServlet), "/post_url");
         context.addServlet(new ServletHolder(new WebqqPluginInfo()), "/info/get_webqq_plugin_info");
         context.addServlet(new ServletHolder(new ClientVersion()), "/info/get_client_version");
         context.addServlet(new ServletHolder(new ClientStatus()), "/info/get_client_status");

@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.regex.Pattern;
 
+import static avalon.tool.Responder.AT;
+
 /**
  * Created by Eldath on 2017/1/30 0030.
  *
@@ -34,12 +36,12 @@ public class Blacklist extends BaseGroupMessageResponder {
         String action;
         long toBan;
         if (!content.contains(" ")) {
-            message.response("@" + sender + " 您的指示格式不对辣！（｀Δ´）！");
+            message.response(AT(message) + " 您的指示格式不对辣！（｀Δ´）！");
             return;
         }
         split = content.split(" ");
         if (split.length < 3) {
-            message.response("@" + sender + " 您的指示格式不对辣！（｀Δ´）！");
+            message.response(AT(message) + " 您的指示格式不对辣！（｀Δ´）！");
             return;
         }
         action = split[2];
@@ -47,25 +49,25 @@ public class Blacklist extends BaseGroupMessageResponder {
         for (long thisAllowUid : allowList)
             if (thisAllowUid == sender_uid) {
                 if ("add".equals(action)) {
-                    message.response("@" + sender + " 帐号" + toBan + "现已被屏蔽。");
+                    message.response(AT(message) + " 帐号" + toBan + "现已被屏蔽。");
                     logger.info("Account " + toBan + " is baned by " + sender_uid + " : " + sender + ".");
                     MainGroupMessageHandler.getSetBlackListPeopleMap().put(toBan, max);
                     return;
                 } else if ("remove".equals(action)) {
                     if (!MainGroupMessageHandler.getSetBlackListPeopleMap().containsKey(toBan)) {
-                        message.response("@" + sender + " 好像帐号" + toBan + "没有被屏蔽过呢-。-");
+                        message.response(AT(message) + " 好像帐号" + toBan + "没有被屏蔽过呢-。-");
                         return;
                     }
-                    message.response("@" + sender + " 帐号" + toBan + "的屏蔽已被解除(^.^)");
+                    message.response(AT(message) + " 帐号" + toBan + "的屏蔽已被解除(^.^)");
                     logger.info("Account " + toBan + " is allowed again by " + sender_uid + " : " + sender + ".");
                     MainGroupMessageHandler.getSetBlackListPeopleMap().put(toBan, 0);
                     return;
                 } else {
-                    message.response("@" + sender + " 您的指示格式不对辣！（｀Δ´）！");
+                    message.response(AT(message) + " 您的指示格式不对辣！（｀Δ´）！");
                     return;
                 }
             }
-        message.response("@" + sender + " 您没有权限辣！（｀Δ´）！");
+        message.response(AT(message) + " 您没有权限辣！（｀Δ´）！");
     }
 
     @Override
