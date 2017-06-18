@@ -8,4 +8,6 @@ package avalon.extend;
 public interface Task extends Runnable {
     @Override
     void run();
+
+    String toString();
 }

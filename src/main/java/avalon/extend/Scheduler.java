@@ -1,9 +1,6 @@
 package avalon.extend;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -13,30 +10,24 @@ import java.util.TreeMap;
  * @author Eldath
  */
 public class Scheduler extends Thread {
-    private static final TreeMap<LocalDateTime, Task> allTask = new TreeMap<>();
-    private static final Logger logger = LoggerFactory.getLogger(Scheduler.class);
+    private static Map<LocalDate, Task> allTask = new TreeMap<>();
 
-    static void scheduleTask(LocalDateTime runTime, Task doWhat) {
+    static void scheduleTask(LocalDate runTime, Task doWhat) {
         allTask.put(runTime, doWhat);
-        logger.info("Task " + doWhat.getClass().toString() + ":" + doWhat.hashCode() + " is now scheduled.");
     }
 
     @Override
     public void run() {
-        flush();
-    }
-
-    private static void flush() {
-        LocalDateTime now = LocalDateTime.now();
-        if (allTask.isEmpty()) return;
-        Map.Entry<LocalDateTime, Task> thisEntry = allTask.firstEntry();
-        LocalDateTime localDateTime = thisEntry.getKey();
-        Task toShow = thisEntry.getValue();
-        if (now.getDayOfYear() > localDateTime.getDayOfYear()) {
-            allTask.remove(localDateTime);
-        } else if (now.isEqual(localDateTime)) {
-            toShow.run();
-            allTask.remove(localDateTime);
+        if (allTask.isEmpty())
+            return;
+        LocalDate now = LocalDate.now();
+        for (Map.Entry<LocalDate, Task> entry : allTask.entrySet()) {
+            LocalDate date = entry.getKey();
+            Task task = entry.getValue();
+            if (now.getDayOfYear() == date.getDayOfYear()) {
+                task.run();
+                allTask.remove(date);
+            }
         }
     }
 }
