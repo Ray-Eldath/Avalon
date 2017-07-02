@@ -1,10 +1,14 @@
 package avalon.group;
 
+import avalon.extend.Executive;
+import avalon.model.ExtendLanguage;
+import avalon.tool.pool.ExtendLanguagePool;
 import avalon.util.GroupMessage;
-import avalon.util.SafetyReadableWriter;
-import org.python.util.PythonInterpreter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -16,64 +20,52 @@ import static avalon.tool.Responder.AT;
  * @author Eldath Ray
  */
 public class Execute extends BaseGroupMessageResponder {
-    private static final Set<String> dangerCommand = new HashSet<>();
+    private static final Logger logger = LoggerFactory.getLogger(Execute.class);
+    private static final Set<Pattern> dangerCommand = new HashSet<>();
     private static final Execute instance = new Execute();
 
     static {
-        dangerCommand.add("exit");
-        dangerCommand.add("quit");
-        dangerCommand.add("shutdown");
-        dangerCommand.add("reboot");
-        dangerCommand.add("powershell");
-        dangerCommand.add("cmd");
-        dangerCommand.add("system");
-        dangerCommand.add("eval");
+        dangerCommand.add(Pattern.compile("shutdown"));
     }
 
     @Override
     public void doPost(GroupMessage message) {
-        // message.response("目前危险指令过滤还不完善 请勿执行危险指令，感激不尽啊= =");
         String content = message.getContent();
-        String[] lines = content.replace("\r", "").split("\n");
+        String[] lines = content.split("\n");
         String[] split = lines[0].split(" ");
         if (split.length < 3) {
             message.response(AT(message) + " 指令不合法 ⊙﹏⊙!");
             return;
         }
-        for (String thisDangerCommand : dangerCommand) {
+        for (Pattern thisDangerCommand : dangerCommand) {
             for (String thisLine : lines)
-                if (thisLine.trim()
+                if (thisDangerCommand.matcher(thisLine.trim()
                         .toLowerCase()
-                        .replaceAll("[\\pP\\p{Punct}]", "")
-                        .contains(thisDangerCommand)) {
-                    message.response(AT(message) + " 代码中包含危险字" + thisDangerCommand +
-                            "不允许执行！若有疑问请艾特Eldath~");
+                        .replaceAll("[\\pP\\p{Punct}]", "")).matches()) {
+                    message.response(AT(message) + " 代码中包含危险字，不允许执行！若有疑问请艾特Eldath~");
                     return;
                 }
         }
-        String lang = split[2].toLowerCase();
-        if ("python".equals(lang)) {
-            PythonInterpreter interpreter = new PythonInterpreter();
-            SafetyReadableWriter writer = new SafetyReadableWriter();
-            SafetyReadableWriter error = new SafetyReadableWriter();
-            interpreter.setOut(writer);
-            interpreter.setErr(error);
-            String r;
-            for (int i = 1; i < lines.length; i++) {
-                try {
-                    interpreter.exec(lines[i]);
-                } catch (Exception e) {
-                    r = " Oops! 您的代码执行错误! 错误如下：\n" + e.toString();
-                    message.response(AT(message) + r);
-                    return;
-                }
+        StringBuilder code = new StringBuilder();
+        for (int i = 1; i < lines.length; i++)
+            code.append(lines[i]).append("\n");
+
+        String languageString = split[2].trim().toLowerCase();
+        ExtendLanguage lang = ExtendLanguagePool.getInstance().get(languageString);
+        if (lang != null) {
+            Map<String, Object> result;
+            try {
+                result = Executive.execute(lang, code.toString());
+            } catch (Exception e) {
+                logger.warn("exception thrown while execute code: " + e.toString());
+                message.response("Oh no! 代码执行失败：未知错误");
+                return;
             }
-            if (error.out().isEmpty()) {
-                String t = writer.out().replace("\n", " ");
-                r = " 提交的代码已经执行完成。执行输出：" + (t.isEmpty() ? "<无>" : t);
-            } else
-                r = " Oops! 您的代码执行错误! 错误如下：\n" + error.out();
-            message.response(AT(message) + r);
+            String errorOrOut = (String) result.get("out/error");
+            if ((boolean) result.get("error"))
+                message.response(AT(message) + " Oops! 您的代码执行错误! 错误如下：\n" + errorOrOut);
+            else
+                message.response(AT(message) + " Yap! 提交的代码已经执行完成。执行输出：\n" + errorOrOut);
         } else {
             message.response(AT(message) + " 指定的语言目前暂不支持~ 抱歉`(*>﹏<*)′");
         }

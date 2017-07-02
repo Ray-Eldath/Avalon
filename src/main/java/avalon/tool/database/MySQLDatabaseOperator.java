@@ -1,6 +1,6 @@
 package avalon.tool.database;
 
-import avalon.tool.DatabaseConfig;
+import avalon.tool.system.DatabaseConfigSystem;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 
@@ -25,11 +25,11 @@ public class MySQLDatabaseOperator implements DatabaseOperator {
         try {
             //调用Class.forName()方法加载驱动程序
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String originHost = DatabaseConfig.getInstance().get("Host");
+            String originHost = DatabaseConfigSystem.getInstance().getString("Host");
             String url = (originHost.endsWith("/") ? originHost.substring(0, originHost.length() - 1) :
-                    originHost + "/") + DatabaseConfig.getInstance().get("Database") + "?serverTimezone=UTC";
-            String username = DatabaseConfig.getInstance().get("Username");
-            String password = DatabaseConfig.getInstance().get("Password");
+                    originHost + "/") + DatabaseConfigSystem.getInstance().getString("Database") + "?serverTimezone=UTC";
+            String username = DatabaseConfigSystem.getInstance().getString("Username");
+            String password = DatabaseConfigSystem.getInstance().getString("Password");
             Connection conn = DriverManager.getConnection(url, username, password);
             statement = conn.createStatement();
         } catch (Exception e) {

@@ -1,6 +1,6 @@
 package avalon.util.servlet;
 
-import avalon.tool.ServletConfigSystem;
+import avalon.tool.system.ServletConfigSystem;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 

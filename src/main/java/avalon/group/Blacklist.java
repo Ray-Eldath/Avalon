@@ -1,6 +1,6 @@
 package avalon.group;
 
-import avalon.tool.ConfigSystem;
+import avalon.tool.system.ConfigSystem;
 import avalon.util.GroupMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +14,9 @@ import static avalon.tool.Responder.AT;
  *
  * @author Eldath
  */
-@SuppressWarnings("ALL")
 public class Blacklist extends BaseGroupMessageResponder {
     private static Logger logger = LoggerFactory.getLogger(Blacklist.class);
-    private static final long[] allowList = ConfigSystem.getInstance()
-            .getCommandAllowArray("Blacklist_basic");
+    private static final long[] allowList = ConfigSystem.getInstance().getCommandAllowArray("Blacklist_basic");
     private static final Blacklist instance = new Blacklist();
 
     public static Blacklist getInstance() {
@@ -28,7 +26,6 @@ public class Blacklist extends BaseGroupMessageResponder {
     @Override
     public void doPost(GroupMessage message) {
         final long sender_uid = message.getSenderUid();
-        final long group_uid = message.getGroupUid();
         final int max = MainGroupMessageHandler.getPunishFrequency();
         final String content = message.getContent();
         final String sender = message.getSenderNickName();

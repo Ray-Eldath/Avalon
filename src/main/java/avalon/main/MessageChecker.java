@@ -10,7 +10,11 @@ import java.io.UnsupportedEncodingException;
  * @author Eldath Ray
  */
 public class MessageChecker {
-    public static boolean checkEncode(Message message) {
+    public static boolean check(Message message) {
+        return checkEncode(message);
+    }
+
+    private static boolean checkEncode(Message message) {
         try {
             String content = message.getContent();
             if (!content.equals(new String(content.getBytes("GB2312"), "GB2312"))) {

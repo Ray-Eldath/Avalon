@@ -1,5 +1,7 @@
 package avalon.extend;
 
+import avalon.model.Task;
+
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.TreeMap;

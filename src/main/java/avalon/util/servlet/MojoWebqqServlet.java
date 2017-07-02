@@ -60,7 +60,7 @@ public class MojoWebqqServlet extends AvalonServlet {
             return;
         if ("friend_message".equals(type)) {
             FriendMessage message = new FriendMessage(Id, timeLong, senderUid, sender, content);
-            if (!MessageChecker.checkEncode(message)) return;
+            if (!MessageChecker.check(message)) return;
             friendMessageConsumer.accept(message);
         } else {
             long groupUid;

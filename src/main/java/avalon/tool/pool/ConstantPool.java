@@ -1,10 +1,10 @@
 package avalon.tool.pool;
 
-import avalon.tool.ConfigSystem;
-import avalon.tool.DatabaseConfig;
 import avalon.tool.database.DatabaseOperator;
 import avalon.tool.database.MySQLDatabaseOperator;
 import avalon.tool.database.SQLiteDatabaseOperator;
+import avalon.tool.system.ConfigSystem;
+import avalon.tool.system.DatabaseConfigSystem;
 import avalon.util.servlet.AvalonServlet;
 import avalon.util.servlet.CoolqServlet;
 import org.json.JSONObject;
@@ -25,7 +25,7 @@ public class ConstantPool {
     }
 
     public static class Database {
-        private static final String Datasource = DatabaseConfig.getInstance().get("DataSource");
+        private static final String Datasource = DatabaseConfigSystem.getInstance().getString("DataSource");
         public static final DatabaseOperator currentDatabaseOperator = "mysql".equals(Datasource) ?
                 MySQLDatabaseOperator.getInstance() : SQLiteDatabaseOperator.getInstance();
     }
@@ -98,11 +98,13 @@ public class ConstantPool {
     public static class Setting {
         public static final boolean Block_Words_Punishment_Mode_Enabled =
                 (boolean) ConfigSystem.getInstance().get("Block_Words_Punishment_Mode_Enabled");
-        public static final boolean AnswerMe_Enabled = (boolean)
-                ConfigSystem.getInstance().getCommandConfig("AnswerMe", "Enable");
         public static final int Block_Words_Punish_Frequency =
                 (int) ConfigSystem.getInstance().get("Block_Words_Punish_Frequency");
         public static final int Max_Stream_Length = 100;
+
+        public static final boolean AnswerMe_Enabled = ConfigSystem.getInstance().isCommandEnable("AnswerMe");
+        public static final boolean Wolfram_Enabled = ConfigSystem.getInstance().isCommandEnable("Wolfram");
+        public static final boolean Execute_Enable = ConfigSystem.getInstance().isCommandEnable("Execute");
     }
 
     public static class GameMode {

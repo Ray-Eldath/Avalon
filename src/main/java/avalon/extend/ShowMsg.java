@@ -1,5 +1,6 @@
 package avalon.extend;
 
+import avalon.model.ShowMsgTask;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;

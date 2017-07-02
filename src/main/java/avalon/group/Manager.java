@@ -1,7 +1,7 @@
 package avalon.group;
 
-import avalon.tool.ConfigSystem;
 import avalon.tool.pool.APISurvivePool;
+import avalon.tool.system.ConfigSystem;
 import avalon.util.GroupMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public class Manager extends BaseGroupMessageResponder {
                 }
                 apiName = content.toLowerCase().
                         replace("avalon manager stop ", "").replace("avalon manager start ", "");
-                BaseGroupMessageResponder thisAPI = MainGroupMessageHandler.getGroupResponderByKeyword(apiName);
+                BaseGroupMessageResponder thisAPI = MainGroupMessageHandler.getInstance().getGroupResponderByKeyword(apiName);
                 action = content.toLowerCase().
                         replace("avalon manager ", "").replace(apiName, "").trim();
                 if (thisAPI == null) {

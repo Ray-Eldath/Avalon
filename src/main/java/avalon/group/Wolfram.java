@@ -1,7 +1,7 @@
 package avalon.group;
 
-import avalon.tool.ConfigSystem;
 import avalon.tool.WolframGetter;
+import avalon.tool.system.ConfigSystem;
 import avalon.util.GroupMessage;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.jdom2.JDOMException;

@@ -3,12 +3,12 @@ package avalon.group;
 import avalon.extend.Recorder;
 import avalon.main.MessageChecker;
 import avalon.tool.APIRateLimit;
-import avalon.tool.ConfigSystem;
 import avalon.tool.RunningData;
 import avalon.tool.pool.APISurvivePool;
 import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
 import avalon.tool.pool.VariablePool;
+import avalon.tool.system.ConfigSystem;
 import avalon.util.GroupMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +30,7 @@ import static avalon.tool.Responder.AT;
  */
 public class MainGroupMessageHandler {
     private static final Map<Pattern, BaseGroupMessageResponder> apiList = new LinkedHashMap<>();
+    private static final Map<? super BaseGroupMessageResponder, Boolean> enableMap = new HashMap<>();
 
     private static long[] adminUid = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Admin_Uid"));
@@ -67,6 +68,10 @@ public class MainGroupMessageHandler {
         System.arraycopy(followGroup, 0, data, 1, length);
         data[0] = 100000;
         followGroup = data;
+        //
+        enableMap.put(AnswerMe.getInstance(), ConstantPool.Setting.AnswerMe_Enabled);
+        enableMap.put(Wolfram.getInstance(), ConstantPool.Setting.Wolfram_Enabled);
+        enableMap.put(Execute.getInstance(), ConstantPool.Setting.Execute_Enable);
     }
 
     static {
@@ -92,7 +97,7 @@ public class MainGroupMessageHandler {
         register(AnswerMe.getInstance());
     }
 
-    static BaseGroupMessageResponder getGroupResponderByKeyword(String keyword) {
+    BaseGroupMessageResponder getGroupResponderByKeyword(String keyword) {
         for (Map.Entry<Pattern, BaseGroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
             Pattern key = patternAPIEntry.getKey();
             BaseGroupMessageResponder value = patternAPIEntry.getValue();
@@ -100,6 +105,12 @@ public class MainGroupMessageHandler {
                 return value;
         }
         return null;
+    }
+
+    public boolean isResponderEnable(BaseGroupMessageResponder api) {
+        if (!enableMap.containsKey(api))
+            return true;
+        return enableMap.get(api);
     }
 
     public void handle(GroupMessage message) {
@@ -128,7 +139,7 @@ public class MainGroupMessageHandler {
             for (Map.Entry<Pattern, BaseGroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
                 BaseGroupMessageResponder value = patternAPIEntry.getValue();
                 if (doCheck(patternAPIEntry.getKey(), value, message)) {
-                    if (MessageChecker.checkEncode(message))
+                    if (MessageChecker.check(message))
                         value.doPost(message);
                     return;
                 }
@@ -174,7 +185,7 @@ public class MainGroupMessageHandler {
             }
             return false;
         }
-        return true;
+        return isResponderEnable(value);
     }
 
     public static void main(String[] args) {

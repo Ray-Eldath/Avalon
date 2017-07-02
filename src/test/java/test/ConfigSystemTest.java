@@ -1,6 +1,6 @@
 package test;
 
-import avalon.tool.ConfigSystem;
+import avalon.tool.system.ConfigSystem;
 
 import static avalon.tool.ObjectCaster.toLongArray;
 

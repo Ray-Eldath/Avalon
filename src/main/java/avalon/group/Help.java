@@ -24,10 +24,11 @@ public class Help extends BaseGroupMessageResponder {
         Map<Pattern, BaseGroupMessageResponder> apiList = MainGroupMessageHandler.getInstance().getApiList();
         StringBuilder messageShow = new StringBuilder();
         for (BaseGroupMessageResponder api : apiList.values()) {
-            if (api instanceof AnswerMe && !ConstantPool.Setting.AnswerMe_Enabled)
+            if (!MainGroupMessageHandler.getInstance().isResponderEnable(api))
                 continue;
             String helpMessage = api.getHelpMessage();
-            if (helpMessage == null || "".equals(helpMessage)) continue;
+            if (helpMessage == null || "".equals(helpMessage))
+                continue;
             messageShow.append("\n").append(api.getHelpMessage());
         }
         message.response("This is Avalon. 以下是我的帮助资料：\n" +

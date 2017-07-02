@@ -1,5 +1,8 @@
 package test;
 
+import avalon.group.MainGroupMessageHandler;
+import avalon.util.GroupMessage;
+
 /**
  * Created by Eldath on 2017/1/29 0029.
  *
@@ -7,6 +10,18 @@ package test;
  */
 public class Test {
     public static void main(String[] args) throws Exception {
-        // System.out.println(new CoolqServlet().getGroupName(399863405));
+        String content = "avalon execute cpp11\n" +
+                "#include <cstdio>\n" +
+                "int array[]={1,2,3};\n" +
+                "int main(){\n" +
+                "  for(int a : array)\n" +
+                "     printf(\"%d\", a);\n" +
+                "return 0;\n" +
+                "}";
+//        content = "avalon execute py\n" +
+//                "print(12376*567/456456)";
+        MainGroupMessageHandler.getInstance().handle(
+                new GroupMessage(0, System.currentTimeMillis(), 1464443139,
+                        "Ray Eldath", 617118724, "QQ聊天机器人测试讨论", content));
     }
 }
