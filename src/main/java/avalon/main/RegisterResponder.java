@@ -1,7 +1,7 @@
 package avalon.main;
 
-import avalon.group.BaseGroupMessageResponder;
-import avalon.group.MainGroupMessageHandler;
+import avalon.group.GroupMessageResponder;
+import avalon.group.GroupMessageHandler;
 import avalon.tool.pool.APISurvivePool;
 
 /**
@@ -10,8 +10,8 @@ import avalon.tool.pool.APISurvivePool;
  * @author Eldath Ray
  */
 public class RegisterResponder {
-    public static void register(BaseGroupMessageResponder responder) {
-        MainGroupMessageHandler.addGroupMessageResponder(responder);
+    public static void register(GroupMessageResponder responder) {
+        GroupMessageHandler.addGroupMessageResponder(responder);
         APISurvivePool.getInstance().addAPI(responder);
     }
 }

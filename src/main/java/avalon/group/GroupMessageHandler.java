@@ -28,16 +28,14 @@ import static avalon.tool.Responder.AT;
  *
  * @author Eldath Ray
  */
-public class MainGroupMessageHandler {
-    private static final Map<Pattern, BaseGroupMessageResponder> apiList = new LinkedHashMap<>();
-    private static final Map<? super BaseGroupMessageResponder, Boolean> enableMap = new HashMap<>();
+public class GroupMessageHandler {
+    private static final Map<Pattern, GroupMessageResponder> apiList = new LinkedHashMap<>();
+    private static final Map<? super GroupMessageResponder, Boolean> enableMap = new HashMap<>();
 
     private static long[] adminUid = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Admin_Uid"));
     private static long[] followGroup = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Follow_Group_Uid"));
-    private static long[] gameModeAllowedGroup = toLongArray(ConfigSystem
-            .getInstance().getConfigArray("Game_Mode_Enabled_Group_Uid"));
     private static long[] recordGroup = toLongArray(ConfigSystem
             .getInstance().getConfigArray("Record_Group_Uid"));
     private static long[] blackListPeople = toLongArray(ConfigSystem
@@ -49,18 +47,18 @@ public class MainGroupMessageHandler {
             .get("Block_Words_Punish_Frequency");
     private static final APIRateLimit cooling = new APIRateLimit(3000L);
 
-    private static MainGroupMessageHandler instance = new MainGroupMessageHandler();
-    private static final Logger logger = LoggerFactory.getLogger(MainGroupMessageHandler.class);
+    private static GroupMessageHandler instance = new GroupMessageHandler();
+    private static final Logger logger = LoggerFactory.getLogger(GroupMessageHandler.class);
 
-    Map<Pattern, BaseGroupMessageResponder> getApiList() {
+    Map<Pattern, GroupMessageResponder> getApiList() {
         return apiList;
     }
 
-    public static MainGroupMessageHandler getInstance() {
+    public static GroupMessageHandler getInstance() {
         return instance;
     }
 
-    private MainGroupMessageHandler() {
+    private GroupMessageHandler() {
         for (long thisBlackPeople : blackListPeople)
             blackListPeopleMap.put(thisBlackPeople, punishFrequency + 1);
         int length = followGroup.length;
@@ -79,17 +77,17 @@ public class MainGroupMessageHandler {
          * 指令优先级排序依据：单词 >> 多词，管理类 >> 服务类 >> 娱乐类，触发类 >> 自由类
          */
         // 特殊优先
-        register(Test.getInstance());
+        register(Test.instance());
         // 管理类
-        register(Shutdown.getInstance());
-        register(Flush.getInstance());
-        register(Manager.getInstance());
-        register(Blacklist.getInstance());
+        register(Shutdown.instance());
+        register(Flush.instance());
+        register(Manager.instance());
+        register(Blacklist.instance());
         // 服务类
         register(Help.getInstance());
-        register(Version.getInstance());
+        register(Version.instance());
         register(ShowAdmin.getInstance());
-        register(Echo.getInstance());
+        register(Echo.instance());
         register(Execute.getInstance());
         // 娱乐类
         register(Wolfram.getInstance());
@@ -97,17 +95,17 @@ public class MainGroupMessageHandler {
         register(AnswerMe.getInstance());
     }
 
-    BaseGroupMessageResponder getGroupResponderByKeyword(String keyword) {
-        for (Map.Entry<Pattern, BaseGroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
+    GroupMessageResponder getGroupResponderByKeyword(String keyword) {
+        for (Map.Entry<Pattern, GroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
             Pattern key = patternAPIEntry.getKey();
-            BaseGroupMessageResponder value = patternAPIEntry.getValue();
+            GroupMessageResponder value = patternAPIEntry.getValue();
             if (key.matcher(keyword).find())
                 return value;
         }
         return null;
     }
 
-    public boolean isResponderEnable(BaseGroupMessageResponder api) {
+    public boolean isResponderEnable(GroupMessageResponder api) {
         if (!enableMap.containsKey(api))
             return true;
         return enableMap.get(api);
@@ -136,8 +134,8 @@ public class MainGroupMessageHandler {
                         return;
                     }
                 } else blackListPeopleMap.put(senderUid, 0);
-            for (Map.Entry<Pattern, BaseGroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
-                BaseGroupMessageResponder value = patternAPIEntry.getValue();
+            for (Map.Entry<Pattern, GroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
+                GroupMessageResponder value = patternAPIEntry.getValue();
                 if (doCheck(patternAPIEntry.getKey(), value, message)) {
                     if (MessageChecker.check(message))
                         value.doPost(message);
@@ -149,7 +147,7 @@ public class MainGroupMessageHandler {
             Recorder.getInstance().recodeGroupMessage(message);
     }
 
-    private boolean doCheck(Pattern key, BaseGroupMessageResponder value, GroupMessage groupMessage) {
+    private boolean doCheck(Pattern key, GroupMessageResponder value, GroupMessage groupMessage) {
         String lowerContent = groupMessage.getContent().toLowerCase();
         long time = groupMessage.getTimeLong();
         String sender = groupMessage.getSenderNickName();
@@ -203,7 +201,7 @@ public class MainGroupMessageHandler {
             String content = scanner.nextLine();
             GroupMessage message = new GroupMessage(++id, LocalDateTime.now(),
                     10000, "Test", 100000, "Test Group", content);
-            MainGroupMessageHandler.getInstance().handle(message);
+            GroupMessageHandler.getInstance().handle(message);
             System.out.println("===");
         }
     }
@@ -213,7 +211,7 @@ public class MainGroupMessageHandler {
         blackListPeopleMap.put(senderUid, ++pastValue);
     }
 
-    public static void addGroupMessageResponder(BaseGroupMessageResponder responder) {
+    public static void addGroupMessageResponder(GroupMessageResponder responder) {
         apiList.put(responder.getKeyWordRegex(), responder);
     }
 

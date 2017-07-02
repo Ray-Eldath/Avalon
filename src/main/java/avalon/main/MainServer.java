@@ -4,7 +4,7 @@ import avalon.extend.Recorder;
 import avalon.extend.Scheduler;
 import avalon.extend.ShowMsg;
 import avalon.friend.MainFriendMessageHandler;
-import avalon.group.MainGroupMessageHandler;
+import avalon.group.GroupMessageHandler;
 import avalon.servlet.info.*;
 import avalon.servlet.manager.InstanceManager;
 import avalon.tool.DelayResponse;
@@ -32,7 +32,7 @@ import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
  */
 public class MainServer {
     private static final Logger logger = LoggerFactory.getLogger(MainServer.class);
-    private static long[] followGroup = MainGroupMessageHandler.getInstance().getFollowGroup();
+    private static long[] followGroup = GroupMessageHandler.getInstance().getFollowGroup();
     private static Process webqqProcess, wechatProcess;
 
     static class atShutdownDo extends Thread {
@@ -80,7 +80,7 @@ public class MainServer {
         server.setHandler(context);
         server.setStopAtShutdown(true);
 
-        currentServlet.setGroupMessageReceivedHook(e -> MainGroupMessageHandler.getInstance().handle(e));
+        currentServlet.setGroupMessageReceivedHook(e -> GroupMessageHandler.getInstance().handle(e));
         currentServlet.setFriendMessageReceivedHook(e -> MainFriendMessageHandler.getInstance().handle(e));
 
         context.addServlet(new ServletHolder(currentServlet), "/post_url");

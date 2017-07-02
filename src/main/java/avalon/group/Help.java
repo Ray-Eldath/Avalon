@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class Help extends BaseGroupMessageResponder {
+public class Help implements GroupMessageResponder {
     private static Help instance = null;
 
     public static Help getInstance() {
@@ -21,10 +21,10 @@ public class Help extends BaseGroupMessageResponder {
 
     @Override
     public void doPost(GroupMessage message) {
-        Map<Pattern, BaseGroupMessageResponder> apiList = MainGroupMessageHandler.getInstance().getApiList();
+        Map<Pattern, GroupMessageResponder> apiList = GroupMessageHandler.getInstance().getApiList();
         StringBuilder messageShow = new StringBuilder();
-        for (BaseGroupMessageResponder api : apiList.values()) {
-            if (!MainGroupMessageHandler.getInstance().isResponderEnable(api))
+        for (GroupMessageResponder api : apiList.values()) {
+            if (!GroupMessageHandler.getInstance().isResponderEnable(api))
                 continue;
             String helpMessage = api.getHelpMessage();
             if (helpMessage == null || "".equals(helpMessage))
@@ -45,5 +45,10 @@ public class Help extends BaseGroupMessageResponder {
     @Override
     public Pattern getKeyWordRegex() {
         return Pattern.compile("avalon help|avalon 帮助");
+    }
+
+    @Override
+    public GroupMessageResponder instance() {
+        return null;
     }
 }

@@ -19,7 +19,7 @@ import static avalon.tool.Responder.AT;
  *
  * @author Eldath Ray
  */
-public class Execute extends BaseGroupMessageResponder {
+public class Execute implements GroupMessageResponder {
     private static final Logger logger = LoggerFactory.getLogger(Execute.class);
     private static final Set<Pattern> dangerCommand = new HashSet<>();
     private static final Execute instance = new Execute();
@@ -83,5 +83,10 @@ public class Execute extends BaseGroupMessageResponder {
     @Override
     public Pattern getKeyWordRegex() {
         return Pattern.compile("avalon execute \\w+");
+    }
+
+    @Override
+    public GroupMessageResponder instance() {
+        return null;
     }
 }

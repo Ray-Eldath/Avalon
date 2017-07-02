@@ -1,6 +1,6 @@
 package test;
 
-import avalon.group.MainGroupMessageHandler;
+import avalon.group.GroupMessageHandler;
 import avalon.util.GroupMessage;
 
 /**
@@ -20,7 +20,7 @@ public class Test {
                 "}";
 //        content = "avalon execute py\n" +
 //                "print(12376*567/456456)";
-        MainGroupMessageHandler.getInstance().handle(
+        GroupMessageHandler.getInstance().handle(
                 new GroupMessage(0, System.currentTimeMillis(), 1464443139,
                         "Ray Eldath", 617118724, "QQ聊天机器人测试讨论", content));
     }

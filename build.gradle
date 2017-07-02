@@ -2,6 +2,7 @@ group 'ray-eldath.avalon'
 version 'v0.0.1'
 
 apply plugin: 'java'
+apply plugin: 'scala'
 apply plugin: 'application'
 
 mainClassName = 'avalon.main.MainServer'
@@ -38,6 +39,8 @@ dependencies {
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    // https://mvnrepository.com/artifact/org.scala-lang/scala-library
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.2'
     // https://mvnrepository.com/artifact/org.json/json
     compile group: 'org.json', name: 'json', version: '20160810'
     // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
@@ -46,6 +49,26 @@ dependencies {
     compile group: 'org.fusesource.jansi', name: 'jansi', version: '1.16'
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+}
+
+sourceSets {
+    main {
+        scala {
+            srcDirs = ['src/main/java']
+        }
+        java {
+            srcDirs = []
+        }
+    }
+
+    test {
+        scala {
+            srcDirs = ['src/test/java']
+        }
+        java {
+            srcDirs = []
+        }
+    }
 }
 
 tasks.withType(JavaCompile) {

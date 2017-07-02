@@ -1,6 +1,6 @@
 package avalon.tool.system;
 
-import avalon.group.MainGroupMessageHandler;
+import avalon.group.GroupMessageHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -83,13 +83,13 @@ public class ConfigSystem implements BaseConfigSystem {
 
     public long[] getCommandAllowArray(String commandName) {
         JSONArray convert = allCommandAllow.getJSONArray(commandName);
-        int len = MainGroupMessageHandler.getAdminUid().length;
+        int len = GroupMessageHandler.getAdminUid().length;
         long[] r = new long[convert.length() + len];
         long[] result = new long[convert.length()];
         for (int i = 0; i < convert.length(); i++)
             result[i] = convert.getLong(i);
         System.arraycopy(result, 0, r, 0, result.length);
-        System.arraycopy(MainGroupMessageHandler.getAdminUid(), 0, r, result.length, len);
+        System.arraycopy(GroupMessageHandler.getAdminUid(), 0, r, result.length, len);
         return r;
     }
 

@@ -1,7 +1,7 @@
 package avalon.main;
 
 import avalon.friend.MainFriendMessageHandler;
-import avalon.group.MainGroupMessageHandler;
+import avalon.group.GroupMessageHandler;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.json.JSONObject;
@@ -63,7 +63,7 @@ public class MainServlet extends HttpServlet {
                 groupUid = 1234567891;
             } else groupUid = object.getLong("sender_uid");
             String group = object.get("group").toString();
-            MainGroupMessageHandler.getInstance().handle(new GroupMessage(Id, timeLong,
+            GroupMessageHandler.getInstance().handle(new GroupMessage(Id, timeLong,
                     senderUid, sender, groupUid, group, content));
         }
     }

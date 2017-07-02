@@ -21,7 +21,7 @@ import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
  *
  * @author Eldath Ray
  */
-public class Wolfram extends BaseGroupMessageResponder {
+public class Wolfram implements GroupMessageResponder {
     private static final Logger logger = LoggerFactory.getLogger(Wolfram.class);
 
     private static final Wolfram instance = new Wolfram();
