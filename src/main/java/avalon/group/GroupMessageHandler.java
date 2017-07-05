@@ -67,8 +67,8 @@ public class GroupMessageHandler {
         data[0] = 100000;
         followGroup = data;
         //
-        enableMap.put(AnswerMe.getInstance(), ConstantPool.Setting.AnswerMe_Enabled);
-        enableMap.put(Wolfram.getInstance(), ConstantPool.Setting.Wolfram_Enabled);
+        enableMap.put(AnswerMe.instance(), ConstantPool.Setting.AnswerMe_Enabled);
+        enableMap.put(Wolfram.instance(), ConstantPool.Setting.Wolfram_Enabled);
         enableMap.put(Execute.getInstance(), ConstantPool.Setting.Execute_Enable);
     }
 
@@ -86,13 +86,13 @@ public class GroupMessageHandler {
         // 服务类
         register(Help.getInstance());
         register(Version.instance());
-        register(ShowAdmin.getInstance());
+        register(ShowAdmin.instance());
         register(Echo.instance());
         register(Execute.getInstance());
         // 娱乐类
-        register(Wolfram.getInstance());
-        register(Mo.getInstance());
-        register(AnswerMe.getInstance());
+        register(Wolfram.instance());
+        register(Mo.instance());
+        register(AnswerMe.instance());
     }
 
     GroupMessageResponder getGroupResponderByKeyword(String keyword) {
@@ -191,7 +191,7 @@ public class GroupMessageHandler {
         RunningData.getInstance();
         new ConstantPool.Basic();
         new ConstantPool.Address();
-        AvalonPluginPool.getInstance().load();
+        AvalonPluginPool.load();
         if (!ConstantPool.Basic.debug)
             return;
         Scanner scanner = new Scanner(System.in);

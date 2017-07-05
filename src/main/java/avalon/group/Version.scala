@@ -2,10 +2,9 @@ package avalon.group
 
 import java.util.regex.Pattern
 
-import avalon.tool.pool.{AvalonPluginPool, ConstantPool}
 import avalon.tool.pool.ConstantPool.Basic.currentServlet
+import avalon.tool.pool.{AvalonPluginPool, ConstantPool}
 import avalon.util.GroupMessage
-import org.apache.commons.lang3.StringUtils
 
 /**
   * Created by Eldath on 2017/1/28 0028.
@@ -19,8 +18,8 @@ object Version extends GroupMessageResponder {
       "\n全部插件有：%s\n已装载的插件有：%s" +
       "\n%s Version: v%s\tMojo-Weixin Version: v%s\tAvalon Version: v%s")
       .format(currentServlet.name,
-        StringUtils.join(AvalonPluginPool.getInstance.getInfoList.stream().map(_.getName), ", "),
-        StringUtils.join(AvalonPluginPool.getInstance.getInfoList.stream.filter(_.isEnabled).map(_.getName), "，"),
+        AvalonPluginPool.getInfoList.map(_.getName),
+        AvalonPluginPool.getInfoList.filter(_.isEnabled).map(_.getName),
         currentServlet.name,
         ConstantPool.Version.getInstance.servlet,
         ConstantPool.Version.getInstance.wechat,

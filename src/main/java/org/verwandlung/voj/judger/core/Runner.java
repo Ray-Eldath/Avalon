@@ -63,7 +63,6 @@ public class Runner {
     private String getCommandLine(ExtendSubmission submission, String workDirectory, String baseFileName) {
         ExtendLanguage language = submission.getLanguage();
         String filePathWithoutExtension = String.format("%s/%s", workDirectory, baseFileName);
-        System.out.println(filePathWithoutExtension);
         StringBuilder runCommand = new StringBuilder(
                 language.getRunCommand().replace("{filename}", filePathWithoutExtension));
         if (language.getLanguageName().equalsIgnoreCase("Java")) {

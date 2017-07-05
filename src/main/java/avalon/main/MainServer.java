@@ -55,7 +55,7 @@ public class MainServer {
         RunningData.getInstance();
         new ConstantPool.Basic();
         new ConstantPool.Address();
-        AvalonPluginPool.getInstance().load();
+        AvalonPluginPool.load();
         if (!ConstantPool.Basic.debug)
             InstallChecker.check();
         // 线程池

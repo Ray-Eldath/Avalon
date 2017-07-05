@@ -25,7 +25,7 @@ import static java.util.stream.Collectors.toList;
  * @author Eldath Ray
  */
 public class Executive {
-    private static final String workDirectory = System.getProperty("java.io.tmpdir") + "avalon" + File.separator + "executive";
+    private static final String workDirectory = "G:" + File.separator + "executive";
 
     public static Map<String, Object> execute(ExtendLanguage lang, String code) throws Exception {
         ExtendSubmission submission = new ExtendSubmission(code, lang);
@@ -58,7 +58,7 @@ public class Executive {
         result.put("command", ((String) processResult.get("commandLine")).trim());
         reader.close();
         // clean
-        // delAll(Files.list(Paths.get(workDirectory)).collect(toList()));
+        delAll(Files.list(Paths.get(workDirectory)).collect(toList()));
         return result;
     }
 

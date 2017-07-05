@@ -51,7 +51,7 @@ public class Execute implements GroupMessageResponder {
             code.append(lines[i]).append("\n");
 
         String languageString = split[2].trim().toLowerCase();
-        ExtendLanguage lang = ExtendLanguagePool.getInstance().get(languageString);
+        ExtendLanguage lang = ExtendLanguagePool.get(languageString);
         if (lang != null) {
             Map<String, Object> result;
             try {
