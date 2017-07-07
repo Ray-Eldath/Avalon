@@ -1,7 +1,7 @@
 package org.verwandlung.voj.judger.core;
 
-import avalon.model.ExtendLanguage;
-import avalon.model.ExtendSubmission;
+import avalon.model.executive.ExecutiveLanguage;
+import avalon.model.executive.ExecutiveSubmission;
 import avalon.tool.system.ConfigSystem;
 import avalon.util.NativeLibraryLoader;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class Runner {
      * @param outputFilePath - 输出文件路径
      * @return 一个包含程序运行结果的 {@code Map<String, Object>} 对象
      */
-    public Map<String, Object> getRuntimeResult(ExtendSubmission submission,
+    public Map<String, Object> getRuntimeResult(ExecutiveSubmission submission,
                                                 String workDirectory,
                                                 String baseFileName,
                                                 String outputFilePath) {
@@ -60,8 +60,8 @@ public class Runner {
      * @param baseFileName  - 待执行的应用程序文件名(不包含文件后缀)
      * @return 待执行的命令行
      */
-    private String getCommandLine(ExtendSubmission submission, String workDirectory, String baseFileName) {
-        ExtendLanguage language = submission.getLanguage();
+    private String getCommandLine(ExecutiveSubmission submission, String workDirectory, String baseFileName) {
+        ExecutiveLanguage language = submission.getLanguage();
         String filePathWithoutExtension = String.format("%s/%s", workDirectory, baseFileName);
         StringBuilder runCommand = new StringBuilder(
                 language.getRunCommand().replace("{filename}", filePathWithoutExtension));
@@ -78,8 +78,8 @@ public class Runner {
      * @param submission - 评测记录对象
      * @return 最大时间限制
      */
-    private int getTimeLimit(ExtendSubmission submission) {
-        ExtendLanguage language = submission.getLanguage();
+    private int getTimeLimit(ExecutiveSubmission submission) {
+        ExecutiveLanguage language = submission.getLanguage();
         int timeLimit = 1500;
         if (language.getLanguageName().equalsIgnoreCase("Java"))
             timeLimit *= 2;
@@ -92,7 +92,7 @@ public class Runner {
      * @param submission - 评测记录对象
      * @return 最大空间限制
      */
-    private int getMemoryLimit(ExtendSubmission submission) {
+    private int getMemoryLimit(ExecutiveSubmission submission) {
         return 65535;
     }
 

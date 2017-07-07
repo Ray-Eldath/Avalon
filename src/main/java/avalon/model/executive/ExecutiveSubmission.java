@@ -1,16 +1,16 @@
-package avalon.model;
+package avalon.model.executive;
 
 /**
  * Created by Eldath Ray on 2017/6/24 0024.
  *
  * @author Eldath Ray
  */
-public class ExtendSubmission {
+public class ExecutiveSubmission {
     private long submitTime;
     private String code;
-    private ExtendLanguage language;
+    private ExecutiveLanguage language;
 
-    public ExtendSubmission(String code, ExtendLanguage language) {
+    public ExecutiveSubmission(String code, ExecutiveLanguage language) {
         this.submitTime = System.currentTimeMillis();
         this.code = code;
         this.language = language;
@@ -24,7 +24,7 @@ public class ExtendSubmission {
         return code;
     }
 
-    public ExtendLanguage getLanguage() {
+    public ExecutiveLanguage getLanguage() {
         return language;
     }
 }

@@ -1,7 +1,7 @@
 package org.verwandlung.voj.judger.core;
 
-import avalon.model.ExtendLanguage;
-import avalon.model.ExtendSubmission;
+import avalon.model.executive.ExecutiveLanguage;
+import avalon.model.executive.ExecutiveSubmission;
 import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedWriter;
@@ -28,13 +28,13 @@ public class Preprocessor {
      * @param workDirectory - 用于产生编译输出的目录
      * @param baseFileName  - 随机文件名(不包含后缀)
      */
-    public void createTestCode(ExtendSubmission submission, String workDirectory, String baseFileName) throws Exception {
+    public void createTestCode(ExecutiveSubmission submission, String workDirectory, String baseFileName) throws Exception {
         File workDirFile = new File(workDirectory);
 
         if (!workDirFile.exists() && !workDirFile.mkdirs())
             throw new IOException("failed to create directory: " + workDirectory);
 
-        ExtendLanguage language = submission.getLanguage();
+        ExecutiveLanguage language = submission.getLanguage();
         String code = replaceClassName(language, submission.getCode(), baseFileName);
         String codeFilePath = String.format("%s/%s.%s", workDirectory, baseFileName, getCodeFileSuffix(language));
 
@@ -52,7 +52,7 @@ public class Preprocessor {
      * @param language - 编程语言对象
      * @return 代码文件的后缀名
      */
-    private String getCodeFileSuffix(ExtendLanguage language) {
+    private String getCodeFileSuffix(ExecutiveLanguage language) {
         String compileCommand = language.getCompileCommand();
         Pattern pattern = Pattern.compile("\\{filename}\\.((?!exe| ).)+");
         Matcher matcher = pattern.matcher(compileCommand);
@@ -70,7 +70,7 @@ public class Preprocessor {
      * @param code         - 待替换的代码
      * @param newClassName - 新的类名
      */
-    private String replaceClassName(ExtendLanguage language, String code, String newClassName) {
+    private String replaceClassName(ExecutiveLanguage language, String code, String newClassName) {
         if (!language.getLanguageName().toLowerCase().equals("java"))
             return code;
         return code.replaceAll("class[ \n]+Main", "class " + newClassName);

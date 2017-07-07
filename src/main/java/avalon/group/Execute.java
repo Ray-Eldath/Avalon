@@ -1,7 +1,7 @@
 package avalon.group;
 
 import avalon.extend.Executive;
-import avalon.model.ExtendLanguage;
+import avalon.model.executive.ExecutiveLanguage;
 import avalon.tool.pool.ExtendLanguagePool;
 import avalon.util.GroupMessage;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class Execute implements GroupMessageResponder {
             code.append(lines[i]).append("\n");
 
         String languageString = split[2].trim().toLowerCase();
-        ExtendLanguage lang = ExtendLanguagePool.get(languageString);
+        ExecutiveLanguage lang = ExtendLanguagePool.get(languageString);
         if (lang != null) {
             Map<String, Object> result;
             try {

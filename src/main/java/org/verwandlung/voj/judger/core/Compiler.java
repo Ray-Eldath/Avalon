@@ -1,6 +1,6 @@
 package org.verwandlung.voj.judger.core;
 
-import avalon.model.ExtendSubmission;
+import avalon.model.executive.ExecutiveSubmission;
 import org.apache.logging.log4j.core.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class Compiler {
      * @param baseFileName  - 编译输出文件名
      * @return 包含编译输出结果的 {@code Map<String, Object>} 对象
      */
-    public Map<String, Object> getCompileResult(ExtendSubmission submission, String workDirectory, String baseFileName) {
+    public Map<String, Object> getCompileResult(ExecutiveSubmission submission, String workDirectory, String baseFileName) {
         String commandLine = getCompileCommandLine(submission, workDirectory, baseFileName);
         String compileLogPath = getCompileLogPath(workDirectory, baseFileName);
         result.put("commandLine", commandLine);
@@ -43,7 +43,7 @@ public class Compiler {
      * @param baseFileName  - 编译输出文件名
      * @return 编译命令
      */
-    private String getCompileCommandLine(ExtendSubmission submission, String workDirectory, String baseFileName) {
+    private String getCompileCommandLine(ExecutiveSubmission submission, String workDirectory, String baseFileName) {
         String filePathWithoutExtension = workDirectory + File.separator + baseFileName;
         return submission.getLanguage()
                 .getCompileCommand()

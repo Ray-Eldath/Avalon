@@ -1,4 +1,4 @@
-package avalon.model;
+package avalon.model.executive;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author Haozhe Xie
  */
-public class ExtendLanguage implements Serializable {
+public class ExecutiveLanguage implements Serializable {
 
     /**
      * 编程语言的构造函数.
@@ -16,7 +16,7 @@ public class ExtendLanguage implements Serializable {
      * @param compileCommand - 编程语言的编译命令
      * @param runCommand     - 编程语言对应程序执行命令
      */
-    public ExtendLanguage(String languageName, String compileCommand, String runCommand) {
+    public ExecutiveLanguage(String languageName, String compileCommand, String runCommand) {
         this.languageName = languageName;
         this.compileCommand = compileCommand;
         this.runCommand = runCommand;

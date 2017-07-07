@@ -1,6 +1,10 @@
 package avalon.tool;
 
-import avalon.util.*;
+import avalon.model.hook.FriendMessageHook;
+import avalon.model.hook.GroupMessageHook;
+import avalon.model.hook.HookType;
+import avalon.util.FriendMessage;
+import avalon.util.GroupMessage;
 
 import java.util.HashSet;
 import java.util.Set;

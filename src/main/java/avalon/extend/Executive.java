@@ -1,7 +1,7 @@
 package avalon.extend;
 
-import avalon.model.ExtendLanguage;
-import avalon.model.ExtendSubmission;
+import avalon.model.executive.ExecutiveLanguage;
+import avalon.model.executive.ExecutiveSubmission;
 import org.apache.commons.io.IOUtils;
 import org.verwandlung.voj.judger.core.Compiler;
 import org.verwandlung.voj.judger.core.Preprocessor;
@@ -27,8 +27,8 @@ import static java.util.stream.Collectors.toList;
 public class Executive {
     private static final String workDirectory = "G:" + File.separator + "executive";
 
-    public static Map<String, Object> execute(ExtendLanguage lang, String code) throws Exception {
-        ExtendSubmission submission = new ExtendSubmission(code, lang);
+    public static Map<String, Object> execute(ExecutiveLanguage lang, String code) throws Exception {
+        ExecutiveSubmission submission = new ExecutiveSubmission(code, lang);
         String out = workDirectory + File.separator + "out#" + submission.getSubmitTime() + ".txt";
         String baseFileName = String.valueOf(submission.getSubmitTime());
         Compiler compiler = new Compiler();
@@ -36,7 +36,7 @@ public class Executive {
         Preprocessor preprocessor = new Preprocessor();
         preprocessor.createTestCode(submission, workDirectory, baseFileName);
 
-        Map<String, Object> result = new HashMap<>(2, 2);
+        Map<String, Object> result = new HashMap<>(3, 2);
         Map<String, Object> processResult = compiler.getCompileResult(submission, workDirectory, baseFileName);
 
         String readerPath;

@@ -1,4 +1,6 @@
-package avalon.util;
+package avalon.model.hook;
+
+import avalon.util.GroupMessage;
 
 import java.util.function.Consumer;
 
@@ -12,7 +14,7 @@ public class GroupMessageHook {
     private HookType hookType;
 
     /**
-     * @param hookType {@link avalon.util.HookType}
+     * @param hookType {@link HookType}
      * @param consumer When message received and your hook is meet the conditions (HookType),
      *                 the consumer will be run.
      */

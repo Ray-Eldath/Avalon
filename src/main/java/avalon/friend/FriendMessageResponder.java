@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public abstract class BaseFriendMessageRunner {
+public abstract class FriendMessageResponder {
     public abstract void doPost(FriendMessage message);
 
     public abstract String getHelpMessage();

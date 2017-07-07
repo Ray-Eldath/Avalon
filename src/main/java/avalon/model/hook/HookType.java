@@ -1,4 +1,4 @@
-package avalon.util;
+package avalon.model.hook;
 
 /**
  * Created by Eldath Ray on 2017/4/17 0017.

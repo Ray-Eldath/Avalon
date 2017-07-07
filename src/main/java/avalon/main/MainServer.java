@@ -3,7 +3,7 @@ package avalon.main;
 import avalon.extend.Recorder;
 import avalon.extend.Scheduler;
 import avalon.extend.ShowMsg;
-import avalon.friend.MainFriendMessageHandler;
+import avalon.friend.FriendMessageHandler;
 import avalon.group.GroupMessageHandler;
 import avalon.servlet.info.*;
 import avalon.servlet.manager.InstanceManager;
@@ -81,7 +81,7 @@ public class MainServer {
         server.setStopAtShutdown(true);
 
         currentServlet.setGroupMessageReceivedHook(e -> GroupMessageHandler.getInstance().handle(e));
-        currentServlet.setFriendMessageReceivedHook(e -> MainFriendMessageHandler.getInstance().handle(e));
+        currentServlet.setFriendMessageReceivedHook(FriendMessageHandler::handle);
 
         context.addServlet(new ServletHolder(currentServlet), "/post_url");
         context.addServlet(new ServletHolder(new WebqqPluginInfo()), "/info/get_webqq_plugin_info");

@@ -1,6 +1,6 @@
 package avalon.main;
 
-import avalon.friend.MainFriendMessageHandler;
+import avalon.friend.FriendMessageHandler;
 import avalon.group.GroupMessageHandler;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
@@ -51,7 +51,7 @@ public class MainServlet extends HttpServlet {
         if ("friend_message".equals(type)) {
             FriendMessage message = new FriendMessage(Id, timeLong, senderUid, sender, content);
             if (!MessageChecker.check(message)) return;
-            MainFriendMessageHandler.getInstance().handle(message);
+            FriendMessageHandler.handle(message);
         } else {
             long groupUid;
             if (object.isNull("group_uid")) {

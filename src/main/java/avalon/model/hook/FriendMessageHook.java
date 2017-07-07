@@ -1,4 +1,6 @@
-package avalon.util;
+package avalon.model.hook;
+
+import avalon.util.FriendMessage;
 
 import java.util.function.Consumer;
 

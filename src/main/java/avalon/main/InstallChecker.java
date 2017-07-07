@@ -43,7 +43,7 @@ class InstallChecker {
                 logger.error("Fatal error: Mojo-Weixin not run currently!");
                 System.exit(-3);
             }
-            if (!(currentServlet instanceof MojoWebqqServlet)) {
+            if (currentServlet instanceof MojoWebqqServlet) {
                 handleLockFile(ConstantPool.Address.servletScriptFile);
                 ProcessHolder webqqHolder = new ProcessHolder(Runtime.getRuntime().exec(
                         prefix + "Mojo-Webqq.pl\""), "from perl:Mojo-Webqq ");
