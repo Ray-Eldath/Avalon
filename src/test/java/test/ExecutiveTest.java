@@ -1,7 +1,7 @@
 package test;
 
 import avalon.extend.Executive;
-import avalon.tool.pool.ExtendLanguagePool;
+import avalon.tool.pool.ExecutiveLanguagePool;
 
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import java.util.Map;
 public class ExecutiveTest {
 
     public static void main(String[] args) throws Exception {
-        Map<String, Object> result = Executive.execute(ExtendLanguagePool.get("py"), "print 1+1");
+        Map<String, Object> result = Executive.execute(ExecutiveLanguagePool.get("py"), "print 1+1");
         for (Map.Entry<String, Object> entry : result.entrySet())
             System.out.println(entry.getKey() + ":" + entry.getValue());
     }

@@ -7,7 +7,6 @@ import org.verwandlung.voj.judger.core.Compiler;
 import org.verwandlung.voj.judger.core.Preprocessor;
 import org.verwandlung.voj.judger.core.Runner;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,11 +24,11 @@ import static java.util.stream.Collectors.toList;
  * @author Eldath Ray
  */
 public class Executive {
-    private static final String workDirectory = "G:" + File.separator + "executive";
+    private static final String workDirectory = "G:/executive";
 
     public static Map<String, Object> execute(ExecutiveLanguage lang, String code) throws Exception {
         ExecutiveSubmission submission = new ExecutiveSubmission(code, lang);
-        String out = workDirectory + File.separator + "out#" + submission.getSubmitTime() + ".txt";
+        String out = workDirectory + "/out#" + submission.getSubmitTime() + ".txt";
         String baseFileName = String.valueOf(submission.getSubmitTime());
         Compiler compiler = new Compiler();
         Runner runner = new Runner();

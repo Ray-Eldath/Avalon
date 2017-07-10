@@ -1,11 +1,10 @@
 package org.verwandlung.voj.judger.core;
 
 import avalon.model.executive.ExecutiveSubmission;
-import org.apache.logging.log4j.core.util.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +43,7 @@ public class Compiler {
      * @return 编译命令
      */
     private String getCompileCommandLine(ExecutiveSubmission submission, String workDirectory, String baseFileName) {
-        String filePathWithoutExtension = workDirectory + File.separator + baseFileName;
+        String filePathWithoutExtension = workDirectory + "/" + baseFileName;
         return submission.getLanguage()
                 .getCompileCommand()
                 .replace("{filename}", filePathWithoutExtension);
