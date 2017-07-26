@@ -26,9 +26,9 @@ import java.util.function.Consumer;
  *
  * @author Eldath Ray
  */
-public class CoolqServlet extends AvalonServlet {
-    private static final Logger logger = LoggerFactory.getLogger(CoolqServlet.class);
-    private static int friendMessageId = 0;
+public class CoolQServlet extends AvalonServlet {
+	private static final Logger logger = LoggerFactory.getLogger(CoolQServlet.class);
+	private static int friendMessageId = 0;
     private static int groupMessageId = 0;
     private static Map<Long, String> groupIdToName = new HashMap<>();//TODO 最好写个定时更新
     private Consumer<GroupMessage> groupMessageConsumer;

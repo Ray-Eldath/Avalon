@@ -1,9 +1,10 @@
 package avalon.group
 
-import avalon.extend.Recorder
-import avalon.util.GroupMessage
 import java.util.regex.Pattern
+
+import avalon.extend.Recorder
 import avalon.tool.Responder.AT
+import avalon.util.GroupMessage
 
 /**
   * Created by Eldath Ray on 2017/3/26 0026.

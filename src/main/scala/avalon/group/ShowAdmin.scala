@@ -1,9 +1,10 @@
 package avalon.group
 
-import avalon.util.GroupMessage
 import java.util.regex.Pattern
+
 import avalon.tool.Responder.AT
 import avalon.tool.pool.ConstantPool.Basic.currentServlet
+import avalon.util.GroupMessage
 
 /**
   * Created by Eldath Ray on 2017/6/11 0011.

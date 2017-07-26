@@ -1,9 +1,10 @@
 package avalon.group
 
-import avalon.tool.pool.VariablePool
-import avalon.util.GroupMessage
 import java.util.Random
 import java.util.regex.Pattern
+
+import avalon.tool.pool.VariablePool
+import avalon.util.GroupMessage
 
 /**
   * Created by Eldath on 2017/1/28 0028.

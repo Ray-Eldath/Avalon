@@ -1,9 +1,10 @@
 package avalon.group
 
+import java.util.regex.Pattern
+
 import avalon.tool.pool.ConstantPool
 import avalon.util.GroupMessage
 import org.slf4j.LoggerFactory
-import java.util.regex.Pattern
 
 /**
   * Created by Eldath Ray on 2017/3/25 0025.

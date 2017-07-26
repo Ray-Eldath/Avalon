@@ -1,11 +1,11 @@
 package avalon.group
 
+import java.util.regex.Pattern
+
+import avalon.tool.Responder.AT
 import avalon.tool.system.ConfigSystem
 import avalon.util.GroupMessage
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.regex.Pattern
-import avalon.tool.Responder.AT
 
 /**
   * Created by Eldath on 2017/1/30 0030.

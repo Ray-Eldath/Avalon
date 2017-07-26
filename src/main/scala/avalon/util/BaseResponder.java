@@ -8,7 +8,5 @@ import java.util.regex.Pattern;
  * @author Eldath
  */
 public interface BaseResponder {
-    String getHelpMessage();
-
-    Pattern getKeyWordRegex();
+	Pattern getKeyWordRegex();
 }

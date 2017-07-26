@@ -13,7 +13,7 @@ import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
  */
 public class CoolqServletTest {
     public static void main(String[] args) throws Exception {
-//         CoolqServlet servlet = new CoolqServlet();
+//         CoolQServlet servlet = new CoolQServlet();
         String cq = UrlEncoded.encodeString("[CQ:image,file=file://D:\\Users\\Eldath\\Pictures\\表情包\\tt.png]");
         new URL(currentServlet.apiAddress() + "/send_group_msg?group_id=617118724&message=TT" + cq).openStream();
         // System.out.println(servlet.getGroupSenderNickname(399863405, 951394653));

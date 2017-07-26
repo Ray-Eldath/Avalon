@@ -1,7 +1,7 @@
 package avalon.tool;
 
 import avalon.util.GroupMessage;
-import avalon.util.servlet.CoolqServlet;
+import avalon.util.servlet.CoolQServlet;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -60,17 +60,17 @@ public class Responder {
      * @deprecated 酷Q air不支持
      */
     public static void respondGroupWithImage(long groupUid, String message, Path image) {
-        if (!(currentServlet instanceof CoolqServlet))
-            throw new UnsupportedOperationException("only cooqServlet can handle image");
+	    if (!(currentServlet instanceof CoolQServlet))
+		    throw new UnsupportedOperationException("only cooqServlet can handle image");
         String cq = "[CQ:image,file=file://" + image.toString() + "]";
         currentServlet.responseGroup(groupUid, message.replace("[Avalon:image]", cq));
     }
 
     public static String AT(GroupMessage message) {
-        return currentServlet instanceof CoolqServlet ? "[CQ:at,qq=" + message.getSenderUid() + "]" : "@";
+	    return currentServlet instanceof CoolQServlet ? "[CQ:at,qq=" + message.getSenderUid() + "]" : "@";
     }
 
     public static String AT(long userUid) {
-        return currentServlet instanceof CoolqServlet ? "[CQ:at,qq=" + userUid + "]" : "@";
+	    return currentServlet instanceof CoolQServlet ? "[CQ:at,qq=" + userUid + "]" : "@";
     }
 }

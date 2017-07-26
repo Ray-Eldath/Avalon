@@ -10,71 +10,54 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 allprojects {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
+	repositories {
+		maven {
+			url 'http://maven.aliyun.com/nexus/content/groups/public/'
+		}
+		jcenter()
+		mavenCentral()
+	}
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/junit/junit
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    // https://mvnrepository.com/artifact/org.jdom/jdom2
-    compile group: 'org.jdom', name: 'jdom2', version: '2.0.6'
-    // https://mvnrepository.com/artifact/jaxen/jaxen
-    compile group: 'jaxen', name: 'jaxen', version: '1.1.6'
-    // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server
-    compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.6.v20170531'
-    // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlet
-    compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.6.v20170531'
-    // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-util
-    compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.6.v20170531'
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
-    // https://mvnrepository.com/artifact/commons-io/commons-io
-    compile group: 'commons-io', name: 'commons-io', version: '2.5'
-    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
-    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
-    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    // https://mvnrepository.com/artifact/org.scala-lang/scala-library
-    compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.2'
-    // https://mvnrepository.com/artifact/org.json/json
-    compile group: 'org.json', name: 'json', version: '20160810'
-    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
-    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.16.1'
-    // https://mvnrepository.com/artifact/org.fusesource.jansi/jansi
-    compile group: 'org.fusesource.jansi', name: 'jansi', version: '1.16'
-    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
-}
-
-sourceSets {
-    main {
-        scala {
-            srcDirs = ['src/main/java']
-        }
-        java {
-            srcDirs = []
-        }
-    }
-
-    test {
-        scala {
-            srcDirs = ['src/test/java']
-        }
-        java {
-            srcDirs = []
-        }
-    }
+	// https://mvnrepository.com/artifact/junit/junit
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+	// https://mvnrepository.com/artifact/org.jdom/jdom2
+	compile group: 'org.jdom', name: 'jdom2', version: '2.0.6'
+	// https://mvnrepository.com/artifact/jaxen/jaxen
+	compile group: 'jaxen', name: 'jaxen', version: '1.1.6'
+	// https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server
+	compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.6.v20170531'
+	// https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlet
+	compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.6.v20170531'
+	// https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-util
+	compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.6.v20170531'
+	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+	// https://mvnrepository.com/artifact/commons-io/commons-io
+	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+	// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
+	// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+	testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+	// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+	// https://mvnrepository.com/artifact/org.scala-lang/scala-library
+	compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.2'
+	// https://mvnrepository.com/artifact/org.json/json
+	compile group: 'org.json', name: 'json', version: '20160810'
+	// https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+	compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.16.1'
+	// https://mvnrepository.com/artifact/org.fusesource.jansi/jansi
+	compile group: 'org.fusesource.jansi', name: 'jansi', version: '1.16'
+	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
 }
 
 tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
+	options.encoding = "UTF-8"
 }
 
 tasks.withType(ScalaCompile) {
-    options.encoding = "UTF-8"
+	options.encoding = "UTF-8"
 }

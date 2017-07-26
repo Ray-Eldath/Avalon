@@ -6,7 +6,7 @@ import avalon.tool.database.SQLiteDatabaseOperator;
 import avalon.tool.system.ConfigSystem;
 import avalon.tool.system.DatabaseConfigSystem;
 import avalon.util.servlet.AvalonServlet;
-import avalon.util.servlet.CoolqServlet;
+import avalon.util.servlet.CoolQServlet;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -75,8 +75,8 @@ public class ConstantPool {
     }
 
     public static class Basic {
-        public static final AvalonServlet currentServlet = new CoolqServlet(); // TODO 使用ServletGetter
-        public static final boolean localOutput = (boolean) ConfigSystem.getInstance().get("Local_output");
+	    public static final AvalonServlet currentServlet = new CoolQServlet(); // TODO 使用ServletGetter
+	    public static final boolean localOutput = (boolean) ConfigSystem.getInstance().get("Local_output");
         public static final boolean debug = (boolean) ConfigSystem.getInstance().get("Debug");
         public static final long startTime = System.currentTimeMillis();
         public static final int pid = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);

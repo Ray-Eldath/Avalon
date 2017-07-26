@@ -1,7 +1,8 @@
 package avalon.group
 
-import avalon.util.GroupMessage
 import java.util.regex.Pattern
+
+import avalon.util.GroupMessage
 
 /**
   * Created by Eldath on 2017/1/29 0029.
