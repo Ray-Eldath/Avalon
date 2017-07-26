@@ -229,7 +229,7 @@ public class GroupMessageHandler {
 		customApiList.put(responder.getKeyWordRegex(), responder);
 	}
 
-	public static Map<Pattern, CustomGroupResponder> getCustomApiList() {
+	static Map<Pattern, CustomGroupResponder> getCustomApiList() {
 		return customApiList;
 	}
 
