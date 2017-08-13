@@ -5,12 +5,12 @@ package avalon.util;
  *
  * @author Eldath Ray
  */
-public class AvalonPluginInfo {
+public class PluginInfo {
     private String name, version, copyright, website, classString, fileName;
     private boolean enabled;
 
-    public AvalonPluginInfo(String name, String version, String copyright, String website, String classString, String fileName, boolean enabled) {
-        this.name = name;
+	public PluginInfo(String name, String version, String copyright, String website, String classString, String fileName, boolean enabled) {
+		this.name = name;
         this.version = version;
         this.copyright = copyright;
         this.website = website;

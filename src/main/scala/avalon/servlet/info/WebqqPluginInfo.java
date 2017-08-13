@@ -26,8 +26,8 @@ public class WebqqPluginInfo extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         JSONObject object;
         JSONTokener tokener = new JSONTokener(new InputStreamReader((new URL("https://raw." +
-                "githubusercontent.com/Ray-Eldath/Avalon-Plugin-Info-Getter/master/plugin_info.json").openStream())));
-        object = (JSONObject) tokener.nextValue();
+		        "githubusercontent.com/Ray-Eldath/Avalon-MojoWebqqPlugin-Info-Getter/master/plugin_info.json").openStream())));
+	    object = (JSONObject) tokener.nextValue();
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.getWriter().print(object.toString());
     }

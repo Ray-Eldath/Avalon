@@ -4,9 +4,9 @@ import avalon.api.CustomGroupResponder;
 import avalon.model.hook.FriendMessageHook;
 import avalon.model.hook.GroupMessageHook;
 import avalon.model.hook.HookType;
-import avalon.util.AvalonPlugin;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
+import avalon.util.Plugin;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +16,7 @@ import java.util.Set;
  *
  * @author Eldath Ray
  * @deprecated use {@link avalon.api.CustomGroupResponder} and
- * {@link avalon.main.RegisterResponder#register(AvalonPlugin, CustomGroupResponder)} instead
+ * {@link avalon.main.RegisterResponder#register(Plugin, CustomGroupResponder)} instead
  */
 public class MessageHooker {
 	private static Set<GroupMessageHook> groupMessageHooks = new HashSet<>();

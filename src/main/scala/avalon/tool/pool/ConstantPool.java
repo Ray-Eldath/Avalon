@@ -32,9 +32,8 @@ public class ConstantPool {
 
     public static class Address {
         public static final String servlet = Basic.currentServlet.apiAddress();
-        public static final String wechat = addressHandle((String) ConfigSystem.getInstance()
-                .get("Mojo-Weixin_API_Address"));
-        public static final String servletScriptFile = Basic.currentServlet.scriptFilePath();
+	    public static final String wechat = addressHandle((String) ConfigSystem.getInstance().get("Mojo-Weixin_API_Address"));
+	    public static final String servletScriptFile = Basic.currentServlet.scriptFilePath();
         public static final String perlFileOfWechat = Basic.currentPath +
                 File.separator + "bin" + File.separator + "Mojo-Weixin.pl";
         public static final String dataPath = Basic.currentPath + File.separator + "data";
@@ -98,16 +97,10 @@ public class ConstantPool {
     public static class Setting {
         public static final boolean Block_Words_Punishment_Mode_Enabled =
                 (boolean) ConfigSystem.getInstance().get("Block_Words_Punishment_Mode_Enabled");
-        public static final int Block_Words_Punish_Frequency =
-                (int) ConfigSystem.getInstance().get("Block_Words_Punish_Frequency");
         public static final int Max_Stream_Length = 100;
 
         public static final boolean AnswerMe_Enabled = ConfigSystem.getInstance().isCommandEnable("AnswerMe");
         public static final boolean Wolfram_Enabled = ConfigSystem.getInstance().isCommandEnable("Wolfram");
         public static final boolean Execute_Enable = ConfigSystem.getInstance().isCommandEnable("Execute");
-    }
-
-    public static class GameMode {
-        public static final boolean IsEnabled = (boolean) ConfigSystem.getInstance().get("Game_Mode_Enabled");
     }
 }

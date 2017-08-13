@@ -1,8 +1,8 @@
 package avalon.servlet.manager;
 
+import avalon.servlet.OnlineWebqqPluginPool;
+import avalon.servlet.util.MojoWebqqPlugin;
 import avalon.tool.pool.ConstantPool;
-import avalon.tool.pool.OnlineWebqqPluginPool;
-import avalon.util.Plugin;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -66,8 +66,8 @@ public class WebqqPluginManagerHandler {
         return new JSONObject().put("message", "禁用插件" + name + "成功。请重启Mojo-Webqq以生效改动！");
     }
 
-    JSONObject setParameter(Plugin plugin, JSONObject parameters) {
-        String command = "$client->load(\"" + plugin + "\"";
+	JSONObject setParameter(MojoWebqqPlugin plugin, JSONObject parameters) {
+		String command = "$client->load(\"" + plugin + "\"";
         String parameter = "";
         getParameterString(parameter, parameters);
         if (parameters.length() == 0)

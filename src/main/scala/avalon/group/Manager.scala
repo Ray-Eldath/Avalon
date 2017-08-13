@@ -2,10 +2,10 @@ package avalon.group
 
 import java.util.regex.Pattern
 
+import avalon.api.GroupConfigUtils
 import avalon.tool.Responder.AT
 import avalon.tool.pool.APISurvivePool
-import avalon.tool.system.ConfigSystem
-import avalon.util.GroupMessage
+import avalon.util.{GroupConfig, GroupMessage}
 import org.slf4j.LoggerFactory
 
 /**
@@ -15,16 +15,17 @@ import org.slf4j.LoggerFactory
 	*/
 object Manager extends GroupMessageResponder {
 	private val logger = LoggerFactory.getLogger(Manager.getClass)
-	private val restartAllowUid = ConfigSystem.getInstance.getCommandAllowArray("Manager_restart")
-	private val allowPeople = ConfigSystem.getInstance.getCommandAllowArray("Manager_basic")
-	private val stopAllowUid = ConfigSystem.getInstance.getCommandAllowArray("Manager_stop")
 	private val canNotBanAPI = Array[GroupMessageResponder](Shutdown.instance, Flush.instance, Manager.instance)
 
-	override def doPost(message: GroupMessage): Unit = {
+	override def doPost(message: GroupMessage, groupConfig: GroupConfig): Unit = {
+		val restartAllowUid = GroupConfigUtils.getAllowArray(groupConfig, "Manager_restart")
+		val allowPeople = GroupConfigUtils.getAllowArray(groupConfig, "Manager_basic")
+		val stopAllowUid = GroupConfigUtils.getAllowArray(groupConfig, "Manager_stop")
+
 		val content = message.getContent
 		val sender = message.getSenderNickName
 		val senderUid = message.getSenderUid
-		for (thisFollowFriend <- Manager.allowPeople) {
+		for (thisFollowFriend <- allowPeople) {
 			if (senderUid == thisFollowFriend) {
 				if (!content.contains(" ")) {
 					message.response("@" + sender + " 您的指示格式不对辣！（｀Δ´）！请注意在API触发语句后是否缺少空格~")
@@ -43,7 +44,7 @@ object Manager extends GroupMessageResponder {
 						return
 					}
 				}
-				if ("start" == action) for (thisAllowStartUid <- Manager.restartAllowUid) {
+				if ("start" == action) for (thisAllowStartUid <- restartAllowUid) {
 					if (thisAllowStartUid == senderUid) {
 						APISurvivePool.getInstance.setAPISurvive(thisAPI, true)
 						message.response(AT(message) + " 您要重启的指令响应器将会重启`(*∩_∩*)′")
@@ -52,7 +53,7 @@ object Manager extends GroupMessageResponder {
 						return
 					}
 				}
-				if ("stop" == action) for (thisStopAllowUid <- Manager.stopAllowUid) {
+				if ("stop" == action) for (thisStopAllowUid <- stopAllowUid) {
 					if (thisStopAllowUid == senderUid) {
 						APISurvivePool.getInstance.setAPISurvive(thisAPI, false)
 						message.response(AT(message) + " 您要关闭的指令响应器将会关闭~=-=")
@@ -69,6 +70,8 @@ object Manager extends GroupMessageResponder {
 		}
 		message.response(AT(message) + " 您没有权限啦！(゜д゜)")
 	}
+
+	override def permissionIdentifier: Array[String] = Array("Manager_restart", "Manager_stop", "Manager_basic")
 
 	override def getHelpMessage = "avalon manager (start|stop)：<管理员> 打开或关闭控制指令响应器"
 

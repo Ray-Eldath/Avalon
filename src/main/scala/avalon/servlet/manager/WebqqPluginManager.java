@@ -1,6 +1,6 @@
 package avalon.servlet.manager;
 
-import avalon.tool.pool.OnlineWebqqPluginPool;
+import avalon.servlet.OnlineWebqqPluginPool;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -13,10 +13,10 @@ import java.io.IOException;
 /**
  * Created by Eldath Ray on 2017/4/20 0020.
  * <p>
- * Usage: .../avalon/v0/manager/webqq_plugin_manager?target={Plugin's Name}
+ * Usage: .../avalon/v0/manager/webqq_plugin_manager?target={MojoWebqqPlugin's Name}
  * &operation={get_all_info|set_parameter|disable|enabled}
  * If the {@code operation} is {@code set_parameter}, than the URL should add:
- * ..&key={PluginParameter's name}&value={Value to set}
+ * ..&key={MojoWebqqPluginParameter's name}&value={Value to set}
  * If the {@code operation} is {@code enabled} or {@code set_parameter},
  * then <strong>must use POST to post the parameters to the server</strong>.
  * <p>
@@ -78,8 +78,8 @@ public class WebqqPluginManager extends HttpServlet {
         if (!preCheck(req, resp))
             return;
         //FIXME 需要整个LocalWebqqPluginPool再写。今天先不玩了。
-        // Plugin plugin = OnlineWebqqPluginPool.getInstance().getPlugin(target);
-        if ("set_parameter".equals(operation)) {
+	    // MojoWebqqPlugin plugin = OnlineWebqqPluginPool.getInstance().getPlugin(target);
+	    if ("set_parameter".equals(operation)) {
             JSONObject parameters = postObject.getJSONObject("parameters");
 
         }

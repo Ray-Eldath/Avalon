@@ -10,16 +10,16 @@ import java.util.function.Consumer;
  * @author Eldath Ray
  */
 public class FriendMessageHook {
-    private Consumer<FriendMessage> consumer;
+	private Consumer<FriendMessage> consumer;
 
-    /**
-     * @param consumer When message received, the consumer will be run.
-     */
-    public FriendMessageHook(Consumer<FriendMessage> consumer) {
-        this.consumer = consumer;
-    }
+	/**
+	 * @param consumer When message received, the consumer will be run.
+	 */
+	public FriendMessageHook(Consumer<FriendMessage> consumer) {
+		this.consumer = consumer;
+	}
 
-    public Consumer<FriendMessage> getConsumer() {
-        return consumer;
-    }
+	public Consumer<FriendMessage> getConsumer() {
+		return consumer;
+	}
 }

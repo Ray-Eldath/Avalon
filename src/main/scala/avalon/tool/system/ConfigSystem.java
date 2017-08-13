@@ -1,6 +1,5 @@
 package avalon.tool.system;
 
-import avalon.group.GroupMessageHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -23,8 +22,7 @@ public class ConfigSystem implements BaseConfigSystem {
     private static ConfigSystem instance = null;
     private static Map<String, Object> allConfigs = new HashMap<>();
     private static Map<String, Object> pluginConfigs = new HashMap<>();
-    private static JSONObject allCommandAllow = new JSONObject();
-    private static final Logger logger = LoggerFactory.getLogger(ConfigSystem.class);
+	private static final Logger logger = LoggerFactory.getLogger(ConfigSystem.class);
 
     public static ConfigSystem getInstance() {
         if (instance == null) instance = new ConfigSystem();
@@ -37,8 +35,8 @@ public class ConfigSystem implements BaseConfigSystem {
             JSONObject object = (JSONObject) new JSONTokener(new FileReader(new File(path + File.separator + "config.json")))
                     .nextValue();
             allConfigs = jsonObjectToMap(object);
-            allCommandAllow = (JSONObject) object.get("plugin_allowed_account");
-            pluginConfigs = jsonObjectToMap((JSONObject) object.get("plugin_config"));
+	        JSONObject allCommandAllow = (JSONObject) object.get("plugin_allowed_account");
+	        pluginConfigs = jsonObjectToMap((JSONObject) object.get("plugin_config"));
         } catch (IOException e) {
             logger.error("Exception thrown while init ConfigSystem: ", e);
         }
@@ -79,18 +77,6 @@ public class ConfigSystem implements BaseConfigSystem {
             result[i] = thisObject;
         }
         return result;
-    }
-
-    public long[] getCommandAllowArray(String commandName) {
-        JSONArray convert = allCommandAllow.getJSONArray(commandName);
-        int len = GroupMessageHandler.getAdminUid().length;
-        long[] r = new long[convert.length() + len];
-        long[] result = new long[convert.length()];
-        for (int i = 0; i < convert.length(); i++)
-            result[i] = convert.getLong(i);
-        System.arraycopy(result, 0, r, 0, result.length);
-        System.arraycopy(GroupMessageHandler.getAdminUid(), 0, r, result.length, len);
-        return r;
     }
 
     public Object getCommandConfig(String commandName, String key) {

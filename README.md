@@ -11,15 +11,16 @@
 
 ### 主要功能
  - **提供12个全方面（服务、管理、娱乐）的预定义指令响应器，同时允许通过MessageHook、插件及源代码修改方式自行扩展。**
- - **通过[Mojo-Weixin](https://github.com/sjdy521/Mojo-Weixin)和[微软小冰](http://www.msxiaoice.com)提供具有“相当智能度”的智能回复功能**
+ - **通过[微软小冰](http://www.msxiaoice.com)提供具有“相当智能度”的智能回复功能**
  - **提供基于[Docker](https://www.docker.com)和[Avalon-Executive](https://github.com/ProgramLeague/Avalon-Executive)的安全程序执行指令响应器**（正在实现）
 ## 维护须知
 
-1. 所有```group```目录下的类必须```implements BaseGroupMessageResponder```（``FriendMessage``API已有开发计划，请见``avalon.friend``包）；
+1. 所有```group```目录下的类必须```implements GroupMessageResponder```（``FriendMessage``API已有开发计划，请见``avalon.friend``包）；
+2. 标记为`@deprecated`的类/方法将于下一RELEASE中被正式移除。
 
 ## RELEASE运行步骤
 
-**- 以下指南可能已经过时 -**
+**- 以下指南已经过时 -**
 
  - 食用Avalon：[Avalon 快速食用指南](http://ray-eldath.tech/2017/05/28/avalon-quick-start-guide/)
 

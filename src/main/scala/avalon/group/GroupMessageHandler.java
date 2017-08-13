@@ -10,7 +10,10 @@ import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
 import avalon.tool.pool.VariablePool;
 import avalon.tool.system.ConfigSystem;
+import avalon.tool.system.GroupConfigSystem;
+import avalon.util.GroupConfig;
 import avalon.util.GroupMessage;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +23,6 @@ import java.util.regex.Pattern;
 import java.util.stream.LongStream;
 
 import static avalon.main.RegisterResponder.register;
-import static avalon.tool.ObjectCaster.toLongArray;
 import static avalon.tool.ObjectCaster.toStringArray;
 import static avalon.tool.Responder.AT;
 
@@ -34,25 +36,17 @@ public class GroupMessageHandler {
 	private static final Map<Pattern, CustomGroupResponder> customApiList = new LinkedHashMap<>();
 	private static final Map<? super GroupMessageResponder, Boolean> enableMap = new HashMap<>();
 
-	private static long[] adminUid = toLongArray(ConfigSystem
-			.getInstance().getConfigArray("Admin_Uid"));
-	private static long[] followGroup = toLongArray(ConfigSystem
-			.getInstance().getConfigArray("Follow_Group_Uid"));
-	private static long[] recordGroup = toLongArray(ConfigSystem
-			.getInstance().getConfigArray("Record_Group_Uid"));
-	private static long[] blackListPeople = toLongArray(ConfigSystem
-			.getInstance().getConfigArray("BlackList_Uid"));
-	private static Map<Long, Integer> blackListPeopleMap = new HashMap<>();
-	private static String[] blockList = toStringArray(ConfigSystem
+	private static Map<Long, Integer> publishPeopleMap = new HashMap<>();
+	private static String[] blockWordList = toStringArray(ConfigSystem
 			.getInstance().getConfigArray("Block_Words"));
 	private static final int punishFrequency = (int) ConfigSystem.getInstance()
 			.get("Block_Words_Punish_Frequency");
 	private static final APIRateLimit cooling = new APIRateLimit(3000L);
 
 	private static GroupMessageHandler instance = new GroupMessageHandler();
-	private static final Logger logger = LoggerFactory.getLogger(GroupMessageHandler.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GroupMessageHandler.class);
 
-	Map<Pattern, GroupMessageResponder> getApiList() {
+	static Map<Pattern, GroupMessageResponder> getApiList() {
 		return apiList;
 	}
 
@@ -61,14 +55,6 @@ public class GroupMessageHandler {
 	}
 
 	private GroupMessageHandler() {
-		for (long thisBlackPeople : blackListPeople)
-			blackListPeopleMap.put(thisBlackPeople, punishFrequency + 1);
-		int length = followGroup.length;
-		long[] data = new long[length + 1];
-		System.arraycopy(followGroup, 0, data, 1, length);
-		data[0] = 100000;
-		followGroup = data;
-		//
 		enableMap.put(AnswerMe.instance(), ConstantPool.Setting.AnswerMe_Enabled);
 		enableMap.put(Wolfram.instance(), ConstantPool.Setting.Wolfram_Enabled);
 		enableMap.put(Execute.getInstance(), ConstantPool.Setting.Execute_Enable);
@@ -120,48 +106,54 @@ public class GroupMessageHandler {
 		long groupUid = message.getGroupUid();
 		String sender = message.getSenderNickName();
 		long senderUid = message.getSenderUid();
-		LongStream adminUidStream = Arrays.stream(adminUid);
-		LongStream followGroupStream = Arrays.stream(followGroup);
-		boolean admin = adminUidStream.anyMatch(e -> e == senderUid);
-		if (followGroupStream.anyMatch(e -> e == groupUid)) {
-			if (ConstantPool.Setting.Block_Words_Punishment_Mode_Enabled)
-				if (blackListPeopleMap.containsKey(senderUid)) {
-					if (blackListPeopleMap.get(senderUid) >= punishFrequency) {
-						logger.info("Account " + senderUid + ":" + sender + " was blocked. Please entered " +
-								"\"avalon blacklist remove " + senderUid + "\" to the group " + groupUid + ":" +
-								message.getGroupName() + " if you really want to unblock this account.");
-						if (!admin)
-							message.response("@" + sender +
-									" 您的帐号由于发送过多不允许关键字，现已被屏蔽~o(╯□╰)o！");
-						return;
-					}
-				} else blackListPeopleMap.put(senderUid, 0);
-			for (Map.Entry<Pattern, GroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
-				GroupMessageResponder value = patternAPIEntry.getValue();
-				if (doCheck(patternAPIEntry.getKey(), message)) {
-					if (!APISurvivePool.getInstance().isSurvive(value)) {
-						if (!APISurvivePool.getInstance().isNoticed(value)) {
-							message.response(AT(message) + " 对不起，您调用的指令响应器目前已被停止；" +
-									"注意：此消息仅会显示一次。");
-							APISurvivePool.getInstance().setNoticed(value);
-						}
-					} else if (MessageChecker.check(message) && isResponderEnable(value))
-						value.doPost(message);
-					return;
-				}
-			}
 
-			for (Map.Entry<Pattern, CustomGroupResponder> patternAPIEntry : customApiList.entrySet()) {
-				CustomGroupResponder value = patternAPIEntry.getValue();
-				if (doCheck(patternAPIEntry.getKey(), message)) {
-					if (MessageChecker.check(message))
-						value.doPost(message);
+		GroupConfig groupConfig = GroupConfigSystem.instance().getConfig(groupUid);
+		if (groupConfig.isRecord())
+			Recorder.getInstance().recodeGroupMessage(message);
+		if (!groupConfig.isListen())
+			return;
+
+		if (ArrayUtils.contains(groupConfig.getBlacklist(), senderUid))
+			return;
+
+		LongStream adminUidStream = Arrays.stream(groupConfig.getAdmin());
+		boolean admin = adminUidStream.anyMatch(e -> e == senderUid);
+
+		if (ConstantPool.Setting.Block_Words_Punishment_Mode_Enabled)
+			if (publishPeopleMap.containsKey(senderUid)) {
+				if (publishPeopleMap.get(senderUid) >= punishFrequency) {
+					LOGGER.info("Account " + senderUid + ":" + sender + " was blocked. Please entered " +
+							"\"avalon blacklist remove " + senderUid + "\" to the group " + groupUid + ":" +
+							message.getGroupName() + " if you really want to unblock this account.");
+					if (!admin)
+						message.response("@" + sender +
+								" 您的帐号由于发送过多不允许关键字，现已被屏蔽~o(╯□╰)o！");
 					return;
 				}
+			} else publishPeopleMap.put(senderUid, 0);
+		for (Map.Entry<Pattern, GroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
+			GroupMessageResponder value = patternAPIEntry.getValue();
+			if (doCheck(patternAPIEntry.getKey(), message)) {
+				if (!APISurvivePool.getInstance().isSurvive(value)) {
+					if (!APISurvivePool.getInstance().isNoticed(value)) {
+						message.response(AT(message) + " 对不起，您调用的指令响应器目前已被停止；" +
+								"注意：此消息仅会显示一次。");
+						APISurvivePool.getInstance().setNoticed(value);
+					}
+				} else if (MessageChecker.check(message) && isResponderEnable(value))
+					value.doPost(message, groupConfig);
+				return;
 			}
 		}
-		if (Arrays.stream(recordGroup).anyMatch(e -> e == groupUid))
-			Recorder.getInstance().recodeGroupMessage(message);
+
+		for (Map.Entry<Pattern, CustomGroupResponder> patternAPIEntry : customApiList.entrySet()) {
+			CustomGroupResponder value = patternAPIEntry.getValue();
+			if (doCheck(patternAPIEntry.getKey(), message)) {
+				if (MessageChecker.check(message))
+					value.doPost(message);
+				return;
+			}
+		}
 	}
 
 	private boolean doCheck(Pattern key, GroupMessage groupMessage) {
@@ -170,7 +162,7 @@ public class GroupMessageHandler {
 		String sender = groupMessage.getSenderNickName();
 		if (!key.matcher(lowerContent).find())
 			return false;
-		for (String thisBlockString : blockList)
+		for (String thisBlockString : blockWordList)
 			if (groupMessage.getContent().
 					trim().
 					toLowerCase().
@@ -217,8 +209,8 @@ public class GroupMessageHandler {
 	}
 
 	private void blackListPlus(long senderUid) {
-		int pastValue = blackListPeopleMap.get(senderUid);
-		blackListPeopleMap.put(senderUid, ++pastValue);
+		int pastValue = publishPeopleMap.get(senderUid);
+		publishPeopleMap.put(senderUid, ++pastValue);
 	}
 
 	public static void addGroupMessageResponder(GroupMessageResponder responder) {
@@ -233,19 +225,11 @@ public class GroupMessageHandler {
 		return customApiList;
 	}
 
-	public static long[] getAdminUid() {
-		return adminUid.clone();
-	}
-
-	public long[] getFollowGroup() {
-		return followGroup;
-	}
-
 	static int getPunishFrequency() {
 		return punishFrequency;
 	}
 
 	static Map<Long, Integer> getSetBlackListPeopleMap() {
-		return blackListPeopleMap;
+		return publishPeopleMap;
 	}
 }

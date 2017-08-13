@@ -3,8 +3,9 @@ package avalon.group;
 import avalon.api.CustomGroupResponder;
 import avalon.main.RegisterResponder;
 import avalon.tool.pool.ConstantPool;
-import avalon.util.AvalonPlugin;
+import avalon.util.GroupConfig;
 import avalon.util.GroupMessage;
+import avalon.util.Plugin;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -23,8 +24,8 @@ public class Help implements GroupMessageResponder {
 	}
 
 	@Override
-	public void doPost(GroupMessage message) {
-		Map<Pattern, GroupMessageResponder> apiList = GroupMessageHandler.getInstance().getApiList();
+	public void doPost(GroupMessage message, GroupConfig groupConfig) {
+		Map<Pattern, GroupMessageResponder> apiList = GroupMessageHandler.getApiList();
 		Map<Pattern, CustomGroupResponder> customList = GroupMessageHandler.getCustomApiList();
 
 		StringBuilder messageShow = new StringBuilder();
@@ -38,7 +39,7 @@ public class Help implements GroupMessageResponder {
 		}
 		if (!customList.isEmpty())
 			for (CustomGroupResponder api : customList.values()) {
-				AvalonPlugin plugin = RegisterResponder.queryAvalonPlugin(api);
+				Plugin plugin = RegisterResponder.queryAvalonPlugin(api);
 				messageShow.append("以下指令由插件 ").append(plugin.name()).append(" 提供：");
 				api.getHelpMessages().foreach(e -> messageShow.append("\t").append(e).append("\n"));
 			}

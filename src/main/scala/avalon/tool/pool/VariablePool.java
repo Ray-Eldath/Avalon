@@ -6,15 +6,10 @@ package avalon.tool.pool;
  * @author Eldath
  */
 public class VariablePool {
-    private VariablePool() {
-    }
+	private VariablePool() {
+	}
 
-    public static int Mo_Count = 0;
-    public static boolean Mo_Reach_Max = false;
-    public static boolean Limit_Noticed = false;
-
-    public static class GameMode {
-        public static boolean Is_Game_Mode_On = false;
-        public static boolean Is_Loaded = false;
-    }
+	public static int Mo_Count = 0;
+	public static boolean Mo_Reach_Max = false;
+	public static boolean Limit_Noticed = false;
 }

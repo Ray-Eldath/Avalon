@@ -5,57 +5,58 @@ import java.net.{MalformedURLException, URL, URLClassLoader}
 import java.nio.file.{Files, Paths}
 
 import avalon.tool.pool.ConstantPool.Address.dataPath
-import avalon.util.{AvalonPlugin, AvalonPluginInfo}
+import avalon.util.{Plugin, PluginInfo}
 import org.json.{JSONObject, JSONTokener}
 import org.slf4j.LoggerFactory.getLogger
 
 import scala.collection.mutable.ArrayBuffer
 
 /**
-  * Created by Eldath Ray on 2017/5/27 0027.
-  *
-  * @author Eldath Ray
-  */
+	* Created by Eldath Ray on 2017/5/27 0027.
+	*
+	* @author Eldath Ray
+	*/
 object AvalonPluginPool {
-  private val setting = Paths.get(dataPath + File.separator + "plugin" + File.separator + "plugins.json")
-  private val infoList = new ArrayBuffer[AvalonPluginInfo]
-  private val logger = getLogger(AvalonPluginPool.getClass)
+	private val setting = Paths.get(dataPath + File.separator + "plugin" + File.separator + "plugins.json")
+	private val infoList = new ArrayBuffer[PluginInfo]
+	private val logger = getLogger(AvalonPluginPool.getClass)
 
-  private val main =
-    new JSONTokener(Files.newBufferedReader(setting)).nextValue.asInstanceOf[JSONObject].getJSONObject("plugins")
-  private val keySet = main.keySet
-  keySet.forEach((e: String) => {
-    val o = main.getJSONObject(e)
-    infoList += new AvalonPluginInfo(
-      e,
-      o.getString("version"),
-      o.getString("copyright"),
-      o.getString("website"),
-      o.getString("class"),
-      o.getString("file"),
-      o.getBoolean("enable"))
-  })
+	private val main =
+		new JSONTokener(Files.newBufferedReader(setting)).nextValue.asInstanceOf[JSONObject].getJSONObject("plugins")
 
-  def load(): Unit = {
-    infoList filter (_.isEnabled) foreach ((e: AvalonPluginInfo) => {
-      try load(e)
-      catch {
-        case e1: Exception =>
-          logger.warn("plugin " + e.getName + " load failed: " + e1.toString)
-      }
-    })
-  }
+	private val keySet = main.keySet
+	keySet.forEach((e: String) => {
+		val o = main.getJSONObject(e)
+		infoList += new PluginInfo(
+			e,
+			o.getString("version"),
+			o.getString("copyright"),
+			o.getString("website"),
+			o.getString("class"),
+			o.getString("file"),
+			o.getBoolean("enable"))
+	})
 
-  @throws[MalformedURLException]
-  @throws[ClassNotFoundException]
-  @throws[IllegalAccessException]
-  @throws[InstantiationException]
-  private def load(info: AvalonPluginInfo) = {
-    val plugin = new URLClassLoader(Array[URL]
-      (new URL("file:" + dataPath + File.separator + "plugin" + File.separator + info.getFileName)),
-      Thread.currentThread.getContextClassLoader).loadClass(info.getClassString).newInstance.asInstanceOf[AvalonPlugin]
-    plugin.main()
-  }
+	def load(): Unit = {
+		infoList filter (_.isEnabled) foreach ((e: PluginInfo) => {
+			try load(e)
+			catch {
+				case e1: Exception =>
+					logger.warn("plugin " + e.getName + " load failed: " + e1.toString)
+			}
+		})
+	}
 
-  def getInfoList: ArrayBuffer[AvalonPluginInfo] = infoList.result()
+	@throws[MalformedURLException]
+	@throws[ClassNotFoundException]
+	@throws[IllegalAccessException]
+	@throws[InstantiationException]
+	private def load(info: PluginInfo): Unit = {
+		val plugin = new URLClassLoader(Array[URL]
+			(new URL("file:" + dataPath + File.separator + "plugin" + File.separator + info.getFileName)),
+			Thread.currentThread.getContextClassLoader).loadClass(info.getClassString).newInstance.asInstanceOf[Plugin]
+		plugin.main()
+	}
+
+	def getInfoList: ArrayBuffer[PluginInfo] = infoList.result()
 }

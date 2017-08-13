@@ -4,7 +4,7 @@ import avalon.api.CustomGroupResponder
 import avalon.friend.FriendMessageResponder
 import avalon.group.{GroupMessageHandler, GroupMessageResponder}
 import avalon.tool.pool.APISurvivePool
-import avalon.util.AvalonPlugin
+import avalon.util.Plugin
 
 import scala.collection.mutable
 
@@ -14,14 +14,14 @@ import scala.collection.mutable
 	* @author Eldath Ray
 	*/
 object RegisterResponder {
-	private val map = new mutable.HashMap[CustomGroupResponder, AvalonPlugin]
+	private val map = new mutable.HashMap[CustomGroupResponder, Plugin]
 
 	def register(responder: GroupMessageResponder): Unit = {
 		GroupMessageHandler.addGroupMessageResponder(responder)
 		APISurvivePool.getInstance.addAPI(responder)
 	}
 
-	def register(plugin: AvalonPlugin, responder: CustomGroupResponder): Unit = {
+	def register(plugin: Plugin, responder: CustomGroupResponder): Unit = {
 		map.put(responder, plugin)
 		GroupMessageHandler.addCustomGroupResponder(responder)
 	}
@@ -29,5 +29,5 @@ object RegisterResponder {
 	def register(responder: FriendMessageResponder) =
 		throw new UnsupportedOperationException("register for FriendMessageResponder not finish yet :~)")
 
-	def queryAvalonPlugin(responder: CustomGroupResponder): AvalonPlugin = map(responder)
+	def queryAvalonPlugin(responder: CustomGroupResponder): Plugin = map(responder)
 }
