@@ -76,7 +76,7 @@ public class GroupMessageHandler {
 		register(Version.instance());
 		register(ShowAdmin.instance());
 		register(Echo.instance());
-		register(Execute.getInstance());
+		// register(Execute.getInstance());
 		// 娱乐类
 		register(Wolfram.instance());
 		register(Mo.instance());

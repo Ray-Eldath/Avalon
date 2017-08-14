@@ -4,4 +4,4 @@ machine:
 
 dependencies:
   pre:
-    - chmod a+x ./gradlew
+    - chmod a+x gradlew

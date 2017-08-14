@@ -5,8 +5,6 @@ import avalon.util.GroupMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -16,16 +14,13 @@ import java.util.regex.Pattern;
  */
 public class Execute implements GroupMessageResponder {
 	private static final Logger logger = LoggerFactory.getLogger(Execute.class);
-	private static final Set<Pattern> dangerCommand = new HashSet<>();
 	private static final Execute instance = new Execute();
-
-	static {
-		dangerCommand.add(Pattern.compile("shutdown"));
-	}
 
 	@Override
 	public void doPost(GroupMessage message, GroupConfig groupConfig) {
-		/*String content = message.getContent();
+/*
+		//
+		String content = message.getContent();
 		String[] lines = content.split("\n");
 		String[] split = lines[0].split(" ");
 		if (split.length < 3) {
