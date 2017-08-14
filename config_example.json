@@ -32,7 +32,6 @@
   "Game_Mode_Enabled_Group_Uid": [
     100000000
   ],
-  "Hook_Enabled": true,
   "Block_Words": [
     "傻瓜",
     "操",
@@ -51,10 +50,9 @@
       "Parse_Image": false
     }
   },
-  "BlackList_Uid": [],
   "Max_Recorded_Friend_Message_Count": 10000,
   "Block_Words_Punishment_Mode_Enabled": true,
-  "Debug": false,
+  "Debug": true,
   "Game_Mode_Enabled": true,
-  "Local_output": false
+  "Local_output": true
 }

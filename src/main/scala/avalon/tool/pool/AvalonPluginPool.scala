@@ -21,8 +21,7 @@ object AvalonPluginPool {
 	private val infoList = new ArrayBuffer[PluginInfo]
 	private val logger = getLogger(AvalonPluginPool.getClass)
 
-	private val main =
-		new JSONTokener(Files.newBufferedReader(setting)).nextValue.asInstanceOf[JSONObject].getJSONObject("plugins")
+	private val main = new JSONTokener(Files.newBufferedReader(setting)).nextValue.asInstanceOf[JSONObject].getJSONObject("plugins")
 
 	private val keySet = main.keySet
 	keySet.forEach((e: String) => {

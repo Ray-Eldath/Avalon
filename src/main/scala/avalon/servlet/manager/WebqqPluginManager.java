@@ -78,7 +78,7 @@ public class WebqqPluginManager extends HttpServlet {
         if (!preCheck(req, resp))
             return;
         //FIXME 需要整个LocalWebqqPluginPool再写。今天先不玩了。
-	    // MojoWebqqPlugin plugin = OnlineWebqqPluginPool.getInstance().getPlugin(target);
+	    // MojoWebqqPlugin plugin = OnlineWebqqPluginPool.instance().getPlugin(target);
 	    if ("set_parameter".equals(operation)) {
             JSONObject parameters = postObject.getJSONObject("parameters");
 

@@ -18,11 +18,11 @@ object Version extends GroupMessageResponder {
 			"\n全部插件有：%s\n已装载的插件有：%s" +
 			"\n%s Version: v%s\tMojo-Weixin Version: v%s\tAvalon Version: v%s")
 			.format(currentServlet.name,
-				AvalonPluginPool.getInfoList.map(_.getName),
-				AvalonPluginPool.getInfoList.filter(_.isEnabled).map(_.getName),
+				if (AvalonPluginPool.getInfoList.isEmpty) "<无>" else AvalonPluginPool.getInfoList.map(_.getName),
+				if (AvalonPluginPool.getInfoList.isEmpty) "<无>" else AvalonPluginPool.getInfoList.filter(_.isEnabled).map(_.getName),
 				currentServlet.name,
-				ConstantPool.Version.getInstance.servlet,
-				ConstantPool.Version.getInstance.wechat,
+				ConstantPool.Version.instance.servlet,
+				ConstantPool.Version.instance.wechat,
 				ConstantPool.Version.avalon))
 	}
 

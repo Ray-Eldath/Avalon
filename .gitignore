@@ -18,5 +18,5 @@ logs/
 out/
 /.idea/
 /res/record.db
-config.json
-/data
+/config.json
+/group.json

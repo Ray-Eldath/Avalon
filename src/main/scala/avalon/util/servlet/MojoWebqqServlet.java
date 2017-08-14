@@ -31,8 +31,6 @@ public class MojoWebqqServlet extends AvalonServlet {
     private Consumer<FriendMessage> friendMessageConsumer;
     private String version = "UNKNOWN";
 
-    //TODO 配置文件要分开处理 一个config.json 一个servlet.json
-
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");

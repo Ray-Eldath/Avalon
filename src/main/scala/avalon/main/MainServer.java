@@ -58,8 +58,6 @@ public class MainServer {
 		new ConstantPool.Basic();
 		new ConstantPool.Address();
 		AvalonPluginPool.load();
-		if (!ConstantPool.Basic.debug)
-			InstallChecker.check();
 		// 线程池
 		new ShowMsg();
 		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
@@ -94,6 +92,7 @@ public class MainServer {
 		context.addServlet(new ServletHolder(new InstanceManager()), "/manager/manage_instance");
 		server.join();
 		server.start();
+
 		logger.info("Is server on (y or n): ");
 		Scanner scanner = new Scanner(System.in);
 		String isOn = scanner.nextLine();

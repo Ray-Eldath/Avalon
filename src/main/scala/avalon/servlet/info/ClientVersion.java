@@ -23,9 +23,9 @@ public class ClientVersion extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         JSONObject object = new JSONObject();
         object.put("avalon", "v" + ConstantPool.Version.avalon);
-        object.put("servlet", "v" + ConstantPool.Version.getInstance().servlet());
-        object.put("wechat", "v" + ConstantPool.Version.getInstance().wechat());
-        resp.setStatus(HttpServletResponse.SC_OK);
+	    object.put("servlet", "v" + ConstantPool.Version.instance().servlet());
+	    object.put("wechat", "v" + ConstantPool.Version.instance().wechat());
+	    resp.setStatus(HttpServletResponse.SC_OK);
         resp.getWriter().print(object.toString());
     }
 }

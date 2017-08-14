@@ -100,15 +100,16 @@ public class GroupMessageHandler {
 	}
 
 	public void handle(GroupMessage message) {
-		if (!ConstantPool.Basic.debug)
-			Recorder.getInstance().recodeGroupMessage(message);
-		//FIXME MessageHooker.handle(message);
 		long groupUid = message.getGroupUid();
 		String sender = message.getSenderNickName();
 		long senderUid = message.getSenderUid();
 
 		GroupConfig groupConfig = GroupConfigSystem.instance().getConfig(groupUid);
-		if (groupConfig.isRecord())
+		if (groupConfig == null) {
+			LOGGER.warn("listened message from not configured group " + groupUid + " . Ignored this message. Please config this group in `.\\group.json`.");
+			return;
+		}
+		if (groupConfig.isRecord() && !ConstantPool.Basic.debug)
 			Recorder.getInstance().recodeGroupMessage(message);
 		if (!groupConfig.isListen())
 			return;
@@ -202,7 +203,7 @@ public class GroupMessageHandler {
 			System.out.print("Input here:");
 			String content = scanner.nextLine();
 			GroupMessage message = new GroupMessage(++id, LocalDateTime.now(),
-					10000, "Test", 100000, "Test Group", content);
+					10000, "Test", 617118724, "Test Group", content);
 			GroupMessageHandler.getInstance().handle(message);
 			System.out.println("===");
 		}
