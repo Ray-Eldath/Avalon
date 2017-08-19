@@ -2,8 +2,8 @@ package avalon.group
 
 import java.util.regex.Pattern
 
+import avalon.api.Flag.AT
 import avalon.api.GroupConfigUtils
-import avalon.tool.Responder.AT
 import avalon.tool.pool.APISurvivePool
 import avalon.util.{GroupConfig, GroupMessage}
 import org.slf4j.LoggerFactory

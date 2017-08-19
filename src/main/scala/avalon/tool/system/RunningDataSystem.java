@@ -1,4 +1,4 @@
-package avalon.tool;
+package avalon.tool.system;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,19 +15,19 @@ import static avalon.tool.pool.ConstantPool.Address.dataPath;
  *
  * @author Eldath Ray
  */
-public class RunningData {
+public class RunningDataSystem {
     private static final Path file = Paths.get(dataPath + File.separator + "data.properties");
     private static Properties properties = new Properties();
 
-    private static RunningData instance = null;
+	private static RunningDataSystem instance = null;
 
-    public static RunningData getInstance() {
-        if (instance == null) instance = new RunningData();
-        return instance;
+	public static RunningDataSystem getInstance() {
+		if (instance == null) instance = new RunningDataSystem();
+		return instance;
     }
 
-    private RunningData() {
-        try {
+	private RunningDataSystem() {
+		try {
             if (Files.notExists(file)) {
                 properties.setProperty("friendId", "0");
                 properties.setProperty("groupId", "0");

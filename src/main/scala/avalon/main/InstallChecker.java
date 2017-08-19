@@ -1,7 +1,7 @@
 package avalon.main;
 
-import avalon.tool.ProcessHolder;
 import avalon.tool.pool.ConstantPool;
+import avalon.util.ProcessHolder;
 import avalon.util.servlet.MojoWebqqServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -2,7 +2,7 @@ package avalon.group
 
 import java.util.regex.Pattern
 
-import avalon.tool.Responder.AT
+import avalon.api.Flag.AT
 import avalon.tool.pool.ConstantPool.Basic.currentServlet
 import avalon.util.{GroupConfig, GroupMessage}
 

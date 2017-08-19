@@ -1,6 +1,6 @@
 package avalon.extend;
 
-import avalon.model.Task;
+import avalon.extend.task.Task;
 
 import java.time.LocalDate;
 import java.util.Map;

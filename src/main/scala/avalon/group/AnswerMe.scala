@@ -2,8 +2,8 @@ package avalon.group
 
 import java.util.regex.Pattern
 
-import avalon.tool.Responder
-import avalon.tool.Responder.AT
+import avalon.api.Flag.AT
+import avalon.tool.XiaoIceResponder
 import avalon.tool.pool.ConstantPool
 import avalon.util.{GroupConfig, GroupMessage}
 import org.apache.commons.lang3.StringUtils
@@ -33,7 +33,7 @@ object AnswerMe extends GroupMessageResponder {
 			return
 		}
 		content = content.replaceAll(getKeyWordRegex.toString, "")
-		val responseXiaoIce = Responder.responseXiaoIce(content)
+		val responseXiaoIce = XiaoIceResponder.responseXiaoIce(content)
 		if (responseXiaoIce == null)
 			return
 		message.response(AT(message) + " " + responseXiaoIce)

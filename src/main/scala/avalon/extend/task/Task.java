@@ -1,4 +1,4 @@
-package avalon.model;
+package avalon.extend.task;
 
 /**
  * Created by Eldath on 2017/1/31 0031.

@@ -1,10 +1,9 @@
-package avalon.main
+package avalon.api
 
-import avalon.api.CustomGroupResponder
+import avalon.api.util.Plugin
 import avalon.friend.FriendMessageResponder
 import avalon.group.{GroupMessageHandler, GroupMessageResponder}
 import avalon.tool.pool.APISurvivePool
-import avalon.util.Plugin
 
 import scala.collection.mutable
 

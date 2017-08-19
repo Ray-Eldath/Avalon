@@ -2,7 +2,7 @@ package test
 
 import java.io.{File, IOException}
 
-import avalon.tool.WolframGetter
+import avalon.extend.WolframGetter
 import org.jdom2.JDOMException
 import org.jdom2.input.SAXBuilder
 

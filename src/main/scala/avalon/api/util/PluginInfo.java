@@ -1,4 +1,4 @@
-package avalon.util;
+package avalon.api.util;
 
 /**
  * Created by Eldath Ray on 2017/5/27 0027.

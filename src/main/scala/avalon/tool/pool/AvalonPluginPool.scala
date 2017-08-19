@@ -4,8 +4,8 @@ import java.io.File
 import java.net.{MalformedURLException, URL, URLClassLoader}
 import java.nio.file.{Files, Paths}
 
+import avalon.api.util.{Plugin, PluginInfo}
 import avalon.tool.pool.ConstantPool.Address.dataPath
-import avalon.util.{Plugin, PluginInfo}
 import org.json.{JSONObject, JSONTokener}
 import org.slf4j.LoggerFactory.getLogger
 

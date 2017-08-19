@@ -4,13 +4,13 @@ import avalon.api.CustomGroupResponder;
 import avalon.extend.Recorder;
 import avalon.main.MessageChecker;
 import avalon.tool.APIRateLimit;
-import avalon.tool.RunningData;
 import avalon.tool.pool.APISurvivePool;
 import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
 import avalon.tool.pool.VariablePool;
 import avalon.tool.system.ConfigSystem;
 import avalon.tool.system.GroupConfigSystem;
+import avalon.tool.system.RunningDataSystem;
 import avalon.util.GroupConfig;
 import avalon.util.GroupMessage;
 import org.apache.commons.lang3.ArrayUtils;
@@ -22,9 +22,9 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.LongStream;
 
-import static avalon.main.RegisterResponder.register;
+import static avalon.api.Flag.AT;
+import static avalon.api.RegisterResponder.register;
 import static avalon.tool.ObjectCaster.toStringArray;
-import static avalon.tool.Responder.AT;
 
 /**
  * Created by Eldath Ray on 2017/3/30.
@@ -151,7 +151,7 @@ public class GroupMessageHandler {
 			CustomGroupResponder value = patternAPIEntry.getValue();
 			if (doCheck(patternAPIEntry.getKey(), message)) {
 				if (MessageChecker.check(message))
-					value.doPost(message);
+					value.doPost(message, groupConfig);
 				return;
 			}
 		}
@@ -190,7 +190,7 @@ public class GroupMessageHandler {
 
 	public static void main(String[] args) {
 		ConfigSystem.getInstance();
-		RunningData.getInstance();
+		RunningDataSystem.getInstance();
 		new ConstantPool.Basic();
 		new ConstantPool.Address();
 		AvalonPluginPool.load();

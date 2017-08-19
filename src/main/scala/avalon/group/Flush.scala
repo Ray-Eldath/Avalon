@@ -2,8 +2,8 @@ package avalon.group
 
 import java.util.regex.Pattern
 
+import avalon.api.Flag.AT
 import avalon.extend.Recorder
-import avalon.tool.Responder.AT
 import avalon.util.{GroupConfig, GroupMessage}
 
 /**

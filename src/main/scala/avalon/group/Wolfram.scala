@@ -3,8 +3,7 @@ package avalon.group
 import java.io.IOException
 import java.util.regex.Pattern
 
-import avalon.tool.Responder.AT
-import avalon.tool.WolframGetter
+import avalon.extend.WolframGetter
 import avalon.tool.pool.ConstantPool.Basic.currentServlet
 import avalon.tool.system.ConfigSystem
 import avalon.util.{GroupConfig, GroupMessage}
@@ -28,7 +27,7 @@ object Wolfram extends GroupMessageResponder {
 			message.response(" 指令不合规范~ o(╯□╰)o")
 			return
 		}
-		message.response(AT(message) + " 由于消息长度过长，将会将结果私聊给您。请等待网络延迟！^_^#")
+		message.response(avalon.api.Flag.AT(message) + " 由于消息长度过长，将会将结果私聊给您。请等待网络延迟！^_^#")
 		try {
 			val builder = new SAXBuilder
 			val pods = WolframGetter.get(builder.build(url).getRootElement)

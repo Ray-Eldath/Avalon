@@ -17,6 +17,7 @@
 
 1. 所有```group```目录下的类必须```implements GroupMessageResponder```（``FriendMessage``API已有开发计划，请见``avalon.friend``包）；
 2. 标记为`@deprecated`的类/方法将于下一RELEASE中被正式移除。
+3. 从`v0.0.1`开始，RELEASE版本号的管理将遵循[语义化版本 2.0.0](http://semver.org/lang/zh-CN/)规范。
 
 ## RELEASE运行步骤
 

@@ -1,6 +1,5 @@
 package avalon.tool;
 
-import avalon.util.GroupMessage;
 import avalon.util.servlet.CoolQServlet;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.json.JSONObject;
@@ -21,7 +20,7 @@ import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
  *
  * @author Eldath
  */
-public class Responder {
+public class XiaoIceResponder {
     private static final Logger logger = Logger.getGlobal();
     private static final List<String> replaceList = new ArrayList<>();
 
@@ -32,8 +31,8 @@ public class Responder {
         replaceList.add("小冰");
     }
 
-    private Responder() {
-    }
+	private XiaoIceResponder() {
+	}
 
     public static String responseXiaoIce(String content) {
         try {
@@ -64,13 +63,5 @@ public class Responder {
 		    throw new UnsupportedOperationException("only cooqServlet can handle image");
         String cq = "[CQ:image,file=file://" + image.toString() + "]";
         currentServlet.responseGroup(groupUid, message.replace("[Avalon:image]", cq));
-    }
-
-    public static String AT(GroupMessage message) {
-	    return currentServlet instanceof CoolQServlet ? "[CQ:at,qq=" + message.getSenderUid() + "]" : "@";
-    }
-
-    public static String AT(long userUid) {
-	    return currentServlet instanceof CoolQServlet ? "[CQ:at,qq=" + userUid + "]" : "@";
     }
 }

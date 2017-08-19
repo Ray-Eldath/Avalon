@@ -1,37 +1,6 @@
 {
-  "plugin_allowed_account": {
-    "Blacklist_basic": [
-      1230000000
-    ],
-    "Manager_basic": [
-      1230000000
-    ],
-    "Manager_restart": [
-      1230000000
-    ],
-    "Manager_stop": [
-      1230000000
-    ]
-  },
-  "Record_Group_Uid": [
-    100000000,
-    100000000
-  ],
   "Mojo-Weixin_API_Address": "http://127.0.0.1:3500",
-  "Admin_Uid": [
-    110000000,
-    110000000,
-    110000000,
-    110000000
-  ],
-  "Follow_Group_Uid": [
-    100000000,
-    100000000
-  ],
   "Max_Recorded_Group_Message_Count": 5000000,
-  "Game_Mode_Enabled_Group_Uid": [
-    100000000
-  ],
   "Block_Words": [
     "傻瓜",
     "操",
@@ -46,8 +15,14 @@
     },
     "Wolfram": {
       "Enable": true,
-      "App_Id": "XXXXXX-XXXXXXXXXX",
+      "App_Id": "5HYXXP-432JPAXW4J",
       "Parse_Image": false
+    },
+    "Execute": {
+      "Enable": true,
+      "Avalon_Executive_API_Address": "http://127.0.0.1:",
+      "Execute_User_Username": "Test",
+      "Execute_User_Password": "wsx@123"
     }
   },
   "Max_Recorded_Friend_Message_Count": 10000,

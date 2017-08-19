@@ -1,5 +1,6 @@
 package avalon.main;
 
+import avalon.api.DelayResponse;
 import avalon.extend.Recorder;
 import avalon.extend.Scheduler;
 import avalon.extend.ShowMsg;
@@ -7,12 +8,11 @@ import avalon.friend.FriendMessageHandler;
 import avalon.group.GroupMessageHandler;
 import avalon.servlet.info.*;
 import avalon.servlet.manager.InstanceManager;
-import avalon.tool.DelayResponse;
-import avalon.tool.RunningData;
 import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
 import avalon.tool.system.ConfigSystem;
 import avalon.tool.system.GroupConfigSystem;
+import avalon.tool.system.RunningDataSystem;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -42,7 +42,7 @@ public class MainServer {
 		public void run() {
 			logger.info("Catch INT signal, Bye!");
 			Recorder.getInstance().flushNow();
-			RunningData.getInstance().save();
+			RunningDataSystem.getInstance().save();
 			//
 			for (long thisFollowFollow : followGroup)
 				currentServlet.responseGroup(thisFollowFollow, "服务已经停止。");
@@ -54,7 +54,7 @@ public class MainServer {
 
 	public static void main(String[] args) throws Exception {
 		ConfigSystem.getInstance();
-		RunningData.getInstance();
+		RunningDataSystem.getInstance();
 		new ConstantPool.Basic();
 		new ConstantPool.Address();
 		AvalonPluginPool.load();

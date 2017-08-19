@@ -1,11 +1,11 @@
 package avalon.group;
 
 import avalon.api.CustomGroupResponder;
-import avalon.main.RegisterResponder;
+import avalon.api.RegisterResponder;
+import avalon.api.util.Plugin;
 import avalon.tool.pool.ConstantPool;
 import avalon.util.GroupConfig;
 import avalon.util.GroupMessage;
-import avalon.util.Plugin;
 
 import java.util.Map;
 import java.util.regex.Pattern;

@@ -1,8 +1,8 @@
 package avalon.extend;
 
-import avalon.tool.RunningData;
 import avalon.tool.pool.ConstantPool;
 import avalon.tool.system.ConfigSystem;
+import avalon.tool.system.RunningDataSystem;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 
@@ -23,8 +23,8 @@ public class Recorder {
             (int) ConfigSystem.getInstance().get("Max_Recorded_Group_Message_Count");
     private static final int MAX_RECORD_FRIEND_MESSAGE_COUNT =
             (int) ConfigSystem.getInstance().get("Max_Recorded_Friend_Message_Count");
-    private static int nowGroupCount = Integer.parseInt(RunningData.getInstance().get("group_message_recorded_count"));
-    private static int nowFriendCount = Integer.parseInt(RunningData.getInstance().get("friend_message_recorded_count"));
+	private static int nowGroupCount = Integer.parseInt(RunningDataSystem.getInstance().get("group_message_recorded_count"));
+	private static int nowFriendCount = Integer.parseInt(RunningDataSystem.getInstance().get("friend_message_recorded_count"));
 
     public static Recorder getInstance() {
         if (instance == null) instance = new Recorder();

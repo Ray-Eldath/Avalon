@@ -1,6 +1,6 @@
-package avalon.tool;
+package avalon.api;
 
-import avalon.util.DelayMessage;
+import avalon.api.util.DelayMessage;
 import avalon.util.Message;
 
 import java.util.concurrent.DelayQueue;
