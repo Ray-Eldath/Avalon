@@ -37,10 +37,10 @@ public class GroupMessageHandler {
 	private static final Map<? super GroupMessageResponder, Boolean> enableMap = new HashMap<>();
 
 	private static Map<Long, Integer> publishPeopleMap = new HashMap<>();
-	private static String[] blockWordList = toStringArray(ConfigSystem
-			.getInstance().getConfigArray("Block_Words"));
+	private static final String[] blockWordList = toStringArray(ConfigSystem
+			.getInstance().getConfigArray("block_words"));
 	private static final int punishFrequency = (int) ConfigSystem.getInstance()
-			.get("Block_Words_Punish_Frequency");
+			.get("block_words_punish_frequency");
 	private static final APIRateLimit cooling = new APIRateLimit(3000L);
 
 	private static GroupMessageHandler instance = new GroupMessageHandler();

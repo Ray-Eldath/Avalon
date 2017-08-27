@@ -3,6 +3,8 @@ package test;
 import avalon.group.GroupMessageHandler;
 import avalon.util.GroupMessage;
 
+import java.time.LocalDate;
+
 /**
  * Created by Eldath on 2017/1/29 0029.
  *
@@ -23,5 +25,7 @@ public class Test {
         GroupMessageHandler.getInstance().handle(
                 new GroupMessage(0, System.currentTimeMillis(), 1464443139,
                         "Ray Eldath", 617118724, "QQ聊天机器人测试讨论", content));
+
+	    LocalDate.of(2017, 8, 26).toEpochDay();
     }
 }

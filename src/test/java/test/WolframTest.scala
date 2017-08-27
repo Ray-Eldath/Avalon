@@ -2,7 +2,7 @@ package test
 
 import java.io.{File, IOException}
 
-import avalon.extend.WolframGetter
+import avalon.extend.WolframXMLParser
 import org.jdom2.JDOMException
 import org.jdom2.input.SAXBuilder
 
@@ -16,10 +16,10 @@ object WolframTest {
   @throws[JDOMException]
   def main(args: Array[String]): Unit = {
     val builder = new SAXBuilder
-    val pods = WolframGetter.get(builder.build(new File("F:/query.xml")).getRootElement)
+	  val pods = WolframXMLParser.get(builder.build(new File("F:/query.xml")).getRootElement)
     for (thisPod <- pods) {
-      System.out.println(thisPod.getTitle)
-      System.out.println(thisPod.getPlaintext)
+	    System.out.println(thisPod.title)
+	    System.out.println(thisPod.plaintext)
       System.out.print("---")
     }
   }

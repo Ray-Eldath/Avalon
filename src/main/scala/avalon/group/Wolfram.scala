@@ -3,7 +3,7 @@ package avalon.group
 import java.io.IOException
 import java.util.regex.Pattern
 
-import avalon.extend.WolframGetter
+import avalon.extend.WolframXMLParser
 import avalon.tool.pool.ConstantPool.Basic.currentServlet
 import avalon.tool.system.ConfigSystem
 import avalon.util.{GroupConfig, GroupMessage}
@@ -22,7 +22,7 @@ object Wolfram extends GroupMessageResponder {
 		val content = message.getContent
 		val question = content.replace("avalon tell me ", "")
 		val url = "http://api.wolframalpha.com/v2/query?input=" + UrlEncoded.encodeString(question) + "&appid=" +
-			ConfigSystem.getInstance.getCommandConfig("Wolfram", "App_Id")
+			ConfigSystem.getInstance.getCommandConfig("Wolfram", "app_id")
 		if (message.getContent.matches("avalon tell me [\\u4e00-\\u9fa5]")) {
 			message.response(" 指令不合规范~ o(╯□╰)o")
 			return
@@ -30,10 +30,10 @@ object Wolfram extends GroupMessageResponder {
 		message.response(avalon.api.Flag.AT(message) + " 由于消息长度过长，将会将结果私聊给您。请等待网络延迟！^_^#")
 		try {
 			val builder = new SAXBuilder
-			val pods = WolframGetter.get(builder.build(url).getRootElement)
+			val pods = WolframXMLParser.get(builder.build(url).getRootElement)
 			val builder1 = new StringBuilder
 			for (thisPod <- pods)
-				builder1.append(thisPod).append("\n").append("---\n").append(thisPod.getPlaintext)
+				builder1.append(thisPod).append("\n").append("---\n").append(thisPod.plaintext)
 			builder1.append("\n详见：http://www.wolframalpha.com/input?i=").append(UrlEncoded.encodeString(question))
 			currentServlet.responseFriend(message.getSenderUid, builder1.toString)
 		} catch {

@@ -19,30 +19,30 @@ import java.net.URL;
  * @author Eldath Ray
  */
 public class ClientStatus extends HttpServlet {
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        JSONObject object = new JSONObject();
-        JSONObject webqq = new JSONObject(), wechat = new JSONObject();
-        try {
-            webqq = (JSONObject) new JSONTokener(new URL(ConstantPool.Address.servlet +
-                    "/openqq/get_client_info").openStream()).nextValue();
-            wechat = (JSONObject) new JSONTokener(new URL(ConstantPool.Address.wechat +
-                    "/openwx/get_client_info").openStream()).nextValue();
-        } catch (IOException ignore) {
-        }
-        JSONObject avalon = new JSONObject();
-        object.put("servlet", webqq);
-        object.put("wechat", wechat);
-        avalon.put("code", 0);
-        avalon.put("pid", ConstantPool.Basic.pid);
-        avalon.put("starttime", ConstantPool.Basic.startTime);
-        avalon.put("runtime", System.currentTimeMillis() - ConstantPool.Basic.startTime);
-        avalon.put("version", ConstantPool.Version.avalon);
-        avalon.put("debug", ConstantPool.Basic.debug);
-        object.put("avalon", avalon);
-        resp.setStatus(HttpServletResponse.SC_OK);
-        resp.getWriter().print(object.toString());
-    }
+	@Override
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
+		resp.setCharacterEncoding("UTF-8");
+		JSONObject object = new JSONObject();
+		JSONObject webqq = new JSONObject(), wechat = new JSONObject();
+		try {
+			webqq = (JSONObject) new JSONTokener(new URL(ConstantPool.Address.servlet +
+					"/openqq/get_client_info").openStream()).nextValue();
+		   /* wechat = (JSONObject) new JSONTokener(new URL(ConstantPool.Address.wechat +
+                    "/openwx/get_client_info").openStream()).nextValue();*/
+		} catch (IOException ignore) {
+		}
+		JSONObject avalon = new JSONObject();
+		object.put("servlet", webqq);
+		object.put("wechat", wechat);
+		avalon.put("code", 0);
+		avalon.put("pid", ConstantPool.Basic.pid);
+		avalon.put("starttime", ConstantPool.Basic.startTime);
+		avalon.put("runtime", System.currentTimeMillis() - ConstantPool.Basic.startTime);
+		avalon.put("version", ConstantPool.Version.avalon);
+		avalon.put("debug", ConstantPool.Basic.debug);
+		object.put("avalon", avalon);
+		resp.setStatus(HttpServletResponse.SC_OK);
+		resp.getWriter().print(object.toString());
+	}
 }

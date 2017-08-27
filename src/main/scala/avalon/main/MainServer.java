@@ -1,6 +1,7 @@
 package avalon.main;
 
 import avalon.api.DelayResponse;
+import avalon.extend.RSSFeeder;
 import avalon.extend.Recorder;
 import avalon.extend.Scheduler;
 import avalon.extend.ShowMsg;
@@ -60,8 +61,9 @@ public class MainServer {
 		AvalonPluginPool.load();
 		// 线程池
 		new ShowMsg();
-		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(5);
 		executor.scheduleAtFixedRate(new Scheduler(), 1, 5, TimeUnit.SECONDS);
+		executor.scheduleAtFixedRate(RSSFeeder.getInstance(), 2, 10, TimeUnit.MINUTES);
 		// 关车钩子
 		Runtime.getRuntime().addShutdownHook(new atShutdownDo());
 		InetSocketAddress address;

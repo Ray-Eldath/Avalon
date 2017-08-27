@@ -11,14 +11,14 @@ import scala.collection.mutable.ArrayBuffer
 	*
 	* @author Eldath Ray
 	*/
-object WolframGetter {
+object WolframXMLParser {
 
-	class WolframPod(val title: String, var id: String, var plaintext: String) {
-		def getTitle: String = UrlEncoded.decodeString(title)
+	class WolframPod(val titleString: String, val idString: String, val plaintextString: String) {
+		def title: String = UrlEncoded.decodeString(titleString)
 
-		def getId: String = id
+		def id: String = idString
 
-		def getPlaintext: String = plaintext
+		def plaintext: String = plaintextString
 	}
 
 	def get(root: Element): ArrayBuffer[WolframPod] = {

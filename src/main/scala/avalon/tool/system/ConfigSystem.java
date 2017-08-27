@@ -20,6 +20,7 @@ import java.util.Map;
  */
 public class ConfigSystem implements BaseConfigSystem {
 	private static ConfigSystem instance = null;
+	private static JSONObject root;
 	private static Map<String, Object> allConfigs = new HashMap<>();
 	private static Map<String, Object> pluginConfigs = new HashMap<>();
 	private static final Logger logger = LoggerFactory.getLogger(ConfigSystem.class);
@@ -32,10 +33,10 @@ public class ConfigSystem implements BaseConfigSystem {
 	private ConfigSystem() {
 		try {
 			String path = new File("").getCanonicalPath(); // 这里不用常量池是因为初始化的问题。反正别改。
-			JSONObject object = (JSONObject) new JSONTokener(new FileReader(
+			root = (JSONObject) new JSONTokener(new FileReader(
 					new File(path + File.separator + "config.json"))).nextValue();
-			allConfigs = jsonObjectToMap(object);
-			pluginConfigs = jsonObjectToMap((JSONObject) object.get("plugin_config"));
+			allConfigs = jsonObjectToMap(root);
+			pluginConfigs = jsonObjectToMap((JSONObject) root.get("plugin_config"));
 		} catch (IOException e) {
 			logger.error("Exception thrown while init ConfigSystem: ", e);
 		}
@@ -67,6 +68,10 @@ public class ConfigSystem implements BaseConfigSystem {
 		return (String) obj;
 	}
 
+	public JSONObject getJSONObject(String key) {
+		return root.getJSONObject(key);
+	}
+
 	public Object[] getConfigArray(String key) {
 		JSONArray array = (JSONArray) allConfigs.get(key);
 		Object[] result = new Object[array.length()];
@@ -83,7 +88,7 @@ public class ConfigSystem implements BaseConfigSystem {
 	}
 
 	public boolean isCommandEnable(String name) {
-		return (boolean) getCommandConfig(name, "Enable");
+		return (boolean) getCommandConfig(name, "enable");
 	}
 
 	public Object[] getCommandConfigArray(String commandName, String key) {

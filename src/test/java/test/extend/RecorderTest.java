@@ -1,4 +1,4 @@
-package test;
+package test.extend;
 
 import avalon.tool.database.SQLiteDatabaseOperator;
 import avalon.util.GroupMessage;

@@ -20,9 +20,9 @@ public class Recorder {
     private static Recorder instance = null;
     private static final int MAX_RECODE_LIST_SIZE = 10;
     private static final int MAX_RECORD_GROUP_MESSAGE_COUNT =
-            (int) ConfigSystem.getInstance().get("Max_Recorded_Group_Message_Count");
-    private static final int MAX_RECORD_FRIEND_MESSAGE_COUNT =
-            (int) ConfigSystem.getInstance().get("Max_Recorded_Friend_Message_Count");
+		    (int) ConfigSystem.getInstance().get("max_recorded_group_message_amount");
+	private static final int MAX_RECORD_FRIEND_MESSAGE_COUNT =
+		    (int) ConfigSystem.getInstance().get("max_recorded_friend_message_amount");
 	private static int nowGroupCount = Integer.parseInt(RunningDataSystem.getInstance().get("group_message_recorded_count"));
 	private static int nowFriendCount = Integer.parseInt(RunningDataSystem.getInstance().get("friend_message_recorded_count"));
 
