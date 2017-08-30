@@ -6,17 +6,14 @@ import avalon.tool.system.GroupConfigSystem;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class RSSFeeder implements Runnable {
 	private List<URL> urls = toURLList(ConfigSystem.getInstance().getCommandConfigArray("RSS", "feed"));
-	private List<Integer> sent = new ArrayList<>();
-	private Stack<RSSParser.RSSItem> items = new Stack<>();
+	private Map<URL, LocalDateTime> updated = new HashMap<>();
 	private static RSSFeeder instance = null;
 
 	public static RSSFeeder getInstance() {
@@ -25,28 +22,30 @@ public class RSSFeeder implements Runnable {
 	}
 
 	private RSSFeeder() {
-	}
-
-	private boolean update() {
-		List<RSSParser.RSSItem> items = getAllItems();
-		items.sort(Comparator.comparing(RSSParser.RSSItem::pubDate));
-		boolean returnValue = false;
-		for (RSSParser.RSSItem thisItem : items) {
-			int hashcode = thisItem.hashCode();
-			if (!sent.contains(hashcode)) {
-				this.items.push(thisItem);
-				sent.add(hashcode);
-				returnValue = true;
-			}
-		}
-		return returnValue;
-	}
-
-	private List<RSSParser.RSSItem> getAllItems() {
-		List<RSSParser.RSSItem> allItems = new ArrayList<>();
 		for (URL thisURL : urls)
-			allItems.addAll(RSSParser.get(thisURL));
-		return allItems;
+			updated.put(thisURL, LocalDateTime.MIN);
+	}
+
+	private RSSParser.RSSItem update() {
+		Map<URL, List<RSSParser.RSSItem>> map = getAllItemsMap();
+		List<RSSParser.RSSItem> result = new ArrayList<>();
+		for (Map.Entry<URL, List<RSSParser.RSSItem>> entry : map.entrySet()) {
+			URL key = entry.getKey();
+			List<RSSParser.RSSItem> value = entry.getValue();
+			for (RSSParser.RSSItem thisItem : value)
+				if (updated.containsKey(key) && !value.isEmpty() && thisItem.pubDate().isAfter(updated.get(key))) {
+					result.add(thisItem);
+					updated.replace(key, thisItem.pubDate());
+				}
+		}
+		return result.isEmpty() ? null : result.get(new Random().nextInt(result.size()));
+	}
+
+	private Map<URL, List<RSSParser.RSSItem>> getAllItemsMap() {
+		Map<URL, List<RSSParser.RSSItem>> result = new HashMap<>();
+		for (URL thisURL : urls)
+			result.put(thisURL, RSSParser.get(thisURL));
+		return result;
 	}
 
 	private static List<URL> toURLList(Object[] in) {
@@ -61,14 +60,10 @@ public class RSSFeeder implements Runnable {
 		return result;
 	}
 
-	private RSSParser.RSSItem newest() {
-		return items.pop();
-	}
-
 	@Override
 	public void run() {
-		if (update()) {
-			RSSParser.RSSItem newest = newest();
+		RSSParser.RSSItem newest = update();
+		if (newest != null) {
 			for (long groupUid : GroupConfigSystem.instance().getFollowGroups())
 				ConstantPool.Basic.currentServlet.responseGroup(groupUid,
 						String.format("订阅的RSS %s - %s 有更新：\n%s\n发布时间：%s 详见：%s",

@@ -20,9 +20,10 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -62,7 +63,7 @@ public class MainServer {
 		// 线程池
 		new ShowMsg();
 		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(5);
-		executor.scheduleAtFixedRate(new Scheduler(), 1, 5, TimeUnit.SECONDS);
+		executor.scheduleAtFixedRate(new Scheduler(), 6, 5, TimeUnit.SECONDS);
 		executor.scheduleAtFixedRate(RSSFeeder.getInstance(), 2, 10, TimeUnit.MINUTES);
 		// 关车钩子
 		Runtime.getRuntime().addShutdownHook(new atShutdownDo());
@@ -95,18 +96,54 @@ public class MainServer {
 		server.join();
 		server.start();
 
-		logger.info("Is server on (y or n): ");
-		Scanner scanner = new Scanner(System.in);
-		String isOn = scanner.nextLine();
-		if ("y".equals(isOn.toLowerCase()))
+		logger.info("Is server on (y or n, default n, await for 5 seconds): ");
+		int isOn = readInput();
+		if (isOn == 1)
 			for (long thisFollowGroup : followGroup)
 				currentServlet.responseGroup(thisFollowGroup, "Avalon已经上线。");
-		else logger.info("Cancel send login message.");
+		else if (isOn == 0)
+			logger.info("Cancel send login message.");
+		else
+			logger.info("Invalid input or reached the maximum waiting time, use default value: `n`.");
 		DelayResponse delayResponse = new DelayResponse();
 		delayResponse.start();
 		logger.info("DelayResponse thread is loaded.");
 		logger.info("Server now running!");
 		logger.info("IMPORTANCE: Please exit this system by pressed Ctrl-C, DO NOT close this window directly!");
+	}
+
+	private static int readInputStreamWithTimeout(InputStream is, byte[] buf) throws IOException, InterruptedException {
+		int bufferOffset = 0;
+		long maxTimeMillis = System.currentTimeMillis() + 5000;
+		while (System.currentTimeMillis() < maxTimeMillis && bufferOffset < buf.length) {
+			int readLength = Math.min(is.available(), buf.length - bufferOffset);
+			int readResult = is.read(buf, bufferOffset, readLength);
+			if (readResult == -1)
+				break;
+			bufferOffset += readResult;
+			if (readResult > 0)
+				break;
+			Thread.sleep(10);
+		}
+		return bufferOffset;
+	}
+
+
+	private static int readInput() throws IOException, InterruptedException {
+		int result = 0;
+		byte[] inputData = new byte[1];
+		int readLength = readInputStreamWithTimeout(System.in, inputData);
+		if (readLength > 0) {
+			switch ((char) inputData[0]) {
+				case 'y':
+				case 'Y': {
+					result = 1;
+					break;
+				}
+			}
+		} else
+			result = -1;
+		return result;
 	}
 
 	public static Process getWebqqProcess() {

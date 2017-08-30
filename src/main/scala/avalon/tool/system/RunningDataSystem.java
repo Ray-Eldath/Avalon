@@ -1,12 +1,20 @@
 package avalon.tool.system;
 
+import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Properties;
+import java.util.Collection;
+import java.util.Map;
 
 import static avalon.tool.pool.ConstantPool.Address.dataPath;
 
@@ -15,48 +23,78 @@ import static avalon.tool.pool.ConstantPool.Address.dataPath;
  *
  * @author Eldath Ray
  */
-public class RunningDataSystem {
-    private static final Path file = Paths.get(dataPath + File.separator + "data.properties");
-    private static Properties properties = new Properties();
+public class RunningDataSystem implements BaseConfigSystem {
+	private static final Path FILE = Paths.get(dataPath + File.separator + "data.json");
+	private static final Logger LOGGER = LoggerFactory.getLogger(RunningDataSystem.class);
+	private static JSONObject object = new JSONObject();
 
 	private static RunningDataSystem instance = null;
 
 	public static RunningDataSystem getInstance() {
 		if (instance == null) instance = new RunningDataSystem();
 		return instance;
-    }
+	}
 
 	private RunningDataSystem() {
+		if (Files.notExists(FILE)) {
+			object.put("friend_id", 0);
+			object.put("group_id", 0);
+			object.put("group_message_recorded_count", 0);
+			object.put("friend_message_recorded_count", 0);
+			save();
+		}
 		try {
-            if (Files.notExists(file)) {
-                properties.setProperty("friendId", "0");
-                properties.setProperty("groupId", "0");
-                properties.setProperty("group_message_recorded_count", "0");
-                properties.setProperty("friend_message_recorded_count", "0");
-                Files.createFile(file);
-                save();
-            }
-            properties.load(Files.newBufferedReader(file, StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+			object = (JSONObject) new JSONTokener(Files.newBufferedReader(FILE)).nextValue();
+		} catch (IOException e) {
+			LOGGER.error("exception thrown while read running data file: " + FILE.toString(), e);
+		}
+	}
 
-    public void set(String key, String value) {
-        properties.put(key, value);
-    }
+	public void set(String key, String value) {
+		object.put(key, value);
+	}
 
-    public String get(String key) {
-        return properties.getProperty(key);
-    }
+	public void set(String key, Object value) {
+		object.put(key, value);
+	}
 
-    public void save() {
-        try {
-            properties.store(Files.newBufferedWriter(file, StandardCharsets.UTF_8),
-                    "!!DO NOT DELETE THIS FILE!!This file is generated for Avalon System. " +
-                            "It storage some data that need persisted.");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	public void set(String key, Map<?, ?> value) {
+		object.put(key, value);
+	}
+
+	public void set(String key, Collection<?> value) {
+		object.put(key, value);
+	}
+
+	@Override
+	public String getString(String key) {
+		return object.getString(key);
+	}
+
+	public int getInt(String key) {
+		return object.getInt(key);
+	}
+
+	public JSONArray getJSONArray(String key) {
+		return object.getJSONArray(key);
+	}
+
+	public JSONObject getJSONObject(String key) {
+		return object.getJSONObject(key);
+	}
+
+	@Override
+	public Object get(String key) {
+		return object.get(key);
+	}
+
+	public void save() {
+		try {
+			BufferedWriter writer = Files.newBufferedWriter(FILE);
+			object.write(writer);
+			IOUtils.closeQuietly(writer);
+		} catch (IOException e) {
+			LOGGER.error("exception thrown while save running data file: " + FILE.toString(), e);
+		}
+	}
 }

@@ -1,5 +1,0 @@
-{
-  "servlet": "CoolQ",
-  "CoolQ_Listen_Address": "http://127.0.0.1:5050",
-  "CoolQ_API_Address": "http://127.0.0.1:5000"
-}

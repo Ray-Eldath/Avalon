@@ -23,7 +23,7 @@ object RSSParser {
 		override def hashCode(): Int = new HashCodeBuilder(37, 17).append(title).append(link).hashCode()
 	}
 
-	def get(url: URL): util.ArrayList[RSSItem] = {
+	def get(url: URL): util.List[RSSItem] = {
 		val sb = new SAXBuilder
 		val doc = sb.build(url)
 		val root = doc.getRootElement.getChild("channel")

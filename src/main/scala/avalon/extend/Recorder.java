@@ -15,60 +15,60 @@ import java.util.List;
  * @author Eldath
  */
 public class Recorder {
-    private static final List<FriendMessage> friendMessageRecord = new ArrayList<>();
-    private static final List<GroupMessage> groupMessageRecord = new ArrayList<>();
-    private static Recorder instance = null;
-    private static final int MAX_RECODE_LIST_SIZE = 10;
-    private static final int MAX_RECORD_GROUP_MESSAGE_COUNT =
-		    (int) ConfigSystem.getInstance().get("max_recorded_group_message_amount");
+	private static final List<FriendMessage> friendMessageRecord = new ArrayList<>();
+	private static final List<GroupMessage> groupMessageRecord = new ArrayList<>();
+	private static Recorder instance = null;
+	private static final int MAX_RECODE_LIST_SIZE = 10;
+	private static final int MAX_RECORD_GROUP_MESSAGE_COUNT =
+			(int) ConfigSystem.getInstance().get("max_recorded_group_message_amount");
 	private static final int MAX_RECORD_FRIEND_MESSAGE_COUNT =
-		    (int) ConfigSystem.getInstance().get("max_recorded_friend_message_amount");
-	private static int nowGroupCount = Integer.parseInt(RunningDataSystem.getInstance().get("group_message_recorded_count"));
-	private static int nowFriendCount = Integer.parseInt(RunningDataSystem.getInstance().get("friend_message_recorded_count"));
+			(int) ConfigSystem.getInstance().get("max_recorded_friend_message_amount");
+	private static int nowGroupCount = RunningDataSystem.getInstance().getInt("group_message_recorded_count");
+	private static int nowFriendCount = RunningDataSystem.getInstance().getInt("friend_message_recorded_count");
 
-    public static Recorder getInstance() {
-        if (instance == null) instance = new Recorder();
-        return instance;
-    }
+	public static Recorder getInstance() {
+		if (instance == null) instance = new Recorder();
+		return instance;
+	}
 
-    public void recodeGroupMessage(GroupMessage message) {
-        if (nowGroupCount > MAX_RECORD_GROUP_MESSAGE_COUNT) return;
-        groupMessageRecord.add(message);
-        nowGroupCount++;
-        if (groupMessageRecord.size() > MAX_RECODE_LIST_SIZE)
-            flushNow();
-    }
+	public void recodeGroupMessage(GroupMessage message) {
+		if (nowGroupCount > MAX_RECORD_GROUP_MESSAGE_COUNT) return;
+		groupMessageRecord.add(message);
+		nowGroupCount++;
+		if (groupMessageRecord.size() > MAX_RECODE_LIST_SIZE)
+			flushNow();
+	}
 
-    public void recodeFriendMessage(FriendMessage message) {
-        if (nowFriendCount > MAX_RECORD_FRIEND_MESSAGE_COUNT) return;
-        friendMessageRecord.add(message);
-        nowFriendCount++;
-        if (friendMessageRecord.size() > MAX_RECODE_LIST_SIZE)
-            flushNow();
-    }
+	public void recodeFriendMessage(FriendMessage message) {
+		if (nowFriendCount > MAX_RECORD_FRIEND_MESSAGE_COUNT) return;
+		friendMessageRecord.add(message);
+		nowFriendCount++;
+		if (friendMessageRecord.size() > MAX_RECODE_LIST_SIZE)
+			flushNow();
+	}
 
-    public void flushNow() {
-        for (GroupMessage thisGroupMessage : groupMessageRecord)
-            ConstantPool.Database.currentDatabaseOperator.add(thisGroupMessage);
-        groupMessageRecord.clear();
-        for (FriendMessage thisFriendMessage : friendMessageRecord)
-            ConstantPool.Database.currentDatabaseOperator.add(thisFriendMessage);
-        friendMessageRecord.clear();
-    }
+	public void flushNow() {
+		for (GroupMessage thisGroupMessage : groupMessageRecord)
+			ConstantPool.Database.currentDatabaseOperator.add(thisGroupMessage);
+		groupMessageRecord.clear();
+		for (FriendMessage thisFriendMessage : friendMessageRecord)
+			ConstantPool.Database.currentDatabaseOperator.add(thisFriendMessage);
+		friendMessageRecord.clear();
+	}
 
-    public static int getNowGroupCount() {
-        return nowGroupCount;
-    }
+	public static int getNowGroupCount() {
+		return nowGroupCount;
+	}
 
-    public static int getNowFriendCount() {
-        return nowFriendCount;
-    }
+	public static int getNowFriendCount() {
+		return nowFriendCount;
+	}
 
-    public static int getMaxRecordGroupMessageCount() {
-        return MAX_RECORD_GROUP_MESSAGE_COUNT;
-    }
+	public static int getMaxRecordGroupMessageCount() {
+		return MAX_RECORD_GROUP_MESSAGE_COUNT;
+	}
 
-    public static int getMaxRecordFriendMessageCount() {
-        return MAX_RECORD_FRIEND_MESSAGE_COUNT;
-    }
+	public static int getMaxRecordFriendMessageCount() {
+		return MAX_RECORD_FRIEND_MESSAGE_COUNT;
+	}
 }
