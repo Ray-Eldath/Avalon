@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.{EqualsBuilder, HashCodeBuilder}
 trait CustomGroupResponder {
 	def doPost(message: GroupMessage, groupConfig: GroupConfig): Unit
 
-	def getHelpMessages: List[String]
+	def getHelpMessage: String
 
 	def getKeyWordRegex: Pattern
 

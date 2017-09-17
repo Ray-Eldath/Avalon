@@ -1,15 +1,16 @@
 package avalon.tool.pool
 
 import java.io.File
-import java.net.{MalformedURLException, URL, URLClassLoader}
+import java.net.{URL, URLClassLoader}
 import java.nio.file.{Files, Paths}
+import java.util
 
 import avalon.api.util.{Plugin, PluginInfo}
 import avalon.tool.pool.ConstantPool.Address.dataPath
 import org.json.{JSONObject, JSONTokener}
 import org.slf4j.LoggerFactory.getLogger
 
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.ListBuffer
 
 /**
 	* Created by Eldath Ray on 2017/5/27 0027.
@@ -18,7 +19,8 @@ import scala.collection.mutable.ArrayBuffer
 	*/
 object AvalonPluginPool {
 	private val setting = Paths.get(dataPath + File.separator + "plugin" + File.separator + "plugins.json")
-	private val infoList = new ArrayBuffer[PluginInfo]
+	private val infoList = new ListBuffer[PluginInfo]
+	private val pluginList = new util.ArrayList[Plugin]
 	private val logger = getLogger(AvalonPluginPool.getClass)
 
 	private val main = new JSONTokener(Files.newBufferedReader(setting)).nextValue.asInstanceOf[JSONObject].getJSONObject("plugins")
@@ -46,16 +48,15 @@ object AvalonPluginPool {
 		})
 	}
 
-	@throws[MalformedURLException]
-	@throws[ClassNotFoundException]
-	@throws[IllegalAccessException]
-	@throws[InstantiationException]
 	private def load(info: PluginInfo): Unit = {
 		val plugin = new URLClassLoader(Array[URL]
 			(new URL("file:" + dataPath + File.separator + "plugin" + File.separator + info.getFileName)),
 			Thread.currentThread.getContextClassLoader).loadClass(info.getClassString).newInstance.asInstanceOf[Plugin]
+		pluginList.add(plugin)
 		plugin.main()
 	}
 
-	def getInfoList: ArrayBuffer[PluginInfo] = infoList.result()
+	def getInfoList: List[PluginInfo] = infoList.result()
+
+	def getPluginList: util.ArrayList[Plugin] = pluginList
 }

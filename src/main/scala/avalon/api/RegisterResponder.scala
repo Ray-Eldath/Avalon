@@ -13,7 +13,7 @@ import scala.collection.mutable
 	* @author Eldath Ray
 	*/
 object RegisterResponder {
-	private val map = new mutable.HashMap[CustomGroupResponder, Plugin]
+	private val map = new mutable.HashMap[Plugin, java.util.ArrayList[CustomGroupResponder]]
 
 	def register(responder: GroupMessageResponder): Unit = {
 		GroupMessageHandler.addGroupMessageResponder(responder)
@@ -21,12 +21,20 @@ object RegisterResponder {
 	}
 
 	def register(plugin: Plugin, responder: CustomGroupResponder): Unit = {
-		map.put(responder, plugin)
+		if (map.contains(plugin)) {
+			val tempList = map(plugin)
+			tempList.add(responder)
+			map.update(plugin, tempList)
+		} else {
+			val tempList = new java.util.ArrayList[CustomGroupResponder]()
+			tempList.add(responder)
+			map.put(plugin, tempList)
+		}
 		GroupMessageHandler.addCustomGroupResponder(responder)
 	}
 
 	def register(responder: FriendMessageResponder) =
 		throw new UnsupportedOperationException("register for FriendMessageResponder not finish yet :~)")
 
-	def queryAvalonPlugin(responder: CustomGroupResponder): Plugin = map(responder)
+	def queryAvalonPlugin(plugin: Plugin): java.util.ArrayList[CustomGroupResponder] = map(plugin)
 }

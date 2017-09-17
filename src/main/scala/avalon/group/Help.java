@@ -1,8 +1,8 @@
 package avalon.group;
 
-import avalon.api.CustomGroupResponder;
 import avalon.api.RegisterResponder;
 import avalon.api.util.Plugin;
+import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
 import avalon.util.GroupConfig;
 import avalon.util.GroupMessage;
@@ -26,7 +26,6 @@ public class Help implements GroupMessageResponder {
 	@Override
 	public void doPost(GroupMessage message, GroupConfig groupConfig) {
 		Map<Pattern, GroupMessageResponder> apiList = GroupMessageHandler.getApiList();
-		Map<Pattern, CustomGroupResponder> customList = GroupMessageHandler.getCustomApiList();
 
 		StringBuilder messageShow = new StringBuilder();
 		for (GroupMessageResponder api : apiList.values()) {
@@ -37,12 +36,10 @@ public class Help implements GroupMessageResponder {
 				continue;
 			messageShow.append("\n").append(api.getHelpMessage());
 		}
-		if (!customList.isEmpty())
-			for (CustomGroupResponder api : customList.values()) {
-				Plugin plugin = RegisterResponder.queryAvalonPlugin(api);
-				messageShow.append("以下指令由插件 ").append(plugin.name()).append(" 提供：");
-				api.getHelpMessages().foreach(e -> messageShow.append("\t").append(e).append("\n"));
-			}
+		for (Plugin thisPlugin : AvalonPluginPool.getPluginList()) {
+			messageShow.append("以下指令由插件 ").append(thisPlugin.name()).append(" 提供：");
+			RegisterResponder.queryAvalonPlugin(thisPlugin).forEach(e -> messageShow.append("\n").append(e.getHelpMessage()));
+		}
 		message.response("This is Avalon. 以下是我的帮助资料：\n" +
 				"<关键词>：<触发的作用效果>，所有关键词均忽略大小写并且以avalon开头" + messageShow + "\nFor Avalon Version v" +
 				ConstantPool.Version.avalon);
