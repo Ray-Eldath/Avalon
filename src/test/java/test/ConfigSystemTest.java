@@ -1,6 +1,6 @@
 package test;
 
-import avalon.tool.system.ConfigSystem;
+import avalon.tool.system.Config;
 
 import static avalon.tool.ObjectCaster.toLongArray;
 
@@ -11,8 +11,8 @@ import static avalon.tool.ObjectCaster.toLongArray;
  */
 class ConfigSystemTest {
     public static void main(String[] args) {
-        long[] test = toLongArray(ConfigSystem.getInstance().getConfigArray("Admin_Uid"));
-        System.out.println(ConfigSystem.getInstance().get("Block_Words"));
+	    long[] test = toLongArray(Config.instance().getConfigArray("Admin_Uid"));
+	    System.out.println(Config.instance().get("Block_Words"));
 
         for (Long long1 : test)
             System.out.println(long1);

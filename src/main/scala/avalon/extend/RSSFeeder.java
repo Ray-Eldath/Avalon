@@ -1,7 +1,7 @@
 package avalon.extend;
 
 import avalon.tool.pool.ConstantPool;
-import avalon.tool.system.ConfigSystem;
+import avalon.tool.system.Config;
 import avalon.tool.system.GroupConfigSystem;
 
 import java.net.MalformedURLException;
@@ -12,7 +12,7 @@ import java.time.format.FormatStyle;
 import java.util.*;
 
 public class RSSFeeder implements Runnable {
-	private List<URL> urls = toURLList(ConfigSystem.getInstance().getCommandConfigArray("RSS", "feed"));
+	private List<URL> urls = toURLList(Config.instance().getCommandConfigArray("RSS", "feed"));
 	private Map<URL, LocalDateTime> updated = new HashMap<>();
 	private static RSSFeeder instance = null;
 

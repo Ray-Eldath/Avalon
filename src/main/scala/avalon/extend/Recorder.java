@@ -1,7 +1,7 @@
 package avalon.extend;
 
 import avalon.tool.pool.ConstantPool;
-import avalon.tool.system.ConfigSystem;
+import avalon.tool.system.Config;
 import avalon.tool.system.RunningDataSystem;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
@@ -20,9 +20,9 @@ public class Recorder {
 	private static Recorder instance = null;
 	private static final int MAX_RECODE_LIST_SIZE = 10;
 	private static final int MAX_RECORD_GROUP_MESSAGE_COUNT =
-			(int) ConfigSystem.getInstance().get("max_recorded_group_message_amount");
+			(int) Config.instance().get("max_recorded_group_message_amount");
 	private static final int MAX_RECORD_FRIEND_MESSAGE_COUNT =
-			(int) ConfigSystem.getInstance().get("max_recorded_friend_message_amount");
+			(int) Config.instance().get("max_recorded_friend_message_amount");
 	private static int nowGroupCount = RunningDataSystem.getInstance().getInt("group_message_recorded_count");
 	private static int nowFriendCount = RunningDataSystem.getInstance().getInt("friend_message_recorded_count");
 

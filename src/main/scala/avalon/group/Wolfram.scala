@@ -5,7 +5,7 @@ import java.util.regex.Pattern
 
 import avalon.extend.WolframXMLParser
 import avalon.tool.pool.ConstantPool.Basic.currentServlet
-import avalon.tool.system.ConfigSystem
+import avalon.tool.system.Config
 import avalon.util.{GroupConfig, GroupMessage}
 import org.eclipse.jetty.util.UrlEncoded
 import org.jdom2.JDOMException
@@ -22,7 +22,7 @@ object Wolfram extends GroupMessageResponder {
 		val content = message.getContent
 		val question = content.replace("avalon tell me ", "")
 		val url = "http://api.wolframalpha.com/v2/query?input=" + UrlEncoded.encodeString(question) + "&appid=" +
-			ConfigSystem.getInstance.getCommandConfig("Wolfram", "app_id")
+			Config.instance.getCommandConfig("Wolfram", "app_id")
 		if (message.getContent.matches("avalon tell me [\\u4e00-\\u9fa5]")) {
 			message.response(" 指令不合规范~ o(╯□╰)o")
 			return

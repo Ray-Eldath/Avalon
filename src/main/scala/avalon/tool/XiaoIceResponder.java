@@ -1,6 +1,6 @@
 package avalon.tool;
 
-import avalon.tool.system.ConfigSystem;
+import avalon.tool.system.Config;
 import avalon.util.servlet.CoolQServlet;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.json.JSONObject;
@@ -37,7 +37,7 @@ public class XiaoIceResponder {
 	public static String responseXiaoIce(String content) {
 		try {
 			JSONTokener tokener = new JSONTokener(new URL(
-					ConfigSystem.getInstance().getCommandConfig("AnswerMe", "mojo-weixin_api_address")
+					Config.instance().getCommandConfig("AnswerMe", "mojo-weixin_api_address")
 							+ "/openwx/consult?account=xiaoice-ms&content=" + UrlEncoded.encodeString(content)).openStream());
 			JSONObject object = (JSONObject) tokener.nextValue();
 			if (object.isNull("reply")) return null;

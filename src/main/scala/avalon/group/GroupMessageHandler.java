@@ -8,7 +8,7 @@ import avalon.tool.pool.APISurvivePool;
 import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
 import avalon.tool.pool.VariablePool;
-import avalon.tool.system.ConfigSystem;
+import avalon.tool.system.Config;
 import avalon.tool.system.GroupConfigSystem;
 import avalon.tool.system.RunningDataSystem;
 import avalon.util.GroupConfig;
@@ -37,9 +37,9 @@ public class GroupMessageHandler {
 	private static final Map<? super GroupMessageResponder, Boolean> enableMap = new HashMap<>();
 
 	private static Map<Long, Integer> publishPeopleMap = new HashMap<>();
-	private static final String[] blockWordList = toStringArray(ConfigSystem
-			.getInstance().getConfigArray("block_words"));
-	private static final int punishFrequency = (int) ConfigSystem.getInstance()
+	private static final String[] blockWordList = toStringArray(Config
+			.instance().getConfigArray("block_words"));
+	private static final int punishFrequency = (int) Config.instance()
 			.get("block_words_punish_frequency");
 	private static final APIRateLimit cooling = new APIRateLimit(3000L);
 
@@ -57,13 +57,13 @@ public class GroupMessageHandler {
 	private GroupMessageHandler() {
 		enableMap.put(AnswerMe.instance(), ConstantPool.Setting.AnswerMe_Enabled);
 		enableMap.put(Wolfram.instance(), ConstantPool.Setting.Wolfram_Enabled);
-		enableMap.put(Execute.getInstance(), ConstantPool.Setting.Execute_Enable);
+		enableMap.put(Execute.INSTANCE, ConstantPool.Setting.Execute_Enable);
 	}
 
 	static {
-	    /*
-	     * 指令优先级排序依据：单词 >> 多词，管理类 >> 服务类 >> 娱乐类，触发类 >> 自由类
-         */
+		/*
+		 * 指令优先级排序依据：单词 >> 多词，管理类 >> 服务类 >> 娱乐类，触发类 >> 自由类
+		 */
 		// 特殊优先
 		register(Test.instance());
 		// 管理类
@@ -76,7 +76,8 @@ public class GroupMessageHandler {
 		register(Version.instance());
 		register(ShowAdmin.instance());
 		register(Echo.instance());
-		// register(Execute.getInstance());
+		register(ExecuteLanguages.INSTANCE);
+		register(Execute.INSTANCE);
 		// 娱乐类
 		register(Wolfram.instance());
 		register(Mo.instance());
@@ -189,7 +190,7 @@ public class GroupMessageHandler {
 	}
 
 	public static void main(String[] args) {
-		ConfigSystem.getInstance();
+		Config.instance();
 		RunningDataSystem.getInstance();
 		new ConstantPool.Basic();
 		new ConstantPool.Address();

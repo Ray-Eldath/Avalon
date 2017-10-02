@@ -11,7 +11,7 @@ import avalon.servlet.info.*;
 import avalon.servlet.manager.InstanceManager;
 import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.ConstantPool;
-import avalon.tool.system.ConfigSystem;
+import avalon.tool.system.Config;
 import avalon.tool.system.GroupConfigSystem;
 import avalon.tool.system.RunningDataSystem;
 import org.eclipse.jetty.server.Server;
@@ -55,7 +55,7 @@ public class MainServer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ConfigSystem.getInstance();
+		Config.instance();
 		RunningDataSystem.getInstance();
 		new ConstantPool.Basic();
 		new ConstantPool.Address();

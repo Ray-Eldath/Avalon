@@ -4,6 +4,7 @@ import java.util.regex.Pattern
 
 import avalon.util.{BasicResponder, GroupConfig, GroupMessage}
 import org.apache.commons.lang3.builder.{EqualsBuilder, HashCodeBuilder}
+import org.jetbrains.annotations.NotNull
 
 /**
 	* Created by Eldath on 2017/1/28 0028.
@@ -11,7 +12,8 @@ import org.apache.commons.lang3.builder.{EqualsBuilder, HashCodeBuilder}
 	* @author Eldath
 	*/
 trait GroupMessageResponder extends BasicResponder {
-	def doPost(message: GroupMessage, groupConfig: GroupConfig): Unit
+
+	def doPost(@NotNull message: GroupMessage, @NotNull groupConfig: GroupConfig): Unit
 
 	override def getHelpMessage: String
 

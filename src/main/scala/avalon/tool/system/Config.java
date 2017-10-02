@@ -18,19 +18,19 @@ import java.util.Map;
  * @author Eldath Ray
  * @since v0.0.1 Beta
  */
-public class ConfigSystem implements BaseConfigSystem {
-	private static ConfigSystem instance = null;
+public class Config implements BaseConfigSystem {
+	private static Config instance = null;
 	private static JSONObject root;
 	private static Map<String, Object> allConfigs = new HashMap<>();
 	private static Map<String, Object> pluginConfigs = new HashMap<>();
-	private static final Logger logger = LoggerFactory.getLogger(ConfigSystem.class);
+	private static final Logger logger = LoggerFactory.getLogger(Config.class);
 
-	public static ConfigSystem getInstance() {
-		if (instance == null) instance = new ConfigSystem();
+	public static Config instance() {
+		if (instance == null) instance = new Config();
 		return instance;
 	}
 
-	private ConfigSystem() {
+	private Config() {
 		try {
 			String path = new File("").getCanonicalPath(); // 这里不用常量池是因为初始化的问题。反正别改。
 			root = (JSONObject) new JSONTokener(new FileReader(
@@ -38,7 +38,7 @@ public class ConfigSystem implements BaseConfigSystem {
 			allConfigs = jsonObjectToMap(root);
 			pluginConfigs = jsonObjectToMap((JSONObject) root.get("plugin_config"));
 		} catch (IOException e) {
-			logger.error("Exception thrown while init ConfigSystem: ", e);
+			logger.error("Exception thrown while init Config: ", e);
 		}
 	}
 

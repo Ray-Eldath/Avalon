@@ -2,6 +2,7 @@ package avalon.tool;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,13 @@ public class ObjectCaster {
 
 	public static long[] toLongArray(List<Object> objects) {
 		return toLongArray(objects.toArray());
+	}
+
+	public static List<String> toStringList(List<Object> objects) {
+		List<String> result = new ArrayList<>(objects.size());
+		for (Object thisObject : objects)
+			result.add((String) thisObject);
+		return result;
 	}
 
 	public static String[] toStringArray(Object[] objects) {
