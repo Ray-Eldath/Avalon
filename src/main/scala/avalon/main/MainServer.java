@@ -64,7 +64,8 @@ public class MainServer {
 		new ShowMsg();
 		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(5);
 		executor.scheduleAtFixedRate(new Scheduler(), 6, 5, TimeUnit.SECONDS);
-		executor.scheduleAtFixedRate(RSSFeeder.getInstance(), 2, 10, TimeUnit.MINUTES);
+		if (ConstantPool.Setting.RSS_Enabled)
+			executor.scheduleAtFixedRate(RSSFeeder.getInstance(), 2, 10, TimeUnit.MINUTES);
 		// 关车钩子
 		Runtime.getRuntime().addShutdownHook(new atShutdownDo());
 		InetSocketAddress address;
@@ -98,10 +99,11 @@ public class MainServer {
 
 		logger.info("Is server on (y or n, default n, await for 5 seconds): ");
 		int isOn = readInput();
-		if (isOn == 1)
+		if (isOn == 1) {
 			for (long thisFollowGroup : followGroup)
 				currentServlet.responseGroup(thisFollowGroup, "Avalon已经上线。");
-		else if (isOn == 0)
+			logger.info("Login message sent.");
+		} else if (isOn == 0)
 			logger.info("Cancel send login message.");
 		else
 			logger.info("Invalid input or reached the maximum waiting time, use default value: `n`.");

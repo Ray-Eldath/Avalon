@@ -57,7 +57,7 @@ public class GroupMessageHandler {
 	private GroupMessageHandler() {
 		enableMap.put(AnswerMe.instance(), ConstantPool.Setting.AnswerMe_Enabled);
 		enableMap.put(Wolfram.instance(), ConstantPool.Setting.Wolfram_Enabled);
-		enableMap.put(Execute.INSTANCE, ConstantPool.Setting.Execute_Enable);
+		enableMap.put(Execute.INSTANCE, ConstantPool.Setting.Execute_Enabled);
 	}
 
 	static {
@@ -195,8 +195,10 @@ public class GroupMessageHandler {
 		new ConstantPool.Basic();
 		new ConstantPool.Address();
 		AvalonPluginPool.load();
-		if (!ConstantPool.Basic.debug)
+		if (!ConstantPool.Basic.debug) {
+			System.err.println("Debug not on! Exiting...");
 			return;
+		}
 		Scanner scanner = new Scanner(System.in);
 		int id = 0;
 		//noinspection InfiniteLoopStatement

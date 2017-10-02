@@ -11,37 +11,37 @@ import java.util.Map;
  * @author Eldath
  */
 public class APISurvivePool {
-    private static Map<GroupMessageResponder, Boolean> survive = new HashMap<>();
-    private final Map<GroupMessageResponder, Boolean> noticed = new HashMap<>();
-    private static APISurvivePool instance = null;
+	private Map<GroupMessageResponder, Boolean> survive = new HashMap<>();
+	private Map<GroupMessageResponder, Boolean> noticed = new HashMap<>();
 
-    public static APISurvivePool getInstance() {
-        if (instance == null) instance = new APISurvivePool();
-        return instance;
-    }
+	private static APISurvivePool instance = new APISurvivePool();
 
-    public boolean containAPI(GroupMessageResponder input) {
-        return survive.containsKey(input);
-    }
+	public static APISurvivePool getInstance() {
+		return instance;
+	}
 
-    public void addAPI(GroupMessageResponder input) {
-        survive.put(input, true);
-        noticed.put(input, false);
-    }
+	public boolean containAPI(GroupMessageResponder input) {
+		return survive.containsKey(input);
+	}
 
-    public void setAPISurvive(GroupMessageResponder input, boolean state) {
-        survive.put(input, state);
-    }
+	public void addAPI(GroupMessageResponder input) {
+		survive.put(input, true);
+		noticed.put(input, false);
+	}
 
-    public boolean isSurvive(GroupMessageResponder input) {
-        return survive.get(input);
-    }
+	public void setAPISurvive(GroupMessageResponder input, boolean state) {
+		survive.put(input, state);
+	}
 
-    public boolean isNoticed(GroupMessageResponder input) {
-        return noticed.get(input);
-    }
+	public boolean isSurvive(GroupMessageResponder input) {
+		return survive.get(input);
+	}
 
-    public void setNoticed(GroupMessageResponder api) {
-        noticed.put(api, true);
-    }
+	public boolean isNoticed(GroupMessageResponder input) {
+		return noticed.get(input);
+	}
+
+	public void setNoticed(GroupMessageResponder api) {
+		noticed.put(api, true);
+	}
 }

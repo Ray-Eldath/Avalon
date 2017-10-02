@@ -89,7 +89,7 @@ public class CoolQServlet extends AvalonServlet {
 
 	@Override
 	public void responseGroup(long groupUid, String reply) {
-		if (ConstantPool.Basic.localOutput) {
+		if (ConstantPool.Basic.debug || ConstantPool.Basic.localOutput) {
 			System.out.println("Group output: " + reply);
 			return;
 		}
@@ -102,7 +102,7 @@ public class CoolQServlet extends AvalonServlet {
 
 	@Override
 	public void responseFriend(long friendUid, String reply) {
-		if (ConstantPool.Basic.localOutput) {
+		if (ConstantPool.Basic.debug || ConstantPool.Basic.localOutput) {
 			System.out.println("Friend output: " + reply);
 			return;
 		}

@@ -25,8 +25,7 @@ object GlotRun : Executive {
 		return map
 	}
 
-	override fun allLanguages(): List<String> =
-			lang.keys.toList()
+	override fun allLanguages(): List<String> = lang.keys.toList().sorted()
 
 	override fun execute(language: String, codeLines: List<String>): ExecutiveResult {
 		if (!lang.containsKey(language))

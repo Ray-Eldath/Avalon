@@ -83,6 +83,7 @@ public class ConstantPool {
 
 		public static final boolean AnswerMe_Enabled = instance().isCommandEnable("AnswerMe");
 		public static final boolean Wolfram_Enabled = instance().isCommandEnable("Wolfram");
-		public static final boolean Execute_Enable = instance().isCommandEnable("Execute");
+		public static final boolean Execute_Enabled = instance().isCommandEnable("Execute");
+		public static final boolean RSS_Enabled = instance().isCommandEnable("RSS");
 	}
 }

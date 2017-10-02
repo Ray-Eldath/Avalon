@@ -32,8 +32,8 @@ trait GroupMessageResponder extends BasicResponder {
 
 	override def hashCode(): Int =
 		new HashCodeBuilder(17, 37)
-			.append(getHelpMessage)
-			.append(getKeyWordRegex)
+			.append(getHelpMessage.hashCode)
+			.append(getKeyWordRegex.toString.hashCode)
 			.append(permissionIdentifier)
 			.hashCode()
 
