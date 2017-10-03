@@ -84,7 +84,7 @@ class InstallChecker {
 		}
 	}
 
-	private static boolean checkProcess(Process process) throws IOException {
+	private static boolean checkProcess(Process process) {
 		ExecutorService pool = Executors.newFixedThreadPool(2);
 		Future<String> future = pool.submit(() ->
 				new BufferedReader(new InputStreamReader(process.getErrorStream())).readLine());

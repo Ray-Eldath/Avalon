@@ -3,7 +3,6 @@ package avalon.servlet.manager;
 import avalon.main.MainServer;
 import org.json.JSONObject;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +19,7 @@ import java.io.IOException;
 public class InstanceManager extends HttpServlet {
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");

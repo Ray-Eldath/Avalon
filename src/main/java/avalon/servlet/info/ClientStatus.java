@@ -4,7 +4,6 @@ import avalon.tool.pool.ConstantPool;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +19,7 @@ import java.net.URL;
  */
 public class ClientStatus extends HttpServlet {
 	@Override
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
 		JSONObject object = new JSONObject();

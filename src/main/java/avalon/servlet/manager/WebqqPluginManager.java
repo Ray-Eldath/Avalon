@@ -4,7 +4,6 @@ import avalon.servlet.OnlineWebqqPluginPool;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +40,7 @@ import java.io.IOException;
 public class WebqqPluginManager extends HttpServlet {
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         String target = req.getParameter("target");
@@ -68,7 +67,7 @@ public class WebqqPluginManager extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         String target = req.getParameter("target");
