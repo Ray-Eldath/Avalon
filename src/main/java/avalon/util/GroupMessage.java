@@ -7,7 +7,7 @@ import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
-import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
+import static avalon.tool.pool.Constants.Basic.currentServlet;
 
 /**
  * Created by Eldath on 2017/2/11 0011.

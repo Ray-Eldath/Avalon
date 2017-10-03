@@ -15,7 +15,7 @@ object Echo extends GroupMessageResponder {
 		message.response(content)
 	}
 
-	override def getHelpMessage = "avalon echo | avalon repeat | 阿瓦隆跟我说：让阿瓦隆重复给定语句"
+	override def getHelpMessage = "avalon (echo|repeat)|阿瓦隆跟我说：让阿瓦隆重复给定语句"
 
 	override def getKeyWordRegex: Pattern = Pattern.compile("avalon echo |avalon repeat |阿瓦隆跟我说 ")
 

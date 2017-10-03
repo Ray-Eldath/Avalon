@@ -1,6 +1,6 @@
 package avalon.util;
 
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -8,7 +8,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Calendar;
 
-import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
+import static avalon.tool.pool.Constants.Basic.currentServlet;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
@@ -42,7 +42,7 @@ public class FriendMessage implements Message, Displayable {
 
 	@Override
 	public void response(String reply) {
-		if (ConstantPool.Basic.localOutput)
+		if (Constants.Basic.localOutput)
 			System.out.println("Friend output: " + reply);
 		else
 			currentServlet.responseFriend(senderUid, reply);

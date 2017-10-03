@@ -1,6 +1,6 @@
 package test;
 
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 
@@ -11,8 +11,8 @@ import avalon.util.GroupMessage;
  */
 public class DatabaseTest {
     public static void main(String[] args) {
-        ConstantPool.Database.currentDatabaseOperator.add(new GroupMessage(
+	    Constants.Database.currentDatabaseOperator.add(new GroupMessage(
                 2, 12345, 123, "alpha", 123, "beta", "test"));
-        ConstantPool.Database.currentDatabaseOperator.add(new FriendMessage(12, 1233423, 123, "sender", "test"));
+	    Constants.Database.currentDatabaseOperator.add(new FriendMessage(12, 1233423, 123, "sender", "test"));
     }
 }

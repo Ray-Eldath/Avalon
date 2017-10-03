@@ -1,6 +1,6 @@
 package avalon.servlet.info;
 
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import com.sun.management.OperatingSystemMXBean;
 import org.json.JSONObject;
 
@@ -54,8 +54,8 @@ public class SystemInfo extends HttpServlet {
         object.put("load_average", loadAverage);
         // operating system
         JSONObject operatingSystem = new JSONObject();
-        operatingSystem.put("start_time", ConstantPool.Basic.startTime);
-        operatingSystem.put("runtime", System.currentTimeMillis() - ConstantPool.Basic.startTime);
+	    operatingSystem.put("start_time", Constants.Basic.startTime);
+	    operatingSystem.put("runtime", System.currentTimeMillis() - Constants.Basic.startTime);
         operatingSystem.put("name", name);
         operatingSystem.put("arch", arch);
         operatingSystem.put("version", version);

@@ -1,11 +1,11 @@
 package avalon.extend.task;
 
-import avalon.tool.system.GroupConfigSystem;
+import avalon.tool.system.GroupConfig;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
+import static avalon.tool.pool.Constants.Basic.currentServlet;
 
 /**
  * Created by Eldath on 2017/1/31 0031.
@@ -23,7 +23,7 @@ public class ShowMsgTask implements Task {
 	public void run() {
 		LoggerFactory.getLogger(ShowMsgTask.class).info("echo message \"" +
 				message.replace("\n", "") + "\" to every group.");
-		List<Long> followGroups = GroupConfigSystem.instance().getFollowGroups();
+		List<Long> followGroups = GroupConfig.instance().getFollowGroups();
 		for (long thisNeedShow : followGroups)
 			currentServlet.responseGroup(thisNeedShow, message);
 	}

@@ -16,26 +16,26 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Map;
 
-import static avalon.tool.pool.ConstantPool.Address.dataPath;
+import static avalon.tool.pool.Constants.Address.dataPath;
 
 /**
  * Created by Eldath Ray on 2017/4/19 0019.
  *
  * @author Eldath Ray
  */
-public class RunningDataSystem implements BaseConfigSystem {
+public class RunningData implements BaseConfigSystem {
 	private static final Path FILE = Paths.get(dataPath + File.separator + "data.json");
-	private static final Logger LOGGER = LoggerFactory.getLogger(RunningDataSystem.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RunningData.class);
 	private static JSONObject object = new JSONObject();
 
-	private static RunningDataSystem instance = null;
+	private static RunningData instance = null;
 
-	public static RunningDataSystem getInstance() {
-		if (instance == null) instance = new RunningDataSystem();
+	public static RunningData getInstance() {
+		if (instance == null) instance = new RunningData();
 		return instance;
 	}
 
-	private RunningDataSystem() {
+	private RunningData() {
 		if (Files.notExists(FILE)) {
 			object.put("friend_id", 0);
 			object.put("group_id", 0);

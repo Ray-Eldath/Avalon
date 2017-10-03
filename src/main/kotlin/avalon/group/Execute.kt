@@ -3,6 +3,7 @@ package avalon.group
 import avalon.api.Flag
 import avalon.tool.ExecutiveStatus
 import avalon.tool.Executives
+import avalon.tool.pool.Constants.Basic.maxEchoLength
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern
@@ -28,16 +29,24 @@ object Execute : GroupMessageResponder {
 		val result = executive.execute(lang, codeLines)
 		val content =
 				when (result.status) {
-					ExecutiveStatus.ERROR -> "编译错误或其他致命错误：exitcode: ${result.exitcode} error: \n${result.error}"
-					ExecutiveStatus.STDERR -> "执行错误：exitcode: ${result.exitcode} stderr: \n${result.stderr}"
-					ExecutiveStatus.OK -> "执行成功！exitcode: ${result.exitcode} stdout: ${result.stdout}"
+					ExecutiveStatus.ERROR -> "编译错误或其他致命错误：exitcode: ${result.exitcode} error: \n${handleOutput(result.error)}"
+					ExecutiveStatus.STDERR -> "执行错误：exitcode: ${result.exitcode} stderr: \n${handleOutput(result.stderr)}"
+					ExecutiveStatus.OK -> "执行成功！exitcode: ${result.exitcode} stdout: ${handleOutput(result.stdout)}"
 				}
 		message.response("${Flag.AT(message)} $content")
 	}
 
-	override fun getHelpMessage(): String = "avalon execute <语言>{换行}<代码>：执行给定代码并回显输出。支持语言列表请使用`avalon execute languages`查看。"
+	fun handleOutput(string: String): String {
+		val length = string.length
+		if (length > maxEchoLength)
+			return string.substring(0, maxEchoLength) + "...<超长文本截断 原长度：$length>"
+		return string
+	}
 
-	override fun getKeyWordRegex(): Pattern = Pattern.compile("avalon execute [^languages]+")
+	override fun getHelpMessage(): String =
+			"avalon execute <语言>{换行}<代码>：执行给定代码并回显输出。支持语言列表及代码执行器相关信息请使用`avalon execute info`查看。"
+
+	override fun getKeyWordRegex(): Pattern = Pattern.compile("avalon execute [^info]+")
 
 	override fun instance(): GroupMessageResponder = this
 }

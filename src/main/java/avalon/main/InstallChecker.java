@@ -1,6 +1,6 @@
 package avalon.main;
 
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import avalon.util.ProcessHolder;
 import avalon.util.servlet.MojoWebqqServlet;
 import org.slf4j.Logger;
@@ -18,8 +18,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import static avalon.tool.pool.ConstantPool.Basic.currentPath;
-import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
+import static avalon.tool.pool.Constants.Basic.currentPath;
+import static avalon.tool.pool.Constants.Basic.currentServlet;
 
 /**
  * Created by Eldath Ray on 2017/4/19 0019.
@@ -31,7 +31,7 @@ class InstallChecker {
 
 	static void check() {
 		try {
-			handleLockFile(ConstantPool.Address.perlFileOfWechat);
+			handleLockFile(Constants.Address.perlFileOfWechat);
 			String prefix = "perl \"" + currentPath + File.separator + "bin" + File.separator;
 //            System.out.println("prefix: " + prefix);
 //            System.out.println("Mojo-Weixin.pl: " + prefix + "Mojo-Weixin.pl");
@@ -44,7 +44,7 @@ class InstallChecker {
 				System.exit(-3);
 			}
 			if (currentServlet instanceof MojoWebqqServlet) {
-				handleLockFile(ConstantPool.Address.servletScriptFile);
+				handleLockFile(Constants.Address.servletScriptFile);
 				ProcessHolder webqqHolder = new ProcessHolder(Runtime.getRuntime().exec(
 						prefix + "Mojo-Webqq.pl\""), "from perl:Mojo-Webqq ");
 				webqqHolder.start();

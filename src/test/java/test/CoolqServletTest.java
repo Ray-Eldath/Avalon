@@ -4,7 +4,7 @@ import org.eclipse.jetty.util.UrlEncoded;
 
 import java.net.URL;
 
-import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
+import static avalon.tool.pool.Constants.Basic.currentServlet;
 
 /**
  * Created by Eldath Ray on 2017/6/10 0010.

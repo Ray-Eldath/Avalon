@@ -1,6 +1,6 @@
 package avalon.tool.database;
 
-import avalon.tool.system.RunningDataSystem;
+import avalon.tool.system.RunningData;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.eclipse.jetty.util.UrlEncoded;
@@ -19,8 +19,8 @@ import java.time.format.DateTimeFormatter;
  */
 public class BasicDatabaseOperator implements Closeable {
 	private static final Logger logger = LoggerFactory.getLogger(BasicDatabaseOperator.class);
-	private static int groupId = RunningDataSystem.getInstance().getInt("group_id");
-	private static int friendId = RunningDataSystem.getInstance().getInt("friend_id");
+	private static int groupId = RunningData.getInstance().getInt("group_id");
+	private static int friendId = RunningData.getInstance().getInt("friend_id");
 
 	private static final BasicDatabaseOperator instance = new BasicDatabaseOperator();
 
@@ -63,8 +63,8 @@ public class BasicDatabaseOperator implements Closeable {
 	}
 
 	public void close() {
-		RunningDataSystem.getInstance().set("groupId", String.valueOf(groupId));
-		RunningDataSystem.getInstance().set("friendId", String.valueOf(friendId));
-		RunningDataSystem.getInstance().save();
+		RunningData.getInstance().set("groupId", String.valueOf(groupId));
+		RunningData.getInstance().set("friendId", String.valueOf(friendId));
+		RunningData.getInstance().save();
 	}
 }

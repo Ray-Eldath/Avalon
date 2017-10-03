@@ -1,6 +1,6 @@
 package avalon.servlet.info;
 
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -25,9 +25,9 @@ public class ClientStatus extends HttpServlet {
 		JSONObject object = new JSONObject();
 		JSONObject webqq = new JSONObject(), wechat = new JSONObject();
 		try {
-			webqq = (JSONObject) new JSONTokener(new URL(ConstantPool.Address.servlet +
+			webqq = (JSONObject) new JSONTokener(new URL(Constants.Address.servlet +
 					"/openqq/get_client_info").openStream()).nextValue();
-		   /* wechat = (JSONObject) new JSONTokener(new URL(ConstantPool.Address.wechat +
+		   /* wechat = (JSONObject) new JSONTokener(new URL(Constants.Address.wechat +
                     "/openwx/get_client_info").openStream()).nextValue();*/
 		} catch (IOException ignore) {
 		}
@@ -35,11 +35,11 @@ public class ClientStatus extends HttpServlet {
 		object.put("servlet", webqq);
 		object.put("wechat", wechat);
 		avalon.put("code", 0);
-		avalon.put("pid", ConstantPool.Basic.pid);
-		avalon.put("starttime", ConstantPool.Basic.startTime);
-		avalon.put("runtime", System.currentTimeMillis() - ConstantPool.Basic.startTime);
-		avalon.put("version", ConstantPool.Version.avalon);
-		avalon.put("debug", ConstantPool.Basic.debug);
+		avalon.put("pid", Constants.Basic.pid);
+		avalon.put("starttime", Constants.Basic.startTime);
+		avalon.put("runtime", System.currentTimeMillis() - Constants.Basic.startTime);
+		avalon.put("version", Constants.Version.avalon);
+		avalon.put("debug", Constants.Basic.debug);
 		object.put("avalon", avalon);
 		resp.setStatus(HttpServletResponse.SC_OK);
 		resp.getWriter().print(object.toString());

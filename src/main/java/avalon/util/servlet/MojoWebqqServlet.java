@@ -1,7 +1,7 @@
 package avalon.util.servlet;
 
 import avalon.main.MessageChecker;
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.eclipse.jetty.util.UrlEncoded;
@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
-import static avalon.tool.pool.ConstantPool.Address.servlet;
+import static avalon.tool.pool.Constants.Address.servlet;
 
 /**
  * Created by Eldath Ray on 2017/6/9 0009.
@@ -81,7 +81,7 @@ public class MojoWebqqServlet extends AvalonServlet {
 		if ("UNKNOWN".equals(version))
 			try {
 				version = ((JSONObject) new JSONTokener(
-						new URL(ConstantPool.Address.servlet + "/openqq/get_client_info")
+						new URL(Constants.Address.servlet + "/openqq/get_client_info")
 								.openStream()).nextValue()).getString("version");
 			} catch (IOException ignore) {
 			}
@@ -90,7 +90,7 @@ public class MojoWebqqServlet extends AvalonServlet {
 
 	@Override
 	public String scriptFilePath() {
-		return ConstantPool.Basic.currentPath + File.separator + "bin" + File.separator + "Mojo-Webqq.pl";
+		return Constants.Basic.currentPath + File.separator + "bin" + File.separator + "Mojo-Webqq.pl";
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class MojoWebqqServlet extends AvalonServlet {
 
 	@Override
 	public void responseGroup(long groupUid, String reply) {
-		if (ConstantPool.Basic.localOutput)
+		if (Constants.Basic.localOutput)
 			System.out.println("Group output: " + reply);
 		else
 			try {
@@ -124,7 +124,7 @@ public class MojoWebqqServlet extends AvalonServlet {
 
 	@Override
 	public void responseFriend(long friendUid, String reply) {
-		if (ConstantPool.Basic.localOutput)
+		if (Constants.Basic.localOutput)
 			System.out.println("Friend output: " + reply);
 		else
 			try {

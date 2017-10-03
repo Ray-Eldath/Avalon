@@ -20,6 +20,7 @@ class ExecutiveResult(val status: ExecutiveStatus, val exitcode: Int, val stdout
 }
 
 interface Executive {
+	fun name(): String
 	fun allLanguages(): List<String>
 	fun execute(language: String, codeLines: List<String>): ExecutiveResult
 }

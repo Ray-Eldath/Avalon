@@ -1,6 +1,6 @@
 package avalon.tool.database;
 
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
     @Override
     public boolean initDB() {
 //        throw new UnsupportedOperationException("请通过复制res目录下的empty_record.db文件为record.db文件完成数据库初始化");
-        String prefix = ConstantPool.Basic.currentPath + File.separator + "res" + File.separator;
+	    String prefix = Constants.Basic.currentPath + File.separator + "res" + File.separator;
         try {
             File file = new File(prefix + "record.db");
             if (file.exists())

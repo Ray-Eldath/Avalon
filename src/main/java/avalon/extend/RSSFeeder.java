@@ -1,8 +1,8 @@
 package avalon.extend;
 
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import avalon.tool.system.Config;
-import avalon.tool.system.GroupConfigSystem;
+import avalon.tool.system.GroupConfig;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -64,8 +64,8 @@ public class RSSFeeder implements Runnable {
 	public void run() {
 		RSSParser.RSSItem newest = update();
 		if (newest != null) {
-			for (long groupUid : GroupConfigSystem.instance().getFollowGroups())
-				ConstantPool.Basic.currentServlet.responseGroup(groupUid,
+			for (long groupUid : GroupConfig.instance().getFollowGroups())
+				Constants.Basic.currentServlet.responseGroup(groupUid,
 						String.format("订阅的RSS %s - %s 有更新：\n%s\n发布时间：%s 详见：%s",
 								newest.info().title(),
 								newest.info().description(),

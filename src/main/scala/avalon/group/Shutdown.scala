@@ -2,7 +2,7 @@ package avalon.group
 
 import java.util.regex.Pattern
 
-import avalon.tool.pool.ConstantPool
+import avalon.tool.pool.Constants
 import avalon.util.{GroupConfig, GroupMessage}
 import org.slf4j.LoggerFactory
 
@@ -16,7 +16,7 @@ object Shutdown extends GroupMessageResponder {
 		val admins = groupConfig.getAdmin
 		for (admin <- admins) {
 			if (admin == message.getSenderUid) {
-				try ConstantPool.Basic.currentServlet.shutdown()
+				try Constants.Basic.currentServlet.shutdown()
 				catch {
 					case e: UnsupportedOperationException =>
 						message.response(e.getMessage)

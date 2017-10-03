@@ -1,6 +1,6 @@
 package avalon.util.servlet;
 
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.eclipse.jetty.util.UrlEncoded;
@@ -89,7 +89,7 @@ public class CoolQServlet extends AvalonServlet {
 
 	@Override
 	public void responseGroup(long groupUid, String reply) {
-		if (ConstantPool.Basic.debug || ConstantPool.Basic.localOutput) {
+		if (Constants.Basic.debug || Constants.Basic.localOutput) {
 			System.out.println("Group output: " + reply);
 			return;
 		}
@@ -102,7 +102,7 @@ public class CoolQServlet extends AvalonServlet {
 
 	@Override
 	public void responseFriend(long friendUid, String reply) {
-		if (ConstantPool.Basic.debug || ConstantPool.Basic.localOutput) {
+		if (Constants.Basic.debug || Constants.Basic.localOutput) {
 			System.out.println("Friend output: " + reply);
 			return;
 		}
@@ -137,8 +137,8 @@ public class CoolQServlet extends AvalonServlet {
 		Map<String, Object> object = new HashMap<>();
 		object.put("group_id", groupUid);
 		object.put("user_id", userUid);
-		return ((JSONObject) (new JSONTokener(sendRequest("/get_group_member_info", object))
-				.nextValue())).getJSONObject("data").getString("card");
+		JSONObject object1 = (JSONObject) (new JSONTokener(sendRequest("/get_group_member_info", object)).nextValue());
+		return object1.getInt("retcode") != 0 ? "" : object1.getJSONObject("data").getString("card");
 	}
 
 	@Override

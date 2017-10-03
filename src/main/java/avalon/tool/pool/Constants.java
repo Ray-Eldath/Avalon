@@ -18,8 +18,8 @@ import static avalon.tool.system.Config.instance;
  *
  * @author Eldath
  */
-public class ConstantPool {
-	private ConstantPool() {
+public class Constants {
+	private Constants() {
 	}
 
 	public static class Database {
@@ -61,7 +61,9 @@ public class ConstantPool {
 		public static final boolean localOutput = (boolean) instance().get("local_output");
 		public static final boolean debug = (boolean) instance().get("debug");
 		public static final long startTime = System.currentTimeMillis();
+		public static final long debugMessageUid = 10000;
 		public static final int pid = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
+		public static final int maxEchoLength = 200;
 		public static final String currentPath;
 
 		static {

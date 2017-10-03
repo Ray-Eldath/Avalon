@@ -2,7 +2,7 @@ package avalon.servlet.manager;
 
 import avalon.servlet.OnlineWebqqPluginPool;
 import avalon.servlet.util.MojoWebqqPlugin;
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -14,8 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import static avalon.tool.pool.ConstantPool.Address.servletScriptFile;
-import static avalon.tool.pool.ConstantPool.Basic.currentPath;
+import static avalon.tool.pool.Constants.Address.servletScriptFile;
+import static avalon.tool.pool.Constants.Basic.currentPath;
 import static java.io.File.separator;
 
 /**
@@ -27,7 +27,7 @@ public class WebqqPluginManagerHandler {
     private static WebqqPluginManagerHandler instance = new WebqqPluginManagerHandler();
 
     public static WebqqPluginManagerHandler getInstance() {
-        if ("".equals(ConstantPool.Basic.currentServlet.scriptFilePath()))
+	    if ("".equals(Constants.Basic.currentServlet.scriptFilePath()))
             return null;
         return instance;
     }
@@ -76,7 +76,7 @@ public class WebqqPluginManagerHandler {
         disabled(plugin.getName());
         String content = "";
         try (BufferedReader reader = Files.newBufferedReader(
-                Paths.get(ConstantPool.Address.servletScriptFile), StandardCharsets.UTF_8)) {
+		        Paths.get(Constants.Address.servletScriptFile), StandardCharsets.UTF_8)) {
             String thisLine;
             while ((thisLine = reader.readLine()) != null) {
                 if (thisLine.contains("$client = Mojo::Webqq->new();"))
@@ -86,7 +86,7 @@ public class WebqqPluginManagerHandler {
         } catch (IOException e) {
             return errorHandler(e);
         }
-        try (FileWriter writer = new FileWriter(ConstantPool.Address.servletScriptFile)) {
+		try (FileWriter writer = new FileWriter(Constants.Address.servletScriptFile)) {
             writer.write(command);
         } catch (IOException e) {
             errorHandler(e);

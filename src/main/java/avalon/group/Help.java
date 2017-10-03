@@ -3,7 +3,7 @@ package avalon.group;
 import avalon.api.RegisterResponder;
 import avalon.api.util.Plugin;
 import avalon.tool.pool.AvalonPluginPool;
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import avalon.util.GroupConfig;
 import avalon.util.GroupMessage;
 
@@ -42,7 +42,7 @@ public class Help implements GroupMessageResponder {
 		}
 		message.response("This is Avalon. 以下是我的帮助资料：\n" +
 				"<关键词>：<触发的作用效果>，所有关键词均忽略大小写并且以avalon开头" + messageShow + "\nFor Avalon Version v" +
-				ConstantPool.Version.avalon);
+				Constants.Version.avalon);
 		// "\n（我才不会告诉你我有一些没有写在这里的彩蛋指令呢~哈哈`(*∩_∩*)′）");
 	}
 

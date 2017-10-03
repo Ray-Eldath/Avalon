@@ -3,7 +3,7 @@ package avalon.group
 import java.util.Random
 import java.util.regex.Pattern
 
-import avalon.tool.pool.VariablePool
+import avalon.tool.pool.Variables
 import avalon.util.{GroupConfig, GroupMessage}
 
 /**
@@ -13,10 +13,10 @@ import avalon.util.{GroupConfig, GroupMessage}
 	*/
 object Mo extends GroupMessageResponder {
 	override def doPost(message: GroupMessage, groupConfig: GroupConfig): Unit = {
-		if (VariablePool.Mo_Reach_Max) return
-		if (VariablePool.Mo_Count >= 50) {
+		if (Variables.Mo_Reach_Max) return
+		if (Variables.Mo_Count >= 50) {
 			message.response("哼！你们今天膜的太多啦！长者肯定会生气的！")
-			VariablePool.Mo_Reach_Max = true
+			Variables.Mo_Reach_Max = true
 			return
 		}
 		val responseMessages = Array(
@@ -28,7 +28,7 @@ object Mo extends GroupMessageResponder {
 			"枸杞有养生功效，古人云：枸利果佳生食宜，气阴火服必驱之",
 			"下面我们有请州长夫人演唱！")
 		message.response(responseMessages(new Random().nextInt(responseMessages.length)))
-		VariablePool.Mo_Count += 1
+		Variables.Mo_Count += 1
 	}
 
 	override def getHelpMessage = "膜*关键词：随机触发膜*语句"

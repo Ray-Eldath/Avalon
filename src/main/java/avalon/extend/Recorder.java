@@ -1,8 +1,8 @@
 package avalon.extend;
 
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import avalon.tool.system.Config;
-import avalon.tool.system.RunningDataSystem;
+import avalon.tool.system.RunningData;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 
@@ -23,8 +23,8 @@ public class Recorder {
 			(int) Config.instance().get("max_recorded_group_message_amount");
 	private static final int MAX_RECORD_FRIEND_MESSAGE_COUNT =
 			(int) Config.instance().get("max_recorded_friend_message_amount");
-	private static int nowGroupCount = RunningDataSystem.getInstance().getInt("group_message_recorded_count");
-	private static int nowFriendCount = RunningDataSystem.getInstance().getInt("friend_message_recorded_count");
+	private static int nowGroupCount = RunningData.getInstance().getInt("group_message_recorded_count");
+	private static int nowFriendCount = RunningData.getInstance().getInt("friend_message_recorded_count");
 
 	public static Recorder getInstance() {
 		if (instance == null) instance = new Recorder();
@@ -49,10 +49,10 @@ public class Recorder {
 
 	public void flushNow() {
 		for (GroupMessage thisGroupMessage : groupMessageRecord)
-			ConstantPool.Database.currentDatabaseOperator.add(thisGroupMessage);
+			Constants.Database.currentDatabaseOperator.add(thisGroupMessage);
 		groupMessageRecord.clear();
 		for (FriendMessage thisFriendMessage : friendMessageRecord)
-			ConstantPool.Database.currentDatabaseOperator.add(thisFriendMessage);
+			Constants.Database.currentDatabaseOperator.add(thisFriendMessage);
 		friendMessageRecord.clear();
 	}
 

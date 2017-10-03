@@ -4,7 +4,7 @@ import java.io.IOException
 import java.util.regex.Pattern
 
 import avalon.extend.WolframXMLParser
-import avalon.tool.pool.ConstantPool.Basic.currentServlet
+import avalon.tool.pool.Constants.Basic.currentServlet
 import avalon.tool.system.Config
 import avalon.util.{GroupConfig, GroupMessage}
 import org.eclipse.jetty.util.UrlEncoded

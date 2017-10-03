@@ -5,8 +5,8 @@ package avalon.tool.pool;
  *
  * @author Eldath
  */
-public class VariablePool {
-	private VariablePool() {
+public class Variables {
+	private Variables() {
 	}
 
 	public static int Mo_Count = 0;

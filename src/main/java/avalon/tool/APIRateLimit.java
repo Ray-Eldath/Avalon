@@ -6,20 +6,20 @@ package avalon.tool;
  * @author Eldath
  */
 public class APIRateLimit {
-    private long timestamp = 0L;
+	private long timestamp = 0L;
 
-    private final long duration;
+	private final long duration;
 
-    public APIRateLimit(long duration) {
-        this.duration = duration;
-    }
+	public APIRateLimit(long duration) {
+		this.duration = duration;
+	}
 
-    public synchronized boolean trySet(long currentInput) {
-        long current = currentInput * 1000;
-        if (current - timestamp > duration) {
-            timestamp = current;
-            return true;
-        } else
-            return false;
-    }
+	public synchronized boolean trySet(long currentInput) {
+		long current = currentInput * 1000;
+		if (current - timestamp > duration) {
+			timestamp = current;
+			return true;
+		} else
+			return false;
+	}
 }

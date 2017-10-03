@@ -4,7 +4,7 @@ import org.junit.Test
 
 class ExecutiveTest {
 	@Test
-	fun GlotRunTest() {
-		println(GlotRun.execute("python", arrayListOf("print(\"alpha\")")))
+	fun tGlotRunTest() {
+		println(GlotRun.execute("bash", arrayListOf("lss /bin")))
 	}
 }

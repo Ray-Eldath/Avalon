@@ -2,8 +2,8 @@ package avalon.group
 
 import java.util.regex.Pattern
 
-import avalon.tool.pool.ConstantPool.Basic.currentServlet
-import avalon.tool.pool.{AvalonPluginPool, ConstantPool}
+import avalon.tool.pool.Constants.Basic.currentServlet
+import avalon.tool.pool.{AvalonPluginPool, Constants}
 import avalon.util.{GroupConfig, GroupMessage}
 
 /**
@@ -21,8 +21,8 @@ object Version extends GroupMessageResponder {
 				if (AvalonPluginPool.getInfoList.isEmpty) "<无>" else AvalonPluginPool.getInfoList.map(_.getName),
 				if (AvalonPluginPool.getInfoList.isEmpty) "<无>" else AvalonPluginPool.getInfoList.filter(_.isEnabled).map(_.getName),
 				currentServlet.name,
-				ConstantPool.Version.instance.servlet,
-				ConstantPool.Version.avalon))
+				Constants.Version.instance.servlet,
+				Constants.Version.avalon))
 	}
 
 	override def getHelpMessage = "avalon version|版本：显示版本信息"

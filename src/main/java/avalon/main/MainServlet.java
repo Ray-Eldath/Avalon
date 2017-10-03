@@ -50,7 +50,7 @@ public class MainServlet extends HttpServlet {
 		if ("friend_message".equals(type)) {
 			FriendMessage message = new FriendMessage(Id, timeLong, senderUid, sender, content);
 			if (!MessageChecker.check(message)) return;
-			FriendMessageHandler.handle(message);
+			FriendMessageHandler.INSTANCE.handle(message);
 		} else {
 			long groupUid;
 			if (object.isNull("group_uid")) {

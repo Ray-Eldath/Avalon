@@ -6,12 +6,11 @@ import avalon.main.MessageChecker;
 import avalon.tool.APIRateLimit;
 import avalon.tool.pool.APISurvivePool;
 import avalon.tool.pool.AvalonPluginPool;
-import avalon.tool.pool.ConstantPool;
-import avalon.tool.pool.VariablePool;
+import avalon.tool.pool.Constants;
+import avalon.tool.pool.Variables;
 import avalon.tool.system.Config;
-import avalon.tool.system.GroupConfigSystem;
-import avalon.tool.system.RunningDataSystem;
-import avalon.util.GroupConfig;
+import avalon.tool.system.GroupConfig;
+import avalon.tool.system.RunningData;
 import avalon.util.GroupMessage;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
@@ -25,6 +24,7 @@ import java.util.stream.LongStream;
 import static avalon.api.Flag.AT;
 import static avalon.api.RegisterResponder.register;
 import static avalon.tool.ObjectCaster.toStringArray;
+import static avalon.tool.pool.Constants.Basic.debugMessageUid;
 
 /**
  * Created by Eldath Ray on 2017/3/30.
@@ -46,7 +46,7 @@ public class GroupMessageHandler {
 	private static GroupMessageHandler instance = new GroupMessageHandler();
 	private static final Logger LOGGER = LoggerFactory.getLogger(GroupMessageHandler.class);
 
-	static Map<Pattern, GroupMessageResponder> getApiList() {
+	public static Map<Pattern, GroupMessageResponder> getApiList() {
 		return apiList;
 	}
 
@@ -55,9 +55,9 @@ public class GroupMessageHandler {
 	}
 
 	private GroupMessageHandler() {
-		enableMap.put(AnswerMe.instance(), ConstantPool.Setting.AnswerMe_Enabled);
-		enableMap.put(Wolfram.instance(), ConstantPool.Setting.Wolfram_Enabled);
-		enableMap.put(Execute.INSTANCE, ConstantPool.Setting.Execute_Enabled);
+		enableMap.put(AnswerMe.instance(), Constants.Setting.AnswerMe_Enabled);
+		enableMap.put(Wolfram.instance(), Constants.Setting.Wolfram_Enabled);
+		enableMap.put(Execute.INSTANCE, Constants.Setting.Execute_Enabled);
 	}
 
 	static {
@@ -76,7 +76,7 @@ public class GroupMessageHandler {
 		register(Version.instance());
 		register(ShowAdmin.instance());
 		register(Echo.instance());
-		register(ExecuteLanguages.INSTANCE);
+		register(ExecuteInfo.INSTANCE);
 		register(Execute.INSTANCE);
 		// 娱乐类
 		register(Wolfram.instance());
@@ -105,23 +105,23 @@ public class GroupMessageHandler {
 		String sender = message.getSenderNickName();
 		long senderUid = message.getSenderUid();
 
-		GroupConfig groupConfig = GroupConfigSystem.instance().getConfig(groupUid);
+		avalon.util.GroupConfig groupConfig = GroupConfig.instance().getConfig(groupUid);
 		if (groupConfig == null) {
-			LOGGER.warn("listened message from not configured group " + groupUid + " . Ignored this message. Please config this group in `.\\group.json`.");
+			LOGGER.warn("listened message from not configured group " +
+					groupUid + " . Ignored this message. Please config this group in `.\\group.json`.");
 			return;
 		}
-		if (groupConfig.isRecord() && !ConstantPool.Basic.debug)
+		if (groupConfig.isRecord() && !Constants.Basic.debug)
 			Recorder.getInstance().recodeGroupMessage(message);
 		if (!groupConfig.isListen())
 			return;
-
 		if (ArrayUtils.contains(groupConfig.getBlacklist(), senderUid))
 			return;
 
 		LongStream adminUidStream = Arrays.stream(groupConfig.getAdmin());
 		boolean admin = adminUidStream.anyMatch(e -> e == senderUid);
 
-		if (ConstantPool.Setting.Block_Words_Punishment_Mode_Enabled)
+		if (Constants.Setting.Block_Words_Punishment_Mode_Enabled)
 			if (publishPeopleMap.containsKey(senderUid)) {
 				if (publishPeopleMap.get(senderUid) >= punishFrequency) {
 					LOGGER.info("Account " + senderUid + ":" + sender + " was blocked. Please entered " +
@@ -170,7 +170,7 @@ public class GroupMessageHandler {
 					toLowerCase().
 					replaceAll("[\\pP\\p{Punct}]", "").contains(thisBlockString)) {
 				String notice = "您发送的消息含有不允许的关键词！";
-				if (ConstantPool.Setting.Block_Words_Punishment_Mode_Enabled) {
+				if (Constants.Setting.Block_Words_Punishment_Mode_Enabled) {
 					notice = "您发送的消息含有不允许的关键词，注意：" + punishFrequency +
 							"次发送不允许关键词后帐号将被屏蔽！⊙﹏⊙!";
 					blackListPlus(groupMessage.getSenderUid());
@@ -179,10 +179,10 @@ public class GroupMessageHandler {
 				return false;
 			}
 		if (!cooling.trySet(time)) {
-			if (!VariablePool.Limit_Noticed) {
+			if (!Variables.Limit_Noticed) {
 				groupMessage.response("@" + sender +
 						" 对不起，您的指令超频。3s内仅能有一次指令输入，未到3s内的输入将被忽略。注意：此消息仅会显示一次。");
-				VariablePool.Limit_Noticed = true;
+				Variables.Limit_Noticed = true;
 			}
 			return false;
 		}
@@ -191,11 +191,11 @@ public class GroupMessageHandler {
 
 	public static void main(String[] args) {
 		Config.instance();
-		RunningDataSystem.getInstance();
-		new ConstantPool.Basic();
-		new ConstantPool.Address();
+		RunningData.getInstance();
+		new Constants.Basic();
+		new Constants.Address();
 		AvalonPluginPool.load();
-		if (!ConstantPool.Basic.debug) {
+		if (!Constants.Basic.debug) {
 			System.err.println("Debug not on! Exiting...");
 			return;
 		}
@@ -206,7 +206,7 @@ public class GroupMessageHandler {
 			System.out.print("Input here:");
 			String content = scanner.nextLine();
 			GroupMessage message = new GroupMessage(++id, LocalDateTime.now(),
-					10000, "Test", 617118724, "Test Group", content);
+					debugMessageUid, "Test", 617118724, "Test Group", content);
 			GroupMessageHandler.getInstance().handle(message);
 			System.out.println("===");
 		}

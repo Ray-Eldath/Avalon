@@ -12,6 +12,8 @@ class Executives {
 }
 
 object GlotRun : Executive {
+	override fun name(): String = "Glot-Run"
+
 	private val lang: Map<String, URL> = parseLanguages(URL("https://run.glot.io/languages"))
 	private val token = Config.instance().getCommandConfig("Execute", "token")
 
@@ -21,7 +23,11 @@ object GlotRun : Executive {
 		val map = HashMap<String, URL>(array.length())
 		(0 until array.length())
 				.map { array.getJSONObject(it) }
-				.forEach { map.put(it.getString("name"), URL("${it.getString("url")}/latest")) }
+				.forEach {
+					val name = it.getString("name")
+					val urlH = URL(it.getString("url") + "/latest")
+					map.put(name, urlH)
+				}
 		return map
 	}
 
@@ -32,7 +38,7 @@ object GlotRun : Executive {
 			throw UnsupportedLanguageException()
 		val content = JSONObject()
 		val array = JSONArray()
-		content.put("name", "main.py")
+		content.put("name", "main")
 		content.put("content", codeLines.joinToString("\n"))
 		array.put(content)
 		val obj = JSONObject()
@@ -41,9 +47,14 @@ object GlotRun : Executive {
 				hashMapOf(
 						Pair("Content-type", "application/json"),
 						Pair("Authorization", "Token $token"))) ?: throw RuntimeException("nonnull `result`")
-		val stdout = result.getString("stdout").replace("\n", "").trim()
-		val stderr = result.getString("stderr").trim()
-		val error = result.getString("error").trim()
+		val stdout = result.getString("stdout").replace("\n", " ").trim()
+
+		val stderrT = result.getString("stderr").trim()
+		val stderr = if (stderrT.isNotEmpty()) stderrT.substring(1, stderrT.length) else ""
+
+		val errorT = result.getString("error").trim()
+		val error = if (errorT.isNotEmpty()) errorT.substring(1, errorT.length) else ""
+
 		val status = when {
 			error.isNotEmpty() -> ExecutiveStatus.ERROR
 			stderr.isNotEmpty() -> ExecutiveStatus.STDERR

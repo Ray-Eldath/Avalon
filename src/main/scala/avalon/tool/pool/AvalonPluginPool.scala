@@ -6,7 +6,7 @@ import java.nio.file.{Files, Paths}
 import java.util
 
 import avalon.api.util.{Plugin, PluginInfo}
-import avalon.tool.pool.ConstantPool.Address.dataPath
+import avalon.tool.pool.Constants.Address.dataPath
 import org.json.{JSONObject, JSONTokener}
 import org.slf4j.LoggerFactory.getLogger
 

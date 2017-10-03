@@ -1,6 +1,6 @@
 package avalon.api
 
-import avalon.tool.pool.ConstantPool.Basic.currentServlet
+import avalon.tool.pool.Constants.Basic.currentServlet
 import avalon.util.GroupMessage
 import avalon.util.servlet.CoolQServlet
 

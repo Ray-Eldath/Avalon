@@ -1,6 +1,6 @@
 package avalon.servlet.info;
 
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServlet;
@@ -21,8 +21,8 @@ public class ClientVersion extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         JSONObject object = new JSONObject();
-        object.put("avalon", "v" + ConstantPool.Version.avalon);
-	    object.put("servlet", "v" + ConstantPool.Version.instance().servlet());
+	    object.put("avalon", "v" + Constants.Version.avalon);
+	    object.put("servlet", "v" + Constants.Version.instance().servlet());
 	    resp.setStatus(HttpServletResponse.SC_OK);
         resp.getWriter().print(object.toString());
     }

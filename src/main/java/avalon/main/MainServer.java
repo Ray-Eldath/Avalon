@@ -10,10 +10,10 @@ import avalon.group.GroupMessageHandler;
 import avalon.servlet.info.*;
 import avalon.servlet.manager.InstanceManager;
 import avalon.tool.pool.AvalonPluginPool;
-import avalon.tool.pool.ConstantPool;
+import avalon.tool.pool.Constants;
 import avalon.tool.system.Config;
-import avalon.tool.system.GroupConfigSystem;
-import avalon.tool.system.RunningDataSystem;
+import avalon.tool.system.GroupConfig;
+import avalon.tool.system.RunningData;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
+import static avalon.tool.pool.Constants.Basic.currentServlet;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -36,7 +36,7 @@ import static avalon.tool.pool.ConstantPool.Basic.currentServlet;
  */
 public class MainServer {
 	private static final Logger logger = LoggerFactory.getLogger(MainServer.class);
-	private static List<Long> followGroup = GroupConfigSystem.instance().getFollowGroups();
+	private static List<Long> followGroup = GroupConfig.instance().getFollowGroups();
 	private static Process webqqProcess, wechatProcess;
 
 	static class atShutdownDo extends Thread {
@@ -44,27 +44,27 @@ public class MainServer {
 		public void run() {
 			logger.info("Catch INT signal, Bye!");
 			Recorder.getInstance().flushNow();
-			RunningDataSystem.getInstance().save();
+			RunningData.getInstance().save();
 			//
 			for (long thisFollowFollow : followGroup)
 				currentServlet.responseGroup(thisFollowFollow, "服务已经停止。");
 			currentServlet.shutdown();
-			ConstantPool.Database.currentDatabaseOperator.close();
+			Constants.Database.currentDatabaseOperator.close();
 			currentServlet.clean();
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		Config.instance();
-		RunningDataSystem.getInstance();
-		new ConstantPool.Basic();
-		new ConstantPool.Address();
+		RunningData.getInstance();
+		new Constants.Basic();
+		new Constants.Address();
 		AvalonPluginPool.load();
 		// 线程池
 		new ShowMsg();
 		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(5);
 		executor.scheduleAtFixedRate(new Scheduler(), 6, 5, TimeUnit.SECONDS);
-		if (ConstantPool.Setting.RSS_Enabled)
+		if (Constants.Setting.RSS_Enabled)
 			executor.scheduleAtFixedRate(RSSFeeder.getInstance(), 2, 10, TimeUnit.MINUTES);
 		// 关车钩子
 		Runtime.getRuntime().addShutdownHook(new atShutdownDo());
@@ -85,7 +85,7 @@ public class MainServer {
 		server.setStopAtShutdown(true);
 
 		currentServlet.setGroupMessageReceivedHook(e -> GroupMessageHandler.getInstance().handle(e));
-		currentServlet.setFriendMessageReceivedHook(FriendMessageHandler::handle);
+		currentServlet.setFriendMessageReceivedHook(FriendMessageHandler.INSTANCE::handle);
 
 		context.addServlet(new ServletHolder(currentServlet), "/post_url");
 		context.addServlet(new ServletHolder(new WebqqPluginInfo()), "/info/get_webqq_plugin_info");
