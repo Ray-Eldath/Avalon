@@ -3,5 +3,5 @@ machine:
     version: openjdk8
 
 dependencies:
-  pre:
-    - chmod a+x gradlew
+  override:
+    - chmod +x ./gradlew
