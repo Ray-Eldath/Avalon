@@ -18,8 +18,10 @@ object Version extends GroupMessageResponder {
 			"\n全部插件有：%s\n已装载的插件有：%s" +
 			"\n%s Version: v%s\tAvalon Version: v%s")
 			.format(currentServlet.name,
-				if (AvalonPluginPool.getInfoList.isEmpty) "<无>" else AvalonPluginPool.getInfoList.map(_.getName),
-				if (AvalonPluginPool.getInfoList.isEmpty) "<无>" else AvalonPluginPool.getInfoList.filter(_.isEnabled).map(_.getName),
+				if (AvalonPluginPool.INSTANCE.getInfoList.isEmpty)
+					"<无>" else AvalonPluginPool.INSTANCE.getInfoList.map(_.getName),
+				if (AvalonPluginPool.INSTANCE.getInfoList.isEmpty)
+					"<无>" else AvalonPluginPool.INSTANCE.getInfoList.filiter(_.isEnabled).map(_.getName),
 				currentServlet.name,
 				Constants.Version.instance.servlet,
 				Constants.Version.avalon))
