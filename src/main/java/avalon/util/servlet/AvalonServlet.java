@@ -42,6 +42,8 @@ public abstract class AvalonServlet extends HttpServlet {
 
 	abstract public void responseFriend(long friendUid, String reply);
 
+	abstract public void responsePrivate(long uid, String reply);
+
 	abstract public void shutUp(long groupUid, long userUid, long time);
 
 	abstract public void shutdown();

@@ -75,7 +75,7 @@ object Manager extends GroupMessageResponder {
 
 	override def getHelpMessage = "avalon manager (start|stop)：<管理员> 打开或关闭控制指令响应器"
 
-	override def getKeyWordRegex: Pattern = Pattern.compile("avalon manager ")
+	override def getKeyWordRegex: Pattern = Pattern.compile("^avalon manager (start|stop)")
 
 	override def instance: GroupMessageResponder = this
 }

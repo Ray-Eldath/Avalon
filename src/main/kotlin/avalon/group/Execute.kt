@@ -29,14 +29,14 @@ object Execute : GroupMessageResponder {
 		val result = executive.execute(lang, codeLines)
 		val content =
 				when (result.status) {
-					ExecutiveStatus.ERROR -> "编译错误或其他致命错误：exitcode: ${result.exitcode} error: \n${handleOutput(result.error)}"
-					ExecutiveStatus.STDERR -> "执行错误：exitcode: ${result.exitcode} stderr: \n${handleOutput(result.stderr)}"
+					ExecutiveStatus.ERROR -> "编译错误或其他致命错误：exitcode: ${result.exitcode} error: ${handleOutput(result.error)}"
+					ExecutiveStatus.STDERR -> "执行错误：exitcode: ${result.exitcode} stderr: ${handleOutput(result.stderr)}"
 					ExecutiveStatus.OK -> "执行成功！exitcode: ${result.exitcode} stdout: ${handleOutput(result.stdout)}"
 				}
 		message.response("${Flag.AT(message)} $content")
 	}
 
-	fun handleOutput(string: String): String {
+	private fun handleOutput(string: String): String {
 		val length = string.length
 		if (length > maxEchoLength)
 			return string.substring(0, maxEchoLength) + "...<超长文本截断 原长度：$length>"

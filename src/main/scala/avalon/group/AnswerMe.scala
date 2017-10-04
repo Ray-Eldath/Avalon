@@ -39,9 +39,9 @@ object AnswerMe extends GroupMessageResponder {
 		message.response(AT(message) + " " + responseXiaoIce)
 	}
 
-	override def getHelpMessage = "avalon answer me | 阿瓦隆回答我：激活智能回复功能"
+	override def getHelpMessage = "avalon answer me|阿瓦隆回答我：激活智能回复功能"
 
-	override def getKeyWordRegex: Pattern = Pattern.compile("avalon answer me |阿瓦隆回答我 ")
+	override def getKeyWordRegex: Pattern = Pattern.compile("^avalon answer me |^阿瓦隆回答我 ")
 
 	override def instance: GroupMessageResponder = this
 }

@@ -63,7 +63,7 @@ public class Constants {
 		public static final long startTime = System.currentTimeMillis();
 		public static final long debugMessageUid = 10000;
 		public static final int pid = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
-		public static final int maxEchoLength = 200;
+		public static final int maxEchoLength = 160;
 		public static final String currentPath;
 
 		static {

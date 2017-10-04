@@ -3,6 +3,7 @@ package avalon.tool
 import avalon.tool.system.Config
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.IOException
 import java.net.URL
 
 class Executives {
@@ -43,17 +44,21 @@ object GlotRun : Executive {
 		array.put(content)
 		val obj = JSONObject()
 		obj.put("files", array)
-		val result = Share.post(lang[language]!!, obj,
-				hashMapOf(
-						Pair("Content-type", "application/json"),
-						Pair("Authorization", "Token $token"))) ?: throw RuntimeException("nonnull `result`")
+		val result = try {
+			Share.post(lang[language]!!, obj,
+					hashMapOf(
+							Pair("Content-type", "application/json"),
+							Pair("Authorization", "Token $token"))) ?: throw RuntimeException("nonnull `result`")
+		} catch (exception: IOException) {
+			val objT = JSONObject()
+			objT.put("error", exception.toString())
+			objT.put("stdout", "")
+			objT.put("stderr", "")
+			objT
+		}
 		val stdout = result.getString("stdout").replace("\n", " ").trim()
-
-		val stderrT = result.getString("stderr").trim()
-		val stderr = if (stderrT.isNotEmpty()) stderrT.substring(1, stderrT.length) else ""
-
-		val errorT = result.getString("error").trim()
-		val error = if (errorT.isNotEmpty()) errorT.substring(1, errorT.length) else ""
+		val stderr = result.getString("stderr").trim()
+		val error = result.getString("error").trim()
 
 		val status = when {
 			error.isNotEmpty() -> ExecutiveStatus.ERROR

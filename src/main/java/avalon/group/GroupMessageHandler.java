@@ -16,7 +16,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.LongStream;
@@ -132,7 +131,9 @@ public class GroupMessageHandler {
 								" 您的帐号由于发送过多不允许关键字，现已被屏蔽~o(╯□╰)o！");
 					return;
 				}
-			} else publishPeopleMap.put(senderUid, 0);
+			} else
+				publishPeopleMap.put(senderUid, 0);
+
 		for (Map.Entry<Pattern, GroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
 			GroupMessageResponder value = patternAPIEntry.getValue();
 			if (doCheck(patternAPIEntry.getKey(), message)) {
@@ -161,7 +162,6 @@ public class GroupMessageHandler {
 	private boolean doCheck(Pattern key, GroupMessage groupMessage) {
 		String lowerContent = groupMessage.getContent().toLowerCase();
 		long time = groupMessage.getTimeLong();
-		String sender = groupMessage.getSenderNickName();
 		if (!key.matcher(lowerContent).find())
 			return false;
 		for (String thisBlockString : blockWordList)
@@ -180,10 +180,13 @@ public class GroupMessageHandler {
 			}
 		if (!cooling.trySet(time)) {
 			if (!Variables.Limit_Noticed) {
-				groupMessage.response("@" + sender +
+				groupMessage.response(AT(groupMessage) +
 						" 对不起，您的指令超频。3s内仅能有一次指令输入，未到3s内的输入将被忽略。注意：此消息仅会显示一次。");
 				Variables.Limit_Noticed = true;
 			}
+			LOGGER.info(
+					String.format("cooling blocked message %d sent by %d in %s.",
+							groupMessage.getId(), groupMessage.getSenderUid(), groupMessage.getGroupName()));
 			return false;
 		}
 		return true;
@@ -205,7 +208,7 @@ public class GroupMessageHandler {
 		while (true) {
 			System.out.print("Input here:");
 			String content = scanner.nextLine();
-			GroupMessage message = new GroupMessage(++id, LocalDateTime.now(),
+			GroupMessage message = new GroupMessage(++id, System.currentTimeMillis(),
 					debugMessageUid, "Test", 617118724, "Test Group", content);
 			GroupMessageHandler.getInstance().handle(message);
 			System.out.println("===");

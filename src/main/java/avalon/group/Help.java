@@ -48,12 +48,12 @@ public class Help implements GroupMessageResponder {
 
 	@Override
 	public String getHelpMessage() {
-		return "avalon help|帮助：显示本内容";
+		return "avalon (help|帮助)：显示本内容";
 	}
 
 	@Override
 	public Pattern getKeyWordRegex() {
-		return Pattern.compile("avalon help|avalon 帮助");
+		return Pattern.compile("^avalon (help|帮助)");
 	}
 
 	@Override

@@ -29,9 +29,9 @@ object Shutdown extends GroupMessageResponder {
 		}
 	}
 
-	override def getHelpMessage = "avalon shutdown|exit：<管理员> 退出Avalon。"
+	override def getHelpMessage = "avalon (shutdown|exit)：<管理员> 退出Avalon。"
 
-	override def getKeyWordRegex: Pattern = Pattern.compile("avalon shutdown|avalon exit")
+	override def getKeyWordRegex: Pattern = Pattern.compile("^avalon (shutdown|exit)")
 
 	override def instance: GroupMessageResponder = this
 }

@@ -136,6 +136,11 @@ public class MojoWebqqServlet extends AvalonServlet {
 	}
 
 	@Override
+	public void responsePrivate(long uid, String reply) {
+		throw new UnsupportedOperationException("response private message unsupported yet");
+	}
+
+	@Override
 	public void shutUp(long groupUid, long userUid, long time) {
 		try {
 			new URL(servlet + "/openqq/shutup_group_member?time=" + time +

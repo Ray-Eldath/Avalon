@@ -25,9 +25,9 @@ object Version extends GroupMessageResponder {
 				Constants.Version.avalon))
 	}
 
-	override def getHelpMessage = "avalon version|版本：显示版本信息"
+	override def getHelpMessage = "avalon (version|about|版本)：显示版本信息"
 
-	override def getKeyWordRegex: Pattern = Pattern.compile("avalon version|avalon 版本|avalon about")
+	override def getKeyWordRegex: Pattern = Pattern.compile("^avalon (version|about|版本)")
 
 	override def instance: GroupMessageResponder = this
 }

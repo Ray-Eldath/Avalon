@@ -1,6 +1,5 @@
 package avalon.extend
 
-import org.eclipse.jetty.util.UrlEncoded
 import org.jdom2.Element
 import org.jdom2.xpath.XPathFactory
 
@@ -13,12 +12,8 @@ import scala.collection.mutable.ArrayBuffer
 	*/
 object WolframXMLParser {
 
-	class WolframPod(val titleString: String, val idString: String, val plaintextString: String) {
-		def title: String = UrlEncoded.decodeString(titleString)
-
-		def id: String = idString
-
-		def plaintext: String = plaintextString
+	class WolframPod(val title: String, val id: String, val plaintext: String) {
+		def empty(): Boolean = title.isEmpty && plaintext.isEmpty
 	}
 
 	def get(root: Element): ArrayBuffer[WolframPod] = {

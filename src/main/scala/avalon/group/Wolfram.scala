@@ -3,6 +3,7 @@ package avalon.group
 import java.io.IOException
 import java.util.regex.Pattern
 
+import avalon.api.Flag
 import avalon.extend.WolframXMLParser
 import avalon.tool.pool.Constants.Basic.currentServlet
 import avalon.tool.system.Config
@@ -24,7 +25,7 @@ object Wolfram extends GroupMessageResponder {
 		val url = "http://api.wolframalpha.com/v2/query?input=" + UrlEncoded.encodeString(question) + "&appid=" +
 			Config.instance.getCommandConfig("Wolfram", "app_id")
 		if (message.getContent.matches("avalon tell me [\\u4e00-\\u9fa5]")) {
-			message.response(" 指令不合规范~ o(╯□╰)o")
+			message.response(s"${Flag.AT(message)} 不支持中文输入~ o(╯□╰)o")
 			return
 		}
 		message.response(avalon.api.Flag.AT(message) + " 由于消息长度过长，将会将结果私聊给您。请等待网络延迟！^_^#")
@@ -33,9 +34,10 @@ object Wolfram extends GroupMessageResponder {
 			val pods = WolframXMLParser.get(builder.build(url).getRootElement)
 			val builder1 = new StringBuilder
 			for (thisPod <- pods)
-				builder1.append(thisPod).append("\n").append("---\n").append(thisPod.plaintext)
-			builder1.append("\n详见：http://www.wolframalpha.com/input?i=").append(UrlEncoded.encodeString(question))
-			currentServlet.responseFriend(message.getSenderUid, builder1.toString)
+				if (!thisPod.empty())
+					builder1.append(thisPod.title).append("\n").append("---\n").append(thisPod.plaintext)
+			builder1.append("\n\n详见：http://www.wolframalpha.com/input?i=").append(UrlEncoded.encodeString(question))
+			currentServlet.responsePrivate(message.getSenderUid, builder1.toString)
 		} catch {
 			case e@(_: JDOMException | _: IOException) =>
 				LoggerFactory.getLogger(Wolfram.this.getClass)
@@ -45,7 +47,7 @@ object Wolfram extends GroupMessageResponder {
 
 	override def getHelpMessage = "avalon tell me <your question>: (Only English) send your question to Wolfram Alpha and echo the return."
 
-	override def getKeyWordRegex: Pattern = Pattern.compile("avalon tell me \\w+")
+	override def getKeyWordRegex: Pattern = Pattern.compile("^avalon tell me \\w+")
 
 	override def instance: GroupMessageResponder = this
 }

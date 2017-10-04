@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
  *
  * @author Eldath
+ * @deprecated replaced by {@link avalon.util.servlet.AvalonServlet#setGroupMessageReceivedHook(Consumer)}
  */
 public class MainServlet extends HttpServlet {
 	private static Logger logger = LoggerFactory.getLogger(MainServlet.class);

@@ -23,9 +23,9 @@ object ShowAdmin extends GroupMessageResponder {
 		message.response(builder.toString.substring(0, builder.length - 2))
 	}
 
-	override def getHelpMessage = "avalon whoisadmin|谁是管理员：显示管理员列表"
+	override def getHelpMessage = "avalon (whoisadmin|谁是管理员)：显示管理员列表"
 
-	override def getKeyWordRegex: Pattern = Pattern.compile("avalon whoisadmin|avalon 谁是管理员")
+	override def getKeyWordRegex: Pattern = Pattern.compile("^avalon (whoisadmin|谁是管理员)")
 
 	override def instance: GroupMessageResponder = this
 }

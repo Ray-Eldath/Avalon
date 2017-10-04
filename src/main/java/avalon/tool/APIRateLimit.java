@@ -14,8 +14,7 @@ public class APIRateLimit {
 		this.duration = duration;
 	}
 
-	public synchronized boolean trySet(long currentInput) {
-		long current = currentInput * 1000;
+	public synchronized boolean trySet(long current) {
 		if (current - timestamp > duration) {
 			timestamp = current;
 			return true;

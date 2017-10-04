@@ -61,7 +61,7 @@ object Blacklist extends GroupMessageResponder {
 
 	override def getHelpMessage = "avalon blacklist (add|remove)：<管理员> 将指定的QQ号 添加至黑名单或从黑名单移除"
 
-	override def getKeyWordRegex: Pattern = Pattern.compile("avalon blacklist add |avalon blacklist remove ")
+	override def getKeyWordRegex: Pattern = Pattern.compile("^avalon blacklist (add|remove)")
 
 	override def instance: GroupMessageResponder = this
 }

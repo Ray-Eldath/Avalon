@@ -50,7 +50,7 @@ public class CoolQServlet extends AvalonServlet {
 					object.getLong("time"),
 					senderUid,
 					getFriendSenderNickname(senderUid),
-					object.getString("message").replaceAll("\\[CQ:\\w*", "")
+					object.getString("message").replaceAll("\\[CQ:\\S+]", "")
 			));
 		} else if ("group".equals(messageType)) {
 			if (!object.getString("anonymous").isEmpty())
@@ -64,7 +64,7 @@ public class CoolQServlet extends AvalonServlet {
 					getGroupSenderNickname(groupUid, senderUid),
 					groupUid,
 					getGroupName(groupUid),
-					object.getString("message").replaceAll("\\[CQ:\\w*", "")
+					object.getString("message").replaceAll("\\[CQ:\\S+]", "")
 			));
 		}
 	}
@@ -102,12 +102,17 @@ public class CoolQServlet extends AvalonServlet {
 
 	@Override
 	public void responseFriend(long friendUid, String reply) {
+		responsePrivate(friendUid, reply);
+	}
+
+	@Override
+	public void responsePrivate(long uid, String reply) {
 		if (Constants.Basic.debug || Constants.Basic.localOutput) {
-			System.out.println("Friend output: " + reply);
+			System.out.println("Friend or private output: " + reply);
 			return;
 		}
 		Map<String, Object> object = new HashMap<>();
-		object.put("user_id", friendUid);
+		object.put("user_id", uid);
 		object.put("message", reply);
 		object.put("is_raw", !reply.contains("[CQ:"));
 		sendRequest("/send_private_msg", object);
@@ -124,7 +129,7 @@ public class CoolQServlet extends AvalonServlet {
 
 	@Override
 	public void shutdown() {
-		throw new UnsupportedOperationException("please shutdown manually");
+		throw new UnsupportedOperationException("please shutdown CoolQ service manually");
 	}
 
 	@Override

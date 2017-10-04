@@ -29,7 +29,7 @@ object Flush extends GroupMessageResponder {
 
 	override def getHelpMessage = "avalon flush：<管理员> 刷新缓存并清除临时文件"
 
-	override def getKeyWordRegex: Pattern = Pattern.compile("avalon flush")
+	override def getKeyWordRegex: Pattern = Pattern.compile("^avalon flush")
 
 	override def instance: GroupMessageResponder = this
 }

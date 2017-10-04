@@ -11,6 +11,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+	maven {
+		url "http://maven.aliyun.com/nexus/content/groups/public"
+	}
 	jcenter()
 	mavenCentral()
 }
@@ -23,11 +26,11 @@ dependencies {
 	// https://mvnrepository.com/artifact/jaxen/jaxen
 	compile group: 'jaxen', name: 'jaxen', version: '1.1.6'
 	// https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server
-	compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.6.v20170531'
+	compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.7.v20170914'
 	// https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlet
-	compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.6.v20170531'
+	compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.7.v20170914'
 	// https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-util
-	compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.6.v20170531'
+	compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.7.v20170914'
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 	// https://mvnrepository.com/artifact/commons-io/commons-io
@@ -39,7 +42,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
 	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
 	// https://mvnrepository.com/artifact/org.json/json
-	compile group: 'org.json', name: 'json', version: '20160810'
+	compile group: 'org.json', name: 'json', version: '20170516'
 	// https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
 	compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.20.0'
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
@@ -52,6 +55,9 @@ dependencies {
 buildscript {
 	ext.kotlin_version = '1.1.51'
 	repositories {
+		maven {
+			url "http://maven.aliyun.com/nexus/content/groups/public"
+		}
 		mavenCentral()
 	}
 	dependencies {
