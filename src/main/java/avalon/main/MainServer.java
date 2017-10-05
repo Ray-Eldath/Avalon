@@ -1,10 +1,7 @@
 package avalon.main;
 
 import avalon.api.DelayResponse;
-import avalon.extend.RSSFeeder;
-import avalon.extend.Recorder;
-import avalon.extend.Scheduler;
-import avalon.extend.ShowMsg;
+import avalon.extend.*;
 import avalon.friend.FriendMessageHandler;
 import avalon.group.GroupMessageHandler;
 import avalon.servlet.info.*;
@@ -64,6 +61,7 @@ public class MainServer {
 		new ShowMsg();
 		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(5);
 		executor.scheduleAtFixedRate(new Scheduler(), 6, 5, TimeUnit.SECONDS);
+
 		if (Constants.Setting.RSS_Enabled)
 			executor.scheduleAtFixedRate(RSSFeeder.getInstance(), 2, 10, TimeUnit.MINUTES);
 		// 关车钩子
@@ -100,8 +98,13 @@ public class MainServer {
 		logger.info("Is server on (y or n, default n, await for 5 seconds): ");
 		int isOn = readInput();
 		if (isOn == 1) {
-			for (long thisFollowGroup : followGroup)
-				currentServlet.responseGroup(thisFollowGroup, "Avalon已经上线。");
+			for (long thisFollowGroup : followGroup) {
+				String str = "Avalon已经上线。";
+				Object config = Config.instance().getCommandConfig("Hitokoto", "push_when_start");
+				if (config != null && (boolean) config)
+					str += "\n一言：" + Hitokoto.INSTANCE.get();
+				currentServlet.responseGroup(thisFollowGroup, str);
+			}
 			logger.info("Login message sent.");
 		} else if (isOn == 0)
 			logger.info("Cancel send login message.");

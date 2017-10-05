@@ -76,6 +76,7 @@ public class GroupMessageHandler {
 		register(Execute.INSTANCE);
 		// 娱乐类
 		register(Wolfram.INSTANCE);
+		register(Hitokoto.INSTANCE);
 		register(Mo.INSTANCE);
 		register(AnswerMe.INSTANCE);
 	}
@@ -136,8 +137,9 @@ public class GroupMessageHandler {
 			if (doCheck(patternAPIEntry.getKey(), message)) {
 				if (!APISurvivePool.getInstance().isSurvive(value)) {
 					if (!APISurvivePool.getInstance().isNoticed(value)) {
-						message.response(AT(message) + " 对不起，您调用的指令响应器目前已被停止；" +
-								"注意：此消息仅会显示一次。");
+						if (!value.getKeyWordRegex().matcher("+1s").find())
+							message.response(AT(message) + " 对不起，您调用的指令响应器目前已被停止；" +
+									"注意：此消息仅会显示一次。");
 						APISurvivePool.getInstance().setNoticed(value);
 					}
 				} else if (MessageChecker.check(message) && isResponderEnable(value))

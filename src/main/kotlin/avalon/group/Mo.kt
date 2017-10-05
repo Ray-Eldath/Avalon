@@ -9,7 +9,7 @@ import java.util.regex.Pattern
 object Mo : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		if (Variables.Mo_Reach_Max) return
-		if (Variables.Mo_Count >= 50) {
+		if (Variables.Mo_Count >= 30) {
 			message.response("哼！你们今天膜的太多啦！长者肯定会生气的！")
 			Variables.Mo_Reach_Max = true
 			return

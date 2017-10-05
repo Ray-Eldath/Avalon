@@ -84,7 +84,8 @@ public class Config implements BaseConfigSystem {
 	}
 
 	public Object getCommandConfig(String commandName, String key) {
-		return ((JSONObject) pluginConfigs.get(commandName)).get(key);
+		JSONObject object = (JSONObject) pluginConfigs.get(commandName);
+		return object.has(key) ? object.get(key) : null;
 	}
 
 	public boolean isCommandEnable(String name) {

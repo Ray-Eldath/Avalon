@@ -87,5 +87,6 @@ public class Constants {
 		public static final boolean Wolfram_Enabled = instance().isCommandEnable("Wolfram");
 		public static final boolean Execute_Enabled = instance().isCommandEnable("Execute");
 		public static final boolean RSS_Enabled = instance().isCommandEnable("RSS");
+		public static final boolean Hitokoto_Enavled = instance().isCommandEnable("Hitokoto");
 	}
 }
