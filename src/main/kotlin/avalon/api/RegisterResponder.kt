@@ -8,7 +8,7 @@ import avalon.tool.pool.APISurvivePool
 
 object RegisterResponder {
 	@JvmStatic
-	private val map = HashMap<Plugin, ArrayList<CustomGroupResponder>>()
+	private val map = hashMapOf<Plugin, ArrayList<CustomGroupResponder>>()
 
 	@JvmStatic
 	fun register(responder: GroupMessageResponder) {
@@ -17,12 +17,12 @@ object RegisterResponder {
 	}
 
 	fun register(plugin: Plugin, responder: CustomGroupResponder) {
-		if (map.contains(plugin)) {
+		if (plugin in map) {
 			val tempList = map[plugin]!!
 			tempList.add(responder)
 			map.replace(plugin, tempList)
 		} else {
-			val tempList = ArrayList<CustomGroupResponder>()
+			val tempList = arrayListOf<CustomGroupResponder>()
 			tempList.add(responder)
 			map.put(plugin, tempList)
 		}
@@ -30,7 +30,7 @@ object RegisterResponder {
 	}
 
 	@JvmStatic
-	fun register(responder: FriendMessageResponder): Unit =
+	fun register(responder: FriendMessageResponder): Nothing =
 			throw UnsupportedOperationException("register for FriendMessageResponder not finish yet :~)")
 
 	@JvmStatic

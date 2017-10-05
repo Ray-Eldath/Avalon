@@ -13,9 +13,9 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 object AvalonPluginPool {
-	private val setting = Paths.get(dataPath + File.separator + "plugin" + File.separator + "plugins.json")
-	private val infoList = ArrayList<PluginInfo>()
-	private val pluginList = ArrayList<Plugin>()
+	private val setting = Paths.get("$dataPath${File.separator}plugin${File.separator}plugins.json")
+	private val infoList = arrayListOf<PluginInfo>()
+	private val pluginList = arrayListOf<Plugin>()
 	private val logger = LoggerFactory.getLogger(AvalonPluginPool.javaClass)
 
 	private val main = (JSONTokener(Files.newBufferedReader(setting)).nextValue() as JSONObject).getJSONObject("plugins")
@@ -47,13 +47,13 @@ object AvalonPluginPool {
 	}
 
 	private fun load(info: PluginInfo) {
-		val plugin = URLClassLoader(Array(1) { URL("file:" + dataPath + File.separator + "plugin" + File.separator + info.fileName) },
+		val plugin = URLClassLoader(Array(1) { URL("file:$dataPath${File.separator}plugin${File.separator}${info.fileName}") },
 				Thread.currentThread().contextClassLoader).loadClass(info.classString).newInstance() as Plugin
 		pluginList.add(plugin)
 		plugin.main()
 	}
 
-	fun getInfoList(): List<PluginInfo> = infoList
+	fun getInfoList() = infoList
 
-	fun getPluginList(): List<Plugin> = pluginList
+	fun getPluginList() = pluginList
 }

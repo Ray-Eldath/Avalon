@@ -23,7 +23,7 @@ object GlotRun : Executive {
 		val array = arrayT.getJSONArray("array")
 		val map = HashMap<String, URL>(array.length())
 		(0 until array.length())
-				.map { array.getJSONObject(it) }
+				.map(array::getJSONObject)
 				.forEach {
 					val name = it.getString("name")
 					val urlH = URL(it.getString("url") + "/latest")
@@ -50,11 +50,11 @@ object GlotRun : Executive {
 							Pair("Content-type", "application/json"),
 							Pair("Authorization", "Token $token"))) ?: throw RuntimeException("nonnull `result`")
 		} catch (exception: IOException) {
-			val objT = JSONObject()
-			objT.put("error", exception.toString())
-			objT.put("stdout", "")
-			objT.put("stderr", "")
-			objT
+			JSONObject().apply {
+				put("error", exception.toString())
+				put("stdout", "")
+				put("stderr", "")
+			}
 		}
 		val stdout = result.getString("stdout").replace("\n", " ").trim()
 		val stderr = result.getString("stderr").trim()

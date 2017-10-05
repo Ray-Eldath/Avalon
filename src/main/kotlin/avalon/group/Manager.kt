@@ -1,7 +1,7 @@
 package avalon.group
 
 import avalon.api.Flag.AT
-import avalon.api.GroupConfigUtils
+import avalon.api.getAllowArray
 import avalon.tool.pool.APISurvivePool
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
@@ -14,16 +14,16 @@ object Manager : GroupMessageResponder() {
 	private val canNotBanAPI = arrayOf(Shutdown.instance(), Flush.instance(), Manager.instance())
 
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
-		val restartAllowUid = GroupConfigUtils.getAllowArray(groupConfig, "Manager_restart")
-		val allowPeople = GroupConfigUtils.getAllowArray(groupConfig, "Manager_basic")
-		val stopAllowUid = GroupConfigUtils.getAllowArray(groupConfig, "Manager_stop")
+		val restartAllowUid = getAllowArray(groupConfig, "Manager_restart")!!
+		val allowPeople = getAllowArray(groupConfig, "Manager_basic")!!
+		val stopAllowUid = getAllowArray(groupConfig, "Manager_stop")!!
 
 		val content = message.content
 		val sender = message.senderNickName
 		val senderUid = message.senderUid
 		for (thisFollowFriend in allowPeople) {
 			if (senderUid == thisFollowFriend) {
-				if (!content.contains(" ")) {
+				if (" " !in content) {
 					message.response("@$sender 您的指示格式不对辣！（｀Δ´）！请注意在API触发语句后是否缺少空格~")
 					return
 				}
@@ -73,11 +73,11 @@ object Manager : GroupMessageResponder() {
 		message.response(AT(message) + " 您没有权限啦！(゜д゜)")
 	}
 
-	override fun permissionIdentifier(): Array<String> = arrayOf("Manager_restart", "Manager_stop", "Manager_basic")
+	override fun permissionIdentifier() = arrayOf("Manager_restart", "Manager_stop", "Manager_basic")
 
 	override fun getHelpMessage() = "avalon manager (start|stop) <指令响应器触发语句>：<管理员> 打开或关闭控制指令响应器"
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon manager (start|stop)")
 
-	override fun instance(): GroupMessageResponder = this
+	override fun instance() = this
 }

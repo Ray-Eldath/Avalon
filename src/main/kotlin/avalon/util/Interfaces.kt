@@ -13,5 +13,5 @@ interface BaseResponder {
 }
 
 interface Displayable {
-	fun getString(): String
+	val string: String
 }

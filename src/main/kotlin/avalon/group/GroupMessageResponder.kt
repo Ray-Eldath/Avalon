@@ -19,8 +19,8 @@ abstract class GroupMessageResponder : BasicResponder {
 	open fun permissionIdentifier(): Array<String>? = null
 
 	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (javaClass != other?.javaClass) return false
+		if (this === other || other === null) return true
+		if (javaClass != other.javaClass) return false
 		other as GroupMessageResponder
 		return EqualsBuilder().append(other.getHelpMessage(), getHelpMessage()).append(other.getKeyWordRegex(), getKeyWordRegex()).isEquals
 	}

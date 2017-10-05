@@ -6,14 +6,14 @@ import avalon.util.servlet.CoolQServlet
 
 object Flag {
 	@JvmStatic
-	fun AT(message: GroupMessage): String =
+	fun AT(message: GroupMessage) =
 			if (currentServlet is CoolQServlet)
 				"[CQ:at,qq=${message.senderUid}]"
 			else
 				"@ ${message.senderNickName}"
 
 	@JvmStatic
-	fun AT(userUid: Long): String =
+	fun AT(userUid: Long) =
 			if (currentServlet is CoolQServlet)
 				"[CQ:at,qq=$userUid]"
 			else

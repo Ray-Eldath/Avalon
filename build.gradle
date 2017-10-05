@@ -73,6 +73,13 @@ compileTestKotlin {
 	}
 }
 
+task fatJar(type: Jar) {
+	baseName = project.name + '-all'
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } } manifest {
+		attributes 'Main-Class': 'org.lice.repl.Main'
+	} with jar
+}
+
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }

@@ -14,7 +14,7 @@ object Shutdown : GroupMessageResponder() {
 				try {
 					Constants.Basic.currentServlet.shutdown()
 				} catch (e: UnsupportedOperationException) {
-					message.response(e.message)
+					message.response("鸡寄了！\n${e.message}")
 				}
 				LoggerFactory.getLogger(Shutdown.javaClass).warn("Avalon is stopped remotely by ${message.senderUid}:${message.senderNickName} on ${message.groupUid}:${message.groupName} at ${message.time.toString().replace("T", " ")}")
 				System.exit(0)

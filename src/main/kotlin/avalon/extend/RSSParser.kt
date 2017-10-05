@@ -2,7 +2,6 @@ package avalon.extend
 
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
-import org.jdom2.Element
 import org.jdom2.input.SAXBuilder
 import java.net.URL
 import java.time.LocalDateTime
@@ -19,8 +18,8 @@ object RSSParser {
 
 		override fun hashCode(): Int = HashCodeBuilder(37, 17).append(title).append(info.hashCode()).hashCode()
 		override fun equals(other: Any?): Boolean {
-			if (this === other) return true
-			if (javaClass != other?.javaClass) return false
+			if (this === other || other === null) return true
+			if (javaClass != other.javaClass) return false
 			other as RSSItem
 			return EqualsBuilder().append(other.title, title).append(other.link, link).isEquals
 		}
@@ -31,8 +30,8 @@ object RSSParser {
 
 		override fun hashCode(): Int = HashCodeBuilder(37, 17).append(title).append(link).hashCode()
 		override fun equals(other: Any?): Boolean {
-			if (this === other) return true
-			if (javaClass != other?.javaClass) return false
+			if (this === other || other === null) return true
+			if (javaClass != other.javaClass) return false
 			other as RSSInfo
 			return EqualsBuilder().append(other.title, title).append(other.link, link).isEquals
 		}
@@ -47,13 +46,12 @@ object RSSParser {
 		val info = RSSInfo(root.getChildTextNormalize("title"),
 				root.getChildTextNormalize("link"),
 				root.getChildTextNormalize("description"))
-		return items.map { it as Element }
-				.map {
-					RSSItem(it.getChildTextNormalize("title"),
-							it.getChildTextNormalize("link"),
-							LocalDateTime.parse(it.getChildTextNormalize("pubDate"), DateTimeFormatter.RFC_1123_DATE_TIME),
-							info)
-				}
+		return items.map {
+			RSSItem(it.getChildTextNormalize("title"),
+					it.getChildTextNormalize("link"),
+					LocalDateTime.parse(it.getChildTextNormalize("pubDate"), DateTimeFormatter.RFC_1123_DATE_TIME),
+					info)
+		}
 	}
 
 }

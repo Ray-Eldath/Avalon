@@ -15,7 +15,7 @@ import java.util.regex.Pattern
  */
 object AnswerMe : GroupMessageResponder() {
 
-	override fun doPost(message: GroupMessage, groupConfig: GroupConfig): Unit {
+	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		if (!Constants.Setting.AnswerMe_Enabled) return
 		var content = message.content.trim().toLowerCase().replace(Regex("[\\pP\\p{Punct}]"), "")
 		var text = content
@@ -40,5 +40,5 @@ object AnswerMe : GroupMessageResponder() {
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon answer me |^阿瓦隆回答我 ")
 
-	override fun instance(): GroupMessageResponder = this
+	override fun instance() = this
 }

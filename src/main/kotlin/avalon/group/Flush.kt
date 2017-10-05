@@ -26,9 +26,9 @@ object Flush : GroupMessageResponder() {
 		message.response(AT(message) + "权限不足！")
 	}
 
-	override fun getHelpMessage(): String = "avalon flush：<管理员> 刷新缓存并清除临时文件"
+	override fun getHelpMessage() = "avalon flush：<管理员> 刷新缓存并清除临时文件"
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon flush")
 
-	override fun instance(): GroupMessageResponder = this
+	override fun instance() = this
 }
