@@ -5,7 +5,7 @@ import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern
 
-object ExecuteInfo : GroupMessageResponder {
+object ExecuteInfo : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		val list = Executives.EXECUTIVE.allLanguages()
 		message.response(
@@ -15,6 +15,4 @@ object ExecuteInfo : GroupMessageResponder {
 	override fun getHelpMessage(): String? = null
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("avalon execute info")
-
-	override fun instance(): GroupMessageResponder = this
 }
