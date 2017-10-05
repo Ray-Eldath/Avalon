@@ -73,11 +73,11 @@ object Manager : GroupMessageResponder() {
 		message.response(AT(message) + " 您没有权限啦！(゜д゜)")
 	}
 
-	override fun permissionIdentifier(): Array<String> = arrayOf("Manager_restart", "Manager_stop", "Manager_basic")
+	override fun permissionIdentifier() = arrayOf("Manager_restart", "Manager_stop", "Manager_basic")
 
 	override fun getHelpMessage() = "avalon manager (start|stop) <指令响应器触发语句>：<管理员> 打开或关闭控制指令响应器"
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon manager (start|stop)")
 
-	override fun instance(): GroupMessageResponder = this
+	override fun instance() = this
 }
