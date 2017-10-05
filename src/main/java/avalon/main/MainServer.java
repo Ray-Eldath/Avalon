@@ -59,7 +59,7 @@ public class MainServer {
 		RunningData.getInstance();
 		new Constants.Basic();
 		new Constants.Address();
-		AvalonPluginPool.load();
+		AvalonPluginPool.INSTANCE.load();
 		// 线程池
 		new ShowMsg();
 		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(5);

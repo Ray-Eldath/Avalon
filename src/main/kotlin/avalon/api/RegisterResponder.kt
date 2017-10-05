@@ -7,8 +7,10 @@ import avalon.group.GroupMessageResponder
 import avalon.tool.pool.APISurvivePool
 
 object RegisterResponder {
+	@JvmStatic
 	private val map = HashMap<Plugin, ArrayList<CustomGroupResponder>>()
 
+	@JvmStatic
 	fun register(responder: GroupMessageResponder) {
 		GroupMessageHandler.addGroupMessageResponder(responder)
 		APISurvivePool.getInstance().addAPI(responder)
@@ -27,8 +29,10 @@ object RegisterResponder {
 		GroupMessageHandler.addCustomGroupResponder(responder)
 	}
 
+	@JvmStatic
 	fun register(responder: FriendMessageResponder): Unit =
 			throw UnsupportedOperationException("register for FriendMessageResponder not finish yet :~)")
 
+	@JvmStatic
 	fun queryAvalonPlugin(plugin: Plugin): ArrayList<CustomGroupResponder> = map[plugin]!!
 }

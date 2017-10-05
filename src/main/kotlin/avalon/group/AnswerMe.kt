@@ -19,7 +19,7 @@ object AnswerMe : GroupMessageResponder() {
 		if (!Constants.Setting.AnswerMe_Enabled) return
 		var content = message.content.trim().toLowerCase().replace(Regex("[\\pP\\p{Punct}]"), "")
 		var text = content
-		text = text.replace(Regex(keyWordRegex.toString()), "")
+		text = text.replace(Regex(getKeyWordRegex().toString()), "")
 		if ("" == text.replace(" ", "")) {
 			message.response(AT(message) + " 消息不能为空哦~(*∩_∩*)")
 			return
@@ -31,7 +31,7 @@ object AnswerMe : GroupMessageResponder() {
 			message.response(AT(message) + " 您的消息过短~o(╯□╰)o！")
 			return
 		}
-		content = content.replace(Regex(keyWordRegex.toString()), "")
+		content = content.replace(Regex(getKeyWordRegex().toString()), "")
 		val responseXiaoIce = XiaoIceResponder.responseXiaoIce(content) ?: return
 		message.response(AT(message) + " " + responseXiaoIce)
 	}
@@ -39,4 +39,6 @@ object AnswerMe : GroupMessageResponder() {
 	override fun getHelpMessage() = "avalon answer me|阿瓦隆回答我：激活智能回复功能"
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon answer me |^阿瓦隆回答我 ")
+
+	override fun instance(): GroupMessageResponder = this
 }

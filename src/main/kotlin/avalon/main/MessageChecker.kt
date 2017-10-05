@@ -5,8 +5,10 @@ import avalon.util.Message
 import java.nio.charset.Charset
 
 object MessageChecker {
+	@JvmStatic
 	fun check(message: Message): Boolean = checkEncode(message)
 
+	@JvmStatic
 	private fun checkEncode(message: Message): Boolean {
 		val content = message.content
 		val charset = Charset.forName("GB2312")

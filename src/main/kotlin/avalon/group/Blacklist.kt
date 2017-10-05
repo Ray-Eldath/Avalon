@@ -37,23 +37,23 @@ object Blacklist : GroupMessageResponder() {
 				.forEach {
 					when (action) {
 						"add" -> {
-							message.response(AT(message) + " 帐号" + toBan + "现已被屏蔽。")
+							message.response("${AT(message)} 帐号 $toBan 现已被屏蔽。")
 							Blacklist.logger.info("Account $toBan is baned by $senderUid : $sender.")
 							GroupMessageHandler.getSetBlackListPeopleMap().put(toBan, max)
 							return
 						}
 						"remove" -> {
 							if (!GroupMessageHandler.getSetBlackListPeopleMap().containsKey(toBan)) {
-								message.response(AT(message) + " 好像帐号" + toBan + "没有被屏蔽过呢-。-")
+								message.response("${AT(message)} 管理员：好像帐号 $toBan 没有被屏蔽过呢-。-")
 								return
 							}
-							message.response(AT(message) + " 帐号" + toBan + "的屏蔽已被解除(^.^)")
+							message.response("${AT(message)} 管理员：帐号 $toBan 的屏蔽已被解除(^.^)")
 							Blacklist.logger.info("Account $toBan is allowed again by $senderUid : $sender.")
 							GroupMessageHandler.getSetBlackListPeopleMap().put(toBan, 0)
 							return
 						}
 						else -> {
-							message.response(AT(message) + " 您的指示格式不对辣！（｀Δ´）！")
+							message.response("${AT(message)} 管理员：您的指示格式不对呢！（｀Δ´）！")
 							return
 						}
 					}
@@ -66,4 +66,6 @@ object Blacklist : GroupMessageResponder() {
 	override fun getHelpMessage() = "avalon blacklist (add|remove)：<管理员> 将指定的QQ号 添加至黑名单或从黑名单移除"
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon blacklist (add|remove)")
+
+	override fun instance(): GroupMessageResponder = this
 }

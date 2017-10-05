@@ -18,7 +18,7 @@ class WolframTest {
 		val builder1 = StringBuilder()
 		for (thisPod in pods) {
 			if (!thisPod.empty())
-				builder1.append(thisPod.title()).append("\n").append("---\n").append(thisPod.plaintext())
+				builder1.append(thisPod.title).append("\n").append("---\n").append(thisPod.plaintext)
 		}
 		builder1.append("\n\n详见：http://www.wolframalpha.com/input?i=").append(UrlEncoded.encodeString(question))
 

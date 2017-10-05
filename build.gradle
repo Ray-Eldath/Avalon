@@ -3,7 +3,6 @@ version '1.0.0'
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
-apply plugin: 'scala'
 apply plugin: 'application'
 
 mainClassName = 'avalon.main.MainServer'
@@ -47,8 +46,6 @@ dependencies {
 	compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.20.0'
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
 	compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
-	// https://mvnrepository.com/artifact/org.scala-lang/scala-library
-	compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.3'
 	compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 }
 
@@ -58,11 +55,11 @@ buildscript {
 		maven {
 			url "http://maven.aliyun.com/nexus/content/groups/public"
 		}
+		jcenter()
 		mavenCentral()
 	}
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-		classpath group: 'org.scala-lang', name: 'scala-library', version: '2.12.3'
 	}
 }
 
@@ -76,4 +73,8 @@ compileTestKotlin {
 	kotlinOptions {
 		jvmTarget = "1.8"
 	}
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
 }

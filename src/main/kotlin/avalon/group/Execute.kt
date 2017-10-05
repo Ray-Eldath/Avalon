@@ -47,4 +47,6 @@ object Execute : GroupMessageResponder() {
 			"avalon execute <语言>{换行}<代码>：执行给定代码并回显输出。支持语言列表及代码执行器相关信息请使用`avalon execute info`查看。"
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("avalon execute [^info]+")
+
+	override fun instance(): GroupMessageResponder = this
 }

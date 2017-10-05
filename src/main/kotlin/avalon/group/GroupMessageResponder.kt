@@ -14,14 +14,16 @@ abstract class GroupMessageResponder : BasicResponder {
 
 	abstract override fun getKeyWordRegex(): Pattern
 
+	abstract fun instance(): GroupMessageResponder?
+
 	open fun permissionIdentifier(): Array<String>? = null
 
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
 		if (javaClass != other?.javaClass) return false
 		other as GroupMessageResponder
-		return EqualsBuilder().append(other.helpMessage, helpMessage).append(other.keyWordRegex, keyWordRegex).isEquals
+		return EqualsBuilder().append(other.getHelpMessage(), getHelpMessage()).append(other.getKeyWordRegex(), getKeyWordRegex()).isEquals
 	}
 
-	override fun hashCode(): Int = HashCodeBuilder(17, 37).append(helpMessage).append(keyWordRegex.toString()).toHashCode()
+	override fun hashCode(): Int = HashCodeBuilder(17, 37).append(getHelpMessage()).append(getKeyWordRegex().toString()).toHashCode()
 }

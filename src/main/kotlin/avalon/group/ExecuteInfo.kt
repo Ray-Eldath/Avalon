@@ -15,4 +15,6 @@ object ExecuteInfo : GroupMessageResponder() {
 	override fun getHelpMessage(): String? = null
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("avalon execute info")
+
+	override fun instance(): GroupMessageResponder = this
 }

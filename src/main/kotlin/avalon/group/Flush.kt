@@ -15,12 +15,11 @@ object Flush : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		val senderUid = message.senderUid
 		val admins = groupConfig.admin
-		val sender = message.senderNickName
 		for (thisAdmin in admins) {
 			if (senderUid == thisAdmin) {
 				Recorder.getInstance().flushNow()
 				System.gc()
-				message.response("管理员：@" + sender + "缓存及临时文件刷新成功。")
+				message.response("管理员：${AT(message)} 缓存及临时文件刷新成功。")
 				return
 			}
 		}
@@ -30,4 +29,6 @@ object Flush : GroupMessageResponder() {
 	override fun getHelpMessage(): String = "avalon flush：<管理员> 刷新缓存并清除临时文件"
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon flush")
+
+	override fun instance(): GroupMessageResponder = this
 }

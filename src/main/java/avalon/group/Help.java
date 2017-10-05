@@ -6,6 +6,7 @@ import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.Constants;
 import avalon.util.GroupConfig;
 import avalon.util.GroupMessage;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath
  */
-public class Help implements GroupMessageResponder {
+public class Help extends GroupMessageResponder {
 	private static Help instance = null;
 
 	public static Help getInstance() {
@@ -36,7 +37,7 @@ public class Help implements GroupMessageResponder {
 				continue;
 			messageShow.append("\n").append(api.getHelpMessage());
 		}
-		for (Plugin thisPlugin : AvalonPluginPool.getPluginList()) {
+		for (Plugin thisPlugin : AvalonPluginPool.INSTANCE.getPluginList()) {
 			messageShow.append("以下指令由插件 ").append(thisPlugin.name()).append(" 提供：");
 			RegisterResponder.queryAvalonPlugin(thisPlugin).forEach(e -> messageShow.append("\n").append(e.getHelpMessage()));
 		}
@@ -51,6 +52,7 @@ public class Help implements GroupMessageResponder {
 		return "avalon (help|帮助)：显示本内容";
 	}
 
+	@NotNull
 	@Override
 	public Pattern getKeyWordRegex() {
 		return Pattern.compile("^avalon (help|帮助)");

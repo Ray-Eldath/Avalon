@@ -36,10 +36,9 @@ public class GroupMessageHandler {
 	private static final Map<? super GroupMessageResponder, Boolean> enableMap = new HashMap<>();
 
 	private static Map<Long, Integer> publishPeopleMap = new HashMap<>();
-	private static final String[] blockWordList = toStringArray(Config
-			.instance().getConfigArray("block_words"));
-	private static final int punishFrequency = (int) Config.instance()
-			.get("block_words_punish_frequency");
+
+	private static final String[] blockWordList = toStringArray(Config.instance().getConfigArray("block_words"));
+	private static final int punishFrequency = (int) Config.instance().get("block_words_punish_frequency");
 	private static final APIRateLimit cooling = new APIRateLimit(3000L);
 
 	private static GroupMessageHandler instance = new GroupMessageHandler();
@@ -54,8 +53,8 @@ public class GroupMessageHandler {
 	}
 
 	private GroupMessageHandler() {
-		enableMap.put(AnswerMe.instance(), Constants.Setting.AnswerMe_Enabled);
-		enableMap.put(Wolfram.instance(), Constants.Setting.Wolfram_Enabled);
+		enableMap.put(AnswerMe.INSTANCE, Constants.Setting.AnswerMe_Enabled);
+		enableMap.put(Wolfram.INSTANCE, Constants.Setting.Wolfram_Enabled);
 		enableMap.put(Execute.INSTANCE, Constants.Setting.Execute_Enabled);
 	}
 
@@ -63,24 +62,22 @@ public class GroupMessageHandler {
 		/*
 		 * 指令优先级排序依据：单词 >> 多词，管理类 >> 服务类 >> 娱乐类，触发类 >> 自由类
 		 */
-		// 特殊优先
-		register(Test.instance());
 		// 管理类
-		register(Shutdown.instance());
-		register(Flush.instance());
-		register(Manager.instance());
-		register(Blacklist.instance());
+		register(Shutdown.INSTANCE);
+		register(Flush.INSTANCE);
+		register(Manager.INSTANCE);
+		register(Blacklist.INSTANCE);
 		// 服务类
 		register(Help.getInstance());
-		register(Version.instance());
-		register(ShowAdmin.instance());
-		register(Echo.instance());
+		register(Version.INSTANCE);
+		register(ShowAdmin.INSTANCE);
+		register(Echo.INSTANCE);
 		register(ExecuteInfo.INSTANCE);
 		register(Execute.INSTANCE);
 		// 娱乐类
-		register(Wolfram.instance());
-		register(Mo.instance());
-		register(AnswerMe.instance());
+		register(Wolfram.INSTANCE);
+		register(Mo.INSTANCE);
+		register(AnswerMe.INSTANCE);
 	}
 
 	GroupMessageResponder getGroupResponderByKeyword(String keyword) {
@@ -180,6 +177,8 @@ public class GroupMessageHandler {
 			}
 		if (!cooling.trySet(time)) {
 			if (!Variables.Limit_Noticed) {
+				if (key.matcher("+1s").find())
+					return false;
 				groupMessage.response(AT(groupMessage) +
 						" 对不起，您的指令超频。3s内仅能有一次指令输入，未到3s内的输入将被忽略。注意：此消息仅会显示一次。");
 				Variables.Limit_Noticed = true;
@@ -197,7 +196,7 @@ public class GroupMessageHandler {
 		RunningData.getInstance();
 		new Constants.Basic();
 		new Constants.Address();
-		AvalonPluginPool.load();
+		AvalonPluginPool.INSTANCE.load();
 		if (!Constants.Basic.debug) {
 			System.err.println("Debug not on! Exiting...");
 			return;

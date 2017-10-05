@@ -33,9 +33,9 @@ public class RSSFeeder implements Runnable {
 			URL key = entry.getKey();
 			List<RSSParser.RSSItem> value = entry.getValue();
 			for (RSSParser.RSSItem thisItem : value)
-				if (updated.containsKey(key) && !value.isEmpty() && thisItem.pubDate().isAfter(updated.get(key))) {
+				if (updated.containsKey(key) && !value.isEmpty() && thisItem.getPubDate().isAfter(updated.get(key))) {
 					result.add(thisItem);
-					updated.replace(key, thisItem.pubDate());
+					updated.replace(key, thisItem.getPubDate());
 				}
 		}
 		return result.isEmpty() ? null : result.get(new Random().nextInt(result.size()));
@@ -67,11 +67,11 @@ public class RSSFeeder implements Runnable {
 			for (long groupUid : GroupConfig.instance().getFollowGroups())
 				Constants.Basic.currentServlet.responseGroup(groupUid,
 						String.format("订阅的RSS %s - %s 有更新：\n%s\n发布时间：%s 详见：%s",
-								newest.info().title(),
-								newest.info().description(),
-								newest.title(),
-								newest.pubDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
-								newest.link()));
+								newest.getInfo().getTitle(),
+								newest.getInfo().getDescription(),
+								newest.getTitle(),
+								newest.getPubDate().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
+								newest.getLink()));
 		}
 	}
 }

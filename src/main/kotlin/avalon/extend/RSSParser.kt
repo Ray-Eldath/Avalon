@@ -38,6 +38,7 @@ object RSSParser {
 		}
 	}
 
+	@JvmStatic
 	fun get(url: URL): List<RSSItem> {
 		val sb = SAXBuilder()
 		val doc = sb.build(url)

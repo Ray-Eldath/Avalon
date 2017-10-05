@@ -18,4 +18,6 @@ object Echo : GroupMessageResponder() {
 	override fun getHelpMessage(): String = "avalon (echo|repeat)|阿瓦隆跟我说：让阿瓦隆重复给定语句"
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon (echo|repeat)|^阿瓦隆跟我说 ")
+
+	override fun instance(): GroupMessageResponder = this
 }
