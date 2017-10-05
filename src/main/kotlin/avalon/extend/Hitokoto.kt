@@ -12,11 +12,7 @@ object Hitokoto {
 		var url = "https://sslapi.hitokoto.cn/?encode=json"
 		if (category != null)
 			url += "&c=$category"
-
 		val obj = JSONTokener(URL(url).openStream()).nextValue() as JSONObject
-		val hitokoto = obj.getString("hitokoto")
-		val from = obj.getString("from")
-
-		return "$hitokoto\n——$from"
+		return "${obj.getString("hitokoto")}\n——${obj.getString("from")}"
 	}
 }
