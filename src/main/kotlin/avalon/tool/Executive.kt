@@ -14,9 +14,7 @@ enum class ExecutiveStatus {
 }
 
 class ExecutiveResult(val status: ExecutiveStatus, val exitcode: Int, val stdout: String, val stderr: String, val error: String) {
-	override fun toString(): String {
-		return "ExecutiveResult(status=$status, exitcode=$exitcode, stdout='$stdout', stderr='$stderr', error='$error')"
-	}
+	override fun toString() = "ExecutiveResult(status=$status, exitcode=$exitcode, stdout='$stdout', stderr='$stderr', error='$error')"
 }
 
 interface Executive {
@@ -25,14 +23,14 @@ interface Executive {
 	fun execute(language: String, codeLines: List<String>): ExecutiveResult
 }
 
-class UnsupportedLanguageException : Exception()
+class UnsupportedLanguageException : RuntimeException()
 
 internal object Share {
 
-	fun post(url: URL, content: JSONObject? = null, parameter: Map<String, String>? = null): JSONObject? =
+	fun post(url: URL, content: JSONObject? = null, parameter: Map<String, String>? = null) =
 			visit("POST", url, content, parameter)
 
-	fun get(url: URL, content: JSONObject? = null, parameter: Map<String, String>? = null): JSONObject? =
+	fun get(url: URL, content: JSONObject? = null, parameter: Map<String, String>? = null) =
 			visit("GET", url, content, parameter)
 
 	private fun visit(method: String, url: URL, content: JSONObject? = null,
@@ -45,10 +43,10 @@ internal object Share {
 		connection.doOutput = true
 		connection.requestMethod = method
 
-		if (content != null) {
+		content?.let {
 			val stream = connection.outputStream
 			val writer = OutputStreamWriter(stream)
-			content.write(writer)
+			it.write(writer)
 			writer.close()
 			stream.close()
 		}
@@ -61,9 +59,7 @@ internal object Share {
 		} else {
 			val tokener = JSONTokener(tmp.toChar() + InputStreamReader(input).readText())
 			var obj = JSONObject()
-			if (tmp.toChar() == '[') {
-				obj.put("array", JSONArray(tokener))
-			} else
+			if (tmp.toChar() == '[') obj.put("array", JSONArray(tokener)) else
 				obj = JSONObject(tokener)
 			input.close()
 			obj

@@ -45,5 +45,5 @@ object Wolfram : GroupMessageResponder() {
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon tell me \\w+")
 
-	override fun instance(): GroupMessageResponder = this
+	override fun instance() = this
 }

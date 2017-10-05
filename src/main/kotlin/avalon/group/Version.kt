@@ -27,5 +27,5 @@ object Version : GroupMessageResponder() {
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon (version|about|版本)")
 
-	override fun instance(): GroupMessageResponder = this
+	override fun instance() = this
 }
