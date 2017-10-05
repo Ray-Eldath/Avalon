@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 
 /**
  * Created by Eldath Ray on 2017/4/19 0019.
@@ -63,6 +64,11 @@ public class MySQLDatabaseOperator implements DatabaseOperator {
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
+	}
+
+	@Override
+	public boolean addQuote(LocalDateTime time, String speaker, String content) {
+		return BasicDatabaseOperator.getInstance().addQuote(statement, time, speaker, content);
 	}
 
 	@Override

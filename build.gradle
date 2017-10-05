@@ -75,9 +75,7 @@ compileTestKotlin {
 
 task fatJar(type: Jar) {
 	baseName = project.name + '-all'
-	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } } manifest {
-		attributes 'Main-Class': 'org.lice.repl.Main'
-	} with jar
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 tasks.withType(JavaCompile) {

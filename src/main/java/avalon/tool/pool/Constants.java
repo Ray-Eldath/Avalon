@@ -24,7 +24,7 @@ public class Constants {
 
 	public static class Database {
 		private static final String datasource =
-				instance().getJSONObject("datasource").getString("datasource").toLowerCase();
+				instance().getJSONObject("database").getString("datasource").toLowerCase();
 		public static final DatabaseOperator currentDatabaseOperator =
 				"mysql".equals(datasource) ? MySQLDatabaseOperator.getInstance() : SQLiteDatabaseOperator.getInstance();
 	}
@@ -87,6 +87,7 @@ public class Constants {
 		public static final boolean Wolfram_Enabled = instance().isCommandEnable("Wolfram");
 		public static final boolean Execute_Enabled = instance().isCommandEnable("Execute");
 		public static final boolean RSS_Enabled = instance().isCommandEnable("RSS");
-		public static final boolean Hitokoto_Enavled = instance().isCommandEnable("Hitokoto");
+		public static final boolean Hitokoto_Enabled = instance().isCommandEnable("Hitokoto");
+		public static final boolean Quote_Enabled = instance().isCommandEnable("Quote");
 	}
 }

@@ -56,6 +56,8 @@ public class GroupMessageHandler {
 		enableMap.put(AnswerMe.INSTANCE, Constants.Setting.AnswerMe_Enabled);
 		enableMap.put(Wolfram.INSTANCE, Constants.Setting.Wolfram_Enabled);
 		enableMap.put(Execute.INSTANCE, Constants.Setting.Execute_Enabled);
+		enableMap.put(Hitokoto.INSTANCE, Constants.Setting.Hitokoto_Enabled);
+		enableMap.put(Quote.INSTANCE, Constants.Setting.Quote_Enabled);
 	}
 
 	static {
@@ -67,6 +69,7 @@ public class GroupMessageHandler {
 		register(Flush.INSTANCE);
 		register(Manager.INSTANCE);
 		register(Blacklist.INSTANCE);
+		register(Quote.INSTANCE);
 		// 服务类
 		register(Help.INSTANCE);
 		register(Version.INSTANCE);
