@@ -1,7 +1,7 @@
 package avalon.group
 
 import avalon.api.Flag.AT
-import avalon.api.GroupConfigUtils
+import avalon.api.getAllowArray
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import org.slf4j.LoggerFactory
@@ -20,8 +20,8 @@ object Blacklist : GroupMessageResponder() {
 		val max = GroupMessageHandler.getPunishFrequency()
 		val content = message.content
 		val sender = message.senderNickName
-		val allowList: LongArray? = GroupConfigUtils.getAllowArray(groupConfig, "Blacklist_basic")
-		if (!content.contains(" ")) {
+		val allowList = getAllowArray(groupConfig, "Blacklist_basic")
+		if (" " !in content) {
 			message.response(AT(message) + " 您的指示格式不对辣！（｀Δ´）！")
 			return
 		}
@@ -30,12 +30,11 @@ object Blacklist : GroupMessageResponder() {
 			message.response(AT(message) + " 您的指示格式不对辣！（｀Δ´）！")
 			return
 		}
-		val action = split[2]
 		val toBan = split[3].toLong()
 		allowList!!
 				.filter { it == senderUid }
 				.forEach {
-					when (action) {
+					when (split[2]) {
 						"add" -> {
 							message.response("${AT(message)} 帐号 $toBan 现已被屏蔽。")
 							Blacklist.logger.info("Account $toBan is baned by $senderUid : $sender.")
@@ -61,11 +60,11 @@ object Blacklist : GroupMessageResponder() {
 		message.response(AT(message) + " 您没有权限辣！（｀Δ´）！")
 	}
 
-	override fun permissionIdentifier(): Array<String> = arrayOf("Blacklist_basic")
+	override fun permissionIdentifier() = arrayOf("Blacklist_basic")
 
 	override fun getHelpMessage() = "avalon blacklist (add|remove)：<管理员> 将指定的QQ号 添加至黑名单或从黑名单移除"
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon blacklist (add|remove)")
 
-	override fun instance(): GroupMessageResponder = this
+	override fun instance() = this
 }
