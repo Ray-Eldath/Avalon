@@ -43,20 +43,17 @@ object RSSParser {
 		val sb = SAXBuilder()
 		val doc = sb.build(url)
 		val root = doc.rootElement.getChild("channel")
-		val resultItem = ArrayList<RSSItem>()
 		val items = root.getChildren("item").toList()
 		val info = RSSInfo(root.getChildTextNormalize("title"),
 				root.getChildTextNormalize("link"),
 				root.getChildTextNormalize("description"))
-		items
-				.map { it as Element }
-				.mapTo(resultItem) {
+		return items.map { it as Element }
+				.map {
 					RSSItem(it.getChildTextNormalize("title"),
 							it.getChildTextNormalize("link"),
 							LocalDateTime.parse(it.getChildTextNormalize("pubDate"), DateTimeFormatter.RFC_1123_DATE_TIME),
 							info)
 				}
-		return resultItem
 	}
 
 }

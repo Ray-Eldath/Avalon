@@ -10,7 +10,7 @@ import java.util.regex.Pattern
 abstract class GroupMessageResponder : BasicResponder {
 	abstract fun doPost(message: GroupMessage, groupConfig: GroupConfig)
 
-	abstract override fun getHelpMessage(): String?
+	abstract override fun getHelpMessage(): String
 
 	abstract override fun getKeyWordRegex(): Pattern
 

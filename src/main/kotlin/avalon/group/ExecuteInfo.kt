@@ -12,7 +12,7 @@ object ExecuteInfo : GroupMessageResponder() {
 				"`avalon execute`由${Executives.EXECUTIVE.name()}提供代码执行器服务，支持的语言有：${list.joinToString()}")
 	}
 
-	override fun getHelpMessage(): String? = null
+	override fun getHelpMessage(): String = ""
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("avalon execute info")
 

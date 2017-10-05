@@ -68,7 +68,7 @@ public class GroupMessageHandler {
 		register(Manager.INSTANCE);
 		register(Blacklist.INSTANCE);
 		// 服务类
-		register(Help.getInstance());
+		register(Help.INSTANCE);
 		register(Version.INSTANCE);
 		register(ShowAdmin.INSTANCE);
 		register(Echo.INSTANCE);
