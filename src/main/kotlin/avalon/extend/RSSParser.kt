@@ -39,7 +39,9 @@ object RSSParser {
 
 	@JvmStatic
 	fun get(url: URL): List<RSSItem> {
-		val root = SAXBuilder().build(url).rootElement.getChild("channel")
+		val sb = SAXBuilder()
+		val doc = sb.build(url)
+		val root = doc.rootElement.getChild("channel")
 		val items = root.getChildren("item").toList()
 		val info = RSSInfo(root.getChildTextNormalize("title"),
 				root.getChildTextNormalize("link"),
