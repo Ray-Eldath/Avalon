@@ -10,9 +10,6 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	maven {
-		url "http://maven.aliyun.com/nexus/content/groups/public"
-	}
 	jcenter()
 	mavenCentral()
 }
@@ -52,9 +49,6 @@ dependencies {
 buildscript {
 	ext.kotlin_version = '1.1.51'
 	repositories {
-		maven {
-			url "http://maven.aliyun.com/nexus/content/groups/public"
-		}
 		jcenter()
 		mavenCentral()
 	}
