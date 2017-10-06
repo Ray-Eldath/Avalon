@@ -197,6 +197,8 @@ public class GroupMessageHandler {
 	}
 
 	public static void main(String[] args) {
+		System.setProperty("file.encoding", "UTF-8");
+
 		Config.instance();
 		RunningData.getInstance();
 		new Constants.Basic();

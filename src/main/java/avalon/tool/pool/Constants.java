@@ -38,7 +38,7 @@ public class Constants {
 	}
 
 	public static class Version {
-		public static final String avalon = "1.0.0";
+		public static final String avalon = "1.1.0";
 		private static final String servlet = Basic.currentServlet.version();
 		private static Version instance = null;
 

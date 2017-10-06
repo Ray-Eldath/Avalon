@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.jdom2.input.SAXBuilder
 import java.net.URL
+import java.nio.charset.StandardCharsets
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -40,7 +41,7 @@ object RSSParser {
 	@JvmStatic
 	fun get(url: URL): List<RSSItem> {
 		val sb = SAXBuilder()
-		val doc = sb.build(url)
+		val doc = sb.build(url.openConnection().getInputStream().reader(StandardCharsets.UTF_8))
 		val root = doc.rootElement.getChild("channel")
 		val items = root.getChildren("item").toList()
 		val info = RSSInfo(root.getChildTextNormalize("title"),

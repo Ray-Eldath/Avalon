@@ -11,6 +11,8 @@ import org.jdom2.JDOMException
 import org.jdom2.input.SAXBuilder
 import org.slf4j.LoggerFactory
 import java.io.IOException
+import java.net.URL
+import java.nio.charset.StandardCharsets
 import java.util.regex.Pattern
 
 object Wolfram : GroupMessageResponder() {
@@ -28,7 +30,7 @@ object Wolfram : GroupMessageResponder() {
 		message.response(avalon.api.Flag.AT(message) + " 由于消息长度过长，将会将结果私聊给您。请等待网络延迟！^_^#")
 		try {
 			val builder = SAXBuilder()
-			val pods = WolframXMLParser.get(builder.build(url).rootElement)
+			val pods = WolframXMLParser.get(builder.build(URL(url).openStream().reader(StandardCharsets.UTF_8)).rootElement)
 			val builder1 = StringBuilder()
 			pods.filterNot { it.empty() }
 					.forEach { builder1.append(it.title).append("\n").append("---\n").append(it.plaintext) }

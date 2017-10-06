@@ -52,6 +52,9 @@ public class MainServer {
 	}
 
 	public static void main(String[] args) throws Exception {
+		// 字符集处理
+		System.setProperty("file.encoding", "UTF-8");
+		// debug检测
 		if (Constants.Basic.debug)
 			logger.warn("Avalon is running under DEBUG mode!");
 //		if (!currentServlet.test()) {
@@ -59,6 +62,7 @@ public class MainServer {
 //			System.exit(-1);
 //		}
 		// 响应速度太慢。
+
 		Config.instance();
 		RunningData.getInstance();
 		new Constants.Basic();

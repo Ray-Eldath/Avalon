@@ -5,9 +5,9 @@ import org.json.JSONObject
 import org.json.JSONTokener
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
-import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
+import java.nio.charset.StandardCharsets
 
 enum class ExecutiveStatus {
 	OK, ERROR, STDERR
@@ -45,7 +45,7 @@ internal object Share {
 
 		content?.let {
 			val stream = connection.outputStream
-			val writer = OutputStreamWriter(stream)
+			val writer = OutputStreamWriter(stream, StandardCharsets.UTF_8)
 			it.write(writer)
 			writer.close()
 			stream.close()

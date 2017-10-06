@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -195,7 +196,7 @@ public class CoolQServlet extends AvalonServlet {
 			URLConnection connection = new URL(url).openConnection();
 			connection.setReadTimeout(2000);
 			connection.setConnectTimeout(2000);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
 			String thisLine;
 			while ((thisLine = reader.readLine()) != null)
 				response.append(thisLine);
