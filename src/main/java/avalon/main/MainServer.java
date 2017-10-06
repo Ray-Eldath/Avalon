@@ -52,6 +52,13 @@ public class MainServer {
 	}
 
 	public static void main(String[] args) throws Exception {
+		if (Constants.Basic.debug)
+			logger.warn("Avalon is running under DEBUG mode!");
+//		if (!currentServlet.test()) {
+//			logger.error("can not connect to servlet " + currentServlet.name() + "! please check this servlet is DO running...");
+//			System.exit(-1);
+//		}
+		// 响应速度太慢。
 		Config.instance();
 		RunningData.getInstance();
 		new Constants.Basic();
@@ -102,7 +109,7 @@ public class MainServer {
 				String str = "Avalon已经上线。";
 				Object config = Config.instance().getCommandConfig("Hitokoto", "push_when_start");
 				if (config != null && (boolean) config)
-					str += "\n一言：" + Hitokoto.INSTANCE.get();
+					str += "\n\n" + Hitokoto.INSTANCE.get();
 				currentServlet.responseGroup(thisFollowGroup, str);
 			}
 			logger.info("Login message sent.");

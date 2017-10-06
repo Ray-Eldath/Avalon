@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -138,6 +139,12 @@ public class CoolQServlet extends AvalonServlet {
 	}
 
 	@Override
+	public String version() {
+		return ((JSONObject) new JSONTokener(sendRequest("/get_version_info", null)).nextValue())
+				.getJSONObject("data").getString("plugin_version");
+	}
+
+	@Override
 	public String getGroupSenderNickname(long groupUid, long userUid) {
 		Map<String, Object> object = new HashMap<>();
 		object.put("group_id", groupUid);
@@ -185,7 +192,10 @@ public class CoolQServlet extends AvalonServlet {
 		}
 		StringBuilder response = new StringBuilder();
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
+			URLConnection connection = new URL(url).openConnection();
+			connection.setReadTimeout(2000);
+			connection.setConnectTimeout(2000);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String thisLine;
 			while ((thisLine = reader.readLine()) != null)
 				response.append(thisLine);

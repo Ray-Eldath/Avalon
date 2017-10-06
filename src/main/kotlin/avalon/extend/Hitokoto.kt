@@ -13,6 +13,6 @@ object Hitokoto {
 		if (category != null)
 			url += "&c=$category"
 		val obj = JSONTokener(URL(url).openStream()).nextValue() as JSONObject
-		return "${obj.getString("hitokoto")}\n——${obj.getString("from")}"
+		return "『${obj.getString("hitokoto")}』\n—「${obj.getString("from")}」"
 	}
 }

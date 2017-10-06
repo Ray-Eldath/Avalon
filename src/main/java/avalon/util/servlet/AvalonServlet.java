@@ -38,6 +38,14 @@ public abstract class AvalonServlet extends HttpServlet {
 		return object.getString("listen_address");
 	}
 
+	public boolean test() {
+		try {
+			return version() != null;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	abstract public void responseGroup(long groupUid, String reply);
 
 	abstract public void responseFriend(long friendUid, String reply);
