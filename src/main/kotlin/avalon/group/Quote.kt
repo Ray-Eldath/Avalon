@@ -1,6 +1,7 @@
 package avalon.group
 
 import avalon.api.Flag.AT
+import avalon.tool.database.Table
 import avalon.tool.pool.Constants.Database.currentDatabaseOperator
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
@@ -13,7 +14,7 @@ object Quote : GroupMessageResponder() {
 			return
 		}
 		val hashCode = message.hashCode()
-		if (currentDatabaseOperator.exist("quote_", "uid=$hashCode")) {
+		if (currentDatabaseOperator.exist(Table.QUOTE, "uid=$hashCode")) {
 			message.response("${AT(message)} 给定的Quote已经记录过啦~（　^ω^）")
 			return
 		}

@@ -16,6 +16,7 @@ import java.sql.Statement;
  */
 public class MySQLDatabaseOperator implements DatabaseOperator {
 	private static Statement statement;
+	private static BasicDatabaseOperator operator;
 
 	private static MySQLDatabaseOperator instance = new MySQLDatabaseOperator();
 
@@ -36,6 +37,7 @@ public class MySQLDatabaseOperator implements DatabaseOperator {
 
 			Connection conn = DriverManager.getConnection(url, username, password);
 			statement = conn.createStatement();
+			operator = new BasicDatabaseOperator(conn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,23 +68,23 @@ public class MySQLDatabaseOperator implements DatabaseOperator {
 	}
 
 	@Override
-	public boolean exist(String table, String condition) {
-		return BasicDatabaseOperator.getInstance().exist(statement, table, condition);
+	public boolean exist(Table table, String condition) {
+		return operator.exist(statement, table, condition);
 	}
 
 	@Override
 	public boolean addQuote(int hashCode, String speaker, String content) {
-		return BasicDatabaseOperator.getInstance().addQuote(statement, hashCode, speaker, content);
+		return operator.addQuote(hashCode, speaker, content);
 	}
 
 	@Override
 	public boolean add(GroupMessage input) {
-		return BasicDatabaseOperator.getInstance().add(statement, input);
+		return operator.add(input);
 	}
 
 	@Override
 	public boolean add(FriendMessage input) {
-		return BasicDatabaseOperator.getInstance().add(statement, input);
+		return operator.add(input);
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public interface DatabaseOperator {
 
 	boolean addQuote(int hashCode, String speaker, String content);
 
-	boolean exist(String table, String condition);
+	boolean exist(Table table, String condition);
 
 	void close();
 }

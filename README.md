@@ -1,6 +1,6 @@
 # Avalon v1.0.0    [![GNU Affero General Public License, version 3](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/lgpl.html) 
 
-[![Build Status](https://travis-ci.org/Ray-Eldath/Avalon.svg?branch=master&style=flat-square)](https://travis-ci.org/Ray-Eldath/Avalon) [ ![Codeship Status for Ray-Eldath/Avalon](https://app.codeship.com/projects/28b37980-8a1d-0135-1242-62d9615dc8b0/status?branch=master&style=flat-square)](https://app.codeship.com/projects/248940)    [![CircleCI](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master.svg?style=svg)](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master) [![](https://jitpack.io/v/Ray-Eldath/Avalon.svg?style=flat-square)](https://jitpack.io/#Ray-Eldath/Avalon) [![Dependency Status](https://www.versioneye.com/user/projects/58f4645d9f10f8003f885743/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58f4645d9f10f8003f885743)    [![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-ProgramLeague-blue.svg?style=flat-square)](https://jq.qq.com/?_wv=1027&k=46GveNI)
+[![Build Status](https://travis-ci.org/Ray-Eldath/Avalon.svg?branch=master&style=flat-square)](https://travis-ci.org/Ray-Eldath/Avalon) [ ![Codeship Status for Ray-Eldath/Avalon](https://app.codeship.com/projects/28b37980-8a1d-0135-1242-62d9615dc8b0/status?branch=master&style=flat-square)](https://app.codeship.com/projects/248940)    [![CircleCI](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master.svg?style=svg)](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master) [![](https://jitpack.io/v/Ray-Eldath/Avalon.svg?style=flat-square)](https://jitpack.io/#Ray-Eldath/Avalon) [![Requirements Status](https://requires.io/github/Ray-Eldath/Avalon/requirements.svg?branch=master)](https://requires.io/github/Ray-Eldath/Avalon/requirements/?branch=master) [![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-ProgramLeague-blue.svg?style=flat-square)](https://jq.qq.com/?_wv=1027&k=46GveNI)
 
 一个可扩展、可部署的QQ群机器人。
 
@@ -10,9 +10,14 @@
 这是一个基于[Mojo-Webqq](https://github.com/sjdy521/Mojo-Webqq)或[CoolQ](https://cqp.cc)的QQ群机器人。
 
 ### 主要功能
- - **提供12个全方面（服务、管理、娱乐）的预定义指令响应器，同时允许通过MessageHook、插件及源代码修改方式自行扩展。**
- - **通过[微软小冰](http://www.msxiaoice.com)提供具有“相当智能度”的智能回复功能**
- - **提供基于[Docker](https://www.docker.com)和[Avalon-Executive](https://github.com/ProgramLeague/Avalon-Executive)的安全程序执行指令响应器**（正在实现）
+ - **提供15个全方面（服务、管理、娱乐）的预定义指令响应器，同时允许通过MessageHook、插件及源代码修改方式自行扩展**
+ - **对接[Wolfram Alpha](https://www.wolframalpha.com)提供“自然语言问答”服务**
+ - **对接[一言](http://hitokoto.cn)提供“每日一句”服务**
+ - **通过[Mojo-Weixin](https://github.com/sjdy521/Mojo-Weixin)对接[微软小冰](http://www.msxiaoice.com)提供具有“相当智能度”的智能回复功能**
+ - **提供基于[Glot-Run](https://github.com/prasmussen/glot-run)等`Executive`的安全程序执行指令响应器**
+ - **RSS订阅推送功能**
+ - ...
+ 
 ## 维护须知
 
 1. 所有```group```目录下的类必须```implements GroupMessageResponder```（``FriendMessage``API已有开发计划，请见``avalon.friend``包）；

@@ -10,8 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
@@ -22,6 +22,7 @@ import java.sql.Statement;
 public class SQLiteDatabaseOperator implements DatabaseOperator {
 	private static SQLiteDatabaseOperator instance = null;
 	private static final Logger logger = LoggerFactory.getLogger(SQLiteDatabaseOperator.class);
+	private BasicDatabaseOperator operator;
 	private Statement statement;
 
 	public static SQLiteDatabaseOperator getInstance() {
@@ -32,7 +33,9 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
 	private SQLiteDatabaseOperator() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			statement = DriverManager.getConnection("jdbc:sqlite:res/record.db").createStatement();
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:res/record.db");
+			operator = new BasicDatabaseOperator(connection);
+			statement = connection.createStatement();
 		} catch (Exception e) {
 			logger.error("Fatal error while load SQLite driver: ", e);
 			System.exit(-1);
@@ -41,11 +44,7 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
 
 	@Override
 	public void close() {
-		try {
-			statement.close();
-		} catch (SQLException e) {
-			logger.warn("Error while saving avalon.group message to SQLite: ", e);
-		}
+		operator.close();
 	}
 
 	@Override
@@ -67,22 +66,22 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
 	}
 
 	@Override
-	public boolean exist(String table, String condition) {
-		return BasicDatabaseOperator.getInstance().exist(statement, table, condition);
+	public boolean exist(Table table, String condition) {
+		return operator.exist(statement, table, condition);
 	}
 
 	@Override
 	public boolean addQuote(int hashCode, String speaker, String content) {
-		return BasicDatabaseOperator.getInstance().addQuote(statement, hashCode, speaker, content);
+		return operator.addQuote(hashCode, speaker, content);
 	}
 
 	@Override
 	public boolean add(GroupMessage input) {
-		return BasicDatabaseOperator.getInstance().add(statement, input);
+		return operator.add(input);
 	}
 
 	@Override
 	public boolean add(FriendMessage input) {
-		return BasicDatabaseOperator.getInstance().add(statement, input);
+		return operator.add(input);
 	}
 }

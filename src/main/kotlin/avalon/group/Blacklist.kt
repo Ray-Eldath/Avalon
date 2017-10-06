@@ -21,15 +21,7 @@ object Blacklist : GroupMessageResponder() {
 		val content = message.content
 		val sender = message.senderNickName
 		val allowList = getAllowArray(groupConfig, "Blacklist_basic")
-		if (" " !in content) {
-			message.response(AT(message) + " 您的指示格式不对辣！（｀Δ´）！")
-			return
-		}
 		val split = content.split(" ")
-		if (split.size < 3) {
-			message.response(AT(message) + " 您的指示格式不对辣！（｀Δ´）！")
-			return
-		}
 		val toBan = split[3].toLong()
 		allowList!!
 				.filter { it == senderUid }
