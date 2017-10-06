@@ -3,8 +3,6 @@ package avalon.tool.database;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 
-import java.time.LocalDateTime;
-
 /**
  * Created by Eldath on 2017/2/11 0011.
  *
@@ -17,7 +15,9 @@ public interface DatabaseOperator {
 
 	boolean add(FriendMessage input);
 
-	boolean addQuote(LocalDateTime time, String speaker, String content);
+	boolean addQuote(int hashCode, String speaker, String content);
+
+	boolean exist(String table, String condition);
 
 	void close();
 }

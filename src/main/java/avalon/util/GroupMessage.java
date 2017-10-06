@@ -1,11 +1,14 @@
 package avalon.util;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.jetbrains.annotations.NotNull;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Calendar;
-import java.util.logging.Logger;
 
 import static avalon.tool.pool.Constants.Basic.currentServlet;
 
@@ -15,7 +18,6 @@ import static avalon.tool.pool.Constants.Basic.currentServlet;
  * @author Eldath
  */
 public class GroupMessage implements Message, Displayable {
-	private final static Logger logger = Logger.getGlobal();
 	private final int id;
 	private final LocalDateTime time;
 	private final long senderUid, groupUid, timeLong;
@@ -94,10 +96,32 @@ public class GroupMessage implements Message, Displayable {
 		return content;
 	}
 
+	@NotNull
 	@Override
 	public String getString() {
 		return String.format("id= % 6d, time= %-18s, senderUid= % 12d, senderNickName= \"%-15s\", groupUid= % 10d, " +
 						"groupName= \"%-18s\", content= \"%s\"", id, time.toString().replace("T", " "),
 				senderUid, senderNickName, groupUid, groupName, content);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		GroupMessage that = (GroupMessage) o;
+		return new EqualsBuilder()
+				.append(senderUid, that.senderUid)
+				.append(groupUid, that.groupUid)
+				.append(content, that.content)
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(17, 37)
+				.append(senderUid)
+				.append(groupUid)
+				.append(content)
+				.toHashCode();
 	}
 }

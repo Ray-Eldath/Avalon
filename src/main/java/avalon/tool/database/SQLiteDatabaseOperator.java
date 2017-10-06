@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
@@ -68,8 +67,13 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
 	}
 
 	@Override
-	public boolean addQuote(LocalDateTime time, String speaker, String content) {
-		return BasicDatabaseOperator.getInstance().addQuote(statement, time, speaker, content);
+	public boolean exist(String table, String condition) {
+		return BasicDatabaseOperator.getInstance().exist(statement, table, condition);
+	}
+
+	@Override
+	public boolean addQuote(int hashCode, String speaker, String content) {
+		return BasicDatabaseOperator.getInstance().addQuote(statement, hashCode, speaker, content);
 	}
 
 	@Override

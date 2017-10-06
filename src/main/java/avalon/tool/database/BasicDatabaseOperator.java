@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -38,9 +38,9 @@ public class BasicDatabaseOperator implements Closeable {
 					String.format("('%s', %d, '%s', %d, '%s', '%s')",
 							message.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " "),
 							message.getSenderUid(),
-							message.getSenderNickName(),
+							UrlEncoded.encodeString(message.getSenderNickName()),
 							message.getGroupUid(),
-							message.getGroupName(),
+							UrlEncoded.encodeString(message.getGroupName()),
 							UrlEncoded.encodeString(message.getContent()));
 			statement.executeUpdate(
 					"INSERT INTO group_ (time, senderUid, senderNickname, groupUid, groupName, content) VALUES " + value);
@@ -56,7 +56,8 @@ public class BasicDatabaseOperator implements Closeable {
 			String value =
 					String.format("('%s', %d, '%s', '%s')",
 							message.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " "),
-							message.getSenderUid(), message.getSenderNickName(),
+							message.getSenderUid(),
+							UrlEncoded.encodeString(message.getSenderNickName()),
 							UrlEncoded.encodeString(message.getContent()));
 			statement.executeUpdate(
 					"INSERT INTO friend_ (time, senderUid, senderNickname, content) VALUES " + value);
@@ -67,19 +68,29 @@ public class BasicDatabaseOperator implements Closeable {
 		return true;
 	}
 
-	public boolean addQuote(Statement statement, LocalDateTime time, String speaker, String content) {
+	public boolean addQuote(Statement statement, int hashCode, String speaker, String content) {
 		try {
 			String value =
-					String.format("('%s', '%s', '%s')",
-							time.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " "),
-							speaker,
-							content);
-			statement.executeUpdate("INSERT INTO quote_ (time, speaker, content) VALUES " + value);
+					String.format("(%s, '%s', '%s')",
+							hashCode,
+							UrlEncoded.encodeString(speaker),
+							UrlEncoded.encodeString(content));
+			statement.executeUpdate("INSERT INTO quote_ (uid, speaker, content) VALUES " + value);
 		} catch (SQLException e) {
 			logger.warn("error while saving quote to SQLite: ", e);
 			return false;
 		}
 		return true;
+	}
+
+	public boolean exist(Statement statement, String table, String condition) {
+		try {
+			ResultSet set = statement.executeQuery(String.format("SELECT COUNT(*) FROM %s WHERE %s", table, condition));
+			return set.getInt(1) != 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override

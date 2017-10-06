@@ -1,33 +1,50 @@
 {
-  "Mojo-Weixin_API_Address": "http://127.0.0.1:3500",
-  "Max_Recorded_Group_Message_Count": 5000000,
-  "Block_Words": [
-    "傻瓜",
+  "max_recorded_group_message_amount": 5000000,
+  "max_recorded_friend_message_amount": 10000,
+  "block_words": [
+    "来一炮",
     "操",
     "艹",
     "fuck"
   ],
-  "Block_Words_Punish_Frequency": 3,
+  "block_words_punish_frequency": 3,
   "plugin_config": {
     "AnswerMe": {
-      "Enable": false,
-      "Uid_BlackList_Enabled": true
+      "enable": false,
+      "mojo-weixin_api_address": "http://127.0.0.1:3500"
     },
     "Wolfram": {
-      "Enable": true,
-      "App_Id": "5HYXXP-432JPAXW4J",
-      "Parse_Image": false
+      "enable": true,
+      "app_id": "AAAAAA-BBBBBBBBBB"
     },
     "Execute": {
-      "Enable": true,
-      "Avalon_Executive_API_Address": "http://127.0.0.1:",
-      "Execute_User_Username": "Test",
-      "Execute_User_Password": "wsx@123"
+      "enable": true,
+      "servlet": "Glot-Run",
+      "token": "11111111-2222-3333-4444-555555555555"
+    },
+    "RSS": {
+      "enable": false,
+      "feed": [
+        "http://ice1000.org/feed.xml"
+      ]
+    },
+    "Hitokoto": {
+      "enable": true,
+      "category": "b"
+    },
+    "Quote": {
+      "enable": true
     }
   },
-  "Max_Recorded_Friend_Message_Count": 10000,
-  "Block_Words_Punishment_Mode_Enabled": true,
-  "Debug": true,
-  "Game_Mode_Enabled": true,
-  "Local_output": true
+  "database": {
+    "datasource": "SQLite"
+  },
+  "servlet": {
+    "servlet": "CoolQ",
+    "listen_address": "http://127.0.0.1:5050",
+    "api_address": "http://127.0.0.1:5000"
+  },
+  "block_words_punishment_mode_enabled": true,
+  "debug": false,
+  "local_output": false
 }
