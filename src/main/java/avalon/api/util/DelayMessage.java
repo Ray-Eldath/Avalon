@@ -3,6 +3,7 @@ package avalon.api.util;
 import avalon.util.Message;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
@@ -39,15 +40,15 @@ public class DelayMessage implements Delayed {
 	}
 
 	@Override
-	public long getDelay(TimeUnit unit) {
+	public long getDelay(@NotNull TimeUnit unit) {
 		return unit.convert(delaySecondEpoch - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
 	}
 
 	@Override
-	public int compareTo(Delayed o) {
+	public int compareTo(@NotNull Delayed o) {
 		if (o == this)
 			return 0;
-		if (o == null || getClass() != o.getClass())
+		if (getClass() != o.getClass())
 			return -1;
 		DelayMessage message = (DelayMessage) o;
 		long left = message.getDelaySecond();

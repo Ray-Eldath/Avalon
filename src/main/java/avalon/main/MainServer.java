@@ -110,7 +110,7 @@ public class MainServer {
 		int isOn = readInput();
 		if (isOn == 1) {
 			for (long thisFollowGroup : followGroup) {
-				String str = "Avalon已经上线。";
+				String str = "Avalon已经上线。\n发送`avalon help`以获取帮助信息。";
 				Object config = Config.instance().getCommandConfig("Hitokoto", "push_when_start");
 				if (config != null && (boolean) config)
 					str += "\n\n" + Hitokoto.INSTANCE.get();
