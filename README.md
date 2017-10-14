@@ -2,12 +2,16 @@
 
 [![Build Status](https://travis-ci.org/Ray-Eldath/Avalon.svg?branch=master&style=flat-square)](https://travis-ci.org/Ray-Eldath/Avalon) [ ![Codeship Status for Ray-Eldath/Avalon](https://app.codeship.com/projects/28b37980-8a1d-0135-1242-62d9615dc8b0/status?branch=master&style=flat-square)](https://app.codeship.com/projects/248940)    [![CircleCI](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master.svg?style=svg)](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master) [![](https://jitpack.io/v/Ray-Eldath/Avalon.svg?style=flat-square)](https://jitpack.io/#Ray-Eldath/Avalon) [![Dependency Status](https://www.versioneye.com/user/projects/58f4645d9f10f8003f885743/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58f4645d9f10f8003f885743) [![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-ProgramLeague-blue.svg?style=flat-square)](https://jq.qq.com/?_wv=1027&k=46GveNI)
 
+![](https://raw.githubusercontent.com/Ray-Eldath/Avalon/master/img/console.png)
+
 一个可扩展、可部署的QQ群机器人。
 
 **游戏模块已作为独立项目移出，请见[Avalon-Game](https://github.com/Ray-Eldath/Avalon-Game)**
 
 ## 介绍
 这是一个基于[Mojo-Webqq](https://github.com/sjdy521/Mojo-Webqq)或[CoolQ](https://cqp.cc)的QQ群机器人。
+
+**部分对话示例请见：[record.jpg](https://raw.githubusercontent.com/Ray-Eldath/Avalon/master/img/record.jpg)**
 
 ### 主要功能
  - **提供15个全方面（服务、管理、娱乐）的预定义指令响应器，同时允许通过MessageHook、插件及源代码修改方式自行扩展**
