@@ -37,8 +37,8 @@ public class GroupMessageHandler {
 
 	private static Map<Long, Integer> publishPeopleMap = new HashMap<>();
 
-	private static final String[] blockWordList = toStringArray(Config.instance().getConfigArray("block_words"));
-	private static final int punishFrequency = (int) Config.instance().get("block_words_punish_frequency");
+	private static final String[] blockWordList = toStringArray(Config.Companion.instance().getConfigArray("block_words"));
+	private static final int punishFrequency = (int) Config.Companion.instance().get("block_words_punish_frequency");
 	private static final APIRateLimit cooling = new APIRateLimit(3000L);
 
 	private static GroupMessageHandler instance = new GroupMessageHandler();
@@ -199,7 +199,8 @@ public class GroupMessageHandler {
 	public static void main(String[] args) {
 		System.setProperty("file.encoding", "UTF-8");
 
-		Config.instance();
+		// FIXME 感觉可以删掉，因为是自动加载的
+		Config.Companion.instance();
 		RunningData.getInstance();
 		new Constants.Basic();
 		new Constants.Address();

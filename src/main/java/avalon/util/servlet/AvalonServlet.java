@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * @author Eldath Ray
  */
 public abstract class AvalonServlet extends HttpServlet {
-	private static JSONObject object = Config.instance().getJSONObject("servlet");
+	private static JSONObject object = Config.INSTANCE.getJSONObject("servlet");
 
 	abstract public String name();
 

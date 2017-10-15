@@ -63,7 +63,8 @@ public class MainServer {
 //		}
 		// 响应速度太慢。
 
-		Config.instance();
+		// FIXME 感觉可以删掉，因为是自动加载的
+		Config.Companion.instance();
 		RunningData.getInstance();
 		new Constants.Basic();
 		new Constants.Address();
@@ -111,7 +112,7 @@ public class MainServer {
 		if (isOn == 1) {
 			for (long thisFollowGroup : followGroup) {
 				String str = "Avalon已经上线。\n发送`avalon help`以获取帮助信息。";
-				Object config = Config.instance().getCommandConfig("Hitokoto", "push_when_start");
+				Object config = Config.INSTANCE.getCommandConfig("Hitokoto", "push_when_start");
 				if (config != null && (boolean) config)
 					str += "\n\n" + Hitokoto.INSTANCE.get();
 				currentServlet.responseGroup(thisFollowGroup, str);

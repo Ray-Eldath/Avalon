@@ -37,7 +37,7 @@ public class XiaoIceResponder {
 	public static String responseXiaoIce(String content) {
 		try {
 			JSONTokener tokener = new JSONTokener(new URL(
-					Config.instance().getCommandConfig("AnswerMe", "mojo-weixin_api_address")
+					Config.INSTANCE.getCommandConfig("AnswerMe", "mojo-weixin_api_address")
 							+ "/openwx/consult?account=xiaoice-ms&content=" + UrlEncoded.encodeString(content)).openStream());
 			JSONObject object = (JSONObject) tokener.nextValue();
 			if (object.isNull("reply")) return null;

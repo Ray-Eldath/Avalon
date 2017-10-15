@@ -12,7 +12,7 @@ import java.time.format.FormatStyle;
 import java.util.*;
 
 public class RSSFeeder implements Runnable {
-	private List<URL> urls = toURLList(Config.instance().getCommandConfigArray("RSS", "feed"));
+	private List<URL> urls = toURLList(Config.INSTANCE.getCommandConfigArray("RSS", "feed"));
 	private Map<URL, LocalDateTime> updated = new HashMap<>();
 	private static RSSFeeder instance = null;
 

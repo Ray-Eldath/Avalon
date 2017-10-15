@@ -24,7 +24,7 @@ public class Constants {
 
 	public static class Database {
 		private static final String datasource =
-				instance().getJSONObject("database").getString("datasource").toLowerCase();
+				Companion.instance().getJSONObject("database").getString("datasource").toLowerCase();
 		public static final DatabaseOperator currentDatabaseOperator =
 				"mysql".equals(datasource) ? MySQLDatabaseOperator.getInstance() : SQLiteDatabaseOperator.getInstance();
 	}
@@ -54,12 +54,12 @@ public class Constants {
 
 	public static class Basic {
 		public static final AvalonServlet currentServlet =
-				instance().getJSONObject("servlet")
+				Companion.instance().getJSONObject("servlet")
 						.getString("servlet").trim().toLowerCase().equals("coolq") ?
 						new CoolQServlet() :
 						new MojoWebqqServlet();
-		public static final boolean localOutput = (boolean) instance().get("local_output");
-		public static final boolean debug = (boolean) instance().get("debug");
+		public static final boolean localOutput = (boolean) Companion.instance().get("local_output");
+		public static final boolean debug = (boolean) Companion.instance().get("debug");
 		public static final long startTime = System.currentTimeMillis();
 		public static final long debugMessageUid = 10000;
 		public static final int pid = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
@@ -81,13 +81,13 @@ public class Constants {
 
 	public static class Setting {
 		public static final boolean Block_Words_Punishment_Mode_Enabled =
-				(boolean) instance().get("block_words_punishment_mode_enabled");
+				(boolean) Companion.instance().get("block_words_punishment_mode_enabled");
 
-		public static final boolean AnswerMe_Enabled = instance().isCommandEnable("AnswerMe");
-		public static final boolean Wolfram_Enabled = instance().isCommandEnable("Wolfram");
-		public static final boolean Execute_Enabled = instance().isCommandEnable("Execute");
-		public static final boolean RSS_Enabled = instance().isCommandEnable("RSS");
-		public static final boolean Hitokoto_Enabled = instance().isCommandEnable("Hitokoto");
-		public static final boolean Quote_Enabled = instance().isCommandEnable("Quote");
+		public static final boolean AnswerMe_Enabled = Companion.instance().isCommandEnable("AnswerMe");
+		public static final boolean Wolfram_Enabled = Companion.instance().isCommandEnable("Wolfram");
+		public static final boolean Execute_Enabled = Companion.instance().isCommandEnable("Execute");
+		public static final boolean RSS_Enabled = Companion.instance().isCommandEnable("RSS");
+		public static final boolean Hitokoto_Enabled = Companion.instance().isCommandEnable("Hitokoto");
+		public static final boolean Quote_Enabled = Companion.instance().isCommandEnable("Quote");
 	}
 }

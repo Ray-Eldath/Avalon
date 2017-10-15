@@ -28,7 +28,7 @@ public class MySQLDatabaseOperator implements DatabaseOperator {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
-			JSONObject setting = Config.instance().getJSONObject("database");
+			JSONObject setting = Config.INSTANCE.getJSONObject("database");
 			String originHost = setting.getString("host");
 			String url = (originHost.endsWith("/") ? originHost.substring(0, originHost.length() - 1) :
 					originHost + "/") + setting.getString("database") + "?serverTimezone=UTC";
