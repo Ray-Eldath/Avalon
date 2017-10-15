@@ -63,13 +63,8 @@ object Config : BaseConfigSystem {
 
 	fun isCommandEnable(name: String) = getCommandConfig(name, "enable") as Boolean
 
-	fun getCommandConfigArray(commandName: String, key: String): Array<Any?> {
-		val convert = (pluginConfigs[commandName] as JSONObject).getJSONArray(key)
-		val result = arrayOfNulls<Any>(convert.length())
-		for (i in 0 until convert.length())
-			result[i] = convert[i]
-		return result
-	}
+	fun getCommandConfigArray(commandName: String, key: String): Array<Any> =
+			(pluginConfigs[commandName] as JSONObject).getJSONArray(key).map { it }.toTypedArray()
 
 	object Companion {
 		@JvmStatic

@@ -75,7 +75,7 @@ public class MainServer {
 		executor.scheduleAtFixedRate(new Scheduler(), 6, 5, TimeUnit.SECONDS);
 
 		if (Constants.Setting.RSS_Enabled)
-			executor.scheduleAtFixedRate(RSSFeeder.getInstance(), 2, 10, TimeUnit.MINUTES);
+			executor.scheduleAtFixedRate(RSSFeeder.INSTANCE, 2, 10, TimeUnit.MINUTES);
 		// 关车钩子
 		Runtime.getRuntime().addShutdownHook(new atShutdownDo());
 		InetSocketAddress address;

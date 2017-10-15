@@ -39,7 +39,7 @@ object RSSParser {
 	}
 
 	@JvmStatic
-	fun get(url: URL): List<RSSItem> {
+	operator fun get(url: URL): List<RSSItem> {
 		val sb = SAXBuilder()
 		val doc = sb.build(url.openConnection().getInputStream().reader(StandardCharsets.UTF_8))
 		val root = doc.rootElement.getChild("channel")
