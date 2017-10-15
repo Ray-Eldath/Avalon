@@ -16,7 +16,7 @@ object GlotRun : Executive {
 	override fun name(): String = "Glot-Run"
 
 	private val lang: Map<String, URL> = parseLanguages(URL("https://run.glot.io/languages"))
-	private val token = Config.instance().getCommandConfig("Execute", "token")
+	private val token = Config.getCommandConfig("Execute", "token")
 
 	private fun parseLanguages(url: URL): Map<String, URL> {
 		val arrayT = Share.get(url) ?: throw RuntimeException("no valid response")

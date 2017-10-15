@@ -22,7 +22,7 @@ object Wolfram : GroupMessageResponder() {
 		val content = message.content
 		val question = content.replace("avalon tell me ", "")
 		val url = "http://api.wolframalpha.com/v2/query?input=" + UrlEncoded.encodeString(question) + "&appid=" +
-				Config.instance().getCommandConfig("Wolfram", "app_id")
+				Config.getCommandConfig("Wolfram", "app_id")
 		if (message.content.matches(Regex("avalon tell me [\\u4e00-\\u9fa5]"))) {
 			message.response("${Flag.AT(message)} 不支持中文输入~ o(╯□╰)o")
 			return
