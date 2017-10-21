@@ -34,7 +34,7 @@ public class GroupConfig {
 	private GroupConfig() throws IOException {
 		List<String> allIdentifier = new ArrayList<>();
 		for (GroupMessageResponder responder : GroupMessageHandler.getApiList().values()) {
-			String[] identifier = responder.permissionIdentifier();
+			String[] identifier = responder.configIdentifier();
 			if (identifier != null)
 				Collections.addAll(allIdentifier, identifier);
 		}

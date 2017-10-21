@@ -13,18 +13,12 @@ import java.util.regex.Pattern
  */
 object Flush : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
-		val senderUid = message.senderUid
-		val admins = groupConfig.admin
-		for (thisAdmin in admins) {
-			if (senderUid == thisAdmin) {
-				Recorder.getInstance().flushNow()
-				System.gc()
-				message.response("管理员：${AT(message)} 缓存及临时文件刷新成功。")
-				return
-			}
-		}
-		message.response(AT(message) + "权限不足！")
+		Recorder.getInstance().flushNow()
+		System.gc()
+		message.response("管理员：${AT(message)} 缓存及临时文件刷新成功。")
 	}
+
+	override fun permission(): ResponderPermission = ResponderPermission.ADMIN
 
 	override fun getHelpMessage() = "avalon flush：<管理员> 刷新缓存并清除临时文件"
 

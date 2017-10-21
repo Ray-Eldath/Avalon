@@ -9,10 +9,6 @@ import java.util.regex.Pattern
 
 object Quote : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
-		if (message.senderUid !in groupConfig.admin) {
-			message.response("${AT(message)} 致命错误：需要`sudo`以执行此操作！（雾")
-			return
-		}
 		val hashCode = message.hashCode()
 		if (currentDatabaseOperator.exist(Table.QUOTE, "uid=$hashCode")) {
 			message.response("${AT(message)} 给定的Quote已经记录过啦~（　^ω^）")
@@ -24,6 +20,8 @@ object Quote : GroupMessageResponder() {
 		currentDatabaseOperator.addQuote(hashCode, speaker, content)
 		message.response("${AT(message)} 给定的语录已添加至数据库~")
 	}
+
+	override fun permission(): ResponderPermission = ResponderPermission.ADMIN
 
 	override fun getHelpMessage(): String = "avalon quote <发言者> <语录内容>：<管理员> 记录语录到Avalon数据库。"
 

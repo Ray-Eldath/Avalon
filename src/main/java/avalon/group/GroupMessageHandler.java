@@ -135,9 +135,10 @@ public class GroupMessageHandler {
 			} else
 				publishPeopleMap.put(senderUid, 0);
 
-		for (Map.Entry<Pattern, GroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
-			GroupMessageResponder value = patternAPIEntry.getValue();
-			if (doCheck(patternAPIEntry.getKey(), message)) {
+		for (Map.Entry<Pattern, GroupMessageResponder> patternAPI : apiList.entrySet()) {
+			GroupMessageResponder value = patternAPI.getValue();
+
+			if (patternCheck(patternAPI.getKey(), message)) {
 				if (!APISurvivePool.getInstance().isSurvive(value)) {
 					if (!APISurvivePool.getInstance().isNoticed(value)) {
 						if (!value.getKeyWordRegex().matcher("+1s").find())
@@ -145,7 +146,9 @@ public class GroupMessageHandler {
 									"注意：此消息仅会显示一次。");
 						APISurvivePool.getInstance().setNoticed(value);
 					}
-				} else if (MessageChecker.check(message) && isResponderEnable(value))
+				} else if (MessageChecker.check(message) &&
+						isResponderEnable(value) &&
+						permissionCheck(value.permission(), groupConfig, message))
 					value.doPost(message, groupConfig);
 				return;
 			}
@@ -153,7 +156,7 @@ public class GroupMessageHandler {
 
 		for (Map.Entry<Pattern, CustomGroupResponder> patternAPIEntry : customApiList.entrySet()) {
 			CustomGroupResponder value = patternAPIEntry.getValue();
-			if (doCheck(patternAPIEntry.getKey(), message)) {
+			if (patternCheck(patternAPIEntry.getKey(), message)) {
 				if (MessageChecker.check(message))
 					value.doPost(message, groupConfig);
 				return;
@@ -161,11 +164,31 @@ public class GroupMessageHandler {
 		}
 	}
 
-	private boolean doCheck(Pattern key, GroupMessage groupMessage) {
+	private boolean permissionCheck(ResponderPermission permission, avalon.util.GroupConfig config, GroupMessage message) {
+		long senderUid = message.getSenderUid();
+		boolean result = false;
+
+		if (senderUid == debugMessageUid)
+			return true;
+
+		if (permission == ResponderPermission.ADMIN)
+			result = ArrayUtils.contains(config.getAdmin(), senderUid);
+		else if (permission == ResponderPermission.OWNER)
+			result = config.getOwner() == senderUid;
+		else if (permission == ResponderPermission.ALL)
+			result = true;
+
+		if (!result)
+			message.response(AT(message) + " 致命错误：需要`sudo`以执行此操作！（雾");
+		return result;
+	}
+
+	private boolean patternCheck(Pattern key, GroupMessage groupMessage) {
 		String lowerContent = groupMessage.getContent().toLowerCase();
 		long time = groupMessage.getTimeLong();
 		if (!key.matcher(lowerContent).find())
 			return false;
+		// 屏蔽词判断
 		for (String thisBlockString : blockWordList)
 			if (groupMessage.getContent().
 					trim().
@@ -180,6 +203,7 @@ public class GroupMessageHandler {
 				groupMessage.response(AT(groupMessage) + " " + notice);
 				return false;
 			}
+		// 冷却判断
 		if (!cooling.trySet(time)) {
 			if (!Variables.Limit_Noticed) {
 				if (key.matcher("+1s").find())

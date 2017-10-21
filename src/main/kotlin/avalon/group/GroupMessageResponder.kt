@@ -16,7 +16,9 @@ abstract class GroupMessageResponder : BasicResponder {
 
 	abstract fun instance(): GroupMessageResponder?
 
-	open fun permissionIdentifier(): Array<String>? = null
+	open fun configIdentifier(): Array<String>? = null
+
+	open fun permission(): ResponderPermission = ResponderPermission.ALL
 
 	override fun equals(other: Any?): Boolean {
 		if (this === other || other === null) return true
@@ -26,4 +28,8 @@ abstract class GroupMessageResponder : BasicResponder {
 	}
 
 	override fun hashCode(): Int = HashCodeBuilder(17, 37).append(getHelpMessage()).append(getKeyWordRegex().toString()).toHashCode()
+}
+
+enum class ResponderPermission {
+	ALL, ADMIN, OWNER
 }

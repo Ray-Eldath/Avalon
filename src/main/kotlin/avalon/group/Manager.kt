@@ -15,13 +15,13 @@ object Manager : GroupMessageResponder() {
 
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		val restartAllowUid = getAllowArray(groupConfig, "Manager_restart")!!
-		val allowPeople = getAllowArray(groupConfig, "Manager_basic")!!
+		val allowUid = getAllowArray(groupConfig, "Manager_basic")!!
 		val stopAllowUid = getAllowArray(groupConfig, "Manager_stop")!!
 
 		val content = message.content
 		val sender = message.senderNickName
 		val senderUid = message.senderUid
-		for (thisFollowFriend in allowPeople) {
+		for (thisFollowFriend in allowUid) {
 			if (senderUid == thisFollowFriend) {
 				if (" " !in content) {
 					message.response("@$sender 您的指示格式不对辣！（｀Δ´）！请注意在API触发语句后是否缺少空格~")
@@ -73,7 +73,7 @@ object Manager : GroupMessageResponder() {
 		message.response(AT(message) + " 您没有权限啦！(゜д゜)")
 	}
 
-	override fun permissionIdentifier() = arrayOf("Manager_restart", "Manager_stop", "Manager_basic")
+	override fun configIdentifier() = arrayOf("Manager_restart", "Manager_stop", "Manager_basic")
 
 	override fun getHelpMessage() = "avalon manager (start|stop) <指令响应器触发语句>：<管理员> 打开或关闭控制指令响应器"
 

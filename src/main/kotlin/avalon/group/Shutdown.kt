@@ -8,16 +8,16 @@ import java.util.regex.Pattern
 
 object Shutdown : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
-		if (groupConfig.owner == message.senderUid) {
-			LoggerFactory.getLogger(Shutdown.javaClass).warn("Avalon is stopped remotely by ${message.senderUid}:${message.senderNickName} on ${message.groupUid}:${message.groupName} at ${message.time.toString().replace("T", " ")}")
-			try {
-				Constants.Basic.currentServlet.shutdown()
-			} catch (ignore: UnsupportedOperationException) {
-				System.exit(0)
-			}
+		LoggerFactory.getLogger(Shutdown.javaClass).warn("Avalon is stopped remotely by ${message.senderUid}:${message.senderNickName} on ${message.groupUid}:${message.groupName} at ${message.time.toString().replace("T", " ")}")
+		try {
+			Constants.Basic.currentServlet.shutdown()
+		} catch (ignore: UnsupportedOperationException) {
 			System.exit(0)
 		}
+		System.exit(0)
 	}
+
+	override fun permission(): ResponderPermission = ResponderPermission.OWNER
 
 	override fun getHelpMessage() = "avalon shutdown：<所有者> 退出Avalon。"
 
