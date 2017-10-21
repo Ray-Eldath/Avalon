@@ -1,6 +1,5 @@
 package test
 
-import avalon.tool.system.GroupConfig
 import org.apache.commons.lang3.ArrayUtils.toString
 
 fun main(args: Array<String>) {

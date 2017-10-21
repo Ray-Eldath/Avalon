@@ -39,7 +39,7 @@ class JSONFormatter {
             String token = tokenList.get(i);
             if (token.equals(",")) {
                 buf.append(token);
-                doFill(buf, count, "   ");
+	            doFill(buf, count);
                 continue;
             }
             if (token.equals(":")) {
@@ -54,13 +54,13 @@ class JSONFormatter {
                 } else {
                     count++;
                     buf.append(token);
-                    doFill(buf, count, "   ");
+	                doFill(buf, count);
                 }
                 continue;
             }
             if (token.equals("}")) {
                 count--;
-                doFill(buf, count, "   ");
+	            doFill(buf, count);
                 buf.append(token);
                 continue;
             }
@@ -72,13 +72,13 @@ class JSONFormatter {
                 } else {
                     count++;
                     buf.append(token);
-                    doFill(buf, count, "   ");
+	                doFill(buf, count);
                 }
                 continue;
             }
             if (token.equals("]")) {
                 count--;
-                doFill(buf, count, "   ");
+	            doFill(buf, count);
                 buf.append(token);
                 continue;
             }
@@ -131,9 +131,9 @@ class JSONFormatter {
         return buf.toString();
     }
 
-    private static void doFill(StringBuilder buf, int count, String fillStringUnit) {
+	private static void doFill(StringBuilder buf, int count) {
         buf.append("\n");
         for (int i = 0; i < count; i++)
-            buf.append(fillStringUnit);
+	        buf.append("   ");
     }
 }

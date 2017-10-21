@@ -1,6 +1,5 @@
 package avalon.tool.system;
 
-import avalon.extend.RSSParser;
 import avalon.group.GroupMessageHandler;
 import avalon.group.GroupMessageResponder;
 import avalon.tool.ObjectCaster;
@@ -14,8 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.*;
 
 public class GroupConfig {
@@ -39,7 +36,7 @@ public class GroupConfig {
 		for (GroupMessageResponder responder : GroupMessageHandler.getApiList().values()) {
 			String[] identifier = responder.permissionIdentifier();
 			if (identifier != null)
-				Collections.addAll(allIdentifier, responder.permissionIdentifier());
+				Collections.addAll(allIdentifier, identifier);
 		}
 
 		String file = Constants.Basic.currentPath + File.separator + "group.json";
@@ -48,8 +45,10 @@ public class GroupConfig {
 			JSONObject thisObject = root.getJSONObject(i);
 			long uid = ObjectCaster.toLong(thisObject.get("uid"));
 			boolean listen = thisObject.getBoolean("listen");
+			long owner = ObjectCaster.toLong(thisObject.get("owner"));
 			List<Object> adminList = thisObject.getJSONArray("admin").toList();
 			adminList.add(Constants.Basic.debugMessageUid);
+			adminList.add(owner);
 			long[] admin = ObjectCaster.toLongArray(adminList);
 
 			if (listen)
@@ -63,6 +62,7 @@ public class GroupConfig {
 			configs.put(uid, new avalon.util.GroupConfig(
 					listen,
 					thisObject.getBoolean("record"),
+					owner,
 					admin,
 					thisObject.has("blacklist") ?
 							ObjectCaster.toLongArray(thisObject.getJSONArray("blacklist").toList()) : new long[]{},

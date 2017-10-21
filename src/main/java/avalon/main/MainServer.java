@@ -4,8 +4,6 @@ import avalon.api.DelayResponse;
 import avalon.extend.*;
 import avalon.friend.FriendMessageHandler;
 import avalon.group.GroupMessageHandler;
-import avalon.servlet.info.*;
-import avalon.servlet.manager.InstanceManager;
 import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.Constants;
 import avalon.tool.system.Config;
@@ -98,12 +96,6 @@ public class MainServer {
 		currentServlet.setFriendMessageReceivedHook(FriendMessageHandler.INSTANCE::handle);
 
 		context.addServlet(new ServletHolder(currentServlet), "/post_url");
-		context.addServlet(new ServletHolder(new WebqqPluginInfo()), "/info/get_webqq_plugin_info");
-		context.addServlet(new ServletHolder(new ClientVersion()), "/info/get_client_version");
-		context.addServlet(new ServletHolder(new ClientStatus()), "/info/get_client_status");
-		context.addServlet(new ServletHolder(new AvalonInfo()), "/info/get_avalon_info");
-		context.addServlet(new ServletHolder(new SystemInfo()), "/info/get_system_info");
-		context.addServlet(new ServletHolder(new InstanceManager()), "/manager/manage_instance");
 		server.join();
 		server.start();
 
@@ -161,14 +153,6 @@ public class MainServer {
 		} else
 			result = -1;
 		return result;
-	}
-
-	public static Process getWebqqProcess() {
-		return webqqProcess;
-	}
-
-	public static Process getWechatProcess() {
-		return wechatProcess;
 	}
 
 	public static void setWebqqProcess(Process webqqProcess) {

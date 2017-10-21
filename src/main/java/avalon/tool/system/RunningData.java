@@ -1,6 +1,5 @@
 package avalon.tool.system;
 
-import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -89,10 +88,8 @@ public class RunningData implements BaseConfigSystem {
 	}
 
 	public void save() {
-		try {
-			BufferedWriter writer = Files.newBufferedWriter(FILE);
+		try (BufferedWriter writer = Files.newBufferedWriter(FILE)) {
 			object.write(writer);
-			IOUtils.closeQuietly(writer);
 		} catch (IOException e) {
 			LOGGER.error("exception thrown while save running data file: " + FILE.toString(), e);
 		}
