@@ -4,7 +4,7 @@ import avalon.group.GroupMessageHandler;
 import avalon.group.GroupMessageResponder;
 import avalon.tool.ObjectCaster;
 import avalon.tool.pool.Constants;
-import avalon.util.GroupResponderPermission;
+import avalon.util.GroupResponderConfigEntry;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -53,10 +53,10 @@ public class GroupConfig {
 
 			if (listen)
 				followGroups.add(uid);
-			List<GroupResponderPermission> permission = new ArrayList<>();
+			List<GroupResponderConfigEntry> permission = new ArrayList<>();
 			if (!thisObject.has("permission")) {
 				for (String thisIdentifier : allIdentifier)
-					permission.add(new GroupResponderPermission(thisIdentifier, admin));
+					permission.add(new GroupResponderConfigEntry(thisIdentifier, admin));
 			} else
 				permission = parsePermission(thisObject.getJSONArray("permission"), allIdentifier, admin);
 			configs.put(uid, new avalon.util.GroupConfig(
@@ -70,8 +70,8 @@ public class GroupConfig {
 		}
 	}
 
-	private List<GroupResponderPermission> parsePermission(JSONArray source, Collection<String> allIdentifier, long[] admins) {
-		List<GroupResponderPermission> result = new ArrayList<>();
+	private List<GroupResponderConfigEntry> parsePermission(JSONArray source, Collection<String> allIdentifier, long[] admins) {
+		List<GroupResponderConfigEntry> result = new ArrayList<>();
 		List<String> currentIdentifier = new ArrayList<>();
 
 		for (int i = 0; i < source.length(); i++) {
@@ -79,12 +79,12 @@ public class GroupConfig {
 			String thisId = thisObject.getString("identifier");
 			currentIdentifier.add(thisId);
 			long[] thisAllow = ObjectCaster.toLongArray(thisObject.getJSONArray("allow").toList());
-			result.add(new GroupResponderPermission(thisId, thisAllow));
+			result.add(new GroupResponderConfigEntry(thisId, thisAllow));
 		}
 
 		for (String thisIdentifier : allIdentifier)
 			if (!currentIdentifier.contains(thisIdentifier))
-				result.add(new GroupResponderPermission(thisIdentifier, admins));
+				result.add(new GroupResponderConfigEntry(thisIdentifier, admins));
 
 		return result;
 	}

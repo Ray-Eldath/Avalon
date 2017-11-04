@@ -6,14 +6,14 @@ public class GroupConfig {
 	private boolean listen, record;
 	private long owner;
 	private long[] admin, blacklist;
-	private List<GroupResponderPermission> permissions;
+	private List<GroupResponderConfigEntry> permissions;
 
 	public GroupConfig(boolean listen,
 	                   boolean record,
 	                   long owner,
 	                   long[] admin,
 	                   long[] blacklist,
-	                   List<GroupResponderPermission> permissions) {
+	                   List<GroupResponderConfigEntry> permissions) {
 		this.listen = listen;
 		this.record = record;
 		this.owner = owner;
@@ -42,7 +42,7 @@ public class GroupConfig {
 		return blacklist;
 	}
 
-	public List<GroupResponderPermission> getPermissions() {
+	public List<GroupResponderConfigEntry> getPermissions() {
 		return permissions;
 	}
 }

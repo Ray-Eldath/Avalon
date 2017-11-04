@@ -2,11 +2,11 @@ package avalon.util;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class GroupResponderPermission {
+public class GroupResponderConfigEntry {
 	private String identifier;
 	private long[] allow;
 
-	public GroupResponderPermission(String identifier, long[] allow) {
+	public GroupResponderConfigEntry(String identifier, long[] allow) {
 		this.identifier = identifier;
 		this.allow = allow;
 	}
