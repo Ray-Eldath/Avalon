@@ -10,7 +10,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Calendar;
 
-import static avalon.tool.pool.Constants.Basic.currentServlet;
+import static avalon.tool.pool.Constants.Basic.CURRENT_SERVLET;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
@@ -49,12 +49,12 @@ public class GroupMessage implements Message, Displayable {
 
 	@Override
 	public void response(String reply) {
-		currentServlet.responseGroup(groupUid, reply);
+		CURRENT_SERVLET.responseGroup(groupUid, reply);
 	}
 
 	public void response(String reply, int shutUpTime) {
 		response(reply);
-		currentServlet.shutUp(groupUid, senderUid, shutUpTime);
+		CURRENT_SERVLET.shutUp(groupUid, senderUid, shutUpTime);
 	}
 
 	@Override

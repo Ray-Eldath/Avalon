@@ -26,7 +26,7 @@ object Help : GroupMessageResponder() {
 		}
 		message.response("This is Avalon. 以下是我的帮助资料：\n" +
 				"<关键词>：<触发的作用效果>，所有关键词均忽略大小写并且以avalon开头" + messageShow + "\nFor Avalon Version v" +
-				Constants.Version.avalon)
+				Constants.Version.AVALON)
 		// "\n（我才不会告诉你我有一些没有写在这里的彩蛋指令呢~哈哈`(*∩_∩*)′）");
 	}
 

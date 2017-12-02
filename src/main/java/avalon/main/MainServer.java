@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import static avalon.tool.pool.Constants.Basic.currentServlet;
+import static avalon.tool.pool.Constants.Basic.CURRENT_SERVLET;
 
 /**
  * Created by Eldath on 2017/1/28 0028.
@@ -32,7 +32,6 @@ import static avalon.tool.pool.Constants.Basic.currentServlet;
 public class MainServer {
 	private static final Logger logger = LoggerFactory.getLogger(MainServer.class);
 	private static List<Long> followGroup = GroupConfig.instance().getFollowGroups();
-	private static Process webqqProcess, wechatProcess;
 
 	static class atShutdownDo extends Thread {
 		@Override
@@ -42,10 +41,10 @@ public class MainServer {
 			RunningData.getInstance().save();
 			//
 			for (long thisFollowFollow : followGroup)
-				currentServlet.responseGroup(thisFollowFollow, "服务已经停止。");
-			currentServlet.shutdown();
-			Constants.Database.currentDatabaseOperator.close();
-			currentServlet.clean();
+				CURRENT_SERVLET.responseGroup(thisFollowFollow, "服务已经停止。");
+			CURRENT_SERVLET.shutdown();
+			Constants.Database.CURRENT_DATABASE_OPERATOR.close();
+			CURRENT_SERVLET.clean();
 		}
 	}
 
@@ -53,10 +52,10 @@ public class MainServer {
 		// 字符集处理
 		System.setProperty("file.encoding", "UTF-8");
 		// debug检测
-		if (Constants.Basic.debug)
+		if (Constants.Basic.DEBUG)
 			logger.warn("Avalon is running under DEBUG mode!");
-//		if (!currentServlet.test()) {
-//			logger.error("can not connect to servlet " + currentServlet.name() + "! please check this servlet is DO running...");
+//		if (!CURRENT_SERVLET.test()) {
+//			logger.error("can not connect to servlet " + CURRENT_SERVLET.name() + "! please check this servlet is DO running...");
 //			System.exit(-1);
 //		}
 		// 响应速度太慢。
@@ -77,7 +76,7 @@ public class MainServer {
 		// 关车钩子
 		Runtime.getRuntime().addShutdownHook(new atShutdownDo());
 		InetSocketAddress address;
-		final String addressString = currentServlet.listenAddress().replace("http://", "");
+		final String addressString = CURRENT_SERVLET.listenAddress().replace("http://", "");
 		if (!addressString.contains(":"))
 			address = new InetSocketAddress(addressString, 80);
 		else {
@@ -88,14 +87,13 @@ public class MainServer {
 		//
 		Server server = new Server(address);
 		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		context.setContextPath("/avalon/v0");
 		server.setHandler(context);
 		server.setStopAtShutdown(true);
 
-		currentServlet.setGroupMessageReceivedHook(e -> GroupMessageHandler.getInstance().handle(e));
-		currentServlet.setFriendMessageReceivedHook(FriendMessageHandler.INSTANCE::handle);
+		CURRENT_SERVLET.setGroupMessageReceivedHook(e -> GroupMessageHandler.getInstance().handle(e));
+		CURRENT_SERVLET.setFriendMessageReceivedHook(FriendMessageHandler.INSTANCE::handle);
 
-		context.addServlet(new ServletHolder(currentServlet), "/post_url");
+		context.addServlet(new ServletHolder(CURRENT_SERVLET), "/post_url");
 		server.join();
 		server.start();
 
@@ -107,7 +105,7 @@ public class MainServer {
 				Object config = Config.INSTANCE.getCommandConfig("Hitokoto", "push_when_start");
 				if (config != null && (boolean) config)
 					str += "\n\n" + Hitokoto.INSTANCE.get();
-				currentServlet.responseGroup(thisFollowGroup, str);
+				CURRENT_SERVLET.responseGroup(thisFollowGroup, str);
 			}
 			logger.info("Login message sent.");
 		} else if (isOn == 0)
@@ -153,13 +151,5 @@ public class MainServer {
 		} else
 			result = -1;
 		return result;
-	}
-
-	public static void setWebqqProcess(Process webqqProcess) {
-		MainServer.webqqProcess = webqqProcess;
-	}
-
-	public static void setWechatProcess(Process wechatProcess) {
-		MainServer.wechatProcess = wechatProcess;
 	}
 }

@@ -43,7 +43,7 @@ class GenerateConfigFile {
         allConfigs.put("Block_Words", new String[]{"来一炮", "寒寒", "冰冰", "冰封", "ice1000",
                 "eldath", "hanhan", "男", "女", "蛤", "膜", "苟", "太短", "变长", "baka", "笨蛋", "傻瓜", "操", "艹", "fuck"});
         allConfigs.put("Admin_Uid", new long[]{1464443139});
-        allConfigs.put("debug", true);
+	    allConfigs.put("DEBUG", true);
         allConfigs.put("BlackList_Uid", new long[]{});
         allConfigs.put("Block_Words_Punishment_Mode_Enabled", true);
         allConfigs.put("Block_Words_Punish_Frequency", 3);

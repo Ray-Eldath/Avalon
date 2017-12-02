@@ -3,7 +3,7 @@ package avalon.group
 import avalon.api.Flag
 import avalon.tool.ExecutiveStatus
 import avalon.tool.Executives
-import avalon.tool.pool.Constants.Basic.maxEchoLength
+import avalon.tool.pool.Constants.Basic.MAX_ECHO_LENGTH
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern
@@ -38,8 +38,8 @@ object Execute : GroupMessageResponder() {
 
 	private fun handleOutput(string: String): String {
 		val length = string.length
-		if (length > maxEchoLength)
-			return string.substring(0, maxEchoLength) + "...<超长文本截断 原长度：$length>"
+		if (length > MAX_ECHO_LENGTH)
+			return string.substring(0, MAX_ECHO_LENGTH) + "...<超长文本截断 原长度：$length>"
 		return string
 	}
 

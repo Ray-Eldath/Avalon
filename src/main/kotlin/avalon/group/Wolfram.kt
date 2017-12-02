@@ -1,14 +1,15 @@
 package avalon.group
 
 import avalon.api.Flag
-import avalon.extend.WolframXMLParser
-import avalon.tool.pool.Constants.Basic.currentServlet
+import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
 import avalon.tool.system.Config
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import org.eclipse.jetty.util.UrlEncoded
+import org.jdom2.Element
 import org.jdom2.JDOMException
 import org.jdom2.input.SAXBuilder
+import org.jdom2.xpath.XPathFactory
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.net.URL
@@ -35,7 +36,7 @@ object Wolfram : GroupMessageResponder() {
 			pods.filterNot { it.empty() }
 					.forEach { builder1.append(it.title).append("\n").append("---\n").append(it.plaintext) }
 			builder1.append("\n\n详见：http://www.wolframalpha.com/input?i=").append(UrlEncoded.encodeString(question))
-			currentServlet.responsePrivate(message.senderUid, builder1.toString())
+			CURRENT_SERVLET.responsePrivate(message.senderUid, builder1.toString())
 		} catch (e: JDOMException) {
 			LOGGER.error("exception thrown while parse XML from $url $e")
 		} catch (e: IOException) {
@@ -43,9 +44,35 @@ object Wolfram : GroupMessageResponder() {
 		}
 	}
 
-	override fun getHelpMessage() = "avalon tell me <your question>: (Only English) send your question to Wolfram Alpha and echo the return."
+	override fun getHelpMessage() = "Avalon tell me <your question>: (Only English) send your question to Wolfram Alpha and echo the return."
 
 	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon tell me \\w+")
 
 	override fun instance() = this
+}
+
+private object WolframXMLParser {
+	internal class WolframPod(val title: String, val id: String, val plaintext: String) {
+		fun empty(): Boolean = title.isEmpty() && plaintext.isEmpty()
+	}
+
+	internal fun get(root: Element): List<WolframPod> {
+		val xPath = XPathFactory.instance()
+		val objects = xPath.compile("//subpod").diagnose(root, false)
+		val result = ArrayList<WolframPod>()
+		objects.result.forEach({
+			val e1 = it as Element
+			result += WolframPod(
+					handleString(e1.getAttributeValue("title")),
+					handleString(e1.getAttributeValue("id")),
+					handleString(e1.getChild("plaintext").value))
+		})
+		return result
+	}
+
+	private fun handleString(i: String?): String {
+		if (i == null)
+			return ""
+		return i.replace(" +", " ")
+	}
 }

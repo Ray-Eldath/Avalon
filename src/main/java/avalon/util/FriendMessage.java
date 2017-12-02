@@ -8,7 +8,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Calendar;
 
-import static avalon.tool.pool.Constants.Basic.currentServlet;
+import static avalon.tool.pool.Constants.Basic.CURRENT_SERVLET;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
@@ -42,10 +42,10 @@ public class FriendMessage implements Message, Displayable {
 
 	@Override
 	public void response(String reply) {
-		if (Constants.Basic.localOutput)
+		if (Constants.Basic.LOCAL_OUTPUT)
 			System.out.println("Friend output: " + reply);
 		else
-			currentServlet.responseFriend(senderUid, reply);
+			CURRENT_SERVLET.responseFriend(senderUid, reply);
 	}
 
 	@Override

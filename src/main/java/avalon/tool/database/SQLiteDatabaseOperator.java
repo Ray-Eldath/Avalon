@@ -50,7 +50,7 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
 	@Override
 	public boolean initDB() {
 //        throw new UnsupportedOperationException("请通过复制res目录下的empty_record.db文件为record.db文件完成数据库初始化");
-		String prefix = Constants.Basic.currentPath + File.separator + "res" + File.separator;
+		String prefix = Constants.Basic.CURRENT_PATH + File.separator + "res" + File.separator;
 		try {
 			File file = new File(prefix + "record.db");
 			if (file.exists())

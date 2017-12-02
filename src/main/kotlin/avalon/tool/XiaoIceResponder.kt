@@ -48,9 +48,9 @@ object XiaoIceResponder {
 	 */
 	@Deprecated("酷Q air不支持")
 	fun respondGroupWithImage(groupUid: Long, message: String, image: Path) {
-		if (Constants.Basic.currentServlet !is CoolQServlet)
-			throw UnsupportedOperationException("only cooqServlet can handle image")
+		if (Constants.Basic.CURRENT_SERVLET !is CoolQServlet)
+			throw UnsupportedOperationException("only CooQServlet can handle image")
 		val cq = "[CQ:image,file=file://" + image.toString() + "]"
-		Constants.Basic.currentServlet.responseGroup(groupUid, message.replace("[Avalon:image]", cq))
+		Constants.Basic.CURRENT_SERVLET.responseGroup(groupUid, message.replace("[Avalon:image]", cq))
 	}
 }

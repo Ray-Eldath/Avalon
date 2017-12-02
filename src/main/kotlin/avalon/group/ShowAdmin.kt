@@ -1,7 +1,7 @@
 package avalon.group
 
 import avalon.api.Flag.AT
-import avalon.tool.pool.Constants.Basic.currentServlet
+import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern
@@ -11,7 +11,7 @@ object ShowAdmin : GroupMessageResponder() {
 		val adminUid = groupConfig.admin
 		val builder = StringBuilder(AT(message) + " 目前管理员有：\n")
 		for (uid in adminUid) {
-			val card = currentServlet.getGroupSenderNickname(message.groupUid, uid)
+			val card = CURRENT_SERVLET.getGroupSenderNickname(message.groupUid, uid)
 			if (!(card == null || card.isEmpty()))
 				builder.append(card).append(" - ").append(uid).append(", ")
 		}

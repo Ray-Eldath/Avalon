@@ -2,7 +2,7 @@ package avalon.tool.pool
 
 import avalon.api.util.Plugin
 import avalon.api.util.PluginInfo
-import avalon.tool.pool.Constants.Address.dataPath
+import avalon.tool.pool.Constants.Address.DATA_PATH
 import org.json.JSONObject
 import org.json.JSONTokener
 import org.slf4j.LoggerFactory
@@ -13,7 +13,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 object AvalonPluginPool {
-	private val setting = Paths.get("$dataPath${File.separator}plugin${File.separator}plugins.json")
+	private val setting = Paths.get("$DATA_PATH${File.separator}plugin${File.separator}plugins.json")
 	private val infoList = arrayListOf<PluginInfo>()
 	private val pluginList = arrayListOf<Plugin>()
 	private val logger = LoggerFactory.getLogger(AvalonPluginPool.javaClass)
@@ -47,7 +47,7 @@ object AvalonPluginPool {
 	}
 
 	private fun load(info: PluginInfo) {
-		val plugin = URLClassLoader(Array(1) { URL("file:$dataPath${File.separator}plugin${File.separator}${info.fileName}") },
+		val plugin = URLClassLoader(Array(1) { URL("file:$DATA_PATH${File.separator}plugin${File.separator}${info.fileName}") },
 				Thread.currentThread().contextClassLoader).loadClass(info.classString).newInstance() as Plugin
 		pluginList.add(plugin)
 		plugin.main()

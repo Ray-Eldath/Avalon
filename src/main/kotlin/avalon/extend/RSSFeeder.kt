@@ -33,7 +33,7 @@ object RSSFeeder : Runnable {
 	override fun run() {
 		update()?.let { newest ->
 			GroupConfig.instance().followGroups.forEach { groupUid ->
-				Constants.Basic.currentServlet.responseGroup(groupUid,
+				Constants.Basic.CURRENT_SERVLET.responseGroup(groupUid,
 						"""订阅的RSS ${newest.info.title} - ${newest.info.description} 有更新：
 ${newest.title}
 发布时间：${newest.pubDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))} 详见：${newest.link}""")

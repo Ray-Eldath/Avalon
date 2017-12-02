@@ -47,7 +47,7 @@ public class MySQLDatabaseOperator implements DatabaseOperator {
 	public boolean initDB() {
 		throw new UnsupportedOperationException("未知原因导致一直报SQL格式不对，但我使用mysql命令行工具却未发现任何问题。暂无法解决。");
 //        try {
-//            List<String> lines = Files.readAllLines(Paths.get(ConstantPool.Basic.currentPath + File.separator + "res" +
+//            List<String> lines = Files.readAllLines(Paths.get(ConstantPool.Basic.CURRENT_PATH + File.separator + "res" +
 //                    File.separator + "record_mysql.sql"), StandardCharsets.UTF_8);
 //            StringBuilder builder = new StringBuilder();
 //            for (String thisLine : lines) {

@@ -91,7 +91,7 @@ public class CoolQServlet extends AvalonServlet {
 
 	@Override
 	public void responseGroup(long groupUid, String reply) {
-		if (Constants.Basic.debug || Constants.Basic.localOutput) {
+		if (Constants.Basic.DEBUG || Constants.Basic.LOCAL_OUTPUT) {
 			System.out.println("Group output: " + reply);
 			return;
 		}
@@ -109,7 +109,7 @@ public class CoolQServlet extends AvalonServlet {
 
 	@Override
 	public void responsePrivate(long uid, String reply) {
-		if (Constants.Basic.debug || Constants.Basic.localOutput) {
+		if (Constants.Basic.DEBUG || Constants.Basic.LOCAL_OUTPUT) {
 			System.out.println("Friend or private output: " + reply);
 			return;
 		}

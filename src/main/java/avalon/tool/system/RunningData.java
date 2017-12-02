@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Map;
 
-import static avalon.tool.pool.Constants.Address.dataPath;
+import static avalon.tool.pool.Constants.Address.DATA_PATH;
 
 /**
  * Created by Eldath Ray on 2017/4/19 0019.
@@ -23,7 +23,7 @@ import static avalon.tool.pool.Constants.Address.dataPath;
  * @author Eldath Ray
  */
 public class RunningData implements BaseConfigSystem {
-	private static final Path FILE = Paths.get(dataPath + File.separator + "data.json");
+	private static final Path FILE = Paths.get(DATA_PATH + File.separator + "data.json");
 	private static final Logger LOGGER = LoggerFactory.getLogger(RunningData.class);
 	private static JSONObject object = new JSONObject();
 

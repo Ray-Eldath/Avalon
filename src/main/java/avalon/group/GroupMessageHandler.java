@@ -23,7 +23,7 @@ import java.util.stream.LongStream;
 import static avalon.api.Flag.AT;
 import static avalon.api.RegisterResponder.register;
 import static avalon.tool.ObjectCaster.toStringArray;
-import static avalon.tool.pool.Constants.Basic.debugMessageUid;
+import static avalon.tool.pool.Constants.Basic.DEBUG_MESSAGE_UID;
 
 /**
  * Created by Eldath Ray on 2017/3/30.
@@ -111,7 +111,7 @@ public class GroupMessageHandler {
 					groupUid + " . Ignored this message. Please config this group in `.\\group.json`.");
 			return;
 		}
-		if (groupConfig.isRecord() && !Constants.Basic.debug)
+		if (groupConfig.isRecord() && !Constants.Basic.DEBUG)
 			Recorder.getInstance().recodeGroupMessage(message);
 		if (!groupConfig.isListen())
 			return;
@@ -125,7 +125,7 @@ public class GroupMessageHandler {
 			if (publishPeopleMap.containsKey(senderUid)) {
 				if (publishPeopleMap.get(senderUid) >= punishFrequency) {
 					LOGGER.info("Account " + senderUid + ":" + sender + " was blocked. Please entered " +
-							"\"avalon blacklist remove " + senderUid + "\" to the group " + groupUid + ":" +
+							"\"Avalon blacklist remove " + senderUid + "\" to the group " + groupUid + ":" +
 							message.getGroupName() + " if you really want to unblock this account.");
 					if (!admin)
 						message.response("@" + sender +
@@ -168,7 +168,7 @@ public class GroupMessageHandler {
 		long senderUid = message.getSenderUid();
 		boolean result = false;
 
-		if (senderUid == debugMessageUid)
+		if (senderUid == DEBUG_MESSAGE_UID)
 			return true;
 
 		if (permission == ResponderPermission.ADMIN)
@@ -229,7 +229,7 @@ public class GroupMessageHandler {
 		new Constants.Basic();
 		new Constants.Address();
 		AvalonPluginPool.INSTANCE.load();
-		if (!Constants.Basic.debug) {
+		if (!Constants.Basic.DEBUG) {
 			System.err.println("Debug not on! Exiting...");
 			return;
 		}
@@ -240,7 +240,7 @@ public class GroupMessageHandler {
 			System.out.print("Input here:");
 			String content = scanner.nextLine();
 			GroupMessage message = new GroupMessage(++id, System.currentTimeMillis(),
-					debugMessageUid, "Test", 617118724, "Test Group", content);
+					DEBUG_MESSAGE_UID, "Test", 617118724, "Test Group", content);
 			GroupMessageHandler.getInstance().handle(message);
 			System.out.println("===");
 		}

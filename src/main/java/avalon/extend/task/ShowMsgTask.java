@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static avalon.tool.pool.Constants.Basic.currentServlet;
+import static avalon.tool.pool.Constants.Basic.CURRENT_SERVLET;
 
 /**
  * Created by Eldath on 2017/1/31 0031.
@@ -25,7 +25,7 @@ public class ShowMsgTask implements Task {
 				message.replace("\n", "") + "\" to every group.");
 		List<Long> followGroups = GroupConfig.instance().getFollowGroups();
 		for (long thisNeedShow : followGroups)
-			currentServlet.responseGroup(thisNeedShow, message);
+			CURRENT_SERVLET.responseGroup(thisNeedShow, message);
 	}
 
 	@Override

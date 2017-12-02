@@ -39,7 +39,7 @@ public class GroupConfig {
 				Collections.addAll(allIdentifier, identifier);
 		}
 
-		String file = Constants.Basic.currentPath + File.separator + "group.json";
+		String file = Constants.Basic.CURRENT_PATH + File.separator + "group.json";
 		JSONArray root = ((JSONObject) new JSONTokener(Files.newBufferedReader(Paths.get(file))).nextValue()).getJSONArray("group");
 		for (int i = 0; i < root.length(); i++) {
 			JSONObject thisObject = root.getJSONObject(i);
@@ -47,7 +47,7 @@ public class GroupConfig {
 			boolean listen = thisObject.getBoolean("listen");
 			long owner = ObjectCaster.toLong(thisObject.get("owner"));
 			List<Object> adminList = thisObject.getJSONArray("admin").toList();
-			adminList.add(Constants.Basic.debugMessageUid);
+			adminList.add(Constants.Basic.DEBUG_MESSAGE_UID);
 			adminList.add(owner);
 			long[] admin = ObjectCaster.toLongArray(adminList);
 

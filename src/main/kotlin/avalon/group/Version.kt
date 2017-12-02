@@ -2,7 +2,7 @@ package avalon.group
 
 import avalon.tool.pool.AvalonPluginPool
 import avalon.tool.pool.Constants
-import avalon.tool.pool.Constants.Basic.currentServlet
+import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern
@@ -13,14 +13,14 @@ object Version : GroupMessageResponder() {
 				"\n我由Ray Eldath进行二次开发。\n我在GitHub上开源，欢迎访问我的仓库：https://github.com/Ray-Eldath/Avalon" +
 				"\n全部插件有：%s\n已装载的插件有：%s" +
 				"\n%s Version: v%s\tAvalon Version: v%s")
-				.format(currentServlet.name(),
+				.format(CURRENT_SERVLET.name(),
 						if (AvalonPluginPool.getInfoList().isEmpty())
 							"<无>" else AvalonPluginPool.getInfoList().map { it.name },
 						if (AvalonPluginPool.getInfoList().isEmpty())
 							"<无>" else AvalonPluginPool.getInfoList().filter { it.isEnabled }.map { it.name },
-						currentServlet.name(),
+						CURRENT_SERVLET.name(),
 						Constants.Version.instance().servlet(),
-						Constants.Version.avalon))
+						Constants.Version.AVALON))
 	}
 
 	override fun getHelpMessage() = "avalon (version|about|版本)：显示版本信息"
