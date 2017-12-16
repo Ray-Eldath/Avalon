@@ -18,11 +18,13 @@ object Flush : GroupMessageResponder() {
 		message.response("管理员：${AT(message)} 缓存及临时文件刷新成功。")
 	}
 
-	override fun permission(): ResponderPermission = ResponderPermission.ADMIN
-
-	override fun getHelpMessage() = "avalon flush：<管理员> 刷新缓存并清除临时文件"
-
-	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon flush")
+	override fun responderInfo(): ResponderInfo =
+			ResponderInfo(
+					Pair("avalon flush", "<管理员> 刷新缓存并清除临时文件"),
+					Pattern.compile("^avalon flush"),
+					permission = ResponderPermission.ADMIN,
+					manageable = false
+			)
 
 	override fun instance() = this
 }

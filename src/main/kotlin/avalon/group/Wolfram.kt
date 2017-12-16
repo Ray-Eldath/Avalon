@@ -44,9 +44,10 @@ object Wolfram : GroupMessageResponder() {
 		}
 	}
 
-	override fun getHelpMessage() = "Avalon tell me <your question>: (Only English) send your question to Wolfram Alpha and echo the return."
-
-	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon tell me \\w+")
+	override fun responderInfo(): ResponderInfo = ResponderInfo(
+			"Avalon tell me <your question>: (Only English) send your question to Wolfram Alpha and echo the return.",
+			Pattern.compile("^avalon tell me \\w+")
+	)
 
 	override fun instance() = this
 }

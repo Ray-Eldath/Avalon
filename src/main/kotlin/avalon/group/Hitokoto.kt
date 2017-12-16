@@ -10,9 +10,11 @@ object Hitokoto : GroupMessageResponder() {
 		message.response(Hitokoto.get())
 	}
 
-	override fun getHelpMessage() = "avalon (hitokoto|一言)：获取一条一言。"
-
-	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon (hitokoto|一言)")
+	override fun responderInfo(): ResponderInfo =
+			ResponderInfo(
+					Pair("avalon (hitokoto|一言)", "获取一条一言。"),
+					Pattern.compile("^avalon (hitokoto|一言)")
+			)
 
 	override fun instance() = this
 }

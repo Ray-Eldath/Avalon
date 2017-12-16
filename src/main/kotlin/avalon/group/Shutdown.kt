@@ -17,11 +17,14 @@ object Shutdown : GroupMessageResponder() {
 		System.exit(0)
 	}
 
-	override fun permission(): ResponderPermission = ResponderPermission.OWNER
 
-	override fun getHelpMessage() = "avalon shutdown：<所有者> 退出Avalon。"
-
-	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon (shutdown|exit)")
+	override fun responderInfo(): ResponderInfo =
+			ResponderInfo(
+					Pair("avalon shutdown", "<所有者> 退出Avalon。"),
+					Pattern.compile("^avalon (shutdown|exit)"),
+					permission = ResponderPermission.OWNER,
+					manageable = false
+			)
 
 	override fun instance() = this
 }

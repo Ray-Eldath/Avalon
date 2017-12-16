@@ -3,7 +3,7 @@ package avalon.tool;
 /**
  * Created by Eldath on 2017/1/29 0029.
  *
- * @author Eldath
+ * @author 磷
  */
 public class APIRateLimit {
 	private long timestamp = 0L;

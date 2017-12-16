@@ -37,9 +37,11 @@ object Mo : GroupMessageResponder() {
 		Variables.Mo_Count += 1
 	}
 
-	override fun getHelpMessage() = "膜*关键词：随机触发膜*语句"
-
-	override fun getKeyWordRegex(): Pattern = Pattern.compile("\\w?(\\+1s|-1s|膜蛤|苟|续命|州长夫人|naive)\\w?")
+	override fun responderInfo(): ResponderInfo =
+			ResponderInfo(
+					Pair("膜*关键词", "随机触发膜*语句"),
+					Pattern.compile("\\w?(\\+1s|-1s|膜蛤|苟|续命|州长夫人|naive)\\w?")
+			)
 
 	override fun instance() = this
 }

@@ -52,11 +52,12 @@ object Blacklist : GroupMessageResponder() {
 		message.response(AT(message) + " 您没有权限辣！（｀Δ´）！")
 	}
 
-	override fun configIdentifier() = arrayOf("Blacklist_basic")
-
-	override fun getHelpMessage() = "avalon blacklist (add|remove)：<管理员> 将指定的QQ号 添加至黑名单或从黑名单移除"
-
-	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon blacklist (add|remove)")
+	override fun responderInfo(): ResponderInfo = ResponderInfo(
+			Pair("avalon blacklist (add|remove)", "<管理员> 将指定的QQ号 添加至黑名单或从黑名单移除"),
+			Pattern.compile("^avalon blacklist (add|remove)"),
+			configIdentifier = arrayOf("Blacklist_basic"),
+			manageable = false,
+			permission = ResponderPermission.ADMIN)
 
 	override fun instance() = this
 }

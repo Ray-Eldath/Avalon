@@ -1,6 +1,5 @@
 package avalon.friend;
 
-import avalon.util.BasicResponder;
 import avalon.util.FriendMessage;
 
 import java.util.regex.Pattern;
@@ -10,7 +9,7 @@ import java.util.regex.Pattern;
  *
  * @author Eldath Ray
  */
-public abstract class FriendMessageResponder implements BasicResponder {
+public abstract class FriendMessageResponder {
 	public abstract void doPost(FriendMessage message);
 
 	public abstract String getHelpMessage();

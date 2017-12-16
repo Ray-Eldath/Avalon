@@ -4,6 +4,7 @@ import avalon.api.CustomGroupResponder;
 import avalon.extend.Recorder;
 import avalon.main.MessageChecker;
 import avalon.tool.APIRateLimit;
+import avalon.tool.ObjectCaster;
 import avalon.tool.pool.APISurvivePool;
 import avalon.tool.pool.AvalonPluginPool;
 import avalon.tool.pool.Constants;
@@ -31,6 +32,8 @@ import static avalon.tool.pool.Constants.Basic.DEBUG_MESSAGE_UID;
  * @author Eldath Ray
  */
 public class GroupMessageHandler {
+
+
 	private static final Map<Pattern, GroupMessageResponder> apiList = new LinkedHashMap<>();
 	private static final Map<Pattern, CustomGroupResponder> customApiList = new LinkedHashMap<>();
 	private static final Map<? super GroupMessageResponder, Boolean> enableMap = new HashMap<>();
@@ -39,8 +42,9 @@ public class GroupMessageHandler {
 
 	private static final String[] blockWordList = toStringArray(Config.Companion.instance().getConfigArray("block_words"));
 	private static final int punishFrequency = (int) Config.Companion.instance().get("block_words_punish_frequency");
-	private static final APIRateLimit cooling = new APIRateLimit(3000L);
+	private static final long coolingDuration = ObjectCaster.toLong(Config.INSTANCE.get("cooling_duration"));
 
+	private static final APIRateLimit cooling = new APIRateLimit(coolingDuration);
 	private static GroupMessageHandler instance = new GroupMessageHandler();
 	private static final Logger LOGGER = LoggerFactory.getLogger(GroupMessageHandler.class);
 
@@ -84,7 +88,7 @@ public class GroupMessageHandler {
 		register(AnswerMe.INSTANCE);
 	}
 
-	GroupMessageResponder getGroupResponderByKeyword(String keyword) {
+	GroupMessageResponder getGroupResponderByKeywordRegex(String keyword) {
 		for (Map.Entry<Pattern, GroupMessageResponder> patternAPIEntry : apiList.entrySet()) {
 			Pattern key = patternAPIEntry.getKey();
 			GroupMessageResponder value = patternAPIEntry.getValue();
@@ -128,8 +132,7 @@ public class GroupMessageHandler {
 							"\"Avalon blacklist remove " + senderUid + "\" to the group " + groupUid + ":" +
 							message.getGroupName() + " if you really want to unblock this account.");
 					if (!admin)
-						message.response("@" + sender +
-								" 您的帐号由于发送过多不允许关键字，现已被屏蔽~o(╯□╰)o！");
+						message.response(AT(message) + " 您的帐号由于发送过多不允许关键字，现已被屏蔽~o(╯□╰)o！");
 					return;
 				}
 			} else
@@ -137,18 +140,18 @@ public class GroupMessageHandler {
 
 		for (Map.Entry<Pattern, GroupMessageResponder> patternAPI : apiList.entrySet()) {
 			GroupMessageResponder value = patternAPI.getValue();
+			ResponderInfo info = value.responderInfo();
 
 			if (patternCheck(patternAPI.getKey(), message)) {
 				if (!APISurvivePool.getInstance().isSurvive(value)) {
 					if (!APISurvivePool.getInstance().isNoticed(value)) {
-						if (!value.getKeyWordRegex().matcher("+1s").find())
-							message.response(AT(message) + " 对不起，您调用的指令响应器目前已被停止；" +
-									"注意：此消息仅会显示一次。");
+						if (!info.getKeyWordRegex().matcher("+1s").find())
+							message.response(AT(message) + " 对不起，您调用的指令响应器目前已被停止；注意：此消息仅会显示一次。");
 						APISurvivePool.getInstance().setNoticed(value);
 					}
 				} else if (MessageChecker.check(message) &&
 						isResponderEnable(value) &&
-						permissionCheck(value.permission(), groupConfig, message))
+						permissionCheck(info.getPermission(), groupConfig, message))
 					value.doPost(message, groupConfig);
 				return;
 			}
@@ -208,8 +211,13 @@ public class GroupMessageHandler {
 			if (!Variables.Limit_Noticed) {
 				if (key.matcher("+1s").find())
 					return false;
-				groupMessage.response(AT(groupMessage) +
-						" 对不起，您的指令超频。3s内仅能有一次指令输入，未到3s内的输入将被忽略。注意：此消息仅会显示一次。");
+				groupMessage.response(
+						String.format(
+								"%s 对不起，您的指令超频。%dms内仅能有一次指令输入，未到%dms内的输入将被忽略。注意：此消息仅会显示一次。",
+								AT(groupMessage),
+								coolingDuration,
+								coolingDuration
+						));
 				Variables.Limit_Noticed = true;
 			}
 			LOGGER.info(
@@ -252,7 +260,7 @@ public class GroupMessageHandler {
 	}
 
 	public static void addGroupMessageResponder(GroupMessageResponder responder) {
-		apiList.put(responder.getKeyWordRegex(), responder);
+		apiList.put(responder.responderInfo().getKeyWordRegex(), responder);
 	}
 
 	public static void addCustomGroupResponder(CustomGroupResponder responder) {

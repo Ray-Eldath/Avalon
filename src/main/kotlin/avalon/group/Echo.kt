@@ -11,13 +11,15 @@ import java.util.regex.Pattern
  */
 object Echo : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
-		val content = message.content.replace("avalon echo ", "").replace("avalon repeat ", "").replace("阿瓦隆跟我说 ", "")
+		val content = message.content.replace(responderInfo().keyWordRegex.toRegex(), "")
 		message.response(content)
 	}
 
-	override fun getHelpMessage() = "avalon (echo|repeat)|阿瓦隆跟我说：让阿瓦隆重复给定语句"
-
-	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon (echo|repeat)|^阿瓦隆跟我说 ")
+	override fun responderInfo(): ResponderInfo =
+			ResponderInfo(
+					Pair("avalon (echo|repeat)|阿瓦隆跟我说", "让阿瓦隆重复给定语句"),
+					Pattern.compile("^avalon (echo|repeat)|^阿瓦隆跟我说 ")
+			)
 
 	override fun instance() = this
 }

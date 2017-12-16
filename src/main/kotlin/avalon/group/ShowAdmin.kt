@@ -18,9 +18,11 @@ object ShowAdmin : GroupMessageResponder() {
 		message.response(builder.toString().substring(0, builder.length - 2))
 	}
 
-	override fun getHelpMessage() = "avalon (whoisadmin|谁是管理员)：显示管理员列表"
-
-	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon (whoisadmin|谁是管理员)")
+	override fun responderInfo(): ResponderInfo =
+			ResponderInfo(
+					Pair("avalon (whoisadmin|谁是管理员)", "显示管理员列表"),
+					Pattern.compile("^avalon (whoisadmin|谁是管理员)")
+			)
 
 	override fun instance(): GroupMessageResponder = this
 }

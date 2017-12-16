@@ -21,11 +21,12 @@ object Quote : GroupMessageResponder() {
 		message.response("${AT(message)} 给定的语录已添加至数据库~")
 	}
 
-	override fun permission(): ResponderPermission = ResponderPermission.ADMIN
-
-	override fun getHelpMessage(): String = "avalon quote <发言者> <语录内容>：<管理员> 记录语录到Avalon数据库。"
-
-	override fun getKeyWordRegex(): Pattern = Pattern.compile("^avalon quote \\S+ \\S+")
+	override fun responderInfo(): ResponderInfo =
+			ResponderInfo(
+					Pair("avalon quote <发言者> <语录内容>", "<管理员> 记录语录到Avalon数据库。"),
+					Pattern.compile("^avalon quote \\S+ \\S+"),
+					permission = ResponderPermission.ADMIN
+			)
 
 	override fun instance(): GroupMessageResponder? = this
 }
