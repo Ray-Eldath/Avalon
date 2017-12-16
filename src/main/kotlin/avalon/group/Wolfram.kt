@@ -45,7 +45,7 @@ object Wolfram : GroupMessageResponder() {
 	}
 
 	override fun responderInfo(): ResponderInfo = ResponderInfo(
-			"Avalon tell me <your question>: (Only English) send your question to Wolfram Alpha and echo the return.",
+			Pair("avalon tell me <your question>", "(Only English) send your question to Wolfram Alpha and echo the return."),
 			Pattern.compile("^avalon tell me \\w+")
 	)
 

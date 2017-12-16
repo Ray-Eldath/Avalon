@@ -23,7 +23,7 @@ object Quote : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("avalon quote <发言者> <语录内容>", "<管理员> 记录语录到Avalon数据库。"),
+					Pair("avalon quote <发言者> <语录内容>", "记录语录到Avalon数据库。"),
 					Pattern.compile("^avalon quote \\S+ \\S+"),
 					permission = ResponderPermission.ADMIN
 			)

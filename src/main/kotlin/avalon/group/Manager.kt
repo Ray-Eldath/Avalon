@@ -71,7 +71,7 @@ object Manager : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("avalon manager (start|stop) <指令响应器触发语句>", "<管理员> 打开或关闭控制指令响应器"),
+					Pair("avalon manager (start|stop) <指令响应器触发语句>", "打开或关闭控制指令响应器"),
 					Pattern.compile("^avalon manager (start|stop) "),
 					configIdentifier = arrayOf("Manager_restart", "Manager_stop", "Manager_basic"),
 					manageable = false,

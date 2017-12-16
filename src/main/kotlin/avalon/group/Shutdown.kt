@@ -20,7 +20,7 @@ object Shutdown : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("avalon shutdown", "<所有者> 退出Avalon。"),
+					Pair("avalon shutdown", "退出Avalon。"),
 					Pattern.compile("^avalon (shutdown|exit)"),
 					permission = ResponderPermission.OWNER,
 					manageable = false

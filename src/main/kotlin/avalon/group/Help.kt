@@ -8,26 +8,44 @@ import avalon.util.GroupMessage
 import java.util.regex.Pattern
 
 object Help : GroupMessageResponder() {
+	private var sent: String = ""
+
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
+		if (sent.isEmpty())
+			sent = get()
+		message.response(sent)
+	}
+
+	private fun get(): String {
 		val apiList = GroupMessageHandler.getApiList()
 		val messageShow = StringBuilder()
 
 		@Suppress("LoopToCallChain")
-		for (api in apiList.values) {
+		for (api in apiList.values.sortedBy { it.responderInfo().helpMessage.first }) {
+			val flags = ArrayList<String>()
 			if (!GroupMessageHandler.getInstance().isResponderEnable(api))
+				flags.add("<已禁用>")
+			val info = api.responderInfo()
+			val helpMessage = info.helpMessage
+			if (helpMessage.first.isEmpty() || helpMessage.second.isEmpty())
 				continue
-			val helpMessage = api.responderInfo().helpMessage
-			if (helpMessage.isEmpty())
-				continue
-			messageShow.append("\n").append(helpMessage)
+			if (info.permission == ResponderPermission.ADMIN)
+				flags.add("<管理员>")
+			else if (info.permission == ResponderPermission.OWNER)
+				flags.add("<所有者>")
+			messageShow.append("\n")
+					.append(helpMessage.first)
+					.append("：")
+					.append(if (flags.isEmpty()) "" else flags.joinToString(separator = " ", postfix = " "))
+					.append(helpMessage.second)
 		}
 		for (thisPlugin in AvalonPluginPool.getPluginList()) {
 			messageShow.append("以下指令由插件 ").append(thisPlugin.name()).append(" 提供：")
 			RegisterResponder.queryAvalonPlugin(thisPlugin).forEach { e -> messageShow.append("\n").append(e.getHelpMessage()) }
 		}
-		message.response("""This is Avalon. 以下是我的帮助资料：
+		return """This is Avalon. 以下是我的帮助资料：
 <关键词>：<触发的作用效果>，所有关键词均忽略大小写并且以avalon开头$messageShow
-For Avalon Version v${Constants.Version.AVALON}""")
+For Avalon Version v${Constants.Version.AVALON}"""
 		// "\n（我才不会告诉你我有一些没有写在这里的彩蛋指令呢~哈哈`(*∩_∩*)′）");
 	}
 
