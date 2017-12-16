@@ -33,10 +33,11 @@ public class MainServer {
 	private static final Logger logger = LoggerFactory.getLogger(MainServer.class);
 	private static List<Long> followGroup = GroupConfig.instance().getFollowGroups();
 
-	static class atShutdownDo extends Thread {
+	static class ShutdownHook extends Thread {
 		@Override
 		public void run() {
 			logger.info("Catch INT signal, Bye!");
+			System.out.println("If you have some problems you CAN NOT SOLVE, please visit `https://github.com/Ray-Eldath/Avalon/issues` or contact with Ray-Eldath<ray-eldath@gmail.com>.");
 			Recorder.getInstance().flushNow();
 			RunningData.getInstance().save();
 			//
@@ -74,7 +75,7 @@ public class MainServer {
 		if (Constants.Setting.RSS_Enabled)
 			executor.scheduleAtFixedRate(RSSFeeder.INSTANCE, 2, 10, TimeUnit.MINUTES);
 		// 关车钩子
-		Runtime.getRuntime().addShutdownHook(new atShutdownDo());
+		Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 		InetSocketAddress address;
 		final String addressString = CURRENT_SERVLET.listenAddress().replace("http://", "");
 		if (!addressString.contains(":"))
@@ -102,7 +103,7 @@ public class MainServer {
 		if (isOn == 1) {
 			for (long thisFollowGroup : followGroup) {
 				String str = "Avalon已经上线。\n发送`avalon help`以获取帮助信息。";
-				Object config = Config.INSTANCE.getCommandConfig("Hitokoto", "push_when_start");
+				Object config = Config.INSTANCE.getResponderConfig("Hitokoto", "push_when_start");
 				if (config != null && (boolean) config)
 					str += "\n\n" + Hitokoto.INSTANCE.get();
 				CURRENT_SERVLET.responseGroup(thisFollowGroup, str);

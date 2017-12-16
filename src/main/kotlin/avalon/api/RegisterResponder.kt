@@ -11,11 +11,14 @@ object RegisterResponder {
 	private val map = hashMapOf<Plugin, ArrayList<CustomGroupResponder>>()
 
 	@JvmStatic
-	fun register(responder: GroupMessageResponder) {
+	fun register(responder: GroupMessageResponder, disableNotAllowed: Boolean = false) {
 		GroupMessageHandler.addGroupMessageResponder(responder)
 		APISurvivePool.getInstance().addAPI(responder)
+		if (disableNotAllowed)
+			GroupMessageHandler.setDisabledNotAllowed(responder)
 	}
 
+	@JvmStatic
 	fun register(plugin: Plugin, responder: CustomGroupResponder) {
 		if (plugin in map) {
 			val tempList = map[plugin]!!

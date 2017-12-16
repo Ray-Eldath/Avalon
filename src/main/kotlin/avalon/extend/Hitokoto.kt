@@ -7,7 +7,7 @@ import java.net.URL
 import java.nio.charset.StandardCharsets
 
 object Hitokoto {
-	private val category = Config.getCommandConfig("Hitokoto", "category")
+	private val category = Config.getResponderConfig("Hitokoto", "category")
 
 	fun get(): String {
 		var url = "https://sslapi.hitokoto.cn/?encode=json"

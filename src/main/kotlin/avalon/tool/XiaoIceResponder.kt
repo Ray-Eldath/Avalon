@@ -24,7 +24,7 @@ object XiaoIceResponder {
 	fun responseXiaoIce(content: String): String? {
 		try {
 			val obj = JSONTokener(URL(
-					Config.getCommandConfig("AnswerMe", "mojo-weixin_api_address").toString()
+					Config.getResponderConfig("AnswerMe", "mojo-weixin_api_address").toString()
 							+ "/openwx/consult?account=xiaoice-ms&content=" + UrlEncoded.encodeString(content))
 					.openStream()).nextValue() as JSONObject
 			if (obj.isNull("reply")) return null

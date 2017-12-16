@@ -81,11 +81,6 @@ public class Constants {
 		public static final boolean Block_Words_Punishment_Mode_Enabled =
 				(boolean) Config.Companion.instance().get("block_words_punishment_mode_enabled");
 
-		public static final boolean AnswerMe_Enabled = Config.Companion.instance().isCommandEnable("AnswerMe");
-		public static final boolean Wolfram_Enabled = Config.Companion.instance().isCommandEnable("Wolfram");
-		public static final boolean Execute_Enabled = Config.Companion.instance().isCommandEnable("Execute");
-		public static final boolean RSS_Enabled = Config.Companion.instance().isCommandEnable("RSS");
-		public static final boolean Hitokoto_Enabled = Config.Companion.instance().isCommandEnable("Hitokoto");
-		public static final boolean Quote_Enabled = Config.Companion.instance().isCommandEnable("Quote");
+		public static final boolean RSS_Enabled = Config.INSTANCE.isPluginEnable("RSS");
 	}
 }

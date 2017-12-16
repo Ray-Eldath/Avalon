@@ -17,7 +17,7 @@ object Blacklist : GroupMessageResponder() {
 
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		val senderUid = message.senderUid
-		val max = GroupMessageHandler.getPunishFrequency()
+		val max = GroupMessageHandler.punishFrequency
 		val content = message.content
 		val sender = message.senderNickName
 		val allowList = getAllowArray(groupConfig, "Blacklist_basic")

@@ -12,8 +12,10 @@ import avalon.tool.pool.Variables;
 import avalon.tool.system.Config;
 import avalon.tool.system.GroupConfig;
 import avalon.tool.system.RunningData;
+import avalon.util.ConfigurationError;
 import avalon.util.GroupMessage;
 import org.apache.commons.lang3.ArrayUtils;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,16 +34,16 @@ import static avalon.tool.pool.Constants.Basic.DEBUG_MESSAGE_UID;
  * @author Eldath Ray
  */
 public class GroupMessageHandler {
-
-
 	private static final Map<Pattern, GroupMessageResponder> apiList = new LinkedHashMap<>();
+	private static final Map<String, GroupMessageResponder> apiNameMap = new HashMap<>();
 	private static final Map<Pattern, CustomGroupResponder> customApiList = new LinkedHashMap<>();
 	private static final Map<? super GroupMessageResponder, Boolean> enableMap = new HashMap<>();
+	private static final Map<Long, Integer> publishPeopleMap = new HashMap<>();
 
-	private static Map<Long, Integer> publishPeopleMap = new HashMap<>();
+	private static final List<GroupMessageResponder> disableNotAllowedResponder = new ArrayList<>();
 
 	private static final String[] blockWordList = toStringArray(Config.Companion.instance().getConfigArray("block_words"));
-	private static final int punishFrequency = (int) Config.Companion.instance().get("block_words_punish_frequency");
+	public static final int punishFrequency = (int) Config.Companion.instance().get("block_words_punish_frequency");
 	private static final long coolingDuration = ObjectCaster.toLong(Config.INSTANCE.get("cooling_duration"));
 
 	private static final APIRateLimit cooling = new APIRateLimit(coolingDuration);
@@ -56,36 +58,60 @@ public class GroupMessageHandler {
 		return instance;
 	}
 
-	private GroupMessageHandler() {
-		enableMap.put(AnswerMe.INSTANCE, Constants.Setting.AnswerMe_Enabled);
-		enableMap.put(Wolfram.INSTANCE, Constants.Setting.Wolfram_Enabled);
-		enableMap.put(Execute.INSTANCE, Constants.Setting.Execute_Enabled);
-		enableMap.put(Hitokoto.INSTANCE, Constants.Setting.Hitokoto_Enabled);
-		enableMap.put(Quote.INSTANCE, Constants.Setting.Quote_Enabled);
-	}
-
 	static {
 		/*
 		 * 指令优先级排序依据：单词 >> 多词，管理类 >> 服务类 >> 娱乐类，触发类 >> 自由类
 		 */
 		// 管理类
-		register(Shutdown.INSTANCE);
-		register(Flush.INSTANCE);
-		register(Manager.INSTANCE);
-		register(Blacklist.INSTANCE);
-		register(Quote.INSTANCE);
+		register(Shutdown.INSTANCE, false);
+		register(Flush.INSTANCE, false);
+		register(Manager.INSTANCE, false);
+		register(Blacklist.INSTANCE, false);
+		register(Quote.INSTANCE, false);
 		// 服务类
-		register(Help.INSTANCE);
-		register(Version.INSTANCE);
-		register(ShowAdmin.INSTANCE);
-		register(Echo.INSTANCE);
-		register(ExecuteInfo.INSTANCE);
-		register(Execute.INSTANCE);
+		register(Help.INSTANCE, true);
+		register(Version.INSTANCE, true);
+		register(ShowAdmin.INSTANCE, false);
+		register(Echo.INSTANCE, false);
+		register(ExecuteInfo.INSTANCE, false);
+		register(Execute.INSTANCE, false);
 		// 娱乐类
-		register(Wolfram.INSTANCE);
-		register(Hitokoto.INSTANCE);
-		register(Mo.INSTANCE);
-		register(AnswerMe.INSTANCE);
+		register(Wolfram.INSTANCE, false);
+		register(Hitokoto.INSTANCE, false);
+		register(Mo.INSTANCE, false);
+		register(AnswerMe.INSTANCE, false);
+	}
+
+	static {
+		JSONObject object = Config.INSTANCE.getJSONObject("responders");
+		String[] enable = ObjectCaster.toStringArray(object.getJSONArray("enable").toList().toArray());
+		String[] disable = ObjectCaster.toStringArray(object.getJSONArray("disable").toList().toArray());
+
+
+		for (String thisDisable : disable)
+			enableMap.put(apiNameMap.get(thisDisable), false);
+
+		for (String thisEnable : enable) {
+			GroupMessageResponder thisEnableResponder = apiNameMap.get(thisEnable);
+			if (!enableMap.containsKey(thisEnableResponder))
+				enableMap.put(thisEnableResponder, true);
+		}
+
+		for (GroupMessageResponder responder : apiList.values()) {
+			if (!enableMap.containsKey(responder))
+				enableMap.put(responder, false);
+		}
+
+		// 校验
+
+		for (Map.Entry<? super GroupMessageResponder, Boolean> entry : enableMap.entrySet()) {
+			if (!entry.getValue()) {
+				//noinspection SuspiciousMethodCalls
+				if (disableNotAllowedResponder.contains(entry.getKey())) {
+					throw new ConfigurationError("CAN NOT disabled basic responder: `" + entry.getKey().getClass().getSimpleName() + "`. Please:\n\t1. Remove this responder from entry `responders.disable` in file `config.json`.\n\t2. Add it into `responders.enable` in file`config.json`.\n\t3. Restart the program.");
+				}
+			}
+		}
 	}
 
 	GroupMessageResponder getGroupResponderByKeywordRegex(String keyword) {
@@ -98,7 +124,7 @@ public class GroupMessageHandler {
 		return null;
 	}
 
-	boolean isResponderEnable(GroupMessageResponder api) {
+	public boolean isResponderEnable(GroupMessageResponder api) {
 		if (!enableMap.containsKey(api))
 			return true;
 		return enableMap.get(api);
@@ -261,18 +287,19 @@ public class GroupMessageHandler {
 
 	public static void addGroupMessageResponder(GroupMessageResponder responder) {
 		apiList.put(responder.responderInfo().getKeyWordRegex(), responder);
+		apiNameMap.put(responder.getClass().getSimpleName(), responder);
 	}
 
 	public static void addCustomGroupResponder(CustomGroupResponder responder) {
 		customApiList.put(responder.getKeyWordRegex(), responder);
 	}
 
-	static Map<Pattern, CustomGroupResponder> getCustomApiList() {
-		return customApiList;
+	public static void setDisabledNotAllowed(GroupMessageResponder responder) {
+		disableNotAllowedResponder.add(responder);
 	}
 
-	static int getPunishFrequency() {
-		return punishFrequency;
+	static Map<Pattern, CustomGroupResponder> getCustomApiList() {
+		return customApiList;
 	}
 
 	static Map<Long, Integer> getSetBlackListPeopleMap() {

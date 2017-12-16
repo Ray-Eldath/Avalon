@@ -2,7 +2,6 @@ package avalon.group
 
 import avalon.api.Flag.AT
 import avalon.tool.XiaoIceResponder
-import avalon.tool.pool.Constants
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import org.apache.commons.lang3.StringUtils
@@ -16,7 +15,6 @@ import java.util.regex.Pattern
 object AnswerMe : GroupMessageResponder() {
 
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
-		if (!Constants.Setting.AnswerMe_Enabled) return
 		var content = message.content.trim().toLowerCase().replace(Regex("[\\pP\\p{Punct}]"), "")
 		var text = content
 		val regex = responderInfo().keyWordRegex

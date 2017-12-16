@@ -1,8 +1,12 @@
 package avalon.tool.system
 
-import org.json.*
+import org.json.JSONArray
+import org.json.JSONObject
+import org.json.JSONTokener
 import org.slf4j.LoggerFactory
-import java.io.*
+import java.io.File
+import java.io.FileReader
+import java.io.IOException
 
 /**
  * Created by Eldath Ray on 2017/3/17.
@@ -13,6 +17,7 @@ import java.io.*
 object Config : BaseConfigSystem {
 	private lateinit var root: JSONObject
 	private var allConfigs: Map<String, Any> = hashMapOf()
+	private var responderConfigs: Map<String, Any> = hashMapOf()
 	private var pluginConfigs: Map<String, Any> = hashMapOf()
 	private val logger = LoggerFactory.getLogger(Config::class.java)
 
@@ -22,6 +27,7 @@ object Config : BaseConfigSystem {
 			root = JSONTokener(FileReader(
 					File(path + File.separator + "config.json"))).nextValue() as JSONObject
 			allConfigs = jsonObjectToMap(root)
+			responderConfigs = jsonObjectToMap(root["responder_config"] as JSONObject)
 			pluginConfigs = jsonObjectToMap(root["plugin_config"] as JSONObject)
 		} catch (e: IOException) {
 			logger.error("Exception thrown while init Config: ", e)
@@ -56,15 +62,29 @@ object Config : BaseConfigSystem {
 		return result
 	}
 
-	fun getCommandConfig(commandName: String, key: String): Any? {
-		val obj = pluginConfigs[commandName] as JSONObject
-		return if (obj.has(key)) obj[key] else null
+	fun getResponderConfig(responderName: String, key: String): Any? =
+			getObjectConfig(responderConfigs, responderName, key)
+
+	fun getResponderConfigArray(responderName: String, key: String): Array<Any> =
+			getObjectConfigArray(responderConfigs, responderName, key)
+
+	fun isPluginEnable(pluginName: String): Boolean =
+			getPluginConfig(pluginName, "enable") as Boolean
+
+	fun getPluginConfig(pluginName: String, key: String): Any? =
+			getObjectConfig(pluginConfigs, pluginName, key)
+
+	fun getPluginConfigArray(pluginName: String, key: String): Any? =
+			getObjectConfigArray(pluginConfigs, pluginName, key)
+
+	private fun getObjectConfig(`object`: Map<String, Any>, key1: String, key2: String): Any? {
+		val obj = `object`[key1] as JSONObject
+		return if (obj.has(key2)) obj[key2] else null
 	}
 
-	fun isCommandEnable(name: String) = getCommandConfig(name, "enable") as Boolean
-
-	fun getCommandConfigArray(commandName: String, key: String): Array<Any> =
-			(pluginConfigs[commandName] as JSONObject).getJSONArray(key).map { it }.toTypedArray()
+	private fun getObjectConfigArray(`object`: Map<String, Any>, key1: String, key2: String): Array<Any> {
+		return (`object`[key1] as JSONObject).getJSONArray(key2).map { it }.toTypedArray()
+	}
 
 	object Companion {
 		@JvmStatic
