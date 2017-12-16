@@ -8,15 +8,7 @@ import avalon.util.GroupMessage
 import java.util.regex.Pattern
 
 object Help : GroupMessageResponder() {
-	private var sent: String = ""
-
-	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
-		if (sent.isEmpty())
-			sent = get()
-		message.response(sent)
-	}
-
-	private fun get(): String {
+	private val sent: String by lazy {
 		val apiList = GroupMessageHandler.getApiList()
 		val messageShow = StringBuilder()
 
@@ -43,10 +35,14 @@ object Help : GroupMessageResponder() {
 			messageShow.append("以下指令由插件 ").append(thisPlugin.name()).append(" 提供：")
 			RegisterResponder.queryAvalonPlugin(thisPlugin).forEach { e -> messageShow.append("\n").append(e.getHelpMessage()) }
 		}
-		return """This is Avalon. 以下是我的帮助资料：
+		"""This is Avalon. 以下是我的帮助资料：
 <关键词>：<触发的作用效果>，所有关键词均忽略大小写并且以avalon开头$messageShow
 For Avalon Version v${Constants.Version.AVALON}"""
 		// "\n（我才不会告诉你我有一些没有写在这里的彩蛋指令呢~哈哈`(*∩_∩*)′）");
+	}
+
+	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
+		message.response(sent)
 	}
 
 	override fun responderInfo(): ResponderInfo =
