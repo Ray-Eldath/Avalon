@@ -33,7 +33,7 @@ public class MainServer {
 	private static final Logger logger = LoggerFactory.getLogger(MainServer.class);
 	private static List<Long> followGroup = GroupConfig.instance().getFollowGroups();
 
-	static class ShutdownHook extends Thread {
+	public static class ShutdownHook extends Thread {
 		@Override
 		public void run() {
 			logger.info("Catch INT signal, Bye!");
@@ -79,7 +79,7 @@ public class MainServer {
 		InetSocketAddress address;
 		final String addressString = CURRENT_SERVLET.listenAddress().replace("http://", "");
 		if (!addressString.contains(":"))
-			address = new InetSocketAddress(addressString, 80);
+			address = new InetSocketAddress(addressString, 8000);
 		else {
 			final String[] addressStringArray = addressString.split(":");
 			address = new InetSocketAddress(addressStringArray[0].replace("//", ""),

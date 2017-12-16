@@ -124,4 +124,9 @@ public class GroupMessage implements Message, Displayable {
 				.append(content)
 				.toHashCode();
 	}
+
+	@Override
+	public String toString() {
+		return getString();
+	}
 }

@@ -2,6 +2,7 @@ package avalon.group;
 
 import avalon.api.CustomGroupResponder;
 import avalon.extend.Recorder;
+import avalon.main.MainServer;
 import avalon.main.MessageChecker;
 import avalon.tool.APIRateLimit;
 import avalon.tool.ObjectCaster;
@@ -103,7 +104,6 @@ public class GroupMessageHandler {
 		}
 
 		// 校验
-
 		for (Map.Entry<? super GroupMessageResponder, Boolean> entry : enableMap.entrySet()) {
 			if (!entry.getValue()) {
 				//noinspection SuspiciousMethodCalls
@@ -256,6 +256,8 @@ public class GroupMessageHandler {
 
 	public static void main(String[] args) {
 		System.setProperty("file.encoding", "UTF-8");
+
+		Runtime.getRuntime().addShutdownHook(new MainServer.ShutdownHook());
 
 		// FIXME 感觉可以删掉，因为是自动加载的
 		Config.Companion.instance();

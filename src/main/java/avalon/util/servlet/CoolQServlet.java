@@ -131,7 +131,7 @@ public class CoolQServlet extends AvalonServlet {
 
 	@Override
 	public void shutdown() {
-		throw new UnsupportedOperationException("please shutdown CoolQ service manually");
+		logger.info("please shutdown CoolQ service manually");
 	}
 
 	@Override

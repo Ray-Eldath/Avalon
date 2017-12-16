@@ -22,7 +22,7 @@ public class Constants {
 
 	public static class Database {
 		private static final String DATASOURCE =
-				Config.Companion.instance().getJSONObject("database").getString("DATASOURCE").toLowerCase();
+				Config.Companion.instance().getJSONObject("database").getString("datasource").toLowerCase();
 		public static final DatabaseOperator CURRENT_DATABASE_OPERATOR =
 				"mysql".equals(DATASOURCE) ? MySQLDatabaseOperator.getInstance() : SQLiteDatabaseOperator.getInstance();
 	}
