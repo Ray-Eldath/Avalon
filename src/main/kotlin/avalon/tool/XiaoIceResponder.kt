@@ -1,7 +1,7 @@
 package avalon.tool
 
 import avalon.tool.pool.Constants
-import avalon.tool.system.Config
+import avalon.tool.system.Configs
 import avalon.util.servlet.CoolQServlet
 import org.eclipse.jetty.util.UrlEncoded
 import org.json.JSONObject
@@ -24,7 +24,7 @@ object XiaoIceResponder {
 	fun responseXiaoIce(content: String): String? {
 		try {
 			val obj = JSONTokener(URL(
-					Config.getResponderConfig("AnswerMe", "mojo-weixin_api_address").toString()
+					Configs.getResponderConfig("AnswerMe", "mojo-weixin_api_address").toString()
 							+ "/openwx/consult?account=xiaoice-ms&content=" + UrlEncoded.encodeString(content))
 					.openStream()).nextValue() as JSONObject
 			if (obj.isNull("reply")) return null

@@ -1,10 +1,10 @@
 package avalon.api
 
-import avalon.api.util.Plugin
 import avalon.friend.FriendMessageResponder
 import avalon.group.GroupMessageHandler
 import avalon.group.GroupMessageResponder
 import avalon.tool.pool.APISurvivePool
+import avalon.util.Plugin
 
 object RegisterResponder {
 	@JvmStatic

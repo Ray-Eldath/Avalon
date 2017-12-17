@@ -15,25 +15,25 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class GroupConfig {
+public class GroupConfigs {
 	private Map<Long, avalon.util.GroupConfig> configs = new HashMap<>();
 	private List<Long> followGroups = new ArrayList<>();
 
-	private static GroupConfig instance = null;
+	private static GroupConfigs instance = null;
 
-	public static GroupConfig instance() {
+	public static GroupConfigs instance() {
 		if (instance == null)
 			try {
-				instance = new GroupConfig();
+				instance = new GroupConfigs();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 		return instance;
 	}
 
-	private GroupConfig() throws IOException {
+	private GroupConfigs() throws IOException {
 		List<String> allIdentifier = new ArrayList<>();
-		for (GroupMessageResponder responder : GroupMessageHandler.getApiList().values()) {
+		for (GroupMessageResponder responder : GroupMessageHandler.INSTANCE.getApiList().values()) {
 			String[] identifier = responder.responderInfo().getConfigIdentifier();
 			if (identifier != null)
 				Collections.addAll(allIdentifier, identifier);

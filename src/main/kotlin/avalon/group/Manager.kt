@@ -28,7 +28,7 @@ object Manager : GroupMessageResponder() {
 				}
 				val apiName = content.toLowerCase().replace(responderInfo().keyWordRegex.toRegex(), "")
 
-				val thisAPI = GroupMessageHandler.getInstance().getGroupResponderByKeywordRegex(apiName)
+				val thisAPI = GroupMessageHandler.getGroupResponderByKeywordRegex(apiName)
 				val action = content.toLowerCase()
 						.replace("avalon manager ", "")
 						.replace(apiName, "").trim()

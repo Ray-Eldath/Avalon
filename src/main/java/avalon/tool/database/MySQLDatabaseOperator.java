@@ -1,6 +1,6 @@
 package avalon.tool.database;
 
-import avalon.tool.system.Config;
+import avalon.tool.system.Configs;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.json.JSONObject;
@@ -28,7 +28,7 @@ public class MySQLDatabaseOperator implements DatabaseOperator {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
-			JSONObject setting = Config.INSTANCE.getJSONObject("database");
+			JSONObject setting = Configs.INSTANCE.getJSONObject("database");
 			String originHost = setting.getString("host");
 			String url = (originHost.endsWith("/") ? originHost.substring(0, originHost.length() - 1) :
 					originHost + "/") + setting.getString("database") + "?serverTimezone=UTC";

@@ -9,13 +9,13 @@ import java.util.regex.Pattern
 
 object Help : GroupMessageResponder() {
 	private val sent: String by lazy {
-		val apiList = GroupMessageHandler.getApiList()
+		val apiList = GroupMessageHandler.apiList
 		val messageShow = StringBuilder()
 
 		@Suppress("LoopToCallChain")
 		for (api in apiList.values.sortedBy { it.responderInfo().helpMessage.first }) {
 			val flags = ArrayList<String>()
-			if (!GroupMessageHandler.getInstance().isResponderEnable(api))
+			if (!GroupMessageHandler.isResponderEnable(api))
 				flags.add("<已禁用>")
 			val info = api.responderInfo()
 			val helpMessage = info.helpMessage

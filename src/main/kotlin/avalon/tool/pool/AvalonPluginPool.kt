@@ -1,8 +1,8 @@
 package avalon.tool.pool
 
-import avalon.api.util.Plugin
-import avalon.api.util.PluginInfo
 import avalon.tool.pool.Constants.Address.DATA_PATH
+import avalon.util.Plugin
+import avalon.util.PluginInfo
 import org.json.JSONObject
 import org.json.JSONTokener
 import org.slf4j.LoggerFactory

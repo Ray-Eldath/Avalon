@@ -53,9 +53,8 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
 		String prefix = Constants.Basic.CURRENT_PATH + File.separator + "res" + File.separator;
 		try {
 			File file = new File(prefix + "record.db");
-			if (file.exists())
-				if (!file.delete())
-					return false;
+			if (file.exists() && !file.delete())
+				return false;
 			if (!file.createNewFile())
 				return false;
 			Files.copy(Paths.get(prefix + "empty_record.db"), Paths.get(prefix + "record.db"));

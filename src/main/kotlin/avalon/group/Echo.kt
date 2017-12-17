@@ -18,7 +18,7 @@ object Echo : GroupMessageResponder() {
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
 					Pair("avalon (echo|repeat)|阿瓦隆跟我说", "让阿瓦隆重复给定语句"),
-					Pattern.compile("^avalon (echo|repeat)|^阿瓦隆跟我说 ")
+					Pattern.compile("^avalon (echo|repeat) |^阿瓦隆跟我说 ")
 			)
 
 	override fun instance() = this

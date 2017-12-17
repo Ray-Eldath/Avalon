@@ -1,13 +1,13 @@
 package avalon.extend
 
-import avalon.tool.system.Config
+import avalon.tool.system.Configs
 import org.json.JSONObject
 import org.json.JSONTokener
 import java.net.URL
 import java.nio.charset.StandardCharsets
 
 object Hitokoto {
-	private val category = Config.getResponderConfig("Hitokoto", "category")
+	private val category = Configs.getResponderConfig("Hitokoto", "category")
 
 	fun get(): String {
 		var url = "https://sslapi.hitokoto.cn/?encode=json"

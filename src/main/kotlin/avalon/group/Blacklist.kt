@@ -2,6 +2,8 @@ package avalon.group
 
 import avalon.api.Flag.AT
 import avalon.api.getAllowArray
+import avalon.tool.pool.Constants
+import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import org.slf4j.LoggerFactory
@@ -20,41 +22,46 @@ object Blacklist : GroupMessageResponder() {
 		val max = GroupMessageHandler.punishFrequency
 		val content = message.content
 		val sender = message.senderNickName
+		val groupUid = message.groupUid
 		val allowList = getAllowArray(groupConfig, "Blacklist_basic")
 		val split = content.split(" ")
-		val toBan = split[3].toLong()
-		allowList!!
-				.filter { it == senderUid }
+		val toBan = if (content.contains(Regex("add|remove"))) split[3].toLong() else 0
+		val map = GroupMessageHandler.blacklistPeopleMap
+		allowList!!.filter { it == senderUid }
 				.forEach {
 					when (split[2]) {
+						"list" -> {
+							if (Constants.Basic.DEBUG)
+								message.response(map.keys.joinToString())
+							if (map.isEmpty())
+								message.response("${AT(message)} 管理员：屏蔽列表为空~●▽●")
+							else {
+								val to = map.keys.joinToString { CURRENT_SERVLET.getGroupSenderNickname(groupUid, it) }
+								message.response("${AT(message)} 管理员：屏蔽列表中有：\n$to")
+							}
+						}
 						"add" -> {
-							message.response("${AT(message)} 帐号 $toBan 现已被屏蔽。")
+							message.response("${AT(message)} 管理员：帐号 $toBan 现已被屏蔽⊙﹏⊙")
 							Blacklist.logger.info("Account $toBan is baned by $senderUid : $sender.")
-							GroupMessageHandler.getSetBlackListPeopleMap().put(toBan, max)
-							return
+							GroupMessageHandler.addBlackListPeople(toBan, max)
 						}
 						"remove" -> {
-							if (!GroupMessageHandler.getSetBlackListPeopleMap().containsKey(toBan)) {
+							if (!map.containsKey(toBan))
 								message.response("${AT(message)} 管理员：好像帐号 $toBan 没有被屏蔽过呢-。-")
-								return
+							else {
+								message.response("${AT(message)} 管理员：帐号 $toBan 的屏蔽已被解除(^.^)")
+								Blacklist.logger.info("Account $toBan is allowed again by $senderUid : $sender.")
+								GroupMessageHandler.addBlackListPeople(toBan, 0)
 							}
-							message.response("${AT(message)} 管理员：帐号 $toBan 的屏蔽已被解除(^.^)")
-							Blacklist.logger.info("Account $toBan is allowed again by $senderUid : $sender.")
-							GroupMessageHandler.getSetBlackListPeopleMap().put(toBan, 0)
-							return
 						}
-						else -> {
-							message.response("${AT(message)} 管理员：您的指示格式不对呢！（｀Δ´）！")
-							return
-						}
+						else -> message.response("${AT(message)} 管理员：您的指示格式不对呢！（｀Δ´）！")
 					}
 				}
-		message.response(AT(message) + " 您没有权限辣！（｀Δ´）！")
 	}
 
 	override fun responderInfo(): ResponderInfo = ResponderInfo(
-			Pair("avalon blacklist (add|remove)", "将指定的QQ号 添加至黑名单或从黑名单移除"),
-			Pattern.compile("^avalon blacklist (add|remove)"),
+			Pair("avalon blacklist (list|add|remove)", "查看黑名单、将指定的QQ号添加至黑名单或从黑名单移除"),
+			Pattern.compile("^avalon blacklist (list|add|remove)"),
 			configIdentifier = arrayOf("Blacklist_basic"),
 			manageable = false,
 			permission = ResponderPermission.ADMIN)

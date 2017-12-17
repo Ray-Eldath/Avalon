@@ -92,7 +92,7 @@ public class CoolQServlet extends AvalonServlet {
 	@Override
 	public void responseGroup(long groupUid, String reply) {
 		if (Constants.Basic.DEBUG || Constants.Basic.LOCAL_OUTPUT) {
-			System.out.println("Group output: " + reply);
+			System.out.println("Group output:" + reply);
 			return;
 		}
 		Map<String, Object> object = new HashMap<>();
@@ -173,8 +173,9 @@ public class CoolQServlet extends AvalonServlet {
 	}
 
 	private String sendRequest(String url, Map<String, Object> data) {
+		String nowUrl = url;
 		if (data == null)
-			url = apiAddress() + url;
+			nowUrl = apiAddress() + url;
 		else {
 			StringBuilder requestBuilder = new StringBuilder();
 			Set<Map.Entry<String, Object>> entrySet = data.entrySet();
@@ -189,11 +190,11 @@ public class CoolQServlet extends AvalonServlet {
 				requestBuilder.append("&");
 			}
 			String request = requestBuilder.toString();
-			url = apiAddress() + url + "?" + request.substring(0, request.length() - 1);
+			nowUrl = apiAddress() + nowUrl + "?" + request.substring(0, request.length() - 1);
 		}
 		StringBuilder response = new StringBuilder();
 		try {
-			URLConnection connection = new URL(url).openConnection();
+			URLConnection connection = new URL(nowUrl).openConnection();
 			connection.setReadTimeout(2000);
 			connection.setConnectTimeout(2000);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));

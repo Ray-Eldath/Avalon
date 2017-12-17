@@ -1,6 +1,6 @@
 package avalon.tool
 
-import avalon.tool.system.Config
+import avalon.tool.system.Configs
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
@@ -16,7 +16,7 @@ object GlotRun : Executive {
 	override fun name(): String = "Glot-Run"
 
 	private val lang: Map<String, URL> = parseLanguages(URL("https://run.glot.io/languages"))
-	private val token = Config.getResponderConfig("Execute", "token")
+	private val token = Configs.getResponderConfig("Execute", "token")
 
 	private fun parseLanguages(url: URL): Map<String, URL> {
 		val arrayT = Share.get(url) ?: throw RuntimeException("no valid response")

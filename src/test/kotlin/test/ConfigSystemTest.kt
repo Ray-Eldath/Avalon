@@ -2,9 +2,8 @@
 
 package test
 
-import avalon.tool.system.Config
-
 import avalon.tool.ObjectCaster.toLongArray
+import avalon.tool.system.Configs
 
 /**
  * Created by Eldath Ray on 2017/3/18 0018.
@@ -12,7 +11,7 @@ import avalon.tool.ObjectCaster.toLongArray
  * @author Eldath Ray
  */
 fun main(args: Array<String>) {
-	val test = toLongArray(Config.getConfigArray("Admin_Uid"))
-	println(Config["Block_Words"])
+	val test = toLongArray(Configs.getConfigArray("Admin_Uid"))
+	println(Configs["Block_Words"])
 	test.forEach(::println)
 }

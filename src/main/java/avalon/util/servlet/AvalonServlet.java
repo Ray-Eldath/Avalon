@@ -1,6 +1,6 @@
 package avalon.util.servlet;
 
-import avalon.tool.system.Config;
+import avalon.tool.system.Configs;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.json.JSONObject;
@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * @author Eldath Ray
  */
 public abstract class AvalonServlet extends HttpServlet {
-	private static JSONObject object = Config.INSTANCE.getJSONObject("servlet");
+	private static JSONObject object = Configs.INSTANCE.getJSONObject("servlet");
 
 	abstract public String name();
 

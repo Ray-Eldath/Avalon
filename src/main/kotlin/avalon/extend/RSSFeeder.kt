@@ -1,8 +1,8 @@
 package avalon.extend
 
 import avalon.tool.pool.Constants
-import avalon.tool.system.Config
-import avalon.tool.system.GroupConfig
+import avalon.tool.system.Configs
+import avalon.tool.system.GroupConfigs
 import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -10,7 +10,7 @@ import java.time.format.FormatStyle
 import java.util.*
 
 object RSSFeeder : Runnable {
-	private val urls = toURLList(Config.getResponderConfigArray("RSS", "feed"))
+	private val urls = toURLList(Configs.getResponderConfigArray("RSS", "feed"))
 	private val updated = hashMapOf(*urls.map { it to LocalDateTime.MIN }.toTypedArray())
 	private val random = Random()
 
@@ -32,7 +32,7 @@ object RSSFeeder : Runnable {
 
 	override fun run() {
 		update()?.let { newest ->
-			GroupConfig.instance().followGroups.forEach { groupUid ->
+			GroupConfigs.instance().followGroups.forEach { groupUid ->
 				Constants.Basic.CURRENT_SERVLET.responseGroup(groupUid,
 						"""订阅的RSS ${newest.info.title} - ${newest.info.description} 有更新：
 ${newest.title}

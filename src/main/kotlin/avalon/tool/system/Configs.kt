@@ -14,12 +14,12 @@ import java.io.IOException
  * @author Eldath Ray
  * @since v0.0.1 Beta
  */
-object Config : BaseConfigSystem {
+object Configs : BaseConfigSystem {
 	private lateinit var root: JSONObject
 	private var allConfigs: Map<String, Any> = hashMapOf()
 	private var responderConfigs: Map<String, Any> = hashMapOf()
 	private var pluginConfigs: Map<String, Any> = hashMapOf()
-	private val logger = LoggerFactory.getLogger(Config::class.java)
+	private val logger = LoggerFactory.getLogger(Configs::class.java)
 
 	init {
 		try {
@@ -30,7 +30,7 @@ object Config : BaseConfigSystem {
 			responderConfigs = jsonObjectToMap(root["responder_config"] as JSONObject)
 			pluginConfigs = jsonObjectToMap(root["plugin_config"] as JSONObject)
 		} catch (e: IOException) {
-			logger.error("Exception thrown while init Config: ", e)
+			logger.error("Exception thrown while init Configs: ", e)
 		}
 
 	}
@@ -88,6 +88,6 @@ object Config : BaseConfigSystem {
 
 	object Companion {
 		@JvmStatic
-		fun instance(): Config = Config
+		fun instance(): Configs = Configs
 	}
 }

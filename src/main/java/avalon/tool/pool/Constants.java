@@ -3,7 +3,7 @@ package avalon.tool.pool;
 import avalon.tool.database.DatabaseOperator;
 import avalon.tool.database.MySQLDatabaseOperator;
 import avalon.tool.database.SQLiteDatabaseOperator;
-import avalon.tool.system.Config;
+import avalon.tool.system.Configs;
 import avalon.util.servlet.AvalonServlet;
 import avalon.util.servlet.CoolQServlet;
 
@@ -22,7 +22,7 @@ public class Constants {
 
 	public static class Database {
 		private static final String DATASOURCE =
-				Config.Companion.instance().getJSONObject("database").getString("datasource").toLowerCase();
+				Configs.Companion.instance().getJSONObject("database").getString("datasource").toLowerCase();
 		public static final DatabaseOperator CURRENT_DATABASE_OPERATOR =
 				"mysql".equals(DATASOURCE) ? MySQLDatabaseOperator.getInstance() : SQLiteDatabaseOperator.getInstance();
 	}
@@ -52,12 +52,10 @@ public class Constants {
 
 	public static class Basic {
 		public static final AvalonServlet CURRENT_SERVLET =
-				Config.Companion.instance().getJSONObject("servlet")
-						.getString("servlet").trim().toLowerCase().equals("coolq") ?
-						new CoolQServlet() :
-						null;
-		public static final boolean LOCAL_OUTPUT = (boolean) Config.Companion.instance().get("local_output");
-		public static final boolean DEBUG = (boolean) Config.Companion.instance().get("debug");
+				Configs.Companion.instance().getJSONObject("servlet").getString("servlet")
+						.trim().equalsIgnoreCase("coolq") ? new CoolQServlet() : null;
+		public static final boolean LOCAL_OUTPUT = (boolean) Configs.Companion.instance().get("local_output");
+		public static final boolean DEBUG = (boolean) Configs.Companion.instance().get("debug");
 		public static final long START_TIME = System.currentTimeMillis();
 		public static final long DEBUG_MESSAGE_UID = 10000;
 		public static final int PID = Integer.parseInt(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
@@ -79,8 +77,8 @@ public class Constants {
 
 	public static class Setting {
 		public static final boolean Block_Words_Punishment_Mode_Enabled =
-				(boolean) Config.Companion.instance().get("block_words_punishment_mode_enabled");
+				(boolean) Configs.Companion.instance().get("block_words_punishment_mode_enabled");
 
-		public static final boolean RSS_Enabled = Config.INSTANCE.isPluginEnable("RSS");
+		public static final boolean RSS_Enabled = Configs.INSTANCE.isPluginEnable("RSS");
 	}
 }
