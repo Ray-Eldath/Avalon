@@ -7,15 +7,15 @@
 ### 主要功能
  - **自然语言问答：** Avalon已对接[Wolfram Alpha](https://www.wolframalpha.com)提供“自然语言问答”服务。您可以在配置完Wolfram插件后通过指令`avalon tell me `使用它。
  - **每日一句：** Avalon已对接[一言](http://hitokoto.cn)提供“每日一句”服务。您可以配置Avalon每次启动时推送“每日一句”或使用指令`avalon hitokoto`
- - **智能回复：**Avalon已通过[Mojo-Weixin](https://github.com/sjdy521/Mojo-Weixin)对接[微软小冰](http://www.msxiaoice.com)提供智能回复功能，您可以通过`avalon answer me`指令使用它
- - **代码片段执行：**Avalon允许您使用`avalon execute`指令在线执行代码
- - **RSS订阅推送：**当您在Avalon的配置文件中设置RSS插件为启用状态并添加订阅源后，Avalon将自动推送订阅源的更新
- - **扩展功能：**Avalon允许通过MessageHook、插件及源代码修改方式自行扩展
+ - **智能回复：** Avalon已通过[Mojo-Weixin](https://github.com/sjdy521/Mojo-Weixin)对接[微软小冰](http://www.msxiaoice.com)提供智能回复功能，您可以通过`avalon answer me`指令使用它
+ - **代码片段执行：** Avalon允许您使用`avalon execute`指令在线执行代码
+ - **RSS订阅推送：** 当您在Avalon的配置文件中设置RSS插件为启用状态并添加订阅源后，Avalon将自动推送订阅源的更新
+ - **扩展功能：** Avalon允许通过MessageHook、插件及源代码修改方式自行扩展
  - ...
 
 ### 对话示例
 
-<div class="tumblr-post" data-href="https://embed.tumblr.com/embed/post/5KOBUYXgnpEb4faEE-qBFA/168628011926" data-did="e5360968e50e0441397d02ed17b25f85bd195314"><a href="https://ray-eldath.tumblr.com/post/168628011926/avalon-record-example">https://ray-eldath.tumblr.com/post/168628011926/avalon-record-example</a>
+[record.jpg](https://raw.githubusercontent.com/Ray-Eldath/Avalon/master/img/record.jpg)
 
 ## 维护
 
