@@ -24,8 +24,7 @@ object XiaoIceResponder {
 	fun responseXiaoIce(content: String): String? {
 		try {
 			val obj = JSONTokener(URL(
-					Configs.getResponderConfig("AnswerMe", "mojo-weixin_api_address").toString()
-							+ "/openwx/consult?account=xiaoice-ms&content=" + UrlEncoded.encodeString(content))
+					"${Configs.getResponderConfig("AnswerMe", "mojo-weixin_api_address").toString()}/openwx/consult?account=xiaoice-ms&content=${UrlEncoded.encodeString(content)}")
 					.openStream()).nextValue() as JSONObject
 			if (obj.isNull("reply")) return null
 			var reply = String(obj["reply"].toString().toByteArray(), Charset.forName("UTF-8"))
@@ -50,7 +49,7 @@ object XiaoIceResponder {
 	fun respondGroupWithImage(groupUid: Long, message: String, image: Path) {
 		if (Constants.Basic.CURRENT_SERVLET !is CoolQServlet)
 			throw UnsupportedOperationException("only CooQServlet can handle image")
-		val cq = "[CQ:image,file=file://" + image.toString() + "]"
+		val cq = "[CQ:image,file=file://$image]"
 		Constants.Basic.CURRENT_SERVLET.responseGroup(groupUid, message.replace("[Avalon:image]", cq))
 	}
 }

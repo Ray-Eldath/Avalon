@@ -47,8 +47,10 @@ object AvalonPluginPool {
 	}
 
 	private fun load(info: PluginInfo) {
-		val plugin = URLClassLoader(Array(1) { URL("file:$DATA_PATH${File.separator}plugin${File.separator}${info.fileName}") },
-				Thread.currentThread().contextClassLoader).loadClass(info.classString).newInstance() as Plugin
+		val plugin = URLClassLoader(
+				Array(1) { URL("file:$DATA_PATH${File.separator}plugin${File.separator}${info.fileName}") },
+				Thread.currentThread().contextClassLoader)
+				.loadClass(info.classString) as Plugin
 		pluginList.add(plugin)
 		plugin.main()
 	}

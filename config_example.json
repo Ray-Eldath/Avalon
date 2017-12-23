@@ -7,33 +7,51 @@
     "艹",
     "fuck"
   ],
+  "cooling_duration": 3000,
   "block_words_punish_frequency": 3,
-  "plugin_config": {
+  "responders": {
+    "enable": [
+      "Blacklist",
+      "Echo",
+      "Execute",
+      "ExecuteInfo",
+      "Flush",
+      "Help",
+      "Hitokoto",
+      "Manager",
+      "Mo",
+      "Quote",
+      "ShowAdmin",
+      "Shutdown",
+      "Version",
+      "Help"
+    ],
+    "disable": [
+      "AnswerMe"
+    ]
+  },
+  "responder_config": {
     "AnswerMe": {
-      "enable": false,
       "mojo-weixin_api_address": "http://127.0.0.1:3500"
     },
     "Wolfram": {
-      "enable": true,
-      "app_id": "AAAAAA-BBBBBBBBBB"
+      "app_id": "XXXXXX-ZZZZZZZZZZ"
     },
     "Execute": {
-      "enable": true,
       "servlet": "Glot-Run",
-      "token": "11111111-2222-3333-4444-555555555555"
+      "token": "1111111-aaaa-bbbb-cccc-dddddddddddd"
     },
+    "Hitokoto": {
+      "push_when_start": true,
+      "category": "b"
+    }
+  },
+  "plugin_config": {
     "RSS": {
       "enable": false,
       "feed": [
         "http://ice1000.org/feed.xml"
       ]
-    },
-    "Hitokoto": {
-      "enable": true,
-      "category": "b"
-    },
-    "Quote": {
-      "enable": true
     }
   },
   "database": {

@@ -1,5 +1,5 @@
 group 'ray-eldath.avalon'
-version '1.1.0'
+version '1.2.0'
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
@@ -74,9 +74,18 @@ compileTestKotlin {
     }
 }
 
-task fatJar(type: Jar) {
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+task copyLicense {
+    outputs.file new File("$buildDir/LICENSE")
+    doLast {
+        copy {
+            from "LICENSE"
+            into "$buildDir"
+        }
+    }
+}
+
+applicationDistribution.from(copyLicense) {
+    into ""
 }
 
 tasks.withType(JavaCompile) {

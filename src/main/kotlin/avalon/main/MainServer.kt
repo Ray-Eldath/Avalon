@@ -1,9 +1,13 @@
 package avalon.main
 
 import avalon.api.DelayResponse
-import avalon.extend.*
+import avalon.extend.RSSFeeder
+import avalon.extend.Recorder
+import avalon.extend.Scheduler
+import avalon.extend.ShowMsg
 import avalon.friend.FriendMessageHandler
 import avalon.group.GroupMessageHandler
+import avalon.group.Hitokoto
 import avalon.tool.pool.AvalonPluginPool
 import avalon.tool.pool.Constants
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
@@ -102,7 +106,7 @@ object MainServer {
 					var str = "Avalon已经上线。\n发送`avalon help`以获取帮助信息。"
 					val config = Configs.getResponderConfig("Hitokoto", "push_when_start")
 					if (config != null && config as Boolean)
-						str += "\n\n" + Hitokoto.get()
+						str += "\n\n" + Hitokoto.Hitokoto.get()
 					CURRENT_SERVLET.responseGroup(thisFollowGroup, str)
 				}
 				logger.info("Login message sent.")

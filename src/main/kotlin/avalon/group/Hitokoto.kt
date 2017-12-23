@@ -1,8 +1,12 @@
 package avalon.group
 
-import avalon.extend.Hitokoto
+import avalon.tool.system.Configs
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
+import org.json.JSONObject
+import org.json.JSONTokener
+import java.net.URL
+import java.nio.charset.StandardCharsets
 import java.util.regex.Pattern
 
 object Hitokoto : GroupMessageResponder() {
@@ -17,4 +21,16 @@ object Hitokoto : GroupMessageResponder() {
 			)
 
 	override fun instance() = this
+
+	object Hitokoto {
+		private val category = Configs.getResponderConfig("Hitokoto", "category")
+
+		fun get(): String {
+			var url = "https://sslapi.hitokoto.cn/?encode=json"
+			if (category != null)
+				url += "&c=$category"
+			val obj = JSONTokener(URL(url).openStream().bufferedReader(StandardCharsets.UTF_8)).nextValue() as JSONObject
+			return "『${obj.getString("hitokoto")}』\n—「${obj.getString("from")}」"
+		}
+	}
 }
