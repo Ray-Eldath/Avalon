@@ -14,7 +14,7 @@ enum class ExecutiveStatus {
 }
 
 class ExecutiveResult(val status: ExecutiveStatus, val exitcode: Int, val stdout: String, val stderr: String, val error: String) {
-	override fun toString() = "ExecutiveResult(status=$status, exitcode=$exitcode, stdout='$stdout', stderr='$stderr', error='$error')"
+	override fun toString() = "ExecutiveResult(buildStatus=$status, exitcode=$exitcode, stdout='$stdout', stderr='$stderr', error='$error')"
 }
 
 interface Executive {

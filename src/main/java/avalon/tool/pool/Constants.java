@@ -80,5 +80,7 @@ public class Constants {
 				(boolean) Configs.Companion.instance().get("block_words_punishment_mode_enabled");
 
 		public static final boolean RSS_Enabled = Configs.INSTANCE.isPluginEnable("RSS");
+
+		public static final boolean BuildStatus_Enabled = Configs.INSTANCE.isPluginEnable("BuildStatus");
 	}
 }

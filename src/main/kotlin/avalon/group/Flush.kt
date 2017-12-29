@@ -1,7 +1,7 @@
 package avalon.group
 
 import avalon.api.Flag.AT
-import avalon.extend.Recorder
+import avalon.plugin.Recorder
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern

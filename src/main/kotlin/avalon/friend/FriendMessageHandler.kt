@@ -1,6 +1,6 @@
 package avalon.friend
 
-import avalon.extend.Recorder
+import avalon.plugin.Recorder
 import avalon.tool.pool.Constants
 import avalon.util.FriendMessage
 

@@ -3,9 +3,10 @@ package avalon.group
 import avalon.api.CustomGroupResponder
 import avalon.api.Flag.AT
 import avalon.api.RegisterResponder.register
-import avalon.extend.Recorder
 import avalon.main.MainServer
 import avalon.main.MessageChecker
+import avalon.plugin.BuildStatus
+import avalon.plugin.Recorder
 import avalon.tool.APIRateLimit
 import avalon.tool.ObjectCaster
 import avalon.tool.ObjectCaster.toStringArray
@@ -211,12 +212,14 @@ object GroupMessageHandler {
 		// 校验
 		for ((key, value) in enableMap) {
 			if (!value && disableNotAllowedResponder.contains(key))
-				throw ConfigurationError("CAN NOT disabled basic responder: `" + key.javaClass.simpleName + "`. Please:\n\t1. Remove this responder from entry `responders.disable` in file `config.json`.\n\t2. Add it into `responders.enable` in file`config.json`.\n\t3. Restart the program.")
+				throw ConfigurationError("CAN NOT disabled basic responder: `${key.javaClass.simpleName}`. Please:\n\t1. Remove this responder from entry `responders.disable` in file `config.json`.\n\t2. Add it into `responders.enable` in file`config.json`.\n\t3. Restart the program.")
 		}
 	}
 
 	@JvmStatic
 	fun main(args: Array<String>) {
+		BuildStatus.run()
+
 		System.setProperty("file.encoding", "UTF-8")
 
 		Runtime.getRuntime().addShutdownHook(MainServer.ShutdownHook())
@@ -251,8 +254,6 @@ object GroupMessageHandler {
 	fun addCustomGroupResponder(responder: CustomGroupResponder) = customApiList.put(responder.getKeyWordRegex(), responder)
 
 	fun setDisabledNotAllowed(responder: GroupMessageResponder) = disableNotAllowedResponder.add(responder)
-
-	internal fun setBlackListPeopleMap(): Map<Long, Int> = blacklistPeopleMap
 
 	internal fun addBlackListPeople(first: Long, second: Int) = blacklistPeopleMap.put(first, second)
 }

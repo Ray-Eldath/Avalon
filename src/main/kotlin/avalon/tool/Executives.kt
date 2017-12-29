@@ -39,7 +39,7 @@ object GlotRun : Executive {
 			throw UnsupportedLanguageException()
 		val content = JSONObject()
 		val array = JSONArray()
-		content.put("name", "main")
+		content.put("slug", "main")
 		content.put("content", codeLines.joinToString("\n"))
 		array.put(content)
 		val obj = JSONObject()
@@ -65,7 +65,7 @@ object GlotRun : Executive {
 			stderr.isNotEmpty() -> ExecutiveStatus.STDERR
 			else -> ExecutiveStatus.OK
 		}
-		val exitcode = if (error.isNotEmpty() || stderr.isNotEmpty()) -1 else 0
-		return ExecutiveResult(status, exitcode, stdout, stderr, error)
+		val exitCode = if (error.isNotEmpty() || stderr.isNotEmpty()) -1 else 0
+		return ExecutiveResult(status, exitCode, stdout, stderr, error)
 	}
 }

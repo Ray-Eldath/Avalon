@@ -74,7 +74,7 @@ object Configs : BaseConfigSystem {
 	fun getPluginConfig(pluginName: String, key: String): Any? =
 			getObjectConfig(pluginConfigs, pluginName, key)
 
-	fun getPluginConfigArray(pluginName: String, key: String): Any? =
+	fun getPluginConfigArray(pluginName: String, key: String): Array<Any> =
 			getObjectConfigArray(pluginConfigs, pluginName, key)
 
 	private fun getObjectConfig(`object`: Map<String, Any>, key1: String, key2: String): Any? {

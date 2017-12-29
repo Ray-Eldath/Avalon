@@ -1,13 +1,10 @@
 package avalon.main
 
 import avalon.api.DelayResponse
-import avalon.extend.RSSFeeder
-import avalon.extend.Recorder
-import avalon.extend.Scheduler
-import avalon.extend.ShowMsg
 import avalon.friend.FriendMessageHandler
 import avalon.group.GroupMessageHandler
 import avalon.group.Hitokoto
+import avalon.plugin.*
 import avalon.tool.pool.AvalonPluginPool
 import avalon.tool.pool.Constants
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
@@ -31,7 +28,7 @@ import java.util.concurrent.TimeUnit
  */
 object MainServer {
 	private val logger = LoggerFactory.getLogger(MainServer::class.java)
-	private val followGroup = GroupConfigs.instance().followGroups
+	val followGroup = GroupConfigs.instance().followGroups
 
 	class ShutdownHook : Thread() {
 		override fun run() {
@@ -58,7 +55,7 @@ object MainServer {
 			logger.warn("Avalon is running under DEBUG mode!")
 
 		//		if (!CURRENT_SERVLET.test()) {
-		//			logger.error("can not connect to servlet " + CURRENT_SERVLET.name() + "! please check this servlet is DO running...");
+		//			logger.error("can not connect to servlet " + CURRENT_SERVLET.slug() + "! please check this servlet is DO running...");
 		//			System.exit(-1);
 		//		}
 		// 响应速度太慢。
@@ -75,6 +72,8 @@ object MainServer {
 
 		if (Constants.Setting.RSS_Enabled)
 			executor.scheduleAtFixedRate(RSSFeeder, 2, 10, TimeUnit.MINUTES)
+		if (Constants.Setting.BuildStatus_Enabled)
+			executor.scheduleAtFixedRate(BuildStatus, 10, 60, TimeUnit.SECONDS)
 		// 关车钩子
 		Runtime.getRuntime().addShutdownHook(ShutdownHook())
 		val address: InetSocketAddress
