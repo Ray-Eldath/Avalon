@@ -1,6 +1,7 @@
 package avalon.tool;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,13 @@ public class ObjectCaster {
 		String[] result = new String[objects.length];
 		for (int i = 0; i < objects.length; i++)
 			result[i] = (String) objects[i];
+		return result;
+	}
+
+	public static JSONObject[] toJSONObjectArray(Object[] objects) {
+		JSONObject[] result = new JSONObject[objects.length];
+		for (int i = 0; i < objects.length; i++)
+			result[i] = (JSONObject) objects[i];
 		return result;
 	}
 }

@@ -1,6 +1,6 @@
 package avalon.plugin
 
 fun main(args: Array<String>) {
-	val status = CIs.get("TravisCI")!!.getStatus("Ray-Eldath/Avalon")
+	val status = CIs.get("AppVeyor")!!.getStatus("RayEldath/avalon")
 	println(status)
 }
