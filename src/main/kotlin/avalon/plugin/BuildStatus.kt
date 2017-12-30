@@ -71,12 +71,11 @@ class RepoStatus(val slug: String, val label: Int, val buildStatus: RepoBuildSta
 
 object CIs {
 
-	fun get(name: String): CI? {
-		return when (name) {
-			"TravisCI" -> TravisCI
-			else -> null
-		}
-	}
+	fun get(name: String): CI? =
+			when (name) {
+				"TravisCI" -> TravisCI
+				else -> null
+			}
 
 	interface CI {
 		fun name(): String
@@ -86,17 +85,18 @@ object CIs {
 	private object TravisCI : CI {
 		override fun getStatus(repoName: String): RepoStatus {
 			val root = JSONTokener(URL("https://api.travis-ci.org/repositories/$repoName").openStream()).nextValue() as JSONObject
-			val lastBuildStatus = if (root.isNull("last_build_status")) 0 else root.get("last_build_status")
+			val lastBuildStatus = if (root.isNull("last_build_status")) -1 else root.get("last_build_status")
 			val lastBuildFinish = if (root.isNull("last_build_finished_at")) 0 else root.get("last_build_finished_at")
-			val status = {
-				if (lastBuildFinish == 0)
-					RepoBuildStatus.UNKNOWN
-				else
-					RepoBuildStatus.SUCCESS
-			}
+
+			val status =
+					when {
+						lastBuildFinish == 0 -> RepoBuildStatus.UNKNOWN
+						lastBuildStatus == 0 -> RepoBuildStatus.SUCCESS
+						else -> RepoBuildStatus.FAILED
+					}
 			return RepoStatus(root.getString("slug"),
 					Integer.parseInt(root.getString("last_build_number")),
-					status.invoke(),
+					status,
 					if (root.isNull("last_build_duration")) 0 else root.getInt("last_build_duration"),
 					"https://travis-ci.org/$repoName"
 			)

@@ -73,7 +73,7 @@ object MainServer {
 		if (Constants.Setting.RSS_Enabled)
 			executor.scheduleAtFixedRate(RSSFeeder, 2, 10, TimeUnit.MINUTES)
 		if (Constants.Setting.BuildStatus_Enabled)
-			executor.scheduleAtFixedRate(BuildStatus, 10, 60, TimeUnit.SECONDS)
+			executor.scheduleAtFixedRate(BuildStatus, 2, 30, TimeUnit.SECONDS)
 		// 关车钩子
 		Runtime.getRuntime().addShutdownHook(ShutdownHook())
 		val address: InetSocketAddress

@@ -5,7 +5,6 @@ import avalon.api.Flag.AT
 import avalon.api.RegisterResponder.register
 import avalon.main.MainServer
 import avalon.main.MessageChecker
-import avalon.plugin.BuildStatus
 import avalon.plugin.Recorder
 import avalon.tool.APIRateLimit
 import avalon.tool.ObjectCaster
@@ -218,8 +217,6 @@ object GroupMessageHandler {
 
 	@JvmStatic
 	fun main(args: Array<String>) {
-		BuildStatus.run()
-
 		System.setProperty("file.encoding", "UTF-8")
 
 		Runtime.getRuntime().addShutdownHook(MainServer.ShutdownHook())
