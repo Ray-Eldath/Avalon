@@ -12,46 +12,42 @@ import java.net.URL
 import java.time.LocalDateTime
 
 object BuildStatus : Runnable {
-	private val repos = ArrayList<Repo>()
+	private val repos = HashMap<String, ArrayList<RepoEntry>>()
 
 	init {
 		(ObjectCaster.toJSONObjectArray(Configs.getPluginConfigArray("BuildStatus", "listen"))).forEach {
 			val name = it.getString("name")
-			val ciMap = ArrayList<Repo.RepoEntry>()
+			val ciMap = ArrayList<RepoEntry>()
 			val ci = it.getJSONArray("ci")
 			(0 until ci.length())
 					.map { ci.getString(it).split(":") }
-					.forEach { ciMap.add(Repo.RepoEntry(it[1], CIs.get(it[0])!!, CIs.get(it[0])!!.getStatus(it[1]))) }
-			repos.add(Repo(name, ciMap))
+					.forEach { ciMap.add(RepoEntry(it[1], CIs.get(it[0])!!, CIs.get(it[0])!!.getStatus(it[1]))) }
+			repos.put(name, ciMap)
 		}
-
-		println(repos.joinToString())
 	}
 
 	private fun update() {
-		for (repo in repos) {
-			val name = repo.name
-			val ci = repo.ci
-
+		println("updating...")
+		for ((name, list) in repos.entries) {
 			val updateMap = ArrayList<Triple<String, RepoStatus, RepoStatus>>()
-			ci.forEach {
+
+			list.forEach {
 				val slug = it.slug
 				val cil = it.ci
 				val oldStatus = it.status
 				val newStatus = cil.getStatus(slug)
 				if (newStatus.buildStatus != oldStatus.buildStatus) {
 					updateMap.add(Triple(cil.name(), oldStatus, newStatus))
-					ci.remove(it)
-					ci.add(Repo.RepoEntry(slug, cil, newStatus))
+
+					list.remove(it)
+					list.add(RepoEntry(slug, cil, newStatus))
 				}
 			}
 
-			if (updateMap.isNotEmpty()) {
+			if (updateMap.isNotEmpty())
 				send(name, updateMap)
-				repos.remove(repo)
-				repos.add(Repo(name, ci))
-			}
 		}
+		println(repos)
 	}
 
 	private fun send(name: String, updateMap: ArrayList<Triple<String, RepoStatus, RepoStatus>>) {
@@ -68,12 +64,8 @@ object BuildStatus : Runnable {
 	override fun run() = update()
 }
 
-class Repo(val name: String, val ci: ArrayList<RepoEntry>) {
-	class RepoEntry(val slug: String, val ci: CIs.CI, val status: RepoStatus) {
-		override fun toString(): String = "RepoEntry(slug='$slug', ci=$ci, status=$status)"
-	}
-
-	override fun toString(): String = "Repo(name='$name', ci=${ci.joinToString()}})"
+class RepoEntry(val slug: String, val ci: CIs.CI, val status: RepoStatus) {
+	override fun toString(): String = "RepoEntry(slug='$slug', ci=$ci, status=$status)"
 }
 
 enum class RepoBuildStatus {
