@@ -86,13 +86,18 @@ object CIs {
 	private object TravisCI : CI {
 		override fun getStatus(repoName: String): RepoStatus {
 			val root = JSONTokener(URL("https://api.travis-ci.org/repositories/$repoName").openStream()).nextValue() as JSONObject
+			val lastBuildStatus = if (root.isNull("last_build_status")) 0 else root.get("last_build_status")
+			val lastBuildFinish = if (root.isNull("last_build_finished_at")) 0 else root.get("last_build_finished_at")
+			val status = {
+				if (lastBuildFinish == 0)
+					RepoBuildStatus.UNKNOWN
+				else
+					RepoBuildStatus.SUCCESS
+			}
 			return RepoStatus(root.getString("slug"),
-					root.getInt("last_build_id"),
-					when (root.getInt("last_build_result")) {
-						0 -> RepoBuildStatus.SUCCESS
-						else -> RepoBuildStatus.UNKNOWN
-					},
-					root.getInt("last_build_duration"),
+					Integer.parseInt(root.getString("last_build_number")),
+					status.invoke(),
+					if (root.isNull("last_build_duration")) 0 else root.getInt("last_build_duration"),
 					"https://travis-ci.org/$repoName"
 			)
 		}
