@@ -3,7 +3,6 @@ package avalon.tool
 import avalon.tool.system.Configs
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.IOException
 import java.net.URL
 
 class Executives {
@@ -11,6 +10,8 @@ class Executives {
 		val EXECUTIVE = avalon.tool.GlotRun
 	}
 }
+
+fun JSONObject.notNull(key: String) = !this.isNull(key)
 
 object GlotRun : Executive {
 	override fun name(): String = "Glot-Run"
@@ -52,21 +53,26 @@ object GlotRun : Executive {
 		array.put(content)
 		val obj = JSONObject()
 		obj.put("files", array)
-		val result = try {
-			Share.post(lang[language]!!, obj,
-					hashMapOf(
-							Pair("Content-type", "application/json"),
-							Pair("Authorization", "Token $token"))) ?: throw RuntimeException("nonnull `result`")
-		} catch (exception: IOException) {
-			JSONObject().apply {
-				put("error", exception.toString())
-				put("stdout", "")
-				put("stderr", "")
-			}
-		}
-		val stdout = result.getString("stdout")
-		val stderr = result.getString("stderr")
-		val error = result.getString("error")
+
+
+		val result = Share.post(lang[language]!!, obj,
+				hashMapOf(
+						Pair("Content-type", "application/json"),
+						Pair("Authorization", "Token $token"))) ?: throw RuntimeException("nonnull `result`")
+
+		val errorB = result.getBoolean("internal_error")
+
+		val error =
+				if (errorB) {
+					if (result.has("message") && result.notNull("message"))
+						result.getString("message")
+					else
+						"internal error"
+				} else
+					result.getString("error")
+
+		val stdout = if (errorB) "" else result.getString("stdout")
+		val stderr = if (errorB) "" else result.getString("stderr")
 
 		val status = when {
 			error.isNotEmpty() -> ExecutiveStatus.ERROR

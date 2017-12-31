@@ -10,7 +10,7 @@ import java.util.regex.Pattern
 object Version : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		message.response(("Hi, I'm Avalon.\n我是阿瓦隆，QQ群机器人。\n我的名字和头像均取自《Implosion》，我由%s提供底层服务。" +
-				"\n我由Ray Eldath进行二次开发。\n我在GitHub上开源，欢迎访问我的仓库：https://github.com/Ray-Eldath/Avalon" +
+				"\n我由Ray Eldath开发。\n我在GitHub上开源，欢迎访问我的仓库：https://github.com/Ray-Eldath/Avalon" +
 				"\n全部插件有：%s\n已装载的插件有：%s" +
 				"\n%s Version: v%s\tAvalon Version: v%s")
 				.format(CURRENT_SERVLET.name(),
