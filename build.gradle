@@ -1,5 +1,5 @@
 group 'ray-eldath.avalon'
-version '1.2.0'
+version '1.2.1'
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
@@ -46,7 +46,7 @@ dependencies {
 }
 
 buildscript {
-    ext.kotlin_version = '1.2.0'
+    ext.kotlin_version = '1.2.10'
 
     repositories {
         jcenter()
@@ -58,36 +58,9 @@ buildscript {
     }
 }
 
-test {
-    exclude("**/avalon/api/*")
-}
+test.exclude("**/avalon/api/*")
 
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
+compileKotlin.kotlinOptions.jvmTarget = "1.8"
+compileTestKotlin.kotlinOptions.jvmTarget = "1.8"
 
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-task copyLicense {
-    outputs.file new File("$buildDir/LICENSE")
-    doLast {
-        copy {
-            from "LICENSE"
-            into "$buildDir"
-        }
-    }
-}
-
-applicationDistribution.from(copyLicense) {
-    into ""
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
+tasks.withType(JavaCompile).all { it.options.encoding = 'UTF-8' }

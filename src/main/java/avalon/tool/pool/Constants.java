@@ -36,7 +36,7 @@ public class Constants {
 	}
 
 	public static class Version {
-		public static final String AVALON = "1.2.0";
+		public static final String AVALON = "1.2.1";
 		private static final String SERVLET = Basic.CURRENT_SERVLET.version();
 		private static Version instance = null;
 

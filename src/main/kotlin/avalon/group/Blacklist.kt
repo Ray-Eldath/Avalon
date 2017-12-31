@@ -27,36 +27,35 @@ object Blacklist : GroupMessageResponder() {
 		val split = content.split(" ")
 		val toBan = if (content.contains(Regex("add|remove"))) split[3].toLong() else 0
 		val map = GroupMessageHandler.blacklistPeopleMap
-		allowList!!.filter { it == senderUid }
-				.forEach {
-					when (split[2]) {
-						"list" -> {
-							if (Constants.Basic.DEBUG)
-								message.response(map.keys.joinToString())
-							if (map.isEmpty())
-								message.response("${AT(message)} 管理员：屏蔽列表为空~●▽●")
-							else {
-								val to = map.keys.joinToString { CURRENT_SERVLET.getGroupSenderNickname(groupUid, it) }
-								message.response("${AT(message)} 管理员：屏蔽列表中有：\n$to")
-							}
-						}
-						"add" -> {
-							message.response("${AT(message)} 管理员：帐号 $toBan 现已被屏蔽⊙﹏⊙")
-							Blacklist.logger.info("Account $toBan is baned by $senderUid : $sender.")
-							GroupMessageHandler.addBlackListPeople(toBan, max)
-						}
-						"remove" -> {
-							if (!map.containsKey(toBan))
-								message.response("${AT(message)} 管理员：好像帐号 $toBan 没有被屏蔽过呢-。-")
-							else {
-								message.response("${AT(message)} 管理员：帐号 $toBan 的屏蔽已被解除(^.^)")
-								Blacklist.logger.info("Account $toBan is allowed again by $senderUid : $sender.")
-								GroupMessageHandler.addBlackListPeople(toBan, 0)
-							}
-						}
-						else -> message.response("${AT(message)} 管理员：您的指示格式不对呢！（｀Δ´）！")
+		allowList!!.first { it == senderUid }.apply {
+			when (split[2]) {
+				"list" -> {
+					if (Constants.Basic.DEBUG)
+						message.response(map.keys.joinToString())
+					if (map.isEmpty())
+						message.response("${AT(message)} 管理员：屏蔽列表为空~●▽●")
+					else {
+						val to = map.keys.joinToString { CURRENT_SERVLET.getGroupSenderNickname(groupUid, it) }
+						message.response("${AT(message)} 管理员：屏蔽列表中有：\n$to")
 					}
 				}
+				"add" -> {
+					message.response("${AT(message)} 管理员：帐号 $toBan 现已被屏蔽⊙﹏⊙")
+					Blacklist.logger.info("Account $toBan is baned by $senderUid : $sender.")
+					GroupMessageHandler.addBlackListPeople(toBan, max)
+				}
+				"remove" -> {
+					if (!map.containsKey(toBan))
+						message.response("${AT(message)} 管理员：好像帐号 $toBan 没有被屏蔽过呢-。-")
+					else {
+						message.response("${AT(message)} 管理员：帐号 $toBan 的屏蔽已被解除(^.^)")
+						Blacklist.logger.info("Account $toBan is allowed again by $senderUid : $sender.")
+						GroupMessageHandler.addBlackListPeople(toBan, 0)
+					}
+				}
+				else -> message.response("${AT(message)} 管理员：您的指示格式不对呢！（｀Δ´）！")
+			}
+		}
 	}
 
 	override fun responderInfo(): ResponderInfo = ResponderInfo(

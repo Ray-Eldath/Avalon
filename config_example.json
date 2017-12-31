@@ -24,7 +24,8 @@
       "ShowAdmin",
       "Shutdown",
       "Version",
-      "Help"
+      "Help",
+      "Wolfram"
     ],
     "disable": [
       "AnswerMe"
@@ -51,6 +52,18 @@
       "enable": false,
       "feed": [
         "http://ice1000.org/feed.xml"
+      ]
+    },
+    "BuildStatus": {
+      "enable": false,
+      "listen": [
+        {
+          "name": "Ray-Eldath/Avalon",
+          "ci": [
+            "TravisCI:Ray-Eldath/Avalon",
+            "AppVeyor:RayEldath/avalon"
+          ]
+        }
       ]
     }
   },
