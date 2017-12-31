@@ -79,7 +79,7 @@ object GroupMessageHandler {
 				if (!APISurvivePool.getInstance().isSurvive(value)) {
 					if (!APISurvivePool.getInstance().isNoticed(value)) {
 						if (!info.keyWordRegex.matcher("+1s").find())
-							message.response(AT(message) + " 对不起，您调用的指令响应器目前已被停止；注意：此消息仅会显示一次。")
+							message.response("${AT(message)} 对不起，您调用的指令响应器目前已被停止；注意：此消息仅会显示一次。")
 						APISurvivePool.getInstance().setNoticed(value)
 					}
 				} else if (MessageChecker.check(message) && isResponderEnable(value) &&
@@ -112,7 +112,7 @@ object GroupMessageHandler {
 		}
 
 		if (!result)
-			message.response(AT(message) + " 致命错误：需要`sudo`以执行此操作！（雾")
+			message.response("${AT(message)} 致命错误：需要`sudo`以执行此操作！（雾")
 		return result
 	}
 

@@ -18,6 +18,8 @@ object GlotRun : Executive {
 	private val lang: Map<String, URL> = parseLanguages(URL("https://run.glot.io/languages"))
 	private val token = Configs.getResponderConfig("Execute", "token")
 
+	private val suffixMap = mapOf(Pair("c", "c"), Pair("bash", "sh"))
+
 	private fun parseLanguages(url: URL): Map<String, URL> {
 		val arrayT = Share.get(url) ?: throw RuntimeException("no valid response")
 		val array = arrayT.getJSONArray("array")
@@ -35,7 +37,17 @@ object GlotRun : Executive {
 			throw UnsupportedLanguageException()
 		val content = JSONObject()
 		val array = JSONArray()
-		content.put("name", "main")
+
+		var alpha = false
+		for ((lang, suffix) in suffixMap) {
+			if (language.equals(lang, true)) {
+				content.put("name", "main.$suffix")
+				alpha = true
+			}
+		}
+		if (!alpha)
+			content.put("name", "main")
+
 		content.put("content", codeLines.joinToString("\n"))
 		array.put(content)
 		val obj = JSONObject()
@@ -52,9 +64,9 @@ object GlotRun : Executive {
 				put("stderr", "")
 			}
 		}
-		val stdout = result.getString("stdout").replace("\n", " ").trim()
-		val stderr = result.getString("stderr").trim()
-		val error = result.getString("error").trim()
+		val stdout = result.getString("stdout")
+		val stderr = result.getString("stderr")
+		val error = result.getString("error")
 
 		val status = when {
 			error.isNotEmpty() -> ExecutiveStatus.ERROR

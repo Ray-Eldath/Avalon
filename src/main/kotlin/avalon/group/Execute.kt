@@ -1,6 +1,7 @@
 package avalon.group
 
 import avalon.api.Flag
+import avalon.api.Flag.AT
 import avalon.tool.ExecutiveStatus
 import avalon.tool.Executives
 import avalon.tool.pool.Constants.Basic.MAX_ECHO_LENGTH
@@ -19,17 +20,17 @@ object Execute : GroupMessageResponder() {
 		val lang = first.replace("avalon execute ", "").trim()
 
 		if (!executive.allLanguages().contains(lang)) {
-			message.response("给定的语言不受支持╮(╯_╰)╭")
+			message.response("${AT(message)} 给定的语言不受支持╮(╯_╰)╭")
 			return
 		}
 		if (codeLines.all { it.isEmpty() }) {
-			message.response("不允许提交空代码∑(O_O；)")
+			message.response("${AT(message)} 不允许提交空代码∑(O_O；)")
 			return
 		}
 		val result = executive.execute(lang, codeLines)
 		val content =
 				when (result.status) {
-					ExecutiveStatus.ERROR -> "编译错误或其他致命错误：exitcode: ${result.exitcode} error: ${handleOutput(result.error)}"
+					ExecutiveStatus.ERROR -> "编译错误或其他致命错误：exitcode: ${result.exitcode} stderr: ${handleOutput(result.stderr)} error: ${handleOutput(result.error)}"
 					ExecutiveStatus.STDERR -> "执行错误：exitcode: ${result.exitcode} stderr: ${handleOutput(result.stderr)}"
 					ExecutiveStatus.OK -> "执行成功！exitcode: ${result.exitcode} stdout: ${handleOutput(result.stdout)}"
 				}
@@ -40,7 +41,7 @@ object Execute : GroupMessageResponder() {
 		val length = string.length
 		if (length > MAX_ECHO_LENGTH)
 			return string.substring(0, MAX_ECHO_LENGTH) + "...<超长文本截断 原长度：$length>"
-		return string
+		return string.replace("\n", " ")
 	}
 
 	override fun responderInfo(): ResponderInfo =
