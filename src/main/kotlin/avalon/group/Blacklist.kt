@@ -60,7 +60,7 @@ object Blacklist : GroupMessageResponder() {
 	}
 
 	override fun responderInfo(): ResponderInfo = ResponderInfo(
-			Pair("avalon blacklist (list|add|remove)", "查看黑名单、将指定的QQ号添加至黑名单或从黑名单移除"),
+			Pair("avalon blacklist (list|add|remove)", "查看黑名单；将指定的QQ号添加至黑名单或从黑名单移除"),
 			Pattern.compile("^avalon blacklist (list|add|remove)"),
 			configIdentifier = arrayOf("Blacklist_basic"),
 			manageable = false,

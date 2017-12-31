@@ -25,7 +25,7 @@ object Version : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("avalon (version|about|版本)", "显示版本信息"),
+					Pair("avalon (version|about|版本)", "显示及相关信息"),
 					Pattern.compile("^avalon (version|about|版本)"),
 					manageable = false
 			)
