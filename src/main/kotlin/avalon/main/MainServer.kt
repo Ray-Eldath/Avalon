@@ -50,9 +50,6 @@ object MainServer {
 	fun main(args: Array<String>) {
 		// 字符集处理
 		System.setProperty("file.encoding", "UTF-8")
-		// debug检测
-		if (Constants.Basic.DEBUG)
-			logger.warn("Avalon is running under DEBUG mode!")
 
 		//		if (!CURRENT_SERVLET.test()) {
 		//			logger.error("can not connect to servlet " + CURRENT_SERVLET.slug() + "! please check this servlet is DO running...");
@@ -102,7 +99,7 @@ object MainServer {
 		when (isOn) {
 			1 -> {
 				for (thisFollowGroup in followGroup) {
-					var str = "Avalon已经上线。\n发送`avalon help`以获取帮助信息。"
+					var str = "Avalon已经上线。\n发送`avalon help`以查看可用指令。"
 					val config = Configs.getResponderConfig("Hitokoto", "push_when_start")
 					if (config != null && config as Boolean)
 						str += "\n\n" + Hitokoto.Hitokoto.get()
@@ -115,6 +112,9 @@ object MainServer {
 		}
 		DelayResponse().start()
 		logger.info("DelayResponse thread is loaded.")
+		// debug检测
+		if (Constants.Basic.DEBUG)
+			logger.warn("Avalon is running under DEBUG mode!")
 		logger.info("Server now running!")
 		logger.info("IMPORTANCE: Please exit this system by pressed Ctrl-C, DO NOT close this window directly!")
 	}

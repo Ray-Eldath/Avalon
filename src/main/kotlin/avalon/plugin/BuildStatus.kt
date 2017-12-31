@@ -3,6 +3,7 @@ package avalon.plugin
 import avalon.main.MainServer
 import avalon.tool.ObjectCaster
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
+import avalon.tool.pool.Constants.Basic.DEBUG
 import avalon.tool.system.Configs
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
@@ -27,7 +28,8 @@ object BuildStatus : Runnable {
 	}
 
 	private fun update() {
-		println("updating...")
+		if (DEBUG)
+			println("updating...")
 		for ((name, list) in repos.entries) {
 			val updateMap = ArrayList<Triple<String, RepoStatus, RepoStatus>>()
 
@@ -47,7 +49,8 @@ object BuildStatus : Runnable {
 			if (updateMap.isNotEmpty())
 				send(name, updateMap)
 		}
-		println(repos)
+		if (DEBUG)
+			println(repos)
 	}
 
 	private fun send(name: String, updateMap: ArrayList<Triple<String, RepoStatus, RepoStatus>>) {
@@ -147,8 +150,10 @@ object CIs {
 						"failed" -> RepoBuildStatus.FAILED
 						else -> RepoBuildStatus.UNKNOWN
 					},
-					parseDuration(LocalDateTime.parse(build.getString("started").substringBefore('+')),
-							LocalDateTime.parse(build.getString("finished").substringBefore('+'))),
+					if (build.has("finished") && !build.isNull("finished"))
+						parseDuration(LocalDateTime.parse(build.getString("started").substringBefore('+')),
+								LocalDateTime.parse(build.getString("finished").substringBefore('+')))
+					else 0,
 					"https://ci.appveyor.com/project/$repoName"
 			)
 		}
