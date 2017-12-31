@@ -19,7 +19,9 @@
 以下列出的指令均可在Avalon中使用特定语句触发
 
 :grey_exclamation:：管理员权限指令。只有在`group.json`中被指定为管理员或拥有对应权限组权限的用户才可执行。
+
 :exclamation:：所有者权限指令。只有在`group.json`中被指定为所有者的用户才可执行。
+
 :construction:：被保护指令。被保护的指令不可使用Manager指令关闭，也不可在`config.json`配置文件中禁用。
 
 | 名称          | 触发语句                                     | 功能描述                                     |

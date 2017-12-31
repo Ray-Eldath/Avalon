@@ -24,11 +24,7 @@ object GlotRun : Executive {
 		val map = HashMap<String, URL>(array.length())
 		(0 until array.length())
 				.map(array::getJSONObject)
-				.forEach {
-					val name = it.getString("name")
-					val urlH = URL(it.getString("url") + "/latest")
-					map.put(name, urlH)
-				}
+				.forEach { map.put(it.getString("name"), URL("${it.getString("url")}/latest")) }
 		return map
 	}
 
@@ -39,7 +35,7 @@ object GlotRun : Executive {
 			throw UnsupportedLanguageException()
 		val content = JSONObject()
 		val array = JSONArray()
-		content.put("slug", "main")
+		content.put("name", "main")
 		content.put("content", codeLines.joinToString("\n"))
 		array.put(content)
 		val obj = JSONObject()

@@ -40,7 +40,7 @@ object Mo : GroupMessageResponder() {
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
 					Pair("膜*关键词", "随机触发膜*语句"),
-					Pattern.compile("\\w?(\\+1s|-1s|膜蛤|苟|续命|州长夫人|naive)\\w?")
+					Pattern.compile("\\w?(\\+1s|-1s|膜蛤|苟|续命|州长夫人|naive|江化)\\w?")
 			)
 
 	override fun instance() = this
