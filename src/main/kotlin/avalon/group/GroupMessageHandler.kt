@@ -13,7 +13,8 @@ import avalon.tool.pool.APISurvivePool
 import avalon.tool.pool.AvalonPluginPool
 import avalon.tool.pool.Constants
 import avalon.tool.pool.Constants.Basic.DEBUG_MESSAGE_UID
-import avalon.tool.pool.Variables
+import avalon.tool.pool.Variables.Cooling_Not_Notice_Times
+import avalon.tool.pool.Variables.Cooling_Noticed
 import avalon.tool.system.Configs
 import avalon.tool.system.GroupConfigs
 import avalon.tool.system.RunningData
@@ -136,11 +137,16 @@ object GroupMessageHandler {
 
 		// 冷却判断
 		if (!cooling.trySet(time)) {
-			if (!Variables.Limit_Noticed) {
+			Cooling_Not_Notice_Times += 1
+			if (Cooling_Not_Notice_Times > 4 || !Cooling_Noticed) {
 				if (key.matcher("+1s").find())
 					return false
-				groupMessage.response("${AT(groupMessage)} 对不起，您的指令超频。${coolingDuration}ms内仅能有一次指令输入，未到${coolingDuration}ms内的输入将被忽略。注意：此消息仅会显示一次。")
-				Variables.Limit_Noticed = true
+				groupMessage.response("${AT(groupMessage)} 对不起，您的指令超频。${coolingDuration}ms内仅能有一次指令输入，未到${coolingDuration}ms内的输入将被忽略。")
+				Cooling_Noticed = true
+			}
+			if (Cooling_Not_Notice_Times >= 4) {
+				Cooling_Noticed = false
+				Cooling_Not_Notice_Times = 0
 			}
 			LOGGER.info("cooling blocked message ${groupMessage.id} sent by ${groupMessage.senderUid} in ${groupMessage.groupName}.")
 			return false
