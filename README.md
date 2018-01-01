@@ -22,34 +22,36 @@
 
 :exclamation:：所有者权限指令。只有在`group.json`中被指定为所有者的用户才可执行。
 
-:construction:：被保护指令。被保护的指令不可使用Manager指令关闭，也不可在`config.json`配置文件中禁用。
+:white_circle:：不可管理指令。被保护的指令不可使用Manager指令管理，但**可以**在`config.json`配置文件中禁用。
+
+:red_circle:：基础指令。这些指令不可使用Manager指令关闭，也**不可**在`config.json`配置文件中禁用。
 
 | 名称          | 触发语句                                     | 功能描述                                     |
 | ----------- | ---------------------------------------- | ---------------------------------------- |
-| AnswerMe    | `avalon answer me OR 阿瓦隆回答我`                | 使用[微软小冰](http://www.msxiaoice.com)提供的智能回复 |
-| Blacklist   | `avalon blacklist (list OR add OR remove)`     | :grey_exclamation: 查看黑名单；将指定的QQ号添加至黑名单或从黑名单移除 |
-| Echo        | `avalon (echo OR repeat) OR 阿瓦隆跟我说`            | 让阿瓦隆重复给定语句                               |
+| AnswerMe    | `avalon answer me OR 阿瓦隆回答我`             | 使用[微软小冰](http://www.msxiaoice.com)提供的智能回复 |
+| Blacklist   | `avalon blacklist (list OR add OR remove)` | :white_circle: :grey_exclamation: 查看黑名单；将指定的QQ号添加至黑名单或从黑名单移除 |
+| Echo        | `avalon (echo OR repeat) OR 阿瓦隆跟我说`      | 让阿瓦隆重复给定语句                               |
 | Execute     | `avalon execute <语言>{换行}<代码>`            | 执行给定代码并回显输出                              |
 | ExecuteInfo | `avalon execute info`                    | 输出代码执行器信息                                |
-| Flush       | `avalon flush`                           | :grey_exclamation: 刷新缓存并清除临时文件           |
-| Help        | `avalon (help OR 帮助)`                        | :construction: 显示帮助文本                    |
-| Hitokoto    | `avalon (hitokoto OR 一言)`                   | 获取一条一言                                   |
-| Manager     | `avalon manager (start OR stop) <指令响应器触发语句>` | :construction: :grey_exclamation: 打开或关闭指定的指令响应器 |
+| Flush       | `avalon flush`                           | :white_circle: :grey_exclamation: 刷新缓存并清除临时文件 |
+| Help        | `avalon (help OR 帮助)`                    | :red_circle: 显示帮助文本                      |
+| Hitokoto    | `avalon (hitokoto OR 一言)`                | 获取一条一言                                   |
+| Manager     | `avalon manager (start OR stop) <指令响应器触发语句>` | :white_circle: :grey_exclamation: 打开或关闭指定的指令响应器 |
 | Mo          | ` - -`                                   | 随机触发膜*语句                                 |
 | Quote       | `avalon quote <发言者> <语录内容>`              | :grey_exclamation: 记录语录到Avalon数据库。       |
-| ShowAdmin   | `avalon (whoisadmin OR 谁是管理员)`              | 显示管理员列表                                  |
-| Shutdown    | `avalon (shutdown OR exit)`                 | :exclamation: 退出Avalon                   |
-| Version     | `avalon (version OR about OR 版本)`              | :construction: 显示版本及相关信息                 |
+| ShowAdmin   | `avalon (whoisadmin OR 谁是管理员)`           | 显示管理员列表                                  |
+| Shutdown    | `avalon (shutdown OR exit)`              | :exclamation: 退出Avalon                   |
+| Version     | `avalon (version OR about OR 版本)`        | :red_circle: 显示版本及相关信息                   |
 
 ### 完整插件列表
 
 以下插件均为推送型任务，监测到状态更新会自动推送，**不能**使用语句触发。
 
-| 名称          | 功能描述                                   |
-| ----------- | -------------------------------------- |
-| BuildStatus | 推送指定项目CI的构建状态 </br> 现支持TravisCI和AppVeyor |
-| RSSFeeder   | 推送指定RSS的更新                             |
-| ShowMsg     | 每日推送“历史上的今天”（如果有）                      |
+| 名称          | 功能描述                               |
+| ----------- | ---------------------------------- |
+| BuildStatus | 推送指定项目CI的构建状态。现支持TravisCI和AppVeyor |
+| RSSFeeder   | 推送指定RSS的更新                         |
+| ShowMsg     | 每日推送“历史上的今天”（如果有）                  |
 
 **若有希望增加的功能，欢迎提出[issue](https://github.com/Ray-Eldath/Avalon/issues)。**
 

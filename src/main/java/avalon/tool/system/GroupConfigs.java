@@ -46,9 +46,11 @@ public class GroupConfigs {
 			long uid = ObjectCaster.toLong(thisObject.get("uid"));
 			boolean listen = thisObject.getBoolean("listen");
 			long owner = ObjectCaster.toLong(thisObject.get("owner"));
-			List<Object> adminList = thisObject.getJSONArray("admin").toList();
-			adminList.add(Constants.Basic.DEBUG_MESSAGE_UID);
-			adminList.add(owner);
+			List<Object> adminListT = thisObject.getJSONArray("admin").toList();
+			adminListT.add(Constants.Basic.DEBUG_MESSAGE_UID);
+			adminListT.add(owner);
+			Set<Object> adminList = new HashSet<>(adminListT); // 去重
+
 			long[] admin = ObjectCaster.toLongArray(adminList);
 
 			if (listen)

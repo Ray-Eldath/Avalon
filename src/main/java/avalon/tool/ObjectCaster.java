@@ -4,6 +4,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,11 +29,11 @@ public class ObjectCaster {
 		return result;
 	}
 
-	public static long[] toLongArray(List<Object> objects) {
+	public static long[] toLongArray(Collection<Object> objects) {
 		return toLongArray(objects.toArray());
 	}
 
-	public static List<String> toStringList(List<Object> objects) {
+	public static Collection<String> toStringList(Collection<Object> objects) {
 		List<String> result = new ArrayList<>(objects.size());
 		for (Object thisObject : objects)
 			result.add((String) thisObject);

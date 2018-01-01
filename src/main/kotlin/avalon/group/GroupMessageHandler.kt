@@ -228,7 +228,7 @@ object GroupMessageHandler {
 		AvalonPluginPool.load()
 		if (!Constants.Basic.DEBUG) {
 			System.err.println("Debug not on! Exiting...")
-			return
+			Runtime.getRuntime().halt(-1)
 		}
 		val scanner = Scanner(System.`in`)
 		var id = 0
