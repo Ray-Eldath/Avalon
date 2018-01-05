@@ -1,4 +1,4 @@
-package avalon.plugin.task;
+package avalon.function.task;
 
 import avalon.tool.system.GroupConfigs;
 import org.slf4j.LoggerFactory;

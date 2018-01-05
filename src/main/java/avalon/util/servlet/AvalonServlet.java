@@ -3,6 +3,7 @@ package avalon.util.servlet;
 import avalon.tool.system.Configs;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -46,11 +47,11 @@ public abstract class AvalonServlet extends HttpServlet {
 		}
 	}
 
-	abstract public void responseGroup(long groupUid, String reply);
+	abstract public void responseGroup(long groupUid, @NotNull String reply);
 
-	abstract public void responseFriend(long friendUid, String reply);
+	abstract public void responseFriend(long friendUid, @NotNull String reply);
 
-	abstract public void responsePrivate(long uid, String reply);
+	abstract public void responsePrivate(long uid, @NotNull String reply);
 
 	abstract public void shutUp(long groupUid, long userUid, long time);
 
@@ -64,10 +65,9 @@ public abstract class AvalonServlet extends HttpServlet {
 
 	abstract public String getFriendSenderNickname(long uid);
 
-	abstract public void setGroupMessageReceivedHook(Consumer<GroupMessage> hook);
+	abstract public void setGroupMessageReceivedHook(@NotNull Consumer<GroupMessage> hook);
 
-	abstract public void setFriendMessageReceivedHook(Consumer<FriendMessage> hook);
+	abstract public void setFriendMessageReceivedHook(@NotNull Consumer<FriendMessage> hook);
 
-	@Override
-	abstract public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
+	abstract public void doPost(@NotNull HttpServletRequest req, @NotNull HttpServletResponse resp) throws ServletException, IOException;
 }

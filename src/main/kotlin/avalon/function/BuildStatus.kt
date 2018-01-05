@@ -1,4 +1,4 @@
-package avalon.plugin
+package avalon.function
 
 import avalon.main.MainServer
 import avalon.tool.ObjectCaster

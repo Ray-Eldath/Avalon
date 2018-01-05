@@ -4,6 +4,7 @@ import avalon.tool.pool.Constants;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.eclipse.jetty.util.UrlEncoded;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -38,7 +39,7 @@ public class CoolQServlet extends AvalonServlet {
 	private Consumer<FriendMessage> friendMessageConsumer;
 
 	@Override
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	public void doPost(@NotNull HttpServletRequest req, @NotNull HttpServletResponse resp) throws IOException {
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
 		JSONObject object = (JSONObject) (new JSONTokener(req.getInputStream()).nextValue());
@@ -90,7 +91,7 @@ public class CoolQServlet extends AvalonServlet {
 	}
 
 	@Override
-	public void responseGroup(long groupUid, String reply) {
+	public void responseGroup(long groupUid, @NotNull String reply) {
 		if (Constants.Basic.DEBUG || Constants.Basic.LOCAL_OUTPUT) {
 			System.out.println("Group output:" + reply);
 			return;
@@ -103,12 +104,12 @@ public class CoolQServlet extends AvalonServlet {
 	}
 
 	@Override
-	public void responseFriend(long friendUid, String reply) {
+	public void responseFriend(long friendUid, @NotNull String reply) {
 		responsePrivate(friendUid, reply);
 	}
 
 	@Override
-	public void responsePrivate(long uid, String reply) {
+	public void responsePrivate(long uid, @NotNull String reply) {
 		if (Constants.Basic.DEBUG || Constants.Basic.LOCAL_OUTPUT) {
 			System.out.println("Friend or private output: " + reply);
 			return;
@@ -163,12 +164,12 @@ public class CoolQServlet extends AvalonServlet {
 	}
 
 	@Override
-	public void setGroupMessageReceivedHook(Consumer<GroupMessage> hook) {
+	public void setGroupMessageReceivedHook(@NotNull Consumer<GroupMessage> hook) {
 		this.groupMessageConsumer = hook;
 	}
 
 	@Override
-	public void setFriendMessageReceivedHook(Consumer<FriendMessage> hook) {
+	public void setFriendMessageReceivedHook(@NotNull Consumer<FriendMessage> hook) {
 		this.friendMessageConsumer = hook;
 	}
 

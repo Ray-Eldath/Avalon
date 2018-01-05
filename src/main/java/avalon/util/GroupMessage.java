@@ -18,12 +18,11 @@ import static avalon.tool.pool.Constants.Basic.CURRENT_SERVLET;
  * @author Eldath
  */
 public class GroupMessage implements Message, Displayable {
-	private final int id;
 	private final LocalDateTime time;
-	private final long senderUid, groupUid, timeLong;
+	private final long id, senderUid, groupUid, timeLong;
 	private final String groupName, content, senderNickName;
 
-	public GroupMessage(int id, LocalDateTime time, long senderUid, String senderNickName, long groupUid,
+	public GroupMessage(long id, LocalDateTime time, long senderUid, String senderNickName, long groupUid,
 	                    String groupName, String content) {
 		this.id = id;
 		this.time = time;
@@ -35,7 +34,7 @@ public class GroupMessage implements Message, Displayable {
 		this.content = content;
 	}
 
-	public GroupMessage(int id, long time, long senderUid, String senderNickName, long groupUid,
+	public GroupMessage(long id, long time, long senderUid, String senderNickName, long groupUid,
 	                    String groupName, String content) {
 		this.id = id;
 		this.timeLong = time;
@@ -58,7 +57,7 @@ public class GroupMessage implements Message, Displayable {
 	}
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

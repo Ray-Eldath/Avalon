@@ -1,4 +1,4 @@
-package avalon.plugin.task;
+package avalon.function.task;
 
 /**
  * Created by Eldath on 2017/1/31 0031.

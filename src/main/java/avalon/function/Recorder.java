@@ -1,4 +1,4 @@
-package avalon.plugin;
+package avalon.function;
 
 import avalon.tool.pool.Constants;
 import avalon.tool.system.Configs;

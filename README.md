@@ -4,6 +4,8 @@
 
 **Avalon是一个可扩展的多功能QQ群机器人。**
 
+QQ API基于[coolq-http-api](https://github.com/richardchien/coolq-http-api)。与微软小冰的对接基于[Mojo-Weixin](https://github.com/sjdy521/Mojo-Weixin)。
+
 ## 功能
 ### 简介
  - **自然语言问答：** Avalon已对接[Wolfram Alpha](https://www.wolframalpha.com)提供“自然语言问答”服务。您可以在配置完Wolfram插件后通过指令`avalon tell me `使用它
@@ -43,9 +45,9 @@
 | Shutdown    | `avalon (shutdown OR exit)`              | :exclamation: 退出Avalon                   |
 | Version     | `avalon (version OR about OR 版本)`        | :red_circle: 显示版本及相关信息                   |
 
-### 完整插件列表
+### 完整扩展功能列表
 
-以下插件均为推送型任务，监测到状态更新会自动推送，**不能**使用语句触发。
+以下扩展功能均为推送型任务，监测到状态更新会自动推送，**不能**使用语句触发。
 
 | 名称          | 功能描述                               |
 | ----------- | ---------------------------------- |
@@ -61,9 +63,18 @@
 
 ## 维护
 
+### 须知
+
 1. 所有```group```目录下的类必须```implements GroupMessageResponder```（``FriendMessage``API已有开发计划，请见``avalon.friend``包）；
 2. 标记为`@deprecated`的类/方法将于下一RELEASE中被正式移除。
 3. 从`v0.0.1`开始，RELEASE版本号的管理将遵循[语义化版本 2.0.0](http://semver.org/lang/zh-CN/)规范。
+
+### Todo
+
+ - [ ] 添加Telegram支持。
+ - [ ] 添加Discord支持。
+ - [ ] 对接Mojo-Weixin实现消息自动转发。
+ - 见[Projects / Avalon](https://github.com/Ray-Eldath/Avalon/projects/1)。
 
 ## 配置
 

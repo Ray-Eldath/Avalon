@@ -1,6 +1,6 @@
-package avalon.plugin;
+package avalon.function;
 
-import avalon.plugin.task.Task;
+import avalon.function.task.Task;
 
 import java.time.LocalDate;
 import java.util.Map;

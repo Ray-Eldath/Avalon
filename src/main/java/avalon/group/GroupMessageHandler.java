@@ -4,7 +4,7 @@
 //package avalon.group;
 //
 //import avalon.api.CustomGroupResponder;
-//import avalon.plugin.Recorder;
+//import avalon.function.Recorder;
 //import avalon.main.MainServer;
 //import avalon.main.MessageChecker;
 //import avalon.tool.APIRateLimit;

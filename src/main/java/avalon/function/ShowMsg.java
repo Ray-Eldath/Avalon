@@ -1,6 +1,6 @@
-package avalon.plugin;
+package avalon.function;
 
-import avalon.plugin.task.ShowMsgTask;
+import avalon.function.task.ShowMsgTask;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static avalon.plugin.Scheduler.scheduleTask;
+import static avalon.function.Scheduler.scheduleTask;
 
 /**
  * Created by Eldath on 2017/1/30 0030.

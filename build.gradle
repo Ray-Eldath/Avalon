@@ -42,6 +42,9 @@ dependencies {
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.21.0.1'
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    // https://bintray.com/dv8fromtheworld/maven/JDA/
+    compile 'net.dv8tion:JDA:3.4.0_323'
+
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 }
 
@@ -49,7 +52,6 @@ buildscript {
     ext.kotlin_version = '1.2.10'
 
     repositories {
-        jcenter()
         mavenCentral()
     }
 

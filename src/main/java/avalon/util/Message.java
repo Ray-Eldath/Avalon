@@ -14,7 +14,7 @@ public interface Message {
 
     long getTimeLong();
 
-    int getId();
+	long getId();
 
     long getSenderUid();
 

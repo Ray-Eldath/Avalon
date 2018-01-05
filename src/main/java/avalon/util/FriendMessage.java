@@ -1,6 +1,7 @@
 package avalon.util;
 
 import avalon.tool.pool.Constants;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -16,13 +17,12 @@ import static avalon.tool.pool.Constants.Basic.CURRENT_SERVLET;
  * @author Eldath
  */
 public class FriendMessage implements Message, Displayable {
-	private final int id;
 	private final LocalDateTime time;
-	private final long senderUid, timeLong;
+	private final long id, senderUid, timeLong;
 	private final String senderNickName;
 	private final String content;
 
-	public FriendMessage(int id, LocalDateTime time, long senderUid, String senderNickName, String content) {
+	public FriendMessage(long id, LocalDateTime time, long senderUid, String senderNickName, String content) {
 		this.id = id;
 		this.time = time;
 		this.timeLong = time.toEpochSecond(ZoneOffset.ofHours(Calendar.ZONE_OFFSET));
@@ -31,7 +31,7 @@ public class FriendMessage implements Message, Displayable {
 		this.content = content;
 	}
 
-	public FriendMessage(int id, long time, long senderUid, String senderNickName, String content) {
+	public FriendMessage(long id, long time, long senderUid, String senderNickName, String content) {
 		this.id = id;
 		this.time = LocalDateTime.ofInstant(Instant.ofEpochSecond(time), ZoneId.of("Asia/Shanghai"));
 		this.timeLong = time;
@@ -48,6 +48,7 @@ public class FriendMessage implements Message, Displayable {
 			CURRENT_SERVLET.responseFriend(senderUid, reply);
 	}
 
+	@NotNull
 	@Override
 	public String getString() {
 		return "id=" + id + "\ttime=" + time + "\tsenderUid=" + senderUid + "\tsenderNickName=\"" +
@@ -55,7 +56,7 @@ public class FriendMessage implements Message, Displayable {
 	}
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

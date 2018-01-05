@@ -1,6 +1,6 @@
 package test
 
-import avalon.plugin.RSSFeeder
+import avalon.function.RSSFeeder
 
 fun main(args: Array<String>) {
 	while (true) {

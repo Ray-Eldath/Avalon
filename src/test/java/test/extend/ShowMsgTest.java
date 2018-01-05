@@ -1,7 +1,7 @@
 package test.extend;
 
-import avalon.plugin.Scheduler;
-import avalon.plugin.ShowMsg;
+import avalon.function.Scheduler;
+import avalon.function.ShowMsg;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;

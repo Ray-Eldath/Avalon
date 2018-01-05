@@ -3,9 +3,9 @@ package avalon.group
 import avalon.api.CustomGroupResponder
 import avalon.api.Flag.AT
 import avalon.api.RegisterResponder.register
+import avalon.function.Recorder
 import avalon.main.MainServer
 import avalon.main.MessageChecker
-import avalon.plugin.Recorder
 import avalon.tool.APIRateLimit
 import avalon.tool.ObjectCaster
 import avalon.tool.ObjectCaster.toStringArray
@@ -237,7 +237,7 @@ object GroupMessageHandler {
 			Runtime.getRuntime().halt(-1)
 		}
 		val scanner = Scanner(System.`in`)
-		var id = 0
+		var id = 0L
 
 		while (true) {
 			print("Input here:")

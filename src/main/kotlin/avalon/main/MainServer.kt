@@ -2,9 +2,9 @@ package avalon.main
 
 import avalon.api.DelayResponse
 import avalon.friend.FriendMessageHandler
+import avalon.function.*
 import avalon.group.GroupMessageHandler
 import avalon.group.Hitokoto
-import avalon.plugin.*
 import avalon.tool.pool.AvalonPluginPool
 import avalon.tool.pool.Constants
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
