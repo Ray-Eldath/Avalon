@@ -12,6 +12,7 @@ import avalon.tool.ObjectCaster.toStringArray
 import avalon.tool.pool.APISurvivePool
 import avalon.tool.pool.AvalonPluginPool
 import avalon.tool.pool.Constants
+import avalon.tool.pool.Constants.Basic.DEBUG_MESSAGE_GROUP_UID
 import avalon.tool.pool.Constants.Basic.DEBUG_MESSAGE_UID
 import avalon.tool.pool.Variables.Cooling_Not_Notice_Times
 import avalon.tool.pool.Variables.Cooling_Noticed
@@ -47,7 +48,12 @@ object GroupMessageHandler {
 		val sender = message.senderNickName
 		val senderUid = message.senderUid
 
-		val groupConfig = GroupConfigs.instance().getConfig(groupUid)
+		val groupConfig =
+				if (groupUid != DEBUG_MESSAGE_GROUP_UID)
+					GroupConfigs.instance().getConfig(groupUid)
+				else
+					GroupConfig(true, false, DEBUG_MESSAGE_UID, longArrayOf(), longArrayOf(), listOf())
+
 		if (groupConfig == null) {
 			LOGGER.warn("listened message from not configured group " +
 					groupUid + " . Ignored this message. Please config this group in `.\\group.json`.")
@@ -180,6 +186,7 @@ object GroupMessageHandler {
 	    */
 		// 管理类
 		register(Shutdown)
+		register(Reboot)
 		register(Flush)
 		register(Manager)
 		register(Blacklist)
@@ -243,7 +250,7 @@ object GroupMessageHandler {
 			print("Input here:")
 			val content = scanner.nextLine()
 			val message = GroupMessage(++id, System.currentTimeMillis(),
-					DEBUG_MESSAGE_UID, "Test", 617118724, "Test Group", content)
+					DEBUG_MESSAGE_UID, "Test", DEBUG_MESSAGE_GROUP_UID, "Test Group", content)
 			GroupMessageHandler.handle(message)
 			println("===")
 		}

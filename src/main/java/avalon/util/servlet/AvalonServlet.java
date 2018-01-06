@@ -5,6 +5,8 @@ import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,7 @@ import java.util.function.Consumer;
  */
 public abstract class AvalonServlet extends HttpServlet {
 	private static JSONObject object = Configs.INSTANCE.getJSONObject("servlet");
+	private static Logger logger = LoggerFactory.getLogger(AvalonServlet.class);
 
 	abstract public String name();
 
@@ -55,10 +58,16 @@ public abstract class AvalonServlet extends HttpServlet {
 
 	abstract public void shutUp(long groupUid, long userUid, long time);
 
-	abstract public void shutdown();
+	public void shutdown() {
+		logger.info("please shutdown " + name() + " service manually");
+	}
+
+	public void reboot() {
+		logger.info("please reboot " + name() + " service manually");
+	}
 
 	public void clean() {
-		System.out.println("No clean needed.");
+		logger.info("No clean needed.");
 	}
 
 	abstract public String getGroupSenderNickname(long groupUid, long userUid);

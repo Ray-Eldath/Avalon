@@ -122,17 +122,17 @@ public class CoolQServlet extends AvalonServlet {
 	}
 
 	@Override
+	public void reboot() {
+		sendRequest("/set_restart", null);
+	}
+
+	@Override
 	public void shutUp(long groupUid, long userUid, long time) {
 		Map<String, Object> object = new HashMap<>();
 		object.put("group_id", groupUid);
 		object.put("user_id", userUid);
 		object.put("duration", time);
 		sendRequest("/set_group_ban", object);
-	}
-
-	@Override
-	public void shutdown() {
-		logger.info("please shutdown CoolQ service manually");
 	}
 
 	@Override

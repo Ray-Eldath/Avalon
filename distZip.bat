@@ -1,6 +1,6 @@
 @echo off
 :: gradle build
-set fileName=Avalon-1.2.1
+set fileName=Avalon-1.2.2
 echo Handling %fileName%.zip, continue?
 pause
 xcopy /Y /Q .\build\distributions\%fileName%.zip .

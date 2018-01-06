@@ -4,7 +4,7 @@
 
 **Avalon是一个可扩展的多功能QQ群机器人。**
 
-QQ API基于[coolq-http-api](https://github.com/richardchien/coolq-http-api)。与微软小冰的对接基于[Mojo-Weixin](https://github.com/sjdy521/Mojo-Weixin)。
+QQ API基于[CoolQ-HTTP-API](https://github.com/richardchien/coolq-http-api)。与微软小冰的对接基于[Mojo-Weixin](https://github.com/sjdy521/Mojo-Weixin)。
 
 ## 功能
 ### 简介

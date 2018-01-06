@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
  */
 object MainServer {
 	private val logger = LoggerFactory.getLogger(MainServer::class.java)
-	val followGroup = GroupConfigs.instance().followGroups
+	val followGroup: MutableList<Long> = GroupConfigs.instance().followGroups
 
 	class ShutdownHook : Thread() {
 		override fun run() {
@@ -39,9 +39,9 @@ object MainServer {
 			//
 			for (thisFollowFollow in followGroup)
 				CURRENT_SERVLET.responseGroup(thisFollowFollow, "服务已经停止。")
+			CURRENT_SERVLET.clean()
 			CURRENT_SERVLET.shutdown()
 			Constants.Database.CURRENT_DATABASE_OPERATOR.close()
-			CURRENT_SERVLET.clean()
 		}
 	}
 
@@ -62,6 +62,7 @@ object MainServer {
 		Constants.Basic()
 		Constants.Address()
 		AvalonPluginPool.load()
+
 		// 线程池
 		ShowMsg()
 		val executor = ScheduledThreadPoolExecutor(5)
@@ -71,8 +72,10 @@ object MainServer {
 			executor.scheduleAtFixedRate(RSSFeeder, 2, 10, TimeUnit.MINUTES)
 		if (Constants.Setting.BuildStatus_Enabled)
 			executor.scheduleAtFixedRate(BuildStatus, 2, 40, TimeUnit.SECONDS)
+
 		// 关车钩子
 		Runtime.getRuntime().addShutdownHook(ShutdownHook())
+
 		val address: InetSocketAddress
 		val addressString = CURRENT_SERVLET.listenAddress().replace("http://", "")
 		address = if (!addressString.contains(":")) InetSocketAddress(addressString, 8000)
