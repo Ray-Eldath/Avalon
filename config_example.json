@@ -9,6 +9,7 @@
   ],
   "cooling_duration": 3000,
   "block_words_punish_frequency": 3,
+  "block_words_punishment_mode_enabled": true,
   "responders": {
     "enable": [
       "Blacklist",
@@ -21,10 +22,10 @@
       "Manager",
       "Mo",
       "Quote",
+      "Reboot",
       "ShowAdmin",
       "Shutdown",
       "Version",
-      "Help",
       "Wolfram"
     ],
     "disable": [
@@ -39,7 +40,7 @@
       "app_id": "XXXXXX-ZZZZZZZZZZ"
     },
     "Execute": {
-      "servlet": "Glot-Run",
+      "backend": "Glot-Run",
       "token": "1111111-aaaa-bbbb-cccc-dddddddddddd"
     },
     "Hitokoto": {
@@ -47,7 +48,7 @@
       "category": "b"
     }
   },
-  "plugin_config": {
+  "function_config": {
     "RSS": {
       "enable": false,
       "feed": [
@@ -70,12 +71,12 @@
   "database": {
     "datasource": "SQLite"
   },
-  "servlet": {
-    "servlet": "CoolQ",
+  "backend": {
+    "backend": "CoolQ",
     "listen_address": "http://127.0.0.1:5050",
     "api_address": "http://127.0.0.1:5000"
   },
-  "block_words_punishment_mode_enabled": true,
+  "running_on_pc": true,
   "debug": false,
   "local_output": false
 }

@@ -18,7 +18,7 @@ object Configs : BaseConfigSystem {
 	private lateinit var root: JSONObject
 	private var allConfigs: Map<String, Any> = hashMapOf()
 	private var responderConfigs: Map<String, Any> = hashMapOf()
-	private var pluginConfigs: Map<String, Any> = hashMapOf()
+	private var functionConfigs: Map<String, Any> = hashMapOf()
 	private val logger = LoggerFactory.getLogger(Configs::class.java)
 
 	init {
@@ -28,7 +28,7 @@ object Configs : BaseConfigSystem {
 					File(path + File.separator + "config.json"))).nextValue() as JSONObject
 			allConfigs = jsonObjectToMap(root)
 			responderConfigs = jsonObjectToMap(root["responder_config"] as JSONObject)
-			pluginConfigs = jsonObjectToMap(root["plugin_config"] as JSONObject)
+			functionConfigs = jsonObjectToMap(root["function_config"] as JSONObject)
 		} catch (e: IOException) {
 			logger.error("Exception thrown while init Configs: ", e)
 		}
@@ -72,10 +72,10 @@ object Configs : BaseConfigSystem {
 			getPluginConfig(pluginName, "enable") as Boolean
 
 	fun getPluginConfig(pluginName: String, key: String): Any? =
-			getObjectConfig(pluginConfigs, pluginName, key)
+			getObjectConfig(functionConfigs, pluginName, key)
 
 	fun getPluginConfigArray(pluginName: String, key: String): Array<Any> =
-			getObjectConfigArray(pluginConfigs, pluginName, key)
+			getObjectConfigArray(functionConfigs, pluginName, key)
 
 	private fun getObjectConfig(`object`: Map<String, Any>, key1: String, key2: String): Any? {
 		val obj = `object`[key1] as JSONObject

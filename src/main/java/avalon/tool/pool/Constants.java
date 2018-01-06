@@ -52,7 +52,7 @@ public class Constants {
 
 	public static class Basic {
 		public static final AvalonServlet CURRENT_SERVLET =
-				Configs.Companion.instance().getJSONObject("servlet").getString("servlet")
+				Configs.Companion.instance().getJSONObject("backend").getString("backend")
 						.trim().equalsIgnoreCase("coolq") ? new CoolQServlet() : null;
 		public static final boolean LOCAL_OUTPUT = (boolean) Configs.Companion.instance().get("local_output");
 		public static final boolean DEBUG = (boolean) Configs.Companion.instance().get("debug");

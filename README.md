@@ -41,9 +41,12 @@ QQ API基于[CoolQ-HTTP-API](https://github.com/richardchien/coolq-http-api)。�
 | Manager     | `avalon manager (start OR stop) <指令响应器触发语句>` | :white_circle: :grey_exclamation: 打开或关闭指定的指令响应器 |
 | Mo          | ` - -`                                   | 随机触发膜*语句                                 |
 | Quote       | `avalon quote <发言者> <语录内容>`              | :grey_exclamation: 记录语录到Avalon数据库。       |
+| Reboot      | `avalon reboot`                          | :white_circle: :exclamation: 重启Avalon    |
 | ShowAdmin   | `avalon (whoisadmin OR 谁是管理员)`           | 显示管理员列表                                  |
-| Shutdown    | `avalon (shutdown OR exit)`              | :exclamation: 退出Avalon                   |
+| Shutdown    | `avalon (shutdown OR exit)`              | :white_circle: :exclamation: 退出Avalon    |
 | Version     | `avalon (version OR about OR 版本)`        | :red_circle: 显示版本及相关信息                   |
+
+部分指令仅对某个版本号以上的Avalon有效。具体请见各版本RELEASE Notes。
 
 ### 完整扩展功能列表
 
@@ -71,11 +74,8 @@ QQ API基于[CoolQ-HTTP-API](https://github.com/richardchien/coolq-http-api)。�
 
 ### Todo
 
- - [ ] 添加Telegram支持。
- - [ ] 添加Discord支持。
- - [ ] 对接Mojo-Weixin实现消息自动转发。
- - 见[Projects / Avalon](https://github.com/Ray-Eldath/Avalon/projects/1)。
+见[Projects / Avalon](https://github.com/Ray-Eldath/Avalon/projects/1)。
 
 ## 配置
 
-:no_entry: **施工中** :no_entry:
+请见[Avalon.wiki](https://github.com/Ray-Eldath/Avalon/wiki)。

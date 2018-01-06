@@ -21,7 +21,7 @@ import java.util.function.Consumer;
  * @author Eldath Ray
  */
 public abstract class AvalonServlet extends HttpServlet {
-	private static JSONObject object = Configs.INSTANCE.getJSONObject("servlet");
+	private static JSONObject object = Configs.INSTANCE.getJSONObject("backend");
 	private static Logger logger = LoggerFactory.getLogger(AvalonServlet.class);
 
 	abstract public String name();

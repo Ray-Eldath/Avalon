@@ -1,5 +1,6 @@
 package avalon.util;
 
+import avalon.group.GroupMessageHandler;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +49,11 @@ public class GroupMessage implements Message, Displayable {
 
 	@Override
 	public void response(String reply) {
-		CURRENT_SERVLET.responseGroup(groupUid, reply);
+		String finalReply = reply;
+		for (String thisBlockWord : GroupMessageHandler.INSTANCE.getBlockWordList())
+			if (reply.toLowerCase().replaceAll("[\\pP\\p{Punct}]", "").contains(thisBlockWord))
+				finalReply = "Avalon不会发送含屏蔽词的消息。";
+		CURRENT_SERVLET.responseGroup(groupUid, finalReply);
 	}
 
 	public void response(String reply, int shutUpTime) {

@@ -173,7 +173,7 @@ object GroupMessageHandler {
 
 	private val disableNotAllowedResponder = ArrayList<GroupMessageResponder>()
 
-	private val blockWordList = toStringArray(Configs.Companion.instance().getConfigArray("block_words"))
+	val blockWordList: Array<String> = toStringArray(Configs.Companion.instance().getConfigArray("block_words"))
 	val punishFrequency = Configs.Companion.instance().get("block_words_punish_frequency") as Int
 	private val coolingDuration = ObjectCaster.toLong(Configs.get("cooling_duration"))
 
