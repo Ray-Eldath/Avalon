@@ -4,8 +4,8 @@ import avalon.tool.database.DatabaseOperator;
 import avalon.tool.database.MySQLDatabaseOperator;
 import avalon.tool.database.SQLiteDatabaseOperator;
 import avalon.tool.system.Configs;
-import avalon.util.servlet.AvalonServlet;
-import avalon.util.servlet.CoolQServlet;
+import avalon.util.backend.AvalonBackend;
+import avalon.util.backend.CoolQBackend;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,9 +51,9 @@ public class Constants {
 	}
 
 	public static class Basic {
-		public static final AvalonServlet CURRENT_SERVLET =
+		public static final AvalonBackend CURRENT_SERVLET =
 				Configs.Companion.instance().getJSONObject("backend").getString("backend")
-						.trim().equalsIgnoreCase("coolq") ? new CoolQServlet() : null;
+						.trim().equalsIgnoreCase("coolq") ? new CoolQBackend() : null;
 		public static final boolean LOCAL_OUTPUT = (boolean) Configs.Companion.instance().get("local_output");
 		public static final boolean DEBUG = (boolean) Configs.Companion.instance().get("debug");
 		public static final long START_TIME = System.currentTimeMillis();

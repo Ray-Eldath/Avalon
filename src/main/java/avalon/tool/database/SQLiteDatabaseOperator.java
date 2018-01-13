@@ -37,8 +37,8 @@ public class SQLiteDatabaseOperator implements DatabaseOperator {
 			operator = new BasicDatabaseOperator(connection);
 			statement = connection.createStatement();
 		} catch (Exception e) {
-			logger.error("Fatal error while load SQLite driver: ", e);
-			System.exit(-1);
+			logger.error("fatal error while load SQLite driver: `" + e.getLocalizedMessage() + "`");
+			Runtime.getRuntime().halt(-1);
 		}
 	}
 

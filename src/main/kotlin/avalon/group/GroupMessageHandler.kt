@@ -72,7 +72,7 @@ object GroupMessageHandler {
 		if (Constants.Setting.Block_Words_Punishment_Mode_Enabled)
 			if (blacklistPeopleMap.containsKey(senderUid)) {
 				if (blacklistPeopleMap[senderUid]!! >= punishFrequency) {
-					LOGGER.info("Account $senderUid : $sender was blocked. Please entered `avalon blacklist remove $senderUid` to group $groupUid : ${message.groupName} if you really want to unblock this account.")
+					LOGGER.info("account $senderUid : $sender was blocked. Please entered `avalon blacklist remove $senderUid` to group $groupUid : ${message.groupName} if you really want to unblock this account.")
 					if (!admin)
 						message.response(AT(message) + " 您的帐号由于发送过多不允许关键字，现已被屏蔽~o(╯□╰)o！")
 					return

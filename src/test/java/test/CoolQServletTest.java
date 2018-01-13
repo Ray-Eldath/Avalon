@@ -1,6 +1,6 @@
 package test;
 
-import avalon.util.servlet.CoolQServlet;
+import avalon.util.backend.CoolQBackend;
 
 /**
  * Created by Eldath Ray on 2017/6/10 0010.
@@ -9,6 +9,6 @@ import avalon.util.servlet.CoolQServlet;
  */
 public class CoolQServletTest {
 	public static void main(String[] args) {
-		System.out.println(new CoolQServlet().test());
+		System.out.println(new CoolQBackend().available());
 	}
 }

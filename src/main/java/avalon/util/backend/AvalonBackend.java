@@ -1,8 +1,9 @@
-package avalon.util.servlet;
+package avalon.util.backend;
 
 import avalon.tool.system.Configs;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
+import avalon.util.Service;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URL;
 import java.util.function.Consumer;
 
 /**
@@ -20,32 +22,39 @@ import java.util.function.Consumer;
  *
  * @author Eldath Ray
  */
-public abstract class AvalonServlet extends HttpServlet {
+public abstract class AvalonBackend extends HttpServlet implements Service {
 	private static JSONObject object = Configs.INSTANCE.getJSONObject("backend");
-	private static Logger logger = LoggerFactory.getLogger(AvalonServlet.class);
+	private static Logger logger = LoggerFactory.getLogger(AvalonBackend.class);
 
 	abstract public String name();
 
+	@NotNull
 	public String version() {
 		return "UNKNOWN";
 	}
 
+	@NotNull
 	public String scriptFilePath() {
 		return "";
 	}
 
+	@NotNull
 	public String apiAddress() {
 		return object.getString("api_address");
 	}
 
+	@NotNull
 	public String listenAddress() {
 		return object.getString("listen_address");
 	}
 
-	public boolean test() {
+	@Override
+	public boolean available() {
 		try {
-			return version() != null;
+			new URL(apiAddress()).openConnection().connect();
+			return true;
 		} catch (Exception e) {
+			logger.error("exception thrown while testing usability of backend: `" + e.getLocalizedMessage() + "`");
 			return false;
 		}
 	}
@@ -70,8 +79,10 @@ public abstract class AvalonServlet extends HttpServlet {
 		logger.info("No clean needed.");
 	}
 
+	@NotNull
 	abstract public String getGroupSenderNickname(long groupUid, long userUid);
 
+	@NotNull
 	abstract public String getFriendSenderNickname(long uid);
 
 	abstract public void setGroupMessageReceivedHook(@NotNull Consumer<GroupMessage> hook);

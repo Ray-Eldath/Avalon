@@ -3,6 +3,7 @@ package avalon.group
 import avalon.tool.system.Configs
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
+import avalon.util.Service
 import org.json.JSONObject
 import org.json.JSONTokener
 import java.net.URL
@@ -22,15 +23,24 @@ object Hitokoto : GroupMessageResponder() {
 
 	override fun instance() = this
 
-	object Hitokoto {
+	object Hitokoto : Service {
 		private val category = Configs.getResponderConfig("Hitokoto", "category")
+		private var url = "https://sslapi.hitokoto.cn/?encode=json"
 
 		fun get(): String {
-			var url = "https://sslapi.hitokoto.cn/?encode=json"
 			if (category != null)
 				url += "&c=$category"
 			val obj = JSONTokener(URL(url).openStream().bufferedReader(StandardCharsets.UTF_8)).nextValue() as JSONObject
 			return "『${obj.getString("hitokoto")}』\n—「${obj.getString("from")}」"
+		}
+
+		override fun available(): Boolean {
+			return try {
+				URL(url).openStream()
+				true
+			} catch (e: Exception) {
+				false
+			}
 		}
 	}
 }

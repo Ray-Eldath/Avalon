@@ -2,7 +2,7 @@ package avalon.tool
 
 import avalon.tool.pool.Constants
 import avalon.tool.system.Configs
-import avalon.util.servlet.CoolQServlet
+import avalon.util.backend.CoolQBackend
 import org.eclipse.jetty.util.UrlEncoded
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -34,7 +34,7 @@ object XiaoIceResponder {
 				reply = reply.replace(thisReplaceWord, "Avalon")
 			return reply
 		} catch (e: IOException) {
-			logger.warning("IOException thrown while responseXiaoIce: " + e)
+			logger.warning("IOException thrown while responseXiaoIce: `${e.localizedMessage}`")
 			return null
 		}
 
@@ -47,7 +47,7 @@ object XiaoIceResponder {
 	 */
 	@Deprecated("酷Q air不支持")
 	fun respondGroupWithImage(groupUid: Long, message: String, image: Path) {
-		if (Constants.Basic.CURRENT_SERVLET !is CoolQServlet)
+		if (Constants.Basic.CURRENT_SERVLET !is CoolQBackend)
 			throw UnsupportedOperationException("only CooQServlet can handle image")
 		val cq = "[CQ:image,file=file://$image]"
 		Constants.Basic.CURRENT_SERVLET.responseGroup(groupUid, message.replace("[Avalon:image]", cq))

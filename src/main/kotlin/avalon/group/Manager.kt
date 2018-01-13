@@ -47,7 +47,7 @@ object Manager : GroupMessageResponder() {
 						if (thisAllowStartUid == senderUid) {
 							APISurvivePool.getInstance().setAPISurvive(thisAPI, true)
 							message.response("${AT(message)} 您要重启的指令响应器将会重启`(*∩_∩*)′")
-							Manager.logger.info("BaseGroupMessageResponder ${thisAPI.javaClass.simpleName} is reopened by $senderUid  : $sender.")
+							Manager.logger.info("GroupMessageResponder ${thisAPI.javaClass.simpleName} is reopened by $senderUid  : $sender.")
 							return
 						}
 					}
@@ -56,7 +56,7 @@ object Manager : GroupMessageResponder() {
 						if (thisStopAllowUid == senderUid) {
 							APISurvivePool.getInstance().setAPISurvive(thisAPI, false)
 							message.response(AT(message) + " 您要关闭的指令响应器将会关闭~=-=")
-							Manager.logger.info("BaseGroupMessageResponder ${thisAPI.javaClass.name} is closed by $senderUid : $sender.")
+							Manager.logger.info("GroupMessageResponder ${thisAPI.javaClass.name} is closed by $senderUid : $sender.")
 							return
 						}
 					}

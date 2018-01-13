@@ -30,7 +30,7 @@ object Configs : BaseConfigSystem {
 			responderConfigs = jsonObjectToMap(root["responder_config"] as JSONObject)
 			functionConfigs = jsonObjectToMap(root["function_config"] as JSONObject)
 		} catch (e: IOException) {
-			logger.error("Exception thrown while init Configs: ", e)
+			logger.error("Exception thrown while init Configs: `${e.localizedMessage}`")
 		}
 
 	}

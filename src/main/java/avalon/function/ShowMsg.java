@@ -36,7 +36,7 @@ public class ShowMsg {
 				scheduleTask(LocalDate.parse(now.getYear() + "-" + thisName), new ShowMsgTask(builder.toString()));
 			}
 		} catch (IOException e) {
-			logger.warn("error while read ShowMsg.json: " + e.toString());
+			logger.warn("error while read ShowMsg.json: `" + e.getLocalizedMessage() + "`");
 		}
 	}
 }

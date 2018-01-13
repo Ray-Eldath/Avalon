@@ -45,7 +45,7 @@ public class RunningData implements BaseConfigSystem {
 		try {
 			object = (JSONObject) new JSONTokener(Files.newBufferedReader(FILE)).nextValue();
 		} catch (IOException e) {
-			LOGGER.error("exception thrown while read running data file: " + FILE.toString(), e);
+			LOGGER.error("exception thrown while read running data file: " + FILE.toString() + ": `" + e.getLocalizedMessage() + "`");
 		}
 	}
 
@@ -91,7 +91,7 @@ public class RunningData implements BaseConfigSystem {
 		try (BufferedWriter writer = Files.newBufferedWriter(FILE)) {
 			object.write(writer);
 		} catch (IOException e) {
-			LOGGER.error("exception thrown while save running data file: " + FILE.toString(), e);
+			LOGGER.error("exception thrown while save running data file: " + FILE.toString() + ": `" + e.getLocalizedMessage() + "`");
 		}
 	}
 }

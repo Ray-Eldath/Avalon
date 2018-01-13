@@ -5,6 +5,7 @@ import avalon.friend.FriendMessageHandler
 import avalon.function.*
 import avalon.group.GroupMessageHandler
 import avalon.group.Hitokoto
+import avalon.tool.ServiceChecker
 import avalon.tool.pool.AvalonPluginPool
 import avalon.tool.pool.Constants
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
@@ -51,11 +52,11 @@ object MainServer {
 		// 字符集处理
 		System.setProperty("file.encoding", "UTF-8")
 
-		//		if (!CURRENT_SERVLET.test()) {
-		//			logger.error("can not connect to servlet " + CURRENT_SERVLET.slug() + "! please check this servlet is DO running...");
-		//			System.exit(-1);
-		//		}
-		// 响应速度太慢。
+		// 服务可用性检测
+		if (!ServiceChecker.check()) {
+			Thread.sleep(3000)
+			Runtime.getRuntime().halt(-2)
+		}
 
 		Configs.Companion.instance()
 		RunningData.getInstance()

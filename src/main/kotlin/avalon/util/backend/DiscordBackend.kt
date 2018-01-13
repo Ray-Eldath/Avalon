@@ -1,4 +1,4 @@
-package avalon.util.servlet
+package avalon.util.backend
 
 import avalon.tool.system.Configs
 import avalon.util.FriendMessage
@@ -13,11 +13,11 @@ import java.util.function.Consumer
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-object DiscordServlet : AvalonServlet() {
+object DiscordBackend : AvalonBackend() {
 	private lateinit var groupMessageHook: Consumer<GroupMessage>
 	private lateinit var friendMessageHook: Consumer<FriendMessage>
 
-	private val obj = Configs.getJSONObject("servlet")
+	private val obj = Configs.getJSONObject("backend")
 
 	override fun name(): String = "Discord"
 

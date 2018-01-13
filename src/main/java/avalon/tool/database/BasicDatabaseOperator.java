@@ -50,7 +50,7 @@ public class BasicDatabaseOperator implements Closeable {
 
 			return addGroupMessage.execute();
 		} catch (SQLException e) {
-			logger.warn("error while saving group message to database: ", e);
+			logger.warn("error while saving group message to database: `" + e.getLocalizedMessage() + "`");
 			return false;
 		}
 	}
@@ -66,7 +66,7 @@ public class BasicDatabaseOperator implements Closeable {
 
 			return addFriendMessage.execute();
 		} catch (SQLException e) {
-			logger.warn("error while saving friend message to SQLite: ", e);
+			logger.warn("error while saving friend message to SQLite: `" + e.getLocalizedMessage() + "`");
 			return false;
 		}
 	}
@@ -81,7 +81,7 @@ public class BasicDatabaseOperator implements Closeable {
 
 			return addQuote.execute();
 		} catch (SQLException e) {
-			logger.warn("error while saving quote to SQLite: ", e);
+			logger.warn("error while saving quote to SQLite: `" + e.getLocalizedMessage() + "`");
 			return false;
 		}
 	}

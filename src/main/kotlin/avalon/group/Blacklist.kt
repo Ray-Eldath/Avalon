@@ -41,7 +41,7 @@ object Blacklist : GroupMessageResponder() {
 				}
 				"add" -> {
 					message.response("${AT(message)} 管理员：帐号 $toBan 现已被屏蔽⊙﹏⊙")
-					Blacklist.logger.info("Account $toBan is baned by $senderUid : $sender.")
+					Blacklist.logger.info("account $toBan is baned by $senderUid : $sender.")
 					GroupMessageHandler.addBlackListPeople(toBan, max)
 				}
 				"remove" -> {
@@ -49,7 +49,7 @@ object Blacklist : GroupMessageResponder() {
 						message.response("${AT(message)} 管理员：好像帐号 $toBan 没有被屏蔽过呢-。-")
 					else {
 						message.response("${AT(message)} 管理员：帐号 $toBan 的屏蔽已被解除(^.^)")
-						Blacklist.logger.info("Account $toBan is allowed again by $senderUid : $sender.")
+						Blacklist.logger.info("account $toBan is allowed again by $senderUid : $sender.")
 						GroupMessageHandler.addBlackListPeople(toBan, 0)
 					}
 				}

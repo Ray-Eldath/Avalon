@@ -1,4 +1,4 @@
-package avalon.util.servlet;
+package avalon.util.backend;
 
 import avalon.tool.pool.Constants;
 import avalon.util.FriendMessage;
@@ -30,8 +30,9 @@ import java.util.function.Consumer;
  *
  * @author Eldath Ray
  */
-public class CoolQServlet extends AvalonServlet {
-	private static final Logger logger = LoggerFactory.getLogger(CoolQServlet.class);
+public class CoolQBackend extends AvalonBackend {
+
+	private static final Logger logger = LoggerFactory.getLogger(CoolQBackend.class);
 	private static int friendMessageId = 0;
 	private static int groupMessageId = 0;
 	private static Map<Long, String> groupIdToName = new HashMap<>();//TODO 最好写个定时更新
@@ -140,12 +141,14 @@ public class CoolQServlet extends AvalonServlet {
 		return "CoolQ";
 	}
 
+	@NotNull
 	@Override
 	public String version() {
 		return ((JSONObject) new JSONTokener(sendRequest("/get_version_info", null)).nextValue())
 				.getJSONObject("data").getString("plugin_version");
 	}
 
+	@NotNull
 	@Override
 	public String getGroupSenderNickname(long groupUid, long userUid) {
 		Map<String, Object> object = new HashMap<>();
@@ -155,6 +158,7 @@ public class CoolQServlet extends AvalonServlet {
 		return object1.getInt("retcode") != 0 ? "" : object1.getJSONObject("data").getString("card");
 	}
 
+	@NotNull
 	@Override
 	public String getFriendSenderNickname(long uid) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -204,7 +208,7 @@ public class CoolQServlet extends AvalonServlet {
 				response.append(thisLine);
 			reader.close();
 		} catch (Exception e) {
-			logger.error("exception thrown while sendRequest to " + url + " " + e);
+			logger.error("exception thrown while sendRequest to " + url + " : `" + e.getLocalizedMessage() + "`");
 		}
 		return response.toString();
 	}

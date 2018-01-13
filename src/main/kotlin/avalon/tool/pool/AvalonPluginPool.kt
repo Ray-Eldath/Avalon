@@ -41,7 +41,7 @@ object AvalonPluginPool {
 			try {
 				load(it)
 			} catch (exception: Exception) {
-				logger.warn("plugin ${it.name} load failed: $exception")
+				logger.warn("plugin ${it.name} load failed: `${exception.localizedMessage}`")
 			}
 		}
 	}
