@@ -21,3 +21,5 @@ out/
 /config.json
 /group.json
 /data/data.json
+log/
+src/test/kotlin/avalon/Experiment.kt

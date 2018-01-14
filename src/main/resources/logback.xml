@@ -1,3 +1,4 @@
+<!--@formatter:off-->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
 	<conversionRule conversionWord="highlight"
 	                converterClass="avalon.util.HighLightConverter"/>
@@ -7,13 +8,23 @@
 	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
 		<withJansi>false</withJansi>
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %loggerHighlight(%logger{36}) - %highlight(%msg)
-				%n
-			</pattern>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %loggerHighlight(%logger{36}) - %highlight(%msg) %n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>log/log.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>8</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
 		</encoder>
 	</appender>
 
 	<root level="INFO">
 		<appender-ref ref="Console"/>
+		<appender-ref ref="File"/>
 	</root>
 </configuration>

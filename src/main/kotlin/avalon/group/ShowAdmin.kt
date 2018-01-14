@@ -12,7 +12,7 @@ object ShowAdmin : GroupMessageResponder() {
 		val builder = StringBuilder(AT(message) + " 目前管理员有：\n")
 		for (uid in adminUid) {
 			val card = CURRENT_SERVLET.getGroupSenderNickname(message.groupUid, uid)
-			if (!(card == null || card.isEmpty()))
+			if (!card.isEmpty())
 				builder.append(card).append(" - ").append(uid).append(", ")
 		}
 		message.response(builder.toString().substring(0, builder.length - 2))
