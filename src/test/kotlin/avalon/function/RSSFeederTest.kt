@@ -1,6 +1,4 @@
-package test
-
-import avalon.function.RSSFeeder
+package avalon.function
 
 fun main(args: Array<String>) {
 	while (true) {

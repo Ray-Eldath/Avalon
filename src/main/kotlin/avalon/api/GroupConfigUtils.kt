@@ -16,7 +16,7 @@ fun getAllowArray(config: GroupConfig, id: String): LongArray? {
 	for (thisPermission in permissions) {
 		if (thisPermission.identifier == id) {
 			val r = ArrayUtils.addAll(thisPermission.allow, *config.admin)
-			cache.put(id, r)
+            cache[id] = r
 			return r
 		}
 	}

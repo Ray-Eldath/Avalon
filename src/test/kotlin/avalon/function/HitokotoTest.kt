@@ -1,4 +1,4 @@
-package avalon.api
+package avalon.function
 
 import avalon.group.Hitokoto
 import org.junit.Test
