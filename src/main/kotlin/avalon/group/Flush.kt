@@ -20,8 +20,8 @@ object Flush : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("avalon flush", "刷新缓存并清除临时文件"),
-					Pattern.compile("^avalon flush"),
+                    Pair("flush", "刷新缓存并清除临时文件"),
+                    Pattern.compile("flush"),
 					permission = ResponderPermission.ADMIN,
 					manageable = false
 			)

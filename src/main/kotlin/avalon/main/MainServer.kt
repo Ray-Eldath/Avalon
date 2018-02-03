@@ -106,7 +106,7 @@ object MainServer {
 					var str = "Avalon已经上线。\n发送`avalon help`以查看可用指令。"
 					val config = Configs.getResponderConfig("Hitokoto", "push_when_start")
 					if (config != null && config as Boolean)
-						str += "\n\n${Hitokoto.Hitokoto.get()}"
+                        str += "\n\n${Hitokoto.Hitokotor.get()}"
 					CURRENT_SERVLET.responseGroup(thisFollowGroup, str)
 				}
 				logger.info("Login message sent.")

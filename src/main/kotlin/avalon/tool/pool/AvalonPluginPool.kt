@@ -26,7 +26,6 @@ object AvalonPluginPool {
 			val o = main.getJSONObject(it)
 			infoList += PluginInfo(
 					it,
-					o.getString("version"),
 					o.getString("copyright"),
 					o.getString("website"),
 					o.getString("class"),

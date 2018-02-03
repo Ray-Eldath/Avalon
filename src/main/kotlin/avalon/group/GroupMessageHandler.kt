@@ -2,6 +2,7 @@ package avalon.group
 
 import avalon.api.CustomGroupResponder
 import avalon.api.Flag.AT
+import avalon.api.GroupMessageResponderHolder
 import avalon.api.RegisterResponder.registerInner
 import avalon.function.Recorder
 import avalon.main.MainServer
@@ -35,13 +36,14 @@ import java.util.regex.Pattern
 object GroupMessageHandler {
 
     internal fun getGroupResponderByKeywordRegex(keyword: String): GroupMessageResponder? {
-        for ((key, value) in apiList)
-            if (key.matcher(keyword).find())
+        for ((key, value) in apiList) {
+            if (Pattern.compile(key.pattern().removePrefix("^")).matcher(keyword).matches())
                 return value
+        }
         return null
     }
 
-    internal fun isResponderEnable(api: GroupMessageResponder): Boolean = if (!enableMap.containsKey(api)) true else enableMap[api]!!
+    internal fun isResponderEnable(api: GroupMessageResponder): Boolean = enableMap.containsKey(api)
 
     fun handle(message: GroupMessage) {
         val groupUid = message.groupUid
@@ -55,8 +57,7 @@ object GroupMessageHandler {
                     GroupConfig(true, false, DEBUG_MESSAGE_UID, longArrayOf(), longArrayOf(), listOf())
 
         if (groupConfig == null) {
-            LOGGER.warn("listened message from not configured group " +
-                    groupUid + " . Ignored this message. Please config this group in `.\\group.json`.")
+            LOGGER.warn("listened message from not configured group $groupUid. Ignored this message. Please config this group in `group.json`.")
             return
         }
         if (groupConfig.isRecord && !Constants.Basic.DEBUG)
@@ -131,7 +132,11 @@ object GroupMessageHandler {
 
         // 屏蔽词判断
         for (thisBlockString in blockWordList)
-            if (groupMessage.content.trim { it <= ' ' }.toLowerCase().replace("[\\pP\\p{Punct}]".toRegex(), "").contains(thisBlockString)) {
+            if (groupMessage.content
+                            .trim { it <= ' ' }
+                            .toLowerCase()
+                            .replace("[\\pP\\p{Punct}]".toRegex(), "")
+                            .contains(thisBlockString)) {
                 var notice = "您发送的消息含有不允许的关键词！"
                 if (Constants.Setting.Block_Words_Punishment_Mode_Enabled && !admin) {
                     notice = "您发送的消息含有不允许的关键词，注意：${punishFrequency}次发送不允许关键词后帐号将被屏蔽！⊙﹏⊙!"
@@ -162,7 +167,7 @@ object GroupMessageHandler {
 
     private fun blackListPlus(senderUid: Long) {
         val second = blacklistPeopleMap[senderUid]
-        blacklistPeopleMap.put(senderUid, if (second == null) 1 else second + 1)
+        blacklistPeopleMap[senderUid] = if (second == null) 1 else second + 1
     }
 
     val apiList = LinkedHashMap<Pattern, GroupMessageResponder>()
@@ -212,14 +217,14 @@ object GroupMessageHandler {
 
 
         for (thisDisable in disable)
-            enableMap.put(apiNameMap[thisDisable]!!, false)
+            enableMap[apiNameMap[thisDisable]!!] = false
 
         enable.map { apiNameMap[it] }
                 .filterNot { enableMap.containsKey(it) }
-                .forEach { enableMap.put(it!!, true) }
+                .forEach { enableMap[it!!] = true }
 
         apiList.values.filterNot { enableMap.containsKey(it) }
-                .forEach { enableMap.put(it, false) }
+                .forEach { enableMap[it] = false }
 
         // 校验
         for ((key, value) in enableMap) {
@@ -256,9 +261,9 @@ object GroupMessageHandler {
         }
     }
 
-    fun addGroupMessageResponder(responder: GroupMessageResponder) {
-        apiList.put(responder.responderInfo().keyWordRegex, responder)
-        apiNameMap.put(responder.javaClass.simpleName, responder)
+    fun addGroupMessageResponder(responder: GroupMessageResponderHolder) {
+        apiList[responder.responderInfo().keyWordRegex] = responder.responder
+        apiNameMap[responder.name] = responder.responder
     }
 
     fun addCustomGroupResponder(responder: CustomGroupResponder) = customApiList.put(responder.getKeyWordRegex(), responder)

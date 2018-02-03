@@ -37,8 +37,8 @@ object AnswerMe : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("avalon answer me|阿瓦隆回答我", "智能回复"),
-					Pattern.compile("^avalon answer me |^阿瓦隆回答我 ")
+                    Pair("answer me|阿瓦隆回答我", "智能回复"),
+                    Pattern.compile("answer me")
 			)
 
 	override fun instance() = this

@@ -6,6 +6,6 @@ import org.junit.Test
 class HitokotoTest {
 	@Test
 	fun test() {
-		println(Hitokoto.Hitokoto.get())
+        println(Hitokoto.Hitokotor.get())
 	}
 }

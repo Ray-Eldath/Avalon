@@ -37,8 +37,8 @@ object Reboot : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("avalon reboot", "重启Avalon和后端程序。将造成服务中断。"),
-					Pattern.compile("^avalon reboot"),
+                    Pair("reboot", "重启Avalon和后端程序。将造成服务中断。"),
+                    Pattern.compile("reboot"),
 					permission = ResponderPermission.OWNER,
 					manageable = false
 			)

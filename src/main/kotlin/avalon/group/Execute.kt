@@ -47,7 +47,7 @@ object Execute : GroupMessageResponder() {
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
 					Pair("avalon execute <语言>{换行}<代码>", "执行给定代码并回显输出。支持语言列表及代码执行器相关信息请使用`avalon execute info`查看。"),
-					Pattern.compile("^avalon execute [^info]+")
+                    Pattern.compile("execute [^info]+")
 			)
 
 	override fun instance(): GroupMessageResponder = this

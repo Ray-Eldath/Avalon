@@ -3,17 +3,31 @@ package avalon.api
 import avalon.friend.FriendMessageResponder
 import avalon.group.GroupMessageHandler
 import avalon.group.GroupMessageResponder
+import avalon.group.Mo
+import avalon.group.ResponderInfo
 import avalon.tool.pool.APISurvivePool
+import avalon.tool.pool.Constants
+import avalon.util.GroupConfig
+import avalon.util.GroupMessage
 import avalon.util.Plugin
+import java.util.regex.Pattern
 
 object RegisterResponder {
     @JvmStatic
     private val map = hashMapOf<Plugin, ArrayList<CustomGroupResponder>>() // 存储每个Plugin持有的CustomGroupResponder
 
+    @Suppress("MemberVisibilityCanBePrivate")
     @JvmStatic
     fun register(responder: GroupMessageResponder) {
-        GroupMessageHandler.addGroupMessageResponder(responder)
-        APISurvivePool.getInstance().addAPI(responder)
+        val responderHolder = GroupMessageResponderHolder(
+                if (responder == Mo)
+                    responder.responderInfo().keyWordRegex
+                else
+                    Pattern.compile(Constants.Basic.DEFAULT_REGEX_PREFIX.joinToString(separator = "|") +
+                            responder.responderInfo().keyWordRegex.pattern()),
+                responder)
+        GroupMessageHandler.addGroupMessageResponder(responderHolder)
+        APISurvivePool.getInstance().addAPI(responderHolder)
     }
 
     /**
@@ -47,4 +61,19 @@ object RegisterResponder {
 
     @JvmStatic
     fun queryAvalonPlugin(plugin: Plugin): ArrayList<CustomGroupResponder> = map[plugin]!!
+}
+
+class GroupMessageResponderHolder(val regex: Pattern, val responder: GroupMessageResponder) {
+    fun doPost(message: GroupMessage, groupConfig: GroupConfig) = responder.doPost(message, groupConfig)
+
+    fun instance(): GroupMessageResponder? = responder
+
+    fun responderInfo(): ResponderInfo = ResponderInfo(
+            responder.responderInfo().helpMessage,
+            regex,
+            responder.responderInfo().configIdentifier,
+            responder.responderInfo().manageable,
+            responder.responderInfo().permission)
+
+    val name = responder.javaClass.simpleName
 }
