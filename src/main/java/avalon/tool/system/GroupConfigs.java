@@ -2,8 +2,10 @@ package avalon.tool.system;
 
 import avalon.group.GroupMessageHandler;
 import avalon.group.GroupMessageResponder;
+import avalon.group.GroupMessageResponderTriple;
 import avalon.tool.ObjectCaster;
 import avalon.tool.pool.Constants;
+import avalon.util.GroupConfig;
 import avalon.util.GroupResponderConfigEntry;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GroupConfigs {
 	private Map<Long, avalon.util.GroupConfig> configs = new HashMap<>();
@@ -33,7 +36,11 @@ public class GroupConfigs {
 
 	private GroupConfigs() throws IOException {
 		List<String> allIdentifier = new ArrayList<>();
-		for (GroupMessageResponder responder : GroupMessageHandler.INSTANCE.getApiList().values()) {
+		for (GroupMessageResponder responder :
+				GroupMessageHandler.INSTANCE.getApiTriples()
+						.stream()
+						.map(GroupMessageResponderTriple::getInstance)
+						.collect(Collectors.toList())) {
 			String[] identifier = responder.responderInfo().getConfigIdentifier();
 			if (identifier != null)
 				Collections.addAll(allIdentifier, identifier);
@@ -61,7 +68,7 @@ public class GroupConfigs {
 					permission.add(new GroupResponderConfigEntry(thisIdentifier, admin));
 			} else
 				permission = parsePermission(thisObject.getJSONArray("permission"), allIdentifier, admin);
-			configs.put(uid, new avalon.util.GroupConfig(
+			configs.put(uid, new GroupConfig(
 					listen,
 					thisObject.getBoolean("record"),
 					owner,

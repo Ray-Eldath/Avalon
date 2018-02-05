@@ -1,6 +1,5 @@
 package avalon.tool.pool;
 
-import avalon.api.GroupMessageResponderHolder;
 import avalon.group.GroupMessageResponder;
 
 import java.util.HashMap;
@@ -25,9 +24,9 @@ public class APISurvivePool {
         return survive.containsKey(input);
     }
 
-    public void addAPI(GroupMessageResponderHolder input) {
-        survive.put(input.getResponder(), true);
-        noticed.put(input.getResponder(), false);
+	public void addAPI(GroupMessageResponder input) {
+		survive.put(input, true);
+		noticed.put(input, false);
     }
 
     public void setAPISurvive(GroupMessageResponder input, boolean state) {

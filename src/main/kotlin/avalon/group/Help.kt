@@ -9,7 +9,7 @@ import java.util.regex.Pattern
 
 object Help : GroupMessageResponder() {
     private val sent: String by lazy {
-        val apiList = GroupMessageHandler.apiList
+        val apiTriple = GroupMessageHandler.apiTriples
         val messageShow = StringBuilder()
 
         var prefixString = Constants.Basic.DEFAULT_REGEX_PREFIX.joinToString(separator = "|") { it.removePrefix("^") }
@@ -17,7 +17,7 @@ object Help : GroupMessageResponder() {
             prefixString = "($prefixString)"
 
         @Suppress("LoopToCallChain")
-        for (api in apiList.values.sortedBy { it.responderInfo().helpMessage.first }) {
+        for (api in apiTriple.map { it.instance }.sortedBy { it.responderInfo().helpMessage.first }) {
             val flags = ArrayList<String>()
             if (!GroupMessageHandler.isResponderEnable(api))
                 flags.add("<已禁用>")
