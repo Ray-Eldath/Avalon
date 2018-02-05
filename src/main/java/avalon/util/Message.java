@@ -8,19 +8,19 @@ import java.time.LocalDateTime;
  * @author Eldath
  */
 public interface Message {
-    String getContent();
+	String getContent();
 
-    LocalDateTime getTime();
+	LocalDateTime getTime();
 
-    long getTimeLong();
+	long getTimeLong();
 
 	long getId();
 
-    long getSenderUid();
+	long getSenderUid();
 
-    String getSenderNickName();
+	String getSenderNickName();
 
-    void response(String reply);
+	void response(String reply);
 
-    String getString();
+	String getString();
 }

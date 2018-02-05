@@ -11,36 +11,36 @@ import java.nio.charset.StandardCharsets
 import java.util.regex.Pattern
 
 object Hitokoto : GroupMessageResponder() {
-    override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
-        message.response(Hitokotor.get())
-    }
+	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
+		message.response(Hitokotor.get())
+	}
 
-    override fun responderInfo(): ResponderInfo =
-            ResponderInfo(
-                    Pair("(hitokoto|一言)", "获取一条一言。"),
-                    Pattern.compile("(hitokoto|一言)")
-            )
+	override fun responderInfo(): ResponderInfo =
+			ResponderInfo(
+					Pair("(hitokoto|一言)", "获取一条一言。"),
+					Pattern.compile("(hitokoto|一言)")
+			)
 
-    override fun instance() = this
+	override fun instance() = this
 
-    object Hitokotor : Service {
-        private val category = Configs.getResponderConfig("Hitokoto", "category")
-        private var url = "https://sslapi.hitokoto.cn/?encode=json"
+	object Hitokotor : Service {
+		private val category = Configs.getResponderConfig("Hitokoto", "category")
+		private var url = "https://sslapi.hitokoto.cn/?encode=json"
 
-        fun get(): String {
-            if (category != null)
-                url += "&c=$category"
-            val obj = JSONTokener(URL(url).openStream().bufferedReader(StandardCharsets.UTF_8)).nextValue() as JSONObject
-            return "『${obj.getString("hitokoto")}』\n—「${obj.getString("from")}」"
-        }
+		fun get(): String {
+			if (category != null)
+				url += "&c=$category"
+			val obj = JSONTokener(URL(url).openStream().bufferedReader(StandardCharsets.UTF_8)).nextValue() as JSONObject
+			return "『${obj.getString("hitokoto")}』\n—「${obj.getString("from")}」"
+		}
 
-        override fun available(): Boolean {
-            return try {
-                URL(url).openStream()
-                true
-            } catch (e: Exception) {
-                false
-            }
-        }
-    }
+		override fun available(): Boolean {
+			return try {
+				URL(url).openStream()
+				true
+			} catch (e: Exception) {
+				false
+			}
+		}
+	}
 }

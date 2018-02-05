@@ -7,18 +7,18 @@ import org.apache.commons.lang3.builder.HashCodeBuilder
 import java.util.regex.Pattern
 
 abstract class CustomGroupResponder {
-    abstract fun doPost(message: GroupMessage, groupConfig: GroupConfig)
+	abstract fun doPost(message: GroupMessage, groupConfig: GroupConfig)
 
-    abstract fun getHelpMessage(): String
+	abstract fun getHelpMessage(): String
 
-    abstract fun getKeyWordRegex(): Pattern
+	abstract fun getKeyWordRegex(): Pattern
 
-    override fun hashCode() = HashCodeBuilder(17, 37).toHashCode()
+	override fun hashCode() = HashCodeBuilder(17, 37).toHashCode()
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other || other === null) return true
-        if (javaClass != other.javaClass) return false
-        other as CustomGroupResponder
-        return EqualsBuilder().append(other.getKeyWordRegex().toString(), getKeyWordRegex().toString()).isEquals
-    }
+	override fun equals(other: Any?): Boolean {
+		if (this === other || other === null) return true
+		if (javaClass != other.javaClass) return false
+		other as CustomGroupResponder
+		return EqualsBuilder().append(other.getKeyWordRegex().toString(), getKeyWordRegex().toString()).isEquals
+	}
 }

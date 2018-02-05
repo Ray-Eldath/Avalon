@@ -20,8 +20,8 @@ object ShowAdmin : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-                    Pair("(whoisadmin|谁是管理员)", "显示管理员列表"),
-                    Pattern.compile("(whoisadmin|谁是管理员)")
+					Pair("(whoisadmin|谁是管理员)", "显示管理员列表"),
+					Pattern.compile("(whoisadmin|谁是管理员)")
 			)
 
 	override fun instance(): GroupMessageResponder = this

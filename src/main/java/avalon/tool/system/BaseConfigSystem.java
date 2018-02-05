@@ -6,7 +6,7 @@ package avalon.tool.system;
  * @author Eldath Ray
  */
 public interface BaseConfigSystem {
-    String getString(String key);
+	String getString(String key);
 
-    Object get(String key);
+	Object get(String key);
 }
