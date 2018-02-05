@@ -10,12 +10,12 @@ object Flag {
 			if (CURRENT_SERVLET is CoolQBackend)
 				"[CQ:at,qq=${message.senderUid}]"
 			else
-				"@ ${message.senderNickName}"
+				"@${message.senderNickName}"
 
 	@JvmStatic
 	fun AT(userUid: Long) =
 			if (CURRENT_SERVLET is CoolQBackend)
 				"[CQ:at,qq=$userUid]"
 			else
-				"@ $userUid"
+				"@$userUid"
 }

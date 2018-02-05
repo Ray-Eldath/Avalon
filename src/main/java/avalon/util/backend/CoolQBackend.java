@@ -25,8 +25,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static avalon.tool.pool.Constants.Basic.INSTANCE;
-
 
 /**
  * Created by Eldath Ray on 2017/6/10 0010.
@@ -97,10 +95,6 @@ public class CoolQBackend extends AvalonBackend {
 
 	@Override
 	public void responseGroup(long groupUid, @NotNull String reply) {
-		if (INSTANCE.getDEBUG() || INSTANCE.getLOCAL_OUTPUT()) {
-			System.out.println("Group output:" + reply);
-			return;
-		}
 		Map<String, Object> object = new HashMap<>();
 		object.put("group_id", groupUid);
 		object.put("message", reply);
@@ -115,10 +109,6 @@ public class CoolQBackend extends AvalonBackend {
 
 	@Override
 	public void responsePrivate(long uid, @NotNull String reply) {
-		if (INSTANCE.getDEBUG() || INSTANCE.getLOCAL_OUTPUT()) {
-			System.out.println("Friend or private output: " + reply);
-			return;
-		}
 		Map<String, Object> object = new HashMap<>();
 		object.put("user_id", uid);
 		object.put("message", reply);

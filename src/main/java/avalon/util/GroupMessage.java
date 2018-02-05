@@ -49,6 +49,10 @@ public class GroupMessage implements Message, Displayable {
 
 	@Override
 	public void response(String reply) {
+		if (INSTANCE.getDEBUG() || INSTANCE.getLOCAL_OUTPUT()) {
+			System.out.println("Group output:" + reply);
+			return;
+		}
 		String finalReply = reply;
 		for (String thisBlockWord : GroupMessageHandler.INSTANCE.getBlockWordList()) {
 			String processedReply = reply.toLowerCase().replaceAll("[\\pP\\p{Punct}]", "");
@@ -59,6 +63,10 @@ public class GroupMessage implements Message, Displayable {
 	}
 
 	public void response(String reply, int shutUpTime) {
+		if (INSTANCE.getDEBUG() || INSTANCE.getLOCAL_OUTPUT()) {
+			System.out.println("Group output:" + reply);
+			return;
+		}
 		response(reply);
 		INSTANCE.getCURRENT_SERVLET().shutUp(groupUid, senderUid, shutUpTime);
 	}

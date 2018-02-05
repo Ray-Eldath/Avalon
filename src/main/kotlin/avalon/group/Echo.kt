@@ -1,5 +1,6 @@
 package avalon.group
 
+import avalon.tool.pool.Constants
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern
@@ -11,7 +12,10 @@ import java.util.regex.Pattern
  */
 object Echo : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
-		val content = message.content.replace(responderInfo().keyWordRegex.toRegex(), "")
+		val content = message.content.replace(
+				Regex(Constants.Basic.DEFAULT_PREFIX.joinToString(separator = "|") +
+						responderInfo().keyWordRegex),
+				"")
 		message.response(content)
 	}
 

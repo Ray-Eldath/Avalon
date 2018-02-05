@@ -14,20 +14,35 @@ object Execute : GroupMessageResponder() {
 
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		val contentM = message.content
-		val split = contentM.split("\n")
-		val first = split[0]
-		val codeLines = split.subList(1, split.size)
-		val lang = first.replace("avalon execute ", "").trim()
+		val single = !contentM.contains("\n")
+
+		val codes: List<String>
+		val lang: String
+		if (single) {
+			val split = contentM.split(" ") // avalon execute python print(2+3)
+			val size = split.size
+			if (size < 4) {
+				message.response("${AT(message)} 您的指示格式不正确（´□｀川）")
+				return
+			}
+			codes = split.subList(3, size)
+			lang = split[2]
+		} else {
+			val split = contentM.split("\n")
+			val first = split[0]
+			codes = split.subList(1, split.size)
+			lang = first.replace("avalon execute ", "").trim()
+		}
 
 		if (!executive.allLanguages().contains(lang)) {
 			message.response("${AT(message)} 给定的语言不受支持╮(╯_╰)╭")
 			return
 		}
-		if (codeLines.all { it.isEmpty() }) {
+		if (codes.all { it.isEmpty() }) {
 			message.response("${AT(message)} 不允许提交空代码∑(O_O；)")
 			return
 		}
-		val result = executive.execute(lang, codeLines)
+		val result = executive.execute(lang, codes)
 		val content =
 				when (result.status) {
 					ExecutiveStatus.ERROR -> "编译错误或其他致命错误：exitcode: ${result.exitcode} stderr: ${handleOutput(result.stderr)} error: ${handleOutput(result.error)}"
