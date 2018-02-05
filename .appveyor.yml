@@ -1,7 +1,7 @@
 version: '1.1.0.{build}'
 
 environment:
-  JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+  JAVA_HOME: C:\Program Files\Java\jdk9
 
 build_script:
   - gradlew build
@@ -9,5 +9,5 @@ build_script:
 notifications:
   - provider: Email
     to:
-      - eldath-ray@yandex.com
+      - ray.eldath@outlook.com
     on_build_success: false

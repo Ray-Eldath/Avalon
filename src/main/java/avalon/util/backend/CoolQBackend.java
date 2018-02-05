@@ -1,6 +1,7 @@
 package avalon.util.backend;
 
 import avalon.tool.pool.Constants;
+import avalon.tool.system.Configs;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 import org.eclipse.jetty.util.UrlEncoded;
@@ -24,6 +25,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import static avalon.tool.pool.Constants.Basic.INSTANCE;
+
 
 /**
  * Created by Eldath Ray on 2017/6/10 0010.
@@ -32,12 +35,13 @@ import java.util.function.Consumer;
  */
 public class CoolQBackend extends AvalonBackend {
 
+	private static final JSONObject object = Configs.Companion.instance().getJSONObject("backend");
 	private static final Logger logger = LoggerFactory.getLogger(CoolQBackend.class);
 	private static int friendMessageId = 0;
 	private static int groupMessageId = 0;
-	private static Map<Long, String> groupIdToName = new HashMap<>();//TODO 最好写个定时更新
-	private Consumer<GroupMessage> groupMessageConsumer;
-	private Consumer<FriendMessage> friendMessageConsumer;
+	private static final Map<Long, String> groupIdToName = new HashMap<>();//TODO 最好写个定时更新
+	private final Consumer<GroupMessage> groupMessageConsumer = Constants.getGroupMessageReceivedHook();
+	private final Consumer<FriendMessage> friendMessageConsumer = Constants.getFriendMessageReceivedHook();
 
 	@Override
 	public void doPost(@NotNull HttpServletRequest req, @NotNull HttpServletResponse resp) throws IOException {
@@ -93,7 +97,7 @@ public class CoolQBackend extends AvalonBackend {
 
 	@Override
 	public void responseGroup(long groupUid, @NotNull String reply) {
-		if (Constants.Basic.DEBUG || Constants.Basic.LOCAL_OUTPUT) {
+		if (INSTANCE.getDEBUG() || INSTANCE.getLOCAL_OUTPUT()) {
 			System.out.println("Group output:" + reply);
 			return;
 		}
@@ -111,7 +115,7 @@ public class CoolQBackend extends AvalonBackend {
 
 	@Override
 	public void responsePrivate(long uid, @NotNull String reply) {
-		if (Constants.Basic.DEBUG || Constants.Basic.LOCAL_OUTPUT) {
+		if (INSTANCE.getDEBUG() || INSTANCE.getLOCAL_OUTPUT()) {
 			System.out.println("Friend or private output: " + reply);
 			return;
 		}
@@ -136,9 +140,27 @@ public class CoolQBackend extends AvalonBackend {
 		sendRequest("/set_group_ban", object);
 	}
 
+	@NotNull
 	@Override
 	public String name() {
 		return "CoolQ";
+	}
+
+	@NotNull
+	@Override
+	public String apiAddress() {
+		return object.getString("api_address");
+	}
+
+	@NotNull
+	@Override
+	public String listenAddress() {
+		return object.getString("listen_address");
+	}
+
+	@Override
+	public boolean servlet() {
+		return true;
 	}
 
 	@NotNull
@@ -165,16 +187,6 @@ public class CoolQBackend extends AvalonBackend {
 		map.put("user_id", uid);
 		return ((JSONObject) (new JSONTokener(sendRequest("/get_stranger_info", map))
 				.nextValue())).getJSONObject("data").getString("nickname");
-	}
-
-	@Override
-	public void setGroupMessageReceivedHook(@NotNull Consumer<GroupMessage> hook) {
-		this.groupMessageConsumer = hook;
-	}
-
-	@Override
-	public void setFriendMessageReceivedHook(@NotNull Consumer<FriendMessage> hook) {
-		this.friendMessageConsumer = hook;
 	}
 
 	private String sendRequest(String url, Map<String, Object> data) {

@@ -32,10 +32,13 @@ object Manager : GroupMessageResponder() {
 		if (Constants.Basic.DEBUG)
 			println("$action $apiName")
 
-		val thisAPI = GroupMessageHandler.getGroupResponderByKeywordRegex(apiName)
+		var thisAPI = GroupMessageHandler.getGroupResponderByKeywordRegex(apiName)
 		if (thisAPI == null) {
-			message.response("${AT(message)} 您要操作的指令响应器根本不存在！注意：Manager暂不支持操作由插件载入的响应器 (╯︵╰,)")
-			return
+			thisAPI = GroupMessageHandler.getGroupResponderByKeywordRegex(apiName + " ")
+			if (thisAPI == null) {
+				message.response("${AT(message)} 您要操作的指令响应器根本不存在！注意：Manager识别不含指令前缀的指令且暂不支持操作由插件载入的响应器 (╯︵╰,)")
+				return
+			}
 		}
 
 		if (!thisAPI.responderInfo().manageable) {
@@ -60,7 +63,7 @@ object Manager : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("manager (start|stop) <指令响应器触发语句>", "打开或关闭指定的指令响应器"),
+					Pair("manager (start|stop) <指令响应器触发语句（不含指令前缀）>", "打开或关闭指定的指令响应器"),
 					Pattern.compile("manager (start|stop) "),
 					manageable = false,
 					permission = ResponderPermission.ADMIN

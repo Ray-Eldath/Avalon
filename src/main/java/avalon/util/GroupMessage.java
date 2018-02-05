@@ -1,7 +1,6 @@
 package avalon.util;
 
 import avalon.group.GroupMessageHandler;
-import avalon.tool.pool.Constants;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +11,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Calendar;
 
-import static avalon.tool.pool.Constants.Basic.CURRENT_SERVLET;
+import static avalon.tool.pool.Constants.Basic.INSTANCE;
 
 /**
  * Created by Eldath on 2017/2/11 0011.
@@ -28,7 +27,7 @@ public class GroupMessage implements Message, Displayable {
 	                    String groupName, String content) {
 		this.id = id;
 		this.time = time;
-		this.timeLong = time.toEpochSecond(ZoneOffset.ofHours(Calendar.ZONE_OFFSET));
+		this.timeLong = time.toEpochSecond(ZoneOffset.ofHours(Calendar.ZONE_OFFSET)) * 1000;
 		this.senderUid = senderUid;
 		this.groupUid = groupUid;
 		this.senderNickName = senderNickName;
@@ -54,14 +53,14 @@ public class GroupMessage implements Message, Displayable {
 		for (String thisBlockWord : GroupMessageHandler.INSTANCE.getBlockWordList()) {
 			String processedReply = reply.toLowerCase().replaceAll("[\\pP\\p{Punct}]", "");
 			if (processedReply.contains(thisBlockWord))
-				finalReply = Constants.Basic.DEBUG ? processedReply + " 消息含屏蔽词：" + thisBlockWord : "Avalon不会发送含屏蔽词的消息。";
+				finalReply = INSTANCE.getDEBUG() ? processedReply + " 消息含屏蔽词：" + thisBlockWord : "Avalon不会发送含屏蔽词的消息。";
 		}
-		CURRENT_SERVLET.responseGroup(groupUid, finalReply);
+		INSTANCE.getCURRENT_SERVLET().responseGroup(groupUid, finalReply);
 	}
 
 	public void response(String reply, int shutUpTime) {
 		response(reply);
-		CURRENT_SERVLET.shutUp(groupUid, senderUid, shutUpTime);
+		INSTANCE.getCURRENT_SERVLET().shutUp(groupUid, senderUid, shutUpTime);
 	}
 
 	@Override
@@ -106,9 +105,16 @@ public class GroupMessage implements Message, Displayable {
 	@NotNull
 	@Override
 	public String getString() {
-		return String.format("id= % 6d, time= %-18s, senderUid= % 12d, senderNickName= \"%-15s\", groupUid= % 10d, " +
-						"groupName= \"%-18s\", content= \"%s\"", id, time.toString().replace("T", " "),
-				senderUid, senderNickName, groupUid, groupName, content);
+		return String.format("id= % 6d, timeLong= %6d time= %-18s, senderUid= % 12d, senderNickName= \"%-15s\", groupUid= % 10d, " +
+						"groupName= \"%-18s\", content= \"%s\"",
+				id,
+				timeLong,
+				time.toString().replace("T", " "),
+				senderUid,
+				senderNickName,
+				groupUid,
+				groupName,
+				content);
 	}
 
 	@Override

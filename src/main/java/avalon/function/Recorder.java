@@ -1,6 +1,5 @@
 package avalon.function;
 
-import avalon.tool.pool.Constants;
 import avalon.tool.system.Configs;
 import avalon.tool.system.RunningData;
 import avalon.util.FriendMessage;
@@ -8,6 +7,8 @@ import avalon.util.GroupMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static avalon.tool.pool.Constants.Database.INSTANCE;
 
 /**
  * Created by Eldath on 2017/2/3 0003.
@@ -49,10 +50,10 @@ public class Recorder {
 
 	public void flushNow() {
 		for (GroupMessage thisGroupMessage : groupMessageRecord)
-			Constants.Database.CURRENT_DATABASE_OPERATOR.add(thisGroupMessage);
+			INSTANCE.getCURRENT_DATABASE_OPERATOR().add(thisGroupMessage);
 		groupMessageRecord.clear();
 		for (FriendMessage thisFriendMessage : friendMessageRecord)
-			Constants.Database.CURRENT_DATABASE_OPERATOR.add(thisFriendMessage);
+			INSTANCE.getCURRENT_DATABASE_OPERATOR().add(thisFriendMessage);
 		friendMessageRecord.clear();
 	}
 

@@ -46,8 +46,10 @@ public class GroupConfigs {
 				Collections.addAll(allIdentifier, identifier);
 		}
 
-		String file = Constants.Basic.CURRENT_PATH + File.separator + "group.json";
-		JSONArray root = ((JSONObject) new JSONTokener(Files.newBufferedReader(Paths.get(file))).nextValue()).getJSONArray("group");
+		String file = Constants.Basic.INSTANCE.getCURRENT_PATH() + File.separator + "group.json";
+		JSONArray root = ((JSONObject) new JSONTokener(Files.newBufferedReader(Paths.get(file))).nextValue())
+				.getJSONObject(Constants.Basic.INSTANCE.getCURRENT_SERVLET().name())
+				.getJSONArray("group");
 		for (int i = 0; i < root.length(); i++) {
 			JSONObject thisObject = root.getJSONObject(i);
 			long uid = ObjectCaster.toLong(thisObject.get("uid"));

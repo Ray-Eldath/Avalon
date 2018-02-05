@@ -1,12 +1,12 @@
 package avalon.tool
 
 import avalon.group.Hitokoto
-import avalon.util.backend.CoolQBackend
+import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
 import org.slf4j.LoggerFactory
 
 object ServiceChecker {
 	private val logger = LoggerFactory.getLogger(this.javaClass)
-	private val services = listOf(CoolQBackend(), Hitokoto.Hitokotor)
+	private val services = listOf(CURRENT_SERVLET, Hitokoto.Hitokotor)
 
 	fun check(): Boolean {
 		logger.info("Now checking usability of services...")

@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse
  * Discord的Channel对应Avalon的Group。groupUid等均为Discord中Channel的ID。
  */
 object DiscordBackend : AvalonBackend() {
-	private lateinit var outerGroupMessageHook: Consumer<GroupMessage>
-	private lateinit var outerFriendMessageHook: Consumer<FriendMessage>
+	private val outerGroupMessageHook: Consumer<GroupMessage> = avalon.tool.pool.Constants.groupMessageReceivedHook
+	private val outerFriendMessageHook: Consumer<FriendMessage> = avalon.tool.pool.Constants.friendMessageReceivedHook
 
 	private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -49,22 +49,13 @@ object DiscordBackend : AvalonBackend() {
 	override fun getFriendSenderNickname(uid: Long): String =
 			jda.getUserById(uid).name
 
-	override fun setGroupMessageReceivedHook(hook: Consumer<GroupMessage>) {
-		outerGroupMessageHook = hook
-	}
-
-	override fun setFriendMessageReceivedHook(hook: Consumer<FriendMessage>) {
-		outerFriendMessageHook = hook
-	}
-
 	override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {}
 
-	private val jda: JDA by lazy {
-		JDABuilder(AccountType.BOT)
-				.setToken(obj.getString("token"))
-				.addEventListener(DiscordMessageListener(outerGroupMessageHook, outerFriendMessageHook))
-				.buildBlocking()
-	}
+	private val jda: JDA =
+			JDABuilder(AccountType.BOT)
+					.setToken(obj.getString("token"))
+					.addEventListener(DiscordMessageListener(outerGroupMessageHook, outerFriendMessageHook))
+					.buildBlocking()
 
 	class DiscordMessageListener(private val groupMessageHook: Consumer<GroupMessage>,
 	                             private val friendMessageHook: Consumer<FriendMessage>) : ListenerAdapter() {

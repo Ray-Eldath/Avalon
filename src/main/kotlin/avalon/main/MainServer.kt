@@ -1,9 +1,7 @@
 package avalon.main
 
 import avalon.api.DelayResponse
-import avalon.friend.FriendMessageHandler
 import avalon.function.*
-import avalon.group.GroupMessageHandler
 import avalon.group.Hitokoto
 import avalon.tool.ServiceChecker
 import avalon.tool.pool.AvalonPluginPool
@@ -58,10 +56,7 @@ object MainServer {
 			Runtime.getRuntime().halt(-2)
 		}
 
-		Configs.Companion.instance()
 		RunningData.getInstance()
-		Constants.Basic()
-		Constants.Address()
 		AvalonPluginPool.load()
 
 		// 线程池
@@ -77,29 +72,29 @@ object MainServer {
 		// 关车钩子
 		Runtime.getRuntime().addShutdownHook(ShutdownHook())
 
-		val address: InetSocketAddress
-		val addressString = CURRENT_SERVLET.listenAddress().replace("http://", "")
-		address = if (!addressString.contains(":")) InetSocketAddress(addressString, 8000)
-		else {
-			val addressStringArray = addressString.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-			InetSocketAddress(addressStringArray[0].replace("//", ""),
-					Integer.parseInt(addressStringArray[1]))
+		var isOn = 1
+		if (CURRENT_SERVLET.servlet()) {
+			val address: InetSocketAddress
+			val addressString = CURRENT_SERVLET.listenAddress().replace("http://", "")
+			address = if (!addressString.contains(":")) InetSocketAddress(addressString, 8000)
+			else {
+				val addressStringArray = addressString.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+				InetSocketAddress(addressStringArray[0].replace("//", ""),
+						Integer.parseInt(addressStringArray[1]))
+			}
+			//
+			val server = Server(address)
+			val context = ServletContextHandler(ServletContextHandler.SESSIONS)
+			server.handler = context
+			server.stopAtShutdown = true
+			context.addServlet(ServletHolder(CURRENT_SERVLET), "/post_url")
+			server.join()
+			server.start()
+
+			logger.info("Is server on (y or n, default n, await for 5 seconds): ")
+			isOn = readInput()
 		}
-		//
-		val server = Server(address)
-		val context = ServletContextHandler(ServletContextHandler.SESSIONS)
-		server.handler = context
-		server.stopAtShutdown = true
 
-		CURRENT_SERVLET.setGroupMessageReceivedHook { GroupMessageHandler.handle(it) }
-		CURRENT_SERVLET.setFriendMessageReceivedHook { FriendMessageHandler.handle(it) }
-
-		context.addServlet(ServletHolder(CURRENT_SERVLET), "/post_url")
-		server.join()
-		server.start()
-
-		logger.info("Is server on (y or n, default n, await for 5 seconds): ")
-		val isOn = readInput()
 		when (isOn) {
 			1 -> {
 				for (thisFollowGroup in followGroup) {
@@ -114,6 +109,7 @@ object MainServer {
 			0 -> logger.info("Cancel send login message.")
 			else -> logger.info("Invalid input or reached the maximum waiting time, use default value: `n`.")
 		}
+
 		DelayResponse().start()
 		logger.info("DelayResponse thread is loaded.")
 		// debug检测

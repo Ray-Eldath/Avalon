@@ -42,6 +42,9 @@ object GroupMessageHandler {
 	internal fun isResponderEnable(api: GroupMessageResponder): Boolean = enableMap.containsKey(api)
 
 	fun handle(message: GroupMessage) {
+		if (Constants.Basic.DEBUG)
+			println(message.string)
+
 		val groupUid = message.groupUid
 		val sender = message.senderNickName
 		val senderUid = message.senderUid
@@ -234,14 +237,12 @@ object GroupMessageHandler {
 	@JvmStatic
 	fun main(args: Array<String>) {
 		System.setProperty("file.encoding", "UTF-8")
-
 		Runtime.getRuntime().addShutdownHook(MainServer.ShutdownHook())
 
-		Configs.Companion.instance()
 		RunningData.getInstance()
-		Constants.Basic()
-		Constants.Address()
+
 		AvalonPluginPool.load()
+
 		if (!Constants.Basic.DEBUG) {
 			System.err.println("Debug not on! Exiting...")
 			Runtime.getRuntime().halt(-1)
@@ -264,7 +265,7 @@ object GroupMessageHandler {
 				if (responder == Mo)
 					responder.responderInfo().keyWordRegex
 				else
-					Pattern.compile(Constants.Basic.DEFAULT_REGEX_PREFIX.joinToString(separator = "|") +
+					Pattern.compile("^(" + Constants.Basic.DEFAULT_PREFIX.joinToString(separator = "|") + ")" +
 							responder.responderInfo().keyWordRegex.pattern())
 		apiTriples.add(GroupMessageResponderTriple(
 				responder.javaClass.simpleName,

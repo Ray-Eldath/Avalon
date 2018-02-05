@@ -43,7 +43,7 @@ object Configs : BaseConfigSystem {
 			if ("comment" in key)
 				continue
 			val thisObject = obj[key]
-			result.put(key, thisObject)
+			result[key] = thisObject
 		}
 		return result
 	}
@@ -71,6 +71,7 @@ object Configs : BaseConfigSystem {
 	fun isPluginEnable(pluginName: String): Boolean =
 			getPluginConfig(pluginName, "enable") as Boolean
 
+	@Suppress("MemberVisibilityCanBePrivate")
 	fun getPluginConfig(pluginName: String, key: String): Any? =
 			getObjectConfig(functionConfigs, pluginName, key)
 

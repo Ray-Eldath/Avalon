@@ -20,7 +20,7 @@ object Version : GroupMessageResponder() {
 						if (AvalonPluginPool.getInfoList().isEmpty())
 							"<无>" else AvalonPluginPool.getInfoList().filter { it.isEnabled }.map { it.name },
 						CURRENT_SERVLET.name(),
-						Constants.Version.instance().servlet(),
+						Constants.Version.SERVLET,
 						Constants.Version.AVALON,
 						if (Configs.get("running_on_pc") as Boolean)
 							"\n我运行在个人计算机（而不是服务器）上，故无法提供稳定服务。若有其它疑问请联系我的主人`${CURRENT_SERVLET.getGroupSenderNickname(message.groupUid, groupConfig.owner)} - ${groupConfig.owner}`" else ""))
