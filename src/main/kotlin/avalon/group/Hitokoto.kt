@@ -36,8 +36,8 @@ object Hitokoto : GroupMessageResponder() {
 
 		override fun available(): Boolean {
 			return try {
-				URL(url).openStream()
-				true
+				val obj = JSONTokener(URL(url).openStream().bufferedReader(StandardCharsets.UTF_8)).nextValue() as JSONObject
+				obj.has("hitokoto")
 			} catch (e: Exception) {
 				false
 			}

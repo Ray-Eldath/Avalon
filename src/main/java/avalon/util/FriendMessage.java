@@ -14,11 +14,10 @@ import java.util.Calendar;
  *
  * @author Eldath
  */
-public class FriendMessage implements Message, Displayable {
+public class FriendMessage extends Message {
 	private final LocalDateTime time;
 	private final long id, senderUid, timeLong;
-	private final String senderNickName;
-	private final String content;
+	private final String senderNickName, content;
 
 	public FriendMessage(long id, LocalDateTime time, long senderUid, String senderNickName, String content) {
 		this.id = id;

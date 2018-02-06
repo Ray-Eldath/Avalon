@@ -41,6 +41,14 @@ public class CoolQBackend extends AvalonBackend {
 	private final Consumer<GroupMessage> groupMessageConsumer = Constants.getGroupMessageReceivedHook();
 	private final Consumer<FriendMessage> friendMessageConsumer = Constants.getFriendMessageReceivedHook();
 
+	private static CoolQBackend INSTANCE = null;
+
+	public static CoolQBackend INSTANCE() {
+		if (INSTANCE == null)
+			INSTANCE = new CoolQBackend();
+		return INSTANCE;
+	}
+
 	@Override
 	public void doPost(@NotNull HttpServletRequest req, @NotNull HttpServletResponse resp) throws IOException {
 		req.setCharacterEncoding("UTF-8");

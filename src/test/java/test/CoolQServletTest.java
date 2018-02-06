@@ -9,6 +9,6 @@ import avalon.util.backend.CoolQBackend;
  */
 public class CoolQServletTest {
 	public static void main(String[] args) {
-		System.out.println(new CoolQBackend().available());
+		System.out.println(CoolQBackend.INSTANCE().available());
 	}
 }

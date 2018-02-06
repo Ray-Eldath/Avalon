@@ -18,7 +18,7 @@ import static avalon.tool.pool.Constants.Basic.INSTANCE;
  *
  * @author Eldath
  */
-public class GroupMessage implements Message, Displayable {
+public class GroupMessage extends Message {
 	private final LocalDateTime time;
 	private final long id, senderUid, groupUid, timeLong;
 	private final String groupName, content, senderNickName;
@@ -27,7 +27,7 @@ public class GroupMessage implements Message, Displayable {
 	                    String groupName, String content) {
 		this.id = id;
 		this.time = time;
-		this.timeLong = time.toEpochSecond(ZoneOffset.ofHours(Calendar.ZONE_OFFSET)) * 1000;
+		this.timeLong = time.toEpochSecond(ZoneOffset.ofHours(Calendar.ZONE_OFFSET));
 		this.senderUid = senderUid;
 		this.groupUid = groupUid;
 		this.senderNickName = senderNickName;

@@ -10,6 +10,8 @@ import net.dv8tion.jda.core.entities.ChannelType
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent
 import net.dv8tion.jda.core.hooks.ListenerAdapter
 import org.slf4j.LoggerFactory
+import java.time.ZoneOffset
+import java.util.*
 import java.util.function.Consumer
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -51,11 +53,12 @@ object DiscordBackend : AvalonBackend() {
 
 	override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {}
 
-	private val jda: JDA =
-			JDABuilder(AccountType.BOT)
-					.setToken(obj.getString("token"))
-					.addEventListener(DiscordMessageListener(outerGroupMessageHook, outerFriendMessageHook))
-					.buildBlocking()
+	val jda: JDA by lazy {
+		JDABuilder(AccountType.BOT)
+				.setToken(obj.getString("token"))
+				.addEventListener(DiscordMessageListener(outerGroupMessageHook, outerFriendMessageHook))
+				.buildBlocking()
+	}
 
 	class DiscordMessageListener(private val groupMessageHook: Consumer<GroupMessage>,
 	                             private val friendMessageHook: Consumer<FriendMessage>) : ListenerAdapter() {
@@ -64,27 +67,33 @@ object DiscordBackend : AvalonBackend() {
 				return
 			val sender = event.author
 			val message = event.message
-			if (event.isFromType(ChannelType.PRIVATE))
-				friendMessageHook.accept(FriendMessage(
+			val time = message.creationTime.toLocalDateTime()
+					.toEpochSecond(ZoneOffset.ofHours(Calendar.ZONE_OFFSET)) * 1000
+			if (event.isFromType(ChannelType.PRIVATE)) {
+				val final = FriendMessage(
 						event.messageIdLong,
-						message.creationTime.toLocalDateTime(),
+						time,
 						sender.idLong,
 						sender.name,
-						message.contentDisplay))
-			else {
+						message.contentDisplay)
+				final.setExtra("discriminator", sender.discriminator)
+				friendMessageHook.accept(final)
+			} else {
 				val channel = event.textChannel
 				if (!channel.canTalk()) {
 					logger.error("FATAL ERROR: Avalon does NOT have enough permission to talk in particular channel, exit.")
 					System.exit(-1)
 				}
-				groupMessageHook.accept(GroupMessage(
+				val final = GroupMessage(
 						event.messageIdLong,
-						message.creationTime.toLocalDateTime(), // TODO 时间不准。估计是由于时区问题。
+						time, // TODO 时间不准。估计是由于时区问题。
 						sender.idLong,
 						sender.name,
 						channel.idLong,
 						channel.name,
-						message.contentDisplay))
+						message.contentDisplay)
+				final.setExtra("discriminator", sender.discriminator)
+				groupMessageHook.accept(final)
 			}
 		}
 	}

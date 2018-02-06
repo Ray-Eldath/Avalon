@@ -45,7 +45,7 @@ object Constants {
 	object Basic {
 		val CURRENT_SERVLET: AvalonBackend =
 				when (Configs.Companion.instance().getJSONObject("backend").getString("backend").trim { it <= ' ' }.toLowerCase()) {
-					"coolq" -> CoolQBackend()
+					"coolq" -> CoolQBackend.INSTANCE()
 					"discord" -> DiscordBackend
 					else -> null!!
 				}
@@ -69,6 +69,7 @@ object Constants {
 
 	@JvmStatic
 	val groupMessageReceivedHook = Consumer<GroupMessage> { GroupMessageHandler.handle(it) }
+
 	@JvmStatic
 	val friendMessageReceivedHook = Consumer<FriendMessage> { FriendMessageHandler.handle(it) }
 }

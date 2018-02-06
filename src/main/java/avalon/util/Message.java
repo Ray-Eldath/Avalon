@@ -1,5 +1,8 @@
 package avalon.util;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
+
 import java.time.LocalDateTime;
 
 /**
@@ -7,20 +10,32 @@ import java.time.LocalDateTime;
  *
  * @author Eldath
  */
-public interface Message {
-	String getContent();
+public abstract class Message implements Displayable {
+	public abstract String getContent();
 
-	LocalDateTime getTime();
+	public abstract LocalDateTime getTime();
 
-	long getTimeLong();
+	public abstract long getTimeLong();
 
-	long getId();
+	public abstract long getId();
 
-	long getSenderUid();
+	public abstract long getSenderUid();
 
-	String getSenderNickName();
+	public abstract String getSenderNickName();
 
-	void response(String reply);
+	public abstract void response(String reply);
 
-	String getString();
+	@Override
+	@NotNull
+	public abstract String getString();
+
+	private final JSONObject extras = new JSONObject();
+
+	public void setExtra(String key, Object value) {
+		this.extras.put(key, value);
+	}
+
+	public JSONObject getExtras() {
+		return extras;
+	}
 }
