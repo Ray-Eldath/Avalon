@@ -55,7 +55,7 @@ object Manager : GroupMessageResponder() {
 			"stop" -> {
 				APISurvivePool.getInstance().setAPISurvive(thisAPI, false)
 				message.response("${AT(message)} 您要关闭的指令响应器将会关闭~=-=")
-				Manager.logger.info("GroupMessageResponder ${thisAPI.javaClass.name} is closed by $senderUid : $sender.")
+				Manager.logger.info("GroupMessageResponder ${thisAPI.javaClass.simpleName} is closed by $senderUid : $sender.")
 			}
 			else -> message.response("${AT(message)} 您的指示格式不对辣！（｀Δ´）！")
 		}

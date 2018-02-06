@@ -18,6 +18,8 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static avalon.tool.pool.Constants.Basic.INSTANCE;
+
 public class GroupConfigs {
 	private Map<Long, avalon.util.GroupConfig> configs = new HashMap<>();
 	private List<Long> followGroups = new ArrayList<>();
@@ -46,10 +48,15 @@ public class GroupConfigs {
 				Collections.addAll(allIdentifier, identifier);
 		}
 
-		String file = Constants.Basic.INSTANCE.getCURRENT_PATH() + File.separator + "group.json";
-		JSONArray root = ((JSONObject) new JSONTokener(Files.newBufferedReader(Paths.get(file))).nextValue())
-				.getJSONObject(Constants.Basic.INSTANCE.getCURRENT_SERVLET().name())
+		String file = INSTANCE.getCURRENT_PATH() + File.separator + "group.json";
+		JSONObject rootObject = ((JSONObject) new JSONTokener(Files.newBufferedReader(Paths.get(file))).nextValue());
+		JSONArray root = rootObject.getJSONObject(
+				rootObject.keySet().stream()
+						.filter(e -> e.equalsIgnoreCase(INSTANCE.getCURRENT_SERVLET().name()))
+						.findAny()
+						.orElse(""))
 				.getJSONArray("group");
+
 		for (int i = 0; i < root.length(); i++) {
 			JSONObject thisObject = root.getJSONObject(i);
 			long uid = ObjectCaster.toLong(thisObject.get("uid"));
