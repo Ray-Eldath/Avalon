@@ -1,6 +1,7 @@
 package avalon.group
 
 import avalon.tool.pool.Constants
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern
@@ -21,7 +22,7 @@ object Echo : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("(echo|repeat)", "让阿瓦隆重复给定语句"),
+					Pair("(echo|repeat)", LANG.getString("group.echo.help")),
 					Pattern.compile("(echo|repeat) ")
 			)
 

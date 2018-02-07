@@ -4,6 +4,7 @@ import avalon.api.Flag
 import avalon.api.Flag.AT
 import avalon.tool.ExecutiveStatus
 import avalon.tool.Executives
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.tool.pool.Constants.Basic.MAX_ECHO_LENGTH
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
@@ -22,7 +23,7 @@ object Execute : GroupMessageResponder() {
 			val split = contentM.split(" ") // avalon execute python print(2+3)
 			val size = split.size
 			if (size < 4) {
-				message.response("${AT(message)} 您的指示格式不正确（´□｀川）")
+				message.response("${AT(message)} ${LANG.getString("group.execute.incorrect")}")
 				return
 			}
 			codes = split.subList(3, size)
@@ -35,19 +36,19 @@ object Execute : GroupMessageResponder() {
 		}
 
 		if (!executive.allLanguages().contains(lang)) {
-			message.response("${AT(message)} 给定的语言不受支持╮(╯_╰)╭")
+			message.response("${AT(message)} ${LANG.getString("group.execute.unsupported_language")}")
 			return
 		}
 		if (codes.all { it.isEmpty() }) {
-			message.response("${AT(message)} 不允许提交空代码∑(O_O；)")
+			message.response("${AT(message)} ${LANG.getString("group.execute.empty_code")}")
 			return
 		}
 		val result = executive.execute(lang, codes)
 		val content =
 				when (result.status) {
-					ExecutiveStatus.ERROR -> "编译错误或其他致命错误：exitcode: ${result.exitcode} stderr: ${handleOutput(result.stderr)} error: ${handleOutput(result.error)}"
-					ExecutiveStatus.STDERR -> "执行错误：exitcode: ${result.exitcode} stderr: ${handleOutput(result.stderr)}"
-					ExecutiveStatus.OK -> "执行成功！exitcode: ${result.exitcode} stdout: ${handleOutput(result.stdout)}"
+					ExecutiveStatus.ERROR -> "${LANG.getString("group.execute.error")}exitcode: ${result.exitcode} stderr: ${handleOutput(result.stderr)} error: ${handleOutput(result.error)}"
+					ExecutiveStatus.STDERR -> "${LANG.getString("group.execute.stderr")}exitcode: ${result.exitcode} stderr: ${handleOutput(result.stderr)}"
+					ExecutiveStatus.OK -> "${LANG.getString("group.execute.ok")}exitcode: ${result.exitcode} stdout: ${handleOutput(result.stdout)}"
 				}
 		message.response("${Flag.AT(message)} $content")
 	}
@@ -55,13 +56,14 @@ object Execute : GroupMessageResponder() {
 	private fun handleOutput(string: String): String {
 		val length = string.length
 		if (length > MAX_ECHO_LENGTH)
-			return string.substring(0, MAX_ECHO_LENGTH) + "...<超长文本截断 原长度：$length>"
+			return string.substring(0, MAX_ECHO_LENGTH) + "...${String.format(LANG.getString("group.execute.truncated"), length)}"
 		return string.replace("\n", " ")
 	}
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("avalon execute <语言>{换行}<代码>", "执行给定代码并回显输出。支持语言列表及代码执行器相关信息请使用`avalon execute info`查看。"),
+					Pair("execute ${LANG.getString("group.execute.help.first")}",
+							LANG.getString("group.execute.help.second").format("avalon execute info")),
 					Pattern.compile("execute [^info]*")
 			)
 

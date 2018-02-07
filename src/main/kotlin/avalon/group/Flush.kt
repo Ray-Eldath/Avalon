@@ -2,6 +2,7 @@ package avalon.group
 
 import avalon.api.Flag.AT
 import avalon.function.Recorder
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern
@@ -15,12 +16,12 @@ object Flush : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		Recorder.getInstance().flushNow()
 		System.gc()
-		message.response("管理员：${AT(message)} 缓存及临时文件刷新成功。")
+		message.response("${AT(message)} ${LANG.getString("group.flush.reply")}")
 	}
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("flush", "刷新缓存并清除临时文件"),
+					Pair("flush", LANG.getString("group.flush.help")),
 					Pattern.compile("flush"),
 					permission = ResponderPermission.ADMIN,
 					manageable = false

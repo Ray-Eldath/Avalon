@@ -8,6 +8,7 @@ import org.json.JSONObject
 import org.json.JSONTokener
 import java.net.URL
 import java.nio.charset.StandardCharsets
+import java.util.*
 import java.util.regex.Pattern
 
 object Hitokoto : GroupMessageResponder() {
@@ -18,7 +19,8 @@ object Hitokoto : GroupMessageResponder() {
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
 					Pair("(hitokoto|一言)", "获取一条一言。"),
-					Pattern.compile("(hitokoto|一言)")
+					Pattern.compile("(hitokoto|一言)"),
+					availableLocale = Locale.SIMPLIFIED_CHINESE
 			)
 
 	override fun instance() = this

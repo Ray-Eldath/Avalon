@@ -15,6 +15,7 @@ import avalon.tool.pool.AvalonPluginPool
 import avalon.tool.pool.Constants
 import avalon.tool.pool.Constants.Basic.DEBUG_MESSAGE_GROUP_UID
 import avalon.tool.pool.Constants.Basic.DEBUG_MESSAGE_UID
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.tool.pool.Variables.Cooling_Not_Notice_Times
 import avalon.tool.pool.Variables.Cooling_Noticed
 import avalon.tool.system.Configs
@@ -74,21 +75,21 @@ object GroupMessageHandler {
 				if (blacklistPeopleMap[senderUid]!! >= punishFrequency) {
 					LOGGER.info("account $senderUid : $sender was blocked. Please entered `avalon blacklist remove $senderUid` to group $groupUid : ${message.groupName} if you really want to unblock this account.")
 					if (!admin)
-						message.response(AT(message) + " 您的帐号由于发送过多不允许关键字，现已被屏蔽~o(╯□╰)o！")
+						message.response("${AT(message)} ${LANG.getString("group.handler.account_banned")}")
 					return
 				}
 			}
 
 		for (triple in apiTriples) {
-			val key = triple.actualPattern
+			val key = triple.matchPattern
 			val value = triple.instance
 			val info = value.responderInfo()
 
 			if (patternCheck(key, message, admin)) {
 				if (!APISurvivePool.getInstance().isSurvive(value)) {
 					if (!APISurvivePool.getInstance().isNoticed(value)) {
-						if (!info.keyWordRegex.matcher("+1s").find())
-							message.response("${AT(message)} 对不起，您调用的指令响应器目前已被停止；注意：此消息仅会显示一次。")
+						if (value != Mo)
+							message.response("${AT(message)} ${LANG.getString("group.handler.call_stopped_responder")}")
 						APISurvivePool.getInstance().setNoticed(value)
 					}
 				} else if (MessageChecker.check(message) && isResponderEnable(value) &&
@@ -121,7 +122,7 @@ object GroupMessageHandler {
 		}
 
 		if (!result)
-			message.response("${AT(message)} 致命错误：需要`sudo`以执行此操作！（雾")
+			message.response("${AT(message)} ${LANG.getString("group.handler.permission_denied")}")
 		return result
 	}
 
@@ -138,9 +139,9 @@ object GroupMessageHandler {
 							.toLowerCase()
 							.replace("[\\pP\\p{Punct}]".toRegex(), "")
 							.contains(thisBlockString)) {
-				var notice = "您发送的消息含有不允许的关键词！"
+				var notice = LANG.getString("group.handler.block_word")
 				if (Constants.Setting.Block_Words_Punishment_Mode_Enabled && !admin) {
-					notice = "您发送的消息含有不允许的关键词，注意：${punishFrequency}次发送不允许关键词后帐号将被屏蔽！⊙﹏⊙!"
+					notice = String.format(LANG.getString("group.handler.block_word_e"), punishFrequency)
 					blackListPlus(groupMessage.senderUid)
 				}
 				groupMessage.response(AT(groupMessage) + " " + notice)
@@ -153,7 +154,7 @@ object GroupMessageHandler {
 			if (Cooling_Not_Notice_Times > 4 || !Cooling_Noticed) {
 				if (key.matcher("+1s").find())
 					return false
-				groupMessage.response("${AT(groupMessage)} 对不起，您的指令超频。${coolingDuration}ms内仅能有一次指令输入，未到${coolingDuration}ms内的输入将被忽略。")
+				groupMessage.response("${AT(groupMessage)} ${String.format(LANG.getString("group.handler.cooling"), coolingDuration, coolingDuration)}")
 				Cooling_Noticed = true
 			}
 			if (Cooling_Not_Notice_Times >= 4) {

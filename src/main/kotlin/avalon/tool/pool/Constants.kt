@@ -12,6 +12,7 @@ import avalon.util.backend.CoolQBackend
 import avalon.util.backend.DiscordBackend
 import java.io.File
 import java.lang.management.ManagementFactory
+import java.util.*
 import java.util.function.Consumer
 
 /**
@@ -43,6 +44,7 @@ object Constants {
 	}
 
 	object Basic {
+		val LANG = ResourceBundle.getBundle("lang.Avalon")!!
 		val CURRENT_SERVLET: AvalonBackend =
 				when (Configs.Companion.instance().getJSONObject("backend").getString("backend").trim { it <= ' ' }.toLowerCase()) {
 					"coolq" -> CoolQBackend.INSTANCE()

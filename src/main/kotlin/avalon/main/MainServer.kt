@@ -7,6 +7,7 @@ import avalon.tool.ServiceChecker
 import avalon.tool.pool.AvalonPluginPool
 import avalon.tool.pool.Constants
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.tool.system.Configs
 import avalon.tool.system.GroupConfigs
 import avalon.tool.system.RunningData
@@ -98,7 +99,7 @@ object MainServer {
 		when (isOn) {
 			1 -> {
 				for (thisFollowGroup in followGroup) {
-					var str = "Avalon已经上线。\n发送`avalon help`以查看可用指令。"
+					var str = LANG.getString("base.welcome")
 					val config = Configs.getResponderConfig("Hitokoto", "push_when_start")
 					if (config != null && config as Boolean)
 						str += "\n\n${Hitokoto.Hitokotor.get()}"

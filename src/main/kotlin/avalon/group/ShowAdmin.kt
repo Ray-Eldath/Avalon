@@ -2,6 +2,7 @@ package avalon.group
 
 import avalon.api.Flag.AT
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern
@@ -9,7 +10,7 @@ import java.util.regex.Pattern
 object ShowAdmin : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		val adminUid = groupConfig.admin
-		val builder = StringBuilder(AT(message) + " 目前管理员有：\n")
+		val builder = StringBuilder("${AT(message)} ${LANG.getString("group.show_admin.reply")}\n")
 		for (uid in adminUid) {
 			val card = CURRENT_SERVLET.getGroupSenderNickname(message.groupUid, uid)
 			if (!card.isEmpty())
@@ -20,8 +21,8 @@ object ShowAdmin : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("(whoisadmin|谁是管理员)", "显示管理员列表"),
-					Pattern.compile("(whoisadmin|谁是管理员)")
+					Pair("whoisadmin", LANG.getString("group.show_admin.help")),
+					Pattern.compile("whoisadmin")
 			)
 
 	override fun instance(): GroupMessageResponder = this

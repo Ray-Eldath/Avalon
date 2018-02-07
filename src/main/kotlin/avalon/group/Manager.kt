@@ -3,6 +3,7 @@ package avalon.group
 import avalon.api.Flag.AT
 import avalon.tool.pool.APISurvivePool
 import avalon.tool.pool.Constants
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import org.slf4j.LoggerFactory
@@ -17,13 +18,14 @@ object Manager : GroupMessageResponder() {
 		val sender = message.senderNickName
 		val senderUid = message.senderUid
 
+		val incorrect = "${AT(message)} ${LANG.getString("group.manager.incorrect_e")}"
 		if (" " !in content) {
-			message.response("${AT(message)} 您的指示格式不对辣！（｀Δ´）！请注意在API触发语句后是否缺少空格~")
+			message.response(incorrect)
 			return
 		}
 		val split = content.toLowerCase().split(" ")
 		if (split.size <= 3) {
-			message.response("${AT(message)} 您的指示格式不对辣！（｀Δ´）！请注意在API触发语句后是否缺少空格~")
+			message.response(incorrect)
 			return
 		}
 		val action = split[2]
@@ -36,34 +38,34 @@ object Manager : GroupMessageResponder() {
 		if (thisAPI == null) {
 			thisAPI = GroupMessageHandler.getGroupResponderByKeywordRegex(apiName + " ")
 			if (thisAPI == null) {
-				message.response("${AT(message)} 您要操作的指令响应器根本不存在！注意：Manager识别不含指令前缀的指令且暂不支持操作由插件载入的响应器 (╯︵╰,)")
+				message.response("${AT(message)} ${LANG.getString("group.manager.not_exist")}")
 				return
 			}
 		}
 
 		if (!thisAPI.responderInfo().manageable) {
-			message.response("${AT(message)} 您要操作的指令响应器不能被禁止！(´Д` )")
+			message.response("${AT(message)} ${LANG.getString("group.manager.can_not_stop")}")
 			return
 		}
 
 		when (action) {
 			"start" -> {
 				APISurvivePool.getInstance().setAPISurvive(thisAPI, true)
-				message.response("${AT(message)} 您要重启的指令响应器将会重启`(*∩_∩*)′")
+				message.response("${AT(message)} ${LANG.getString("group.manager.start")}")
 				Manager.logger.info("GroupMessageResponder ${thisAPI.javaClass.simpleName} is reopened by $senderUid  : $sender.")
 			}
 			"stop" -> {
 				APISurvivePool.getInstance().setAPISurvive(thisAPI, false)
-				message.response("${AT(message)} 您要关闭的指令响应器将会关闭~=-=")
+				message.response("${AT(message)} ${LANG.getString("group.manager.stop")}")
 				Manager.logger.info("GroupMessageResponder ${thisAPI.javaClass.simpleName} is closed by $senderUid : $sender.")
 			}
-			else -> message.response("${AT(message)} 您的指示格式不对辣！（｀Δ´）！")
+			else -> message.response("${AT(message)} ${LANG.getString("group.manager.incorrect")}")
 		}
 	}
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("manager (start|stop) <指令响应器触发语句（不含指令前缀）>", "打开或关闭指定的指令响应器"),
+					Pair("manager (start|stop) ${LANG.getString("group.manager.help.first")}", LANG.getString("group.manager.help.second")),
 					Pattern.compile("manager (start|stop) "),
 					manageable = false,
 					permission = ResponderPermission.ADMIN

@@ -1,5 +1,6 @@
 package avalon.group
 
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import org.slf4j.LoggerFactory
@@ -14,7 +15,7 @@ object Shutdown : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("(shutdown|exit)", "退出Avalon"),
+					Pair("(shutdown|exit)", LANG.getString("group.shutdown.help")),
 					Pattern.compile("(shutdown|exit)"),
 					permission = ResponderPermission.OWNER,
 					manageable = false

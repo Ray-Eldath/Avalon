@@ -2,6 +2,7 @@ package avalon.group
 
 import avalon.api.Flag.AT
 import avalon.tool.XiaoIceResponder
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import org.apache.commons.lang3.StringUtils
@@ -20,14 +21,14 @@ object AnswerMe : GroupMessageResponder() {
 		val regex = responderInfo().keyWordRegex
 		text = text.replace(regex.toRegex(), "")
 		if ("" == text.replace(" ", "")) {
-			message.response(AT(message) + " 消息不能为空哦~(*∩_∩*)")
+			message.response("${AT(message)} ${LANG.getString("group.answer_me.empty_content")}")
 			return
 		}
 		if (StringUtils.isAlpha(text)) if (text.length < 5) {
-			message.response(AT(message) + " 您的消息过短~o(╯□╰)o！")
+			message.response("${AT(message)} ${LANG.getString("group.answer_me.short_content")}")
 			return
 		} else if (text.length < 3) {
-			message.response(AT(message) + " 您的消息过短~o(╯□╰)o！")
+			message.response(AT(message) + " ")
 			return
 		}
 		content = content.replace(regex.toRegex(), "")
@@ -37,7 +38,7 @@ object AnswerMe : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("answer me|阿瓦隆回答我", "智能回复"),
+					Pair("answer me", LANG.getString("group.answer_me.help")),
 					Pattern.compile("answer me")
 			)
 

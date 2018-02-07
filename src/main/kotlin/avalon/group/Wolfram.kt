@@ -1,7 +1,8 @@
 package avalon.group
 
-import avalon.api.Flag
+import avalon.api.Flag.AT
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.tool.system.Configs
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
@@ -21,21 +22,25 @@ object Wolfram : GroupMessageResponder() {
 
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		val content = message.content
-		val question = content.replace("avalon tell me ", "")
-		val url = "http://api.wolframalpha.com/v2/query?input=" + UrlEncoded.encodeString(question) + "&appid=" +
-				Configs.getResponderConfig("Wolfram", "app_id")
+		val split = content.split(" ")
+		val question = split.subList(3, split.size).joinToString(separator = " ") // avalon tell me what is the ...
+		val url = "http://api.wolframalpha.com/v2/query?input=" + UrlEncoded.encodeString(question) +
+				"&appid=" + Configs.getResponderConfig("Wolfram", "app_id")
 		if (message.content.matches(Regex("avalon tell me [\\u4e00-\\u9fa5]"))) {
-			message.response("${Flag.AT(message)} 不支持中文输入~ o(╯□╰)o")
+			message.response("${AT(message)} ${LANG.getString("group.wolfram.chinese_unsupported")}")
 			return
 		}
-		message.response(avalon.api.Flag.AT(message) + " 由于消息长度过长，将会将结果私聊给您。请等待网络延迟！^_^#")
+		message.response("${AT(message)} ${LANG.getString("group.wolfram.sent_privately")}")
 		try {
 			val builder = SAXBuilder()
 			val pods = WolframXMLParser.get(builder.build(URL(url).openStream().reader(StandardCharsets.UTF_8)).rootElement)
 			val builder1 = StringBuilder()
 			pods.filterNot { it.empty() }
 					.forEach { builder1.append(it.title).append("\n").append("---\n").append(it.plaintext) }
-			builder1.append("\n\n详见：http://www.wolframalpha.com/input?i=").append(UrlEncoded.encodeString(question))
+			builder1.append("\n\n")
+					.append(LANG.getString("base.detail"))
+					.append("http://www.wolframalpha.com/input?i=")
+					.append(UrlEncoded.encodeString(question))
 			CURRENT_SERVLET.responsePrivate(message.senderUid, builder1.toString())
 		} catch (e: JDOMException) {
 			LOGGER.error("exception thrown while parse XML from $url $e")

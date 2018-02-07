@@ -5,13 +5,18 @@ import avalon.group.GroupMessageHandler
 import avalon.group.GroupMessageResponder
 import avalon.tool.pool.APISurvivePool
 import avalon.util.Plugin
+import java.util.*
 
 object RegisterResponder {
 	@JvmStatic
 	private val map = hashMapOf<Plugin, ArrayList<CustomGroupResponder>>() // 存储每个Plugin持有的CustomGroupResponder
 
+	@Suppress("MemberVisibilityCanBePrivate")
 	@JvmStatic
 	fun register(responder: GroupMessageResponder) {
+		val locale = responder.responderInfo().availableLocale
+		if (locale != Locale.ROOT && locale != Locale.getDefault())
+			return
 		GroupMessageHandler.addGroupMessageResponder(responder)
 		APISurvivePool.getInstance().addAPI(responder)
 	}

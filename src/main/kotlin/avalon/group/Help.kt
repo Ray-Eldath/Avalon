@@ -3,6 +3,7 @@ package avalon.group
 import avalon.api.RegisterResponder
 import avalon.tool.pool.AvalonPluginPool
 import avalon.tool.pool.Constants
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern
@@ -16,19 +17,23 @@ object Help : GroupMessageResponder() {
 		if (Constants.Basic.DEFAULT_PREFIX.size > 1)
 			prefixString = "($prefixString)"
 
+		val disabled = LANG.getString("group.help.disabled")
+		val admin = LANG.getString("group.help.admin")
+		val owner = LANG.getString("group.help.owner")
+
 		@Suppress("LoopToCallChain")
 		for (api in apiTriple.map { it.instance }.sortedBy { it.responderInfo().helpMessage.first }) {
 			val flags = ArrayList<String>()
 			if (!GroupMessageHandler.isResponderEnable(api))
-				flags.add("<已禁用>")
+				flags.add(disabled)
 			val info = api.responderInfo()
 			val helpMessage = info.helpMessage
 			if (helpMessage.first.isEmpty() || helpMessage.second.isEmpty())
 				continue
 			if (info.permission == ResponderPermission.ADMIN)
-				flags.add("<管理员>")
+				flags.add(admin)
 			else if (info.permission == ResponderPermission.OWNER)
-				flags.add("<所有者>")
+				flags.add(owner)
 			messageShow.append("\n$prefixString")
 					.append(helpMessage.first)
 					.append("：")
@@ -36,12 +41,13 @@ object Help : GroupMessageResponder() {
 					.append(helpMessage.second)
 		}
 		for (thisPlugin in AvalonPluginPool.getPluginList()) {
-			messageShow.append("以下指令由插件 ").append(thisPlugin.name()).append(" 提供：")
+			messageShow.append(LANG.getString("group.help.plugin_command").format(thisPlugin.name()))
 			RegisterResponder.queryAvalonPlugin(thisPlugin).forEach { e -> messageShow.append("\n").append(e.getHelpMessage()) }
 		}
-		val displayPrefix = Constants.Basic.DEFAULT_PREFIX.joinToString(separator = "或").replace(" ", "")
-		"""This is Avalon. 以下是我的帮助资料：
-<关键词>：<触发的作用效果>，所有关键词均忽略大小写并且以给定前缀`$displayPrefix`开头$messageShow
+		val displayPrefix = Constants.Basic.DEFAULT_PREFIX
+				.joinToString(separator = LANG.getString("base.or"))
+				.replace(" ", "")
+		"""${LANG.getString("group.help.reply").format(displayPrefix)}$messageShow
 For Avalon Version v${Constants.Version.AVALON}"""
 		// "\n（我才不会告诉你我有一些没有写在这里的彩蛋指令呢~哈哈`(*∩_∩*)′）");
 	}
@@ -52,8 +58,8 @@ For Avalon Version v${Constants.Version.AVALON}"""
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("(help|帮助)", "显示本内容"),
-					Pattern.compile("help|帮助"),
+					Pair("help", LANG.getString("group.help.help")),
+					Pattern.compile("help"),
 					manageable = false
 			)
 

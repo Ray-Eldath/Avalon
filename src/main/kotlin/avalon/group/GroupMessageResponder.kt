@@ -4,6 +4,7 @@ import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
+import java.util.*
 import java.util.regex.Pattern
 
 abstract class GroupMessageResponder {
@@ -37,4 +38,5 @@ class ResponderInfo(val helpMessage: Pair<String, String>,
                     val keyWordRegex: Pattern,
                     val configIdentifier: Array<String>? = null,
                     val manageable: Boolean = true,
-                    val permission: ResponderPermission = ResponderPermission.ALL)
+                    val permission: ResponderPermission = ResponderPermission.ALL,
+                    val availableLocale: Locale = Locale.ROOT)

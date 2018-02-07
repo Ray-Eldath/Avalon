@@ -4,6 +4,7 @@ import avalon.api.Flag.AT
 import avalon.api.getAllowArray
 import avalon.tool.pool.Constants
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import org.slf4j.LoggerFactory
@@ -33,33 +34,33 @@ object Blacklist : GroupMessageResponder() {
 					if (Constants.Basic.DEBUG)
 						message.response(map.keys.joinToString())
 					if (map.isEmpty())
-						message.response("${AT(message)} 管理员：屏蔽列表为空~●▽●")
+						message.response("${AT(message)} ${LANG.getString("group.blacklist.empty_banned_list")}")
 					else {
 						val to = map.keys.joinToString { CURRENT_SERVLET.getGroupSenderNickname(groupUid, it) }
-						message.response("${AT(message)} 管理员：屏蔽列表中有：\n$to")
+						message.response("${AT(message)} ${LANG.getString("group.blacklist.banned_list_has")}\n$to")
 					}
 				}
 				"add" -> {
-					message.response("${AT(message)} 管理员：帐号 $toBan 现已被屏蔽⊙﹏⊙")
+					message.response("${AT(message)} ${String.format(LANG.getString("group.blacklist.account_now_banned"), toBan)}")
 					Blacklist.logger.info("account $toBan is baned by $senderUid : $sender.")
 					GroupMessageHandler.addBlackListPeople(toBan, max)
 				}
 				"remove" -> {
 					if (!map.containsKey(toBan))
-						message.response("${AT(message)} 管理员：好像帐号 $toBan 没有被屏蔽过呢-。-")
+						message.response("${AT(message)} ${String.format(LANG.getString("group.blacklist.account_not_banned"), toBan)}")
 					else {
-						message.response("${AT(message)} 管理员：帐号 $toBan 的屏蔽已被解除(^.^)")
+						message.response("${AT(message)} ${String.format(LANG.getString("group.blacklist.account_now_released"), toBan)}")
 						Blacklist.logger.info("account $toBan is allowed again by $senderUid : $sender.")
 						GroupMessageHandler.addBlackListPeople(toBan, 0)
 					}
 				}
-				else -> message.response("${AT(message)} 管理员：您的指示格式不对呢！（｀Δ´）！")
+				else -> message.response("${AT(message)} ${LANG.getString("group.blacklist.incorrect")}")
 			}
 		}
 	}
 
 	override fun responderInfo(): ResponderInfo = ResponderInfo(
-			Pair("blacklist (list|add|remove)", "查看黑名单；将指定的QQ号添加至黑名单或从黑名单移除"),
+			Pair("blacklist (list|add|remove)", LANG.getString("group.blacklist.help")),
 			Pattern.compile("blacklist (list|add|remove)"),
 			configIdentifier = arrayOf("Blacklist_basic"),
 			manageable = false,

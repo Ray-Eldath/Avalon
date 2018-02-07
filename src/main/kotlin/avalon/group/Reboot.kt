@@ -2,13 +2,14 @@ package avalon.group
 
 import avalon.tool.pool.Constants.Basic.CURRENT_PATH
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import java.util.regex.Pattern
 
 object Reboot : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
-		message.response("正在重启...请等待至少10s后使用`avalon version`查看重启是否成功")
+		message.response(LANG.getString("group.reboot.reply"))
 
 		CURRENT_SERVLET.reboot()
 
@@ -21,7 +22,7 @@ object Reboot : GroupMessageResponder() {
 				}
 
 		if (cmd == null) {
-			message.response("操作失败：不支持的操作系统（话说你咋启动Avalon的？")
+			message.response(LANG.getString("group.reboot.unsupported_os"))
 			return
 		}
 
@@ -37,7 +38,7 @@ object Reboot : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("reboot", "重启Avalon和后端程序。将造成服务中断。"),
+					Pair("reboot", LANG.getString("group.reboot.help")),
 					Pattern.compile("reboot"),
 					permission = ResponderPermission.OWNER,
 					manageable = false
