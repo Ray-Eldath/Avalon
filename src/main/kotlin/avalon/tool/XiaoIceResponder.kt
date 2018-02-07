@@ -1,15 +1,12 @@
 package avalon.tool
 
-import avalon.tool.pool.Constants
 import avalon.tool.system.Configs
-import avalon.util.backend.CoolQBackend
 import org.eclipse.jetty.util.UrlEncoded
 import org.json.JSONObject
 import org.json.JSONTokener
 import java.io.IOException
 import java.net.URL
 import java.nio.charset.Charset
-import java.nio.file.Path
 import java.util.logging.Logger
 
 /**
@@ -38,18 +35,5 @@ object XiaoIceResponder {
 			return null
 		}
 
-	}
-
-	/**
-	 * @param groupUid 目的QQ群号
-	 * @param message  消息文本，用`[Avalon:image]`表示图像
-	 * @param image    图像文件
-	 */
-	@Deprecated("酷Q air不支持")
-	fun respondGroupWithImage(groupUid: Long, message: String, image: Path) {
-		if (Constants.Basic.CURRENT_SERVLET !is CoolQBackend)
-			throw UnsupportedOperationException("only CooQServlet can handle image")
-		val cq = "[CQ:image,file=file://$image]"
-		Constants.Basic.CURRENT_SERVLET.responseGroup(groupUid, message.replace("[Avalon:image]", cq))
 	}
 }

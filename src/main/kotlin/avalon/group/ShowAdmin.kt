@@ -10,13 +10,15 @@ import java.util.regex.Pattern
 object ShowAdmin : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		val adminUid = groupConfig.admin
-		val builder = StringBuilder("${AT(message)} ${LANG.getString("group.show_admin.reply")}\n")
+		val builder = StringBuilder()
 		for (uid in adminUid) {
 			val card = CURRENT_SERVLET.getGroupSenderNickname(message.groupUid, uid)
 			if (!card.isEmpty())
 				builder.append(card).append(" - ").append(uid).append(", ")
 		}
-		message.response(builder.toString().substring(0, builder.length - 2))
+		val toDisplay = LANG.getString("group.show_admin.reply")
+				.format("\n" + builder.toString().substring(0, builder.length - 2))
+		message.response("${AT(message)} $toDisplay")
 	}
 
 	override fun responderInfo(): ResponderInfo =

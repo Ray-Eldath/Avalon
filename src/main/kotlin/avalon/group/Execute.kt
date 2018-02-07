@@ -44,11 +44,16 @@ object Execute : GroupMessageResponder() {
 			return
 		}
 		val result = executive.execute(lang, codes)
+		val exitcode = result.exitcode
+		val stderr = handleOutput(result.stderr)
 		val content =
 				when (result.status) {
-					ExecutiveStatus.ERROR -> "${LANG.getString("group.execute.error")}exitcode: ${result.exitcode} stderr: ${handleOutput(result.stderr)} error: ${handleOutput(result.error)}"
-					ExecutiveStatus.STDERR -> "${LANG.getString("group.execute.stderr")}exitcode: ${result.exitcode} stderr: ${handleOutput(result.stderr)}"
-					ExecutiveStatus.OK -> "${LANG.getString("group.execute.ok")}exitcode: ${result.exitcode} stdout: ${handleOutput(result.stdout)}"
+					ExecutiveStatus.ERROR -> LANG.getString("group.execute.error")
+							.format("exitcode: $exitcode} stderr: $stderr error: ${handleOutput(result.error)}")
+					ExecutiveStatus.STDERR -> LANG.getString("group.execute.stderr")
+							.format("exitcode: $exitcode stderr: $stderr")
+					ExecutiveStatus.OK -> LANG.getString("group.execute.ok")
+							.format("exitcode: $exitcode stdout: ${handleOutput(result.stdout)}")
 				}
 		message.response("${Flag.AT(message)} $content")
 	}

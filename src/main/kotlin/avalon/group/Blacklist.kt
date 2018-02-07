@@ -37,7 +37,7 @@ object Blacklist : GroupMessageResponder() {
 						message.response("${AT(message)} ${LANG.getString("group.blacklist.empty_banned_list")}")
 					else {
 						val to = map.keys.joinToString { CURRENT_SERVLET.getGroupSenderNickname(groupUid, it) }
-						message.response("${AT(message)} ${LANG.getString("group.blacklist.banned_list_has")}\n$to")
+						message.response("${AT(message)} ${LANG.getString("group.blacklist.banned_list_has").format(to)}")
 					}
 				}
 				"add" -> {

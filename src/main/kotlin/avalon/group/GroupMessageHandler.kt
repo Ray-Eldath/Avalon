@@ -217,12 +217,15 @@ object GroupMessageHandler {
 		val disable = toStringArray(`object`.getJSONArray("disable").toList().toTypedArray())
 
 
-		for (thisDisable in disable)
-			enableMap[selectByName(apiTriples, thisDisable)!!] = false
+		for (thisDisable in disable) {
+			enableMap[selectByName(apiTriples, thisDisable) ?: continue] = false
+		}
 
-		enable.map { selectByName(apiTriples, it) }
-				.filterNot { enableMap.containsKey(it) }
-				.forEach { enableMap[it!!] = true }
+		for (thisEnable in enable
+				.map { selectByName(apiTriples, it) }
+				.filterNot { enableMap.containsKey(it) }) {
+			enableMap[thisEnable ?: continue] = true
+		}
 
 		apiTriples.map { it.instance }
 				.filterNot { enableMap.containsKey(it) }

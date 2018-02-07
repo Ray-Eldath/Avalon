@@ -38,9 +38,8 @@ object Wolfram : GroupMessageResponder() {
 			pods.filterNot { it.empty() }
 					.forEach { builder1.append(it.title).append("\n").append("---\n").append(it.plaintext) }
 			builder1.append("\n\n")
-					.append(LANG.getString("base.detail"))
-					.append("http://www.wolframalpha.com/input?i=")
-					.append(UrlEncoded.encodeString(question))
+					.append(LANG.getString("base.detail")
+							.format("http://www.wolframalpha.com/input?i=${UrlEncoded.encodeString(question)}"))
 			CURRENT_SERVLET.responsePrivate(message.senderUid, builder1.toString())
 		} catch (e: JDOMException) {
 			LOGGER.error("exception thrown while parse XML from $url $e")

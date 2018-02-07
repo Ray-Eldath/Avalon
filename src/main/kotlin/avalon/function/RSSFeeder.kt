@@ -1,6 +1,7 @@
 package avalon.function
 
 import avalon.tool.pool.Constants
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.tool.system.Configs
 import avalon.tool.system.GroupConfigs
 import org.apache.commons.lang3.builder.EqualsBuilder
@@ -37,9 +38,12 @@ object RSSFeeder : Runnable {
 		update()?.let { newest ->
 			GroupConfigs.instance().followGroups.forEach { groupUid ->
 				Constants.Basic.CURRENT_SERVLET.responseGroup(groupUid,
-						"""订阅的RSS ${newest.info.title} - ${newest.info.description} 有更新：
-${newest.title}
-发布时间：${newest.pubDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))} 详见：${newest.link}""")
+						LANG.getString("function.rss_feeder.update").format(
+								newest.info.title,
+								newest.info.description,
+								newest.title,
+								newest.pubDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)),
+								newest.link))
 			}
 		}
 	}

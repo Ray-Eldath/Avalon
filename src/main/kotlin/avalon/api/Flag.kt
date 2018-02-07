@@ -16,8 +16,9 @@ object Flag {
 
 	@JvmStatic
 	fun AT(userUid: Long) =
-			if (CURRENT_SERVLET is CoolQBackend)
-				"[CQ:at,qq=$userUid]"
-			else
-				"@$userUid"
+			when (CURRENT_SERVLET) {
+				is CoolQBackend -> "[CQ:at,qq=$userUid]"
+				DiscordBackend -> DiscordBackend.jda.getUserById(userUid).asMention
+				else -> "@$userUid"
+			}
 }

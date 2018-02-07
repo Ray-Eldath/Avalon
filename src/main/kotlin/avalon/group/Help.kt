@@ -41,8 +41,9 @@ object Help : GroupMessageResponder() {
 					.append(helpMessage.second)
 		}
 		for (thisPlugin in AvalonPluginPool.getPluginList()) {
-			messageShow.append(LANG.getString("group.help.plugin_command").format(thisPlugin.name()))
-			RegisterResponder.queryAvalonPlugin(thisPlugin).forEach { e -> messageShow.append("\n").append(e.getHelpMessage()) }
+			val temp = RegisterResponder.queryAvalonPlugin(thisPlugin)
+					.forEach { e -> messageShow.append("\n").append(e.getHelpMessage()) }
+			messageShow.append(LANG.getString("group.help.plugin_command").format(thisPlugin.name(), temp))
 		}
 		val displayPrefix = Constants.Basic.DEFAULT_PREFIX
 				.joinToString(separator = LANG.getString("base.or"))

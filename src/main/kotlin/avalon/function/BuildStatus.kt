@@ -4,6 +4,7 @@ import avalon.main.MainServer
 import avalon.tool.ObjectCaster
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
 import avalon.tool.pool.Constants.Basic.DEBUG
+import avalon.tool.pool.Constants.Basic.LANG
 import avalon.tool.system.Configs
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
@@ -60,7 +61,7 @@ object BuildStatus : Runnable {
 				stringList.add("${it.first}: ${it.second.buildStatus.name} -> ${it.third.buildStatus.name} at ${it.third.website}")
 			}
 			CURRENT_SERVLET.responseGroup(thisGroup,
-					"BuildStatus更新：$name\n${stringList.joinToString(separator = "\n")}")
+					"${LANG.getString("function.build_status.update").format(name)}\n${stringList.joinToString(separator = "\n")}")
 		}
 	}
 

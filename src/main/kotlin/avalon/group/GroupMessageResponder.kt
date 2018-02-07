@@ -39,4 +39,6 @@ class ResponderInfo(val helpMessage: Pair<String, String>,
                     val configIdentifier: Array<String>? = null,
                     val manageable: Boolean = true,
                     val permission: ResponderPermission = ResponderPermission.ALL,
-                    val availableLocale: Locale = Locale.ROOT)
+                    vararg val availableLocale: Locale = defaultAvailableLocale)
+
+val defaultAvailableLocale = arrayOf(Locale.ROOT)

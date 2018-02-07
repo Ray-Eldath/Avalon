@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.io.InputStream
 import java.net.InetSocketAddress
+import java.util.*
 import java.util.concurrent.ScheduledThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
@@ -101,7 +102,7 @@ object MainServer {
 				for (thisFollowGroup in followGroup) {
 					var str = LANG.getString("base.welcome")
 					val config = Configs.getResponderConfig("Hitokoto", "push_when_start")
-					if (config != null && config as Boolean)
+					if (Locale.getDefault() == Locale.SIMPLIFIED_CHINESE && config != null && config as Boolean)
 						str += "\n\n${Hitokoto.Hitokotor.get()}"
 					CURRENT_SERVLET.responseGroup(thisFollowGroup, str)
 				}

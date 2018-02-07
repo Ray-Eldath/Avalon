@@ -6,6 +6,7 @@ import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
 import org.apache.commons.lang3.StringUtils
+import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -39,7 +40,8 @@ object AnswerMe : GroupMessageResponder() {
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
 					Pair("answer me", LANG.getString("group.answer_me.help")),
-					Pattern.compile("answer me")
+					Pattern.compile("answer me"),
+					availableLocale = *arrayOf(Locale.SIMPLIFIED_CHINESE)
 			)
 
 	override fun instance() = this

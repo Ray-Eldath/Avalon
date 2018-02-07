@@ -20,7 +20,7 @@ object Hitokoto : GroupMessageResponder() {
 			ResponderInfo(
 					Pair("(hitokoto|一言)", "获取一条一言。"),
 					Pattern.compile("(hitokoto|一言)"),
-					availableLocale = Locale.SIMPLIFIED_CHINESE
+					availableLocale = *arrayOf(Locale.SIMPLIFIED_CHINESE)
 			)
 
 	override fun instance() = this

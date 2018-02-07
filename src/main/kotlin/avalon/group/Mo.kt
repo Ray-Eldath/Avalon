@@ -41,7 +41,7 @@ object Mo : GroupMessageResponder() {
 			ResponderInfo(
 					Pair("膜*关键词", "随机触发膜*语句"),
 					Pattern.compile("\\w?(\\+1s|-1s|膜蛤|苟|续命|州长夫人|naive|江化)\\w?"),
-					availableLocale = Locale.CHINESE
+					availableLocale = *arrayOf(Locale.SIMPLIFIED_CHINESE, Locale.CHINESE)
 			)
 
 	override fun instance() = this
