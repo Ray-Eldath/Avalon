@@ -17,9 +17,10 @@ build/
 logs/
 out/
 /.idea/
-/res/record.db
+/res/record.h2.mv.db
+/res/record.sqlite.db
 /config.json
 /group.json
-/data/data.json
+/data/data.mv.db
 log/
 src/test/kotlin/avalon/Experiment.kt

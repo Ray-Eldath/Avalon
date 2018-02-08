@@ -3,10 +3,12 @@ package avalon.tool.database;
 import avalon.tool.system.Configs;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
@@ -20,6 +22,7 @@ public class MySQLDatabaseOperator implements DatabaseOperator {
 
 	private static MySQLDatabaseOperator instance = new MySQLDatabaseOperator();
 
+	@NotNull
 	public static MySQLDatabaseOperator getInstance() {
 		return instance;
 	}
@@ -43,7 +46,12 @@ public class MySQLDatabaseOperator implements DatabaseOperator {
 		}
 	}
 
+	@NotNull
 	@Override
+	public Statement statement() {
+		return statement;
+	}
+
 	public boolean initDB() {
 		throw new UnsupportedOperationException("未知原因导致一直报SQL格式不对，但我使用mysql命令行工具却未发现任何问题。暂无法解决。");
 //        try {
@@ -68,26 +76,36 @@ public class MySQLDatabaseOperator implements DatabaseOperator {
 	}
 
 	@Override
-	public boolean exist(Table table, String condition) {
+	public boolean exist(@NotNull Table table, @NotNull String condition) {
 		return operator.exist(statement, table, condition);
 	}
 
 	@Override
-	public boolean addQuote(int hashCode, String speaker, String content) {
+	public int count(@NotNull Table table) {
+		return operator.count(statement, table);
+	}
+
+	@Override
+	public boolean addQuote(int hashCode, @NotNull String speaker, @NotNull String content) {
 		return operator.addQuote(hashCode, speaker, content);
 	}
 
 	@Override
-	public boolean add(GroupMessage input) {
+	public boolean add(@NotNull GroupMessage input) {
 		return operator.add(input);
 	}
 
 	@Override
-	public boolean add(FriendMessage input) {
+	public boolean add(@NotNull FriendMessage input) {
 		return operator.add(input);
 	}
 
 	@Override
 	public void close() {
+		try {
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

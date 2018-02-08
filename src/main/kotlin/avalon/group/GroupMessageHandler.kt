@@ -20,7 +20,6 @@ import avalon.tool.pool.Variables.Cooling_Not_Notice_Times
 import avalon.tool.pool.Variables.Cooling_Noticed
 import avalon.tool.system.Configs
 import avalon.tool.system.GroupConfigs
-import avalon.tool.system.RunningData
 import avalon.util.ConfigurationError
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
@@ -242,8 +241,6 @@ object GroupMessageHandler {
 	fun main(args: Array<String>) {
 		System.setProperty("file.encoding", "UTF-8")
 		Runtime.getRuntime().addShutdownHook(MainServer.ShutdownHook())
-
-		RunningData.getInstance()
 
 		AvalonPluginPool.load()
 

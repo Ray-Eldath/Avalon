@@ -36,7 +36,7 @@ object MainServer {
 			logger.info("Catch INT signal, Bye!")
 			println("If you have some problems you CAN NOT SOLVE, please visit `https://github.com/Ray-Eldath/Avalon/issues` or contact with Ray-Eldath<ray-eldath@aol.com>.")
 			Recorder.getInstance().flushNow()
-			RunningData.getInstance().save()
+			RunningData.save()
 			//
 			for (thisFollowFollow in followGroup)
 				CURRENT_SERVLET.responseGroup(thisFollowFollow, "服务已经停止。")
@@ -58,7 +58,6 @@ object MainServer {
 			Runtime.getRuntime().halt(-2)
 		}
 
-		RunningData.getInstance()
 		AvalonPluginPool.load()
 
 		// 线程池

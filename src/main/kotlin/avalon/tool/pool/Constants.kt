@@ -2,6 +2,7 @@ package avalon.tool.pool
 
 import avalon.friend.FriendMessageHandler
 import avalon.group.GroupMessageHandler
+import avalon.tool.database.H2DatabaseOperator
 import avalon.tool.database.MySQLDatabaseOperator
 import avalon.tool.database.SQLiteDatabaseOperator
 import avalon.tool.system.Configs
@@ -23,12 +24,13 @@ import java.util.function.Consumer
 object Constants {
 
 	object Database {
-		val DATASOURCE = Configs.Companion.instance().getJSONObject("database").getString("datasource").toLowerCase()
+		private val datasource = Configs.Companion.instance().getJSONObject("database").getString("datasource").toLowerCase()
 		val CURRENT_DATABASE_OPERATOR =
-				(if ("mysql" == DATASOURCE)
-					MySQLDatabaseOperator.getInstance()
-				else
-					SQLiteDatabaseOperator.getInstance())!!
+				when (datasource) {
+					"sqlite" -> SQLiteDatabaseOperator.getInstance()
+					"mysql" -> MySQLDatabaseOperator.getInstance()
+					else -> H2DatabaseOperator
+				}
 	}
 
 	object Address {
