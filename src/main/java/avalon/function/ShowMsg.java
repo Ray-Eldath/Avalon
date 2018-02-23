@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 import static avalon.function.Scheduler.scheduleTask;
 
@@ -24,6 +25,8 @@ public class ShowMsg {
 	private static final LocalDateTime now = LocalDateTime.now();
 
 	public ShowMsg() {
+		if (Locale.getDefault() != Locale.SIMPLIFIED_CHINESE)
+			return;
 		try (FileReader reader = new FileReader("ShowMsg.json")) {
 			JSONObject object = (JSONObject) new JSONTokener(reader).nextValue();
 			JSONArray names = object.names();

@@ -1,82 +1,92 @@
 # Avalon v1.2.2    [![GNU Affero General Public License, version 3](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl.html) [![GitHub stars](https://img.shields.io/github/stars/Ray-Eldath/Avalon.svg?style=social&label=Stars)](https://github.com/Ray-Eldath/Avalon/stargazers) [![GitHub followers](https://img.shields.io/github/followers/Ray-Eldath.svg?style=social&label=Follow)](https://github.com/Ray-Eldath)
 
-[![Build Status](https://img.shields.io/travis/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://travis-ci.org/Ray-Eldath/Avalon) [![Build status](https://img.shields.io/appveyor/ci/RayEldath/avalon/master.svg?style=flat-square)](https://ci.appveyor.com/project/RayEldath/avalon/branch/master) [![Codeship Status for Ray-Eldath/Avalon](https://img.shields.io/codeship/28b37980-8a1d-0135-1242-62d9615dc8b0/master.svg?style=flat-square)](https://app.codeship.com/projects/248940) [![CircleCI](https://img.shields.io/circleci/project/github/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master) [![](https://jitpack.io/v/Ray-Eldath/Avalon.svg?style=flat-square)](https://jitpack.io/#Ray-Eldath/Avalon) [![Known Vulnerabilities](https://snyk.io/test/github/ray-eldath/avalon/badge.svg?style=flat-square)](https://snyk.io/test/github/ray-eldath/avalon) [![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-ProgramLeague-blue.svg?style=flat-square)](https://jq.qq.com/?_wv=1027&k=46GveNI)
+[![Build Status](https://img.shields.io/travis/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://travis-ci.org/Ray-Eldath/Avalon) [![Build status](https://img.shields.io/appveyor/ci/RayEldath/avalon/master.svg?style=flat-square)](https://ci.appveyor.com/project/RayEldath/avalon/branch/master) [![Codeship Status for Ray-Eldath/Avalon](https://img.shields.io/codeship/28b37980-8a1d-0135-1242-62d9615dc8b0/master.svg?style=flat-square)](https://app.codeship.com/projects/248940) [![CircleCI](https://img.shields.io/circleci/project/github/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master) [![](https://jitpack.io/v/Ray-Eldath/Avalon.svg?style=flat-square)](https://jitpack.io/#Ray-Eldath/Avalon) [![Known Vulnerabilities](https://snyk.io/test/github/ray-eldath/avalon/badge.svg?style=flat-square)](https://snyk.io/test/github/ray-eldath/avalon) 
 
-**Avalon是一个可扩展的多功能QQ群机器人。**
+[中文（简体）](https://github.com/Ray-Eldath/Avalon/blob/master/README.zh_CN.md)
 
-QQ API基于[CoolQ-HTTP-API](https://github.com/richardchien/coolq-http-api)。Discord API基于[JDA](https://github.com/DV8FromTheWorld/JDA/)。与微软小冰的对接基于[Mojo-Weixin](https://github.com/sjdy521/Mojo-Weixin)。
+**Avalon is a scalable multi-function group robot for QQ and Discord.**
 
-## 功能
-### 简介
- - **自然语言问答：** Avalon已对接[Wolfram Alpha](https://www.wolframalpha.com)提供“自然语言问答”服务。您可以在配置完Wolfram插件后通过指令`avalon tell me `使用它
- - **每日一句：** Avalon已对接[一言](http://hitokoto.cn)提供“每日一句”服务。您可以配置Avalon每次启动时推送“每日一句”或使用指令`avalon hitokoto`
- - **智能回复：** Avalon已通过[Mojo-Weixin](https://github.com/sjdy521/Mojo-Weixin)对接[微软小冰](http://www.msxiaoice.com)提供智能回复功能，您可以通过`avalon answer me`指令使用它
- - **代码片段执行：** Avalon允许您使用`avalon execute`指令在线执行代码
- - **RSS订阅推送：** 当您在Avalon的配置文件中设置RSS插件为启用状态并添加订阅源后，Avalon将自动推送订阅源的更新
- - **扩展功能：** Avalon允许通过MessageHook、插件及源代码修改方式自行扩展
+The support for QQ is based on [CoolQ-HTTP-API](https://github.com/richardchien/coolq-http-api), and the support for Discord is based on [JDA](https://github.com/DV8FromTheWorld/JDA/). The connection with Microsoft XiaoIce is based on Mojo-Weixin *(may not works except in China)*.
+
+## Functions
+
+> **Note:** Because Avalon is designed for QQ (an IM most of which users are Chinese) initially, and therefore some commands and functions are *only* available in nations and areas using Chinese.
+
+### Introduction
+
+- **Natural language question answering: ** Avalon has been docked to Wolfram Alpha in order to provide natural language question answering service. You could use it by command `avalon tell me`.
+- **Message record and quote: ** If configured correctly, Avalon will record every message in group(s) into a database. You can also quote message into database annually by command `avalon quote`.
+- **Build status notification: **When the build status for specified project(s) update, Avalon will send notification. *([AppVeyor](https://ci.appveyor.com) and [TravisCI](https://travis-ci.org) supported.)*
+
+
+ - **Execute code online: **Avalon allows you to execute a piece of code by command `avalon execute`. *35+ programming languages supported*, include Java, Rust, Ruby, JavaScript, Kotlin, C++, and so on. *(served by [glot.io](https://glot.io))*
+ - **Notification sent when RSS update: **After enable RSS function and specified the URL(s), Avalon will send notification when these RSS update.
+ - **Scalable: **Avalon allows you to add new function or feature by MessageHook or Plugin.
+ - ***(Unavailable except in Chinese nations or areas)* Smart reply: **Avalon has been docked to [Microsoft XiaoIce](http://www.msxiaoice.com) to privide smart reply service (just like chat bot), you could use it by command `avalon answer me`.
+ - ***(Unavailable except in Chinese nations or areas)* Hitokoto: **Avalon has been docked to [一言](http://hitokoto.cn) to provide "hitokoto". You could config Avalon to send one when started or use command `avalon hitokoto` to get one.
  - ...
 
-### 完整指令列表
+### List of commands
 
-以下列出的指令均可在Avalon中使用特定语句触发。
+All commands listed below can be triggered by some particular command as long as has required permission.
 
-:grey_exclamation:：管理员权限指令。只有在`group.json`中被指定为管理员或拥有对应权限组权限的用户才可执行。
+:grey_exclamation:: **Admin command.** Only users specficed as admin in `group.json` and owner could execute these commands.
 
-:exclamation:：所有者权限指令。只有在`group.json`中被指定为所有者的用户才可执行。
+:exclamation:: **Owner command.** Only user specficed as owner in `group.json` could execute these commands.
 
-:white_circle:：不可管理指令。被保护的指令不可使用Manager指令管理，但**可以**在`config.json`配置文件中禁用。
+:white_circle:: **Unmanagerable command.** These command *can not* be managed by `avalon manager`, but *can* be disabled in `config.json`.
 
-:red_circle:：基础指令。这些指令不可使用Manager指令关闭，也**不可**在`config.json`配置文件中禁用。
+:red_circle:: **Basic command.** These command can *neither* be managerd by `avalon manager` *nor* disabled in `config.json`.
 
-| 名称          | 触发语句                                     | 功能描述                                     |
-| ----------- | ---------------------------------------- | ---------------------------------------- |
-| AnswerMe    | `avalon answer me OR 阿瓦隆回答我`             | 使用[微软小冰](http://www.msxiaoice.com)提供的智能回复 |
-| Blacklist   | `avalon blacklist (list OR add OR remove)` | :white_circle: :grey_exclamation: 查看黑名单；将指定的QQ号添加至黑名单或从黑名单移除 |
-| Echo        | `avalon (echo OR repeat) OR 阿瓦隆跟我说`      | 让阿瓦隆重复给定语句                               |
-| Execute     | `avalon execute <语言>{换行}<代码>`            | 执行给定代码并回显输出                              |
-| ExecuteInfo | `avalon execute info`                    | 输出代码执行器信息                                |
-| Flush       | `avalon flush`                           | :white_circle: :grey_exclamation: 刷新缓存并清除临时文件 |
-| Help        | `avalon (help OR 帮助)`                    | :red_circle: 显示帮助文本                      |
-| Hitokoto    | `avalon (hitokoto OR 一言)`                | 获取一条一言                                   |
-| Manager     | `avalon manager (start OR stop) <指令响应器触发语句>` | :white_circle: :grey_exclamation: 打开或关闭指定的指令响应器 |
-| Mo          | ` - -`                                   | 随机触发膜*语句                                 |
-| Quote       | `avalon quote <发言者> <语录内容>`              | :grey_exclamation: 记录语录到Avalon数据库。       |
-| Reboot      | `avalon reboot`                          | :white_circle: :exclamation: 重启Avalon    |
-| ShowAdmin   | `avalon (whoisadmin OR 谁是管理员)`           | 显示管理员列表                                  |
-| Shutdown    | `avalon (shutdown OR exit)`              | :white_circle: :exclamation: 退出Avalon    |
-| Version     | `avalon (version OR about OR 版本)`        | :red_circle: 显示版本及相关信息                   |
+| Name        | Trigger command                                    | Description                                                  |
+| ----------- | -------------------------------------------------- | ------------------------------------------------------------ |
+| Blacklist   | `avalon blacklist (list OR add OR remove)`         | :white_circle: :grey_exclamation: List all accounts in blacklist. Add account to blacklist or remove from it. |
+| Echo        | `avalon (echo OR repeat)`                          | Avalon will repeat the given sentence.                       |
+| Execute     | `avalon execute <LANGUAGE>{ENTER}<CODE>`           | Execute given code and echo the return or the error message. |
+| ExecuteInfo | `avalon execute info`                              | For info about code executor.                                |
+| Flush       | `avalon flush`                                     | :white_circle: :grey_exclamation: Flush caches and delete temp files. |
+| Help        | `avalon help`                                      | :red_circle: For help content.                               |
+| Manager     | `avalon manager (start OR stop) <TRIGGER COMMAND>` | :white_circle: :grey_exclamation: To start or stop particular command responder. |
+| Quote       | `avalon quote <SPEAKER> <CONTENT>`                 | :grey_exclamation: To quote message into Avalon's database.  |
+| Reboot      | `avalon reboot`                                    | :white_circle: :exclamation: Reboot Avalon.                  |
+| ShowAdmin   | `avalon whoisadmin`                                | Show list of all admins.                                     |
+| Shutdown    | `avalon (shutdown OR exit)`                        | :white_circle: :exclamation: Shutdown Avalon.                |
+| Version     | `avalon (version OR about)`                        | :red_circle: Show version and related info.                  |
 
-部分指令仅对某个版本号以上的Avalon有效。具体请见各版本RELEASE Notes。
+Some commands only available in particular version of Avalon. For more details, see RELEASE Notes for every [RELEASE](https://github.com/Ray-Eldath/Avalon/releases).
 
-### 完整扩展功能列表
+### List of extension
 
-以下扩展功能均为推送型任务，监测到状态更新会自动推送，**不能**使用语句触发。
+All following extension are push-type, they will sent message automatically when state change detected and therefore **can not** be triggered by command statements.
 
-| 名称          | 功能描述                               |
-| ----------- | ---------------------------------- |
-| BuildStatus | 推送指定项目CI的构建状态。现支持TravisCI和AppVeyor |
-| RSSFeeder   | 推送指定RSS的更新                         |
-| ShowMsg     | 每日推送“历史上的今天”（如果有）                  |
+| Name        | Description                                                  |
+| ----------- | ------------------------------------------------------------ |
+| BuildStatus | Notification will be sent when configed CI build state of given project update. [TravisCI](https://travis-ci.org) and [AppVeyor](https://ci.appveyor.com) now supported. |
+| RSSFeeder   | Message will sent when configed RSS update.                  |
 
-**若有希望增加的功能，欢迎提出[issue](https://github.com/Ray-Eldath/Avalon/issues)。**
+**If you want Avalon to have some new functions, welcome new [issue](https://github.com/Ray-Eldath/Avalon/issues).**
 
-### 对话示例
+> ** Commands and extensions not work except in Chinese nations or areas may not listed. For info about these commands and extensions, see [Chinese (Simplified) version of README file]().*
 
-[record.jpg](https://raw.githubusercontent.com/Ray-Eldath/Avalon/master/img/record.jpg)
+### Example
 
-## 维护
 
-### 须知
 
-1. **请确保您的编辑器支持[EditorConfig](http://editorconfig.org)！**
-2. 所有```group```目录下的类必须```implements GroupMessageResponder```（``FriendMessage``API已有开发计划，请见``avalon.friend``包）；
-3. 标记为`@deprecated`的类/方法将于下一RELEASE中被正式移除。
-4. 从`v0.0.1`开始，RELEASE版本号的管理将遵循[语义化版本 2.0.0](http://semver.org/lang/zh-CN/)规范。
+## Contribute
+
+[![Open Source Helpers](https://www.codetriage.com/ray-eldath/avalon/badges/users.svg?style=flat-square)](https://www.codetriage.com/ray-eldath/avalon)
+
+### Notice
+
+1. **Please make sure your editor support [EditorConfig](http://editorconfig.org)!**
+2. All class under package `group` must `implements GroupMessageResponder`.
+3. Class or method that tagged as `@deprecated` will removed officially in the next release.
+4. From `v0.0.1`, the version number will follow [Semantic Versioning 2.0.0](http://semver.org/).
 
 ### Todo
 
-见[Projects / Avalon](https://github.com/Ray-Eldath/Avalon/projects/1)。
+See [Projects / Avalon](https://github.com/Ray-Eldath/Avalon/projects/1).
 
-## 配置
+## Configuration
 
-请见[Avalon.wiki](https://github.com/Ray-Eldath/Avalon/wiki)。
+See [Avalon.wiki](https://github.com/Ray-Eldath/Avalon/wiki). (Only Chinese (Simplified) version provided yet ;-) )

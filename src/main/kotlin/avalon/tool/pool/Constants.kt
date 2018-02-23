@@ -46,6 +46,16 @@ object Constants {
 	}
 
 	object Basic {
+		init {
+			if (Configs.has("language")) {
+				val languageString = Configs.getString("language")
+				if (languageString.contains("_")) {
+					languageString.split("_").let { Locale.setDefault(Locale(it[0], it[1])) }
+				} else
+					Locale.setDefault(Locale(languageString))
+			}
+		}
+
 		val LANG = ResourceBundle.getBundle("lang.Avalon")!!
 		val CURRENT_SERVLET: AvalonBackend =
 				when (Configs.Companion.instance().getJSONObject("backend").getString("backend").trim { it <= ' ' }.toLowerCase()) {

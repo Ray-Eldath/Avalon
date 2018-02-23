@@ -53,6 +53,8 @@ object Configs : BaseConfigSystem {
 	override fun getString(key: String): String =
 			allConfigs[key] as? String ?: throw UnsupportedOperationException("value invalid: not a String")
 
+	fun has(key: String) = root.has(key)
+
 	fun getJSONObject(key: String): JSONObject = root.getJSONObject(key)
 
 	fun getConfigArray(key: String): Array<Any?> {

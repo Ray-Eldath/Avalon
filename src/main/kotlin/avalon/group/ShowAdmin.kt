@@ -9,7 +9,7 @@ import java.util.regex.Pattern
 
 object ShowAdmin : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
-		val adminUid = groupConfig.admin
+		val adminUid = groupConfig.admins
 		val builder = StringBuilder()
 		for (uid in adminUid) {
 			val card = CURRENT_SERVLET.getGroupSenderNickname(message.groupUid, uid)

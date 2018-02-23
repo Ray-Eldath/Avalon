@@ -66,7 +66,7 @@ object GroupMessageHandler {
 		if (ArrayUtils.contains(groupConfig.blacklist, senderUid))
 			return
 
-		val adminUidStream = Arrays.stream(groupConfig.admin)
+		val adminUidStream = Arrays.stream(groupConfig.admins)
 		val admin = adminUidStream.anyMatch { e -> e == senderUid }
 
 		if (Constants.Setting.Block_Words_Punishment_Mode_Enabled)
@@ -115,7 +115,7 @@ object GroupMessageHandler {
 			return true
 
 		when {
-			permission === ResponderPermission.ADMIN -> result = ArrayUtils.contains(config.admin, senderUid)
+			permission === ResponderPermission.ADMIN -> result = ArrayUtils.contains(config.admins, senderUid)
 			permission === ResponderPermission.OWNER -> result = config.owner == senderUid
 			permission === ResponderPermission.ALL -> result = true
 		}
@@ -240,6 +240,7 @@ object GroupMessageHandler {
 	@JvmStatic
 	fun main(args: Array<String>) {
 		System.setProperty("file.encoding", "UTF-8")
+
 		Runtime.getRuntime().addShutdownHook(MainServer.ShutdownHook())
 
 		AvalonPluginPool.load()

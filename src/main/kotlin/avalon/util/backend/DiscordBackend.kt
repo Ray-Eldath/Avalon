@@ -36,7 +36,7 @@ object DiscordBackend : AvalonBackend() {
 	override fun responseFriend(friendUid: Long, reply: String) {}
 
 	override fun responsePrivate(uid: Long, reply: String) {
-		jda.getUserById(uid).openPrivateChannel().complete().sendMessage(reply)
+		jda.getUserById(uid).openPrivateChannel().complete().sendMessage(reply).complete()
 	}
 
 	override fun shutUp(groupUid: Long, userUid: Long, time: Long) {
@@ -45,8 +45,13 @@ object DiscordBackend : AvalonBackend() {
 
 	override fun shutdown() = jda.shutdownNow()
 
-	override fun getGroupSenderNickname(groupUid: Long, userUid: Long): String =
-			jda.getTextChannelById(groupUid).members.first { it.user.idLong == userUid }.effectiveName
+	override fun getGroupSenderNickname(groupUid: Long, userUid: Long): String {
+		val members = jda.getTextChannelById(groupUid).members
+		return if (members.any { it.user.idLong == userUid })
+			members.first { it.user.idLong == userUid }.effectiveName
+		else
+			""
+	}
 
 	override fun getFriendSenderNickname(uid: Long): String =
 			jda.getUserById(uid).name

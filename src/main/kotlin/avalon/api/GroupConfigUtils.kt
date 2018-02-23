@@ -15,10 +15,10 @@ fun getAllowArray(config: GroupConfig, id: String): LongArray? {
 	val permissions = config.permissions
 	for (thisPermission in permissions) {
 		if (thisPermission.identifier == id) {
-			val r = ArrayUtils.addAll(thisPermission.allow, *config.admin)
+			val r = ArrayUtils.addAll(thisPermission.allow, *config.admins)
 			cache[id] = r
 			return r
 		}
 	}
-	return ArrayUtils.add(config.admin, config.owner)
+	return ArrayUtils.add(config.admins, config.owner)
 }

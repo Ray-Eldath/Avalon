@@ -24,7 +24,7 @@ object Quote : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("quote <发言者> <语录内容>", "记录语录到Avalon数据库。"),
+					Pair(LANG.getString("group.quote.help.first"), LANG.getString("group.quote.help.second")),
 					Pattern.compile("quote \\S+ \\S+"),
 					permission = ResponderPermission.ADMIN
 			)

@@ -2,9 +2,6 @@
   "max_recorded_group_message_amount": 5000000,
   "max_recorded_friend_message_amount": 10000,
   "block_words": [
-    "来一炮",
-    "操",
-    "艹",
     "fuck"
   ],
   "cooling_duration": 3000,
@@ -69,7 +66,7 @@
     }
   },
   "database": {
-    "datasource": "SQLite"
+	"datasource": "H2"
   },
   "backend": {
     "backend": "CoolQ",

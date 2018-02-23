@@ -52,6 +52,15 @@ object MainServer {
 		// 字符集处理
 		System.setProperty("file.encoding", "UTF-8")
 
+		// 语言配置
+		if (Configs.has("language")) {
+			val languageString = Configs.getString("language")
+			if (languageString.contains("_")) {
+				languageString.split("_").let { Locale.setDefault(Locale(it[0], it[1])) }
+			} else
+				Locale.setDefault(Locale(languageString, ""))
+		}
+
 		// 服务可用性检测
 		if (!ServiceChecker.check()) {
 			Thread.sleep(3000)

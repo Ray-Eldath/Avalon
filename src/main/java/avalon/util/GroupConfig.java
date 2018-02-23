@@ -34,7 +34,7 @@ public class GroupConfig {
 		return owner;
 	}
 
-	public long[] getAdmin() {
+	public long[] getAdmins() {
 		return admin;
 	}
 

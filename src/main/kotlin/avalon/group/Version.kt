@@ -13,7 +13,7 @@ object Version : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		val empty = LANG.getString("base.empty")
 		message.response((LANG.getString("group.version.reply") + "\n" + LANG.getString("group.version.plugin") +
-				"\n%s Version: v%s\tAvalon Version: v%s%s")
+				"\n%s API Version: v%s\tAvalon Version: v%s%s")
 				.format(CURRENT_SERVLET.name(),
 						if (AvalonPluginPool.getInfoList().isEmpty())
 							empty else AvalonPluginPool.getInfoList().map { it.name },
