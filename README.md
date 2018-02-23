@@ -14,16 +14,14 @@ The support for QQ is based on [CoolQ-HTTP-API](https://github.com/richardchien/
 
 ### Introduction
 
-- **Natural language question answering: ** Avalon has been docked to Wolfram Alpha in order to provide natural language question answering service. You could use it by command `avalon tell me`.
-- **Message record and quote: ** If configured correctly, Avalon will record every message in group(s) into a database. You can also quote message into database annually by command `avalon quote`.
-- **Build status notification: **When the build status for specified project(s) update, Avalon will send notification. *([AppVeyor](https://ci.appveyor.com) and [TravisCI](https://travis-ci.org) supported.)*
-
-
- - **Execute code online: **Avalon allows you to execute a piece of code by command `avalon execute`. *35+ programming languages supported*, include Java, Rust, Ruby, JavaScript, Kotlin, C++, and so on. *(served by [glot.io](https://glot.io))*
- - **Notification sent when RSS update: **After enable RSS function and specified the URL(s), Avalon will send notification when these RSS update.
- - **Scalable: **Avalon allows you to add new function or feature by MessageHook or Plugin.
- - ***(Unavailable except in Chinese nations or areas)* Smart reply: **Avalon has been docked to [Microsoft XiaoIce](http://www.msxiaoice.com) to privide smart reply service (just like chat bot), you could use it by command `avalon answer me`.
- - ***(Unavailable except in Chinese nations or areas)* Hitokoto: **Avalon has been docked to [一言](http://hitokoto.cn) to provide "hitokoto". You could config Avalon to send one when started or use command `avalon hitokoto` to get one.
+ - **Natural language question answering: ** Avalon has been docked to Wolfram Alpha in order to provide natural language question answering service. You could use it by command `avalon tell me`.
+ - **Message record and quote: ** If configured correctly, Avalon will record every message in group(s) into a database. You can also quote message into database annually by command `avalon quote`.
+ - **Build status notification: ** When the build status for specified project(s) update, Avalon will send notification. *([AppVeyor](https://ci.appveyor.com) and [TravisCI](https://travis-ci.org) supported.)*
+ - **Execute code online: ** Avalon allows you to execute a piece of code by command `avalon execute`. *35+ programming languages supported*, include Java, Rust, Ruby, JavaScript, Kotlin, C++, and so on. *(served by [glot.io](https://glot.io))*
+ - **Notification sent when RSS update: ** After enable RSS function and specified the URL(s), Avalon will send notification when these RSS update.
+ - **Scalable: ** Avalon allows you to add new function or feature by MessageHook or Plugin.
+ - ***(Unavailable except in Chinese nations or areas)* Smart reply: ** Avalon has been docked to [Microsoft XiaoIce](http://www.msxiaoice.com) to privide smart reply service (just like chat bot), you could use it by command `avalon answer me`.
+ - ***(Unavailable except in Chinese nations or areas)* Hitokoto: ** Avalon has been docked to [一言](http://hitokoto.cn) to provide "hitokoto". You could config Avalon to send one when started or use command `avalon hitokoto` to get one.
  - ...
 
 ### List of commands
@@ -66,15 +64,13 @@ All following extension are push-type, they will sent message automatically when
 
 **If you want Avalon to have some new functions, welcome new [issue](https://github.com/Ray-Eldath/Avalon/issues).**
 
-> ** Commands and extensions not work except in Chinese nations or areas may not listed. For info about these commands and extensions, see [Chinese (Simplified) version of README file]().*
+> *Commands and extensions not work except in Chinese nations or areas may not listed. For info about these commands and extensions, see [Chinese (Simplified) version of README file](https://github.com/Ray-Eldath/Avalon/blob/master/README.zh_CN.md).*
 
 ### Example
 
 
 
-## Contribute
-
-[![Open Source Helpers](https://www.codetriage.com/ray-eldath/avalon/badges/users.svg?style=flat-square)](https://www.codetriage.com/ray-eldath/avalon)
+## Contribute [![Open Source Helpers](https://www.codetriage.com/ray-eldath/avalon/badges/users.svg?style=flat-square)](https://www.codetriage.com/ray-eldath/avalon)
 
 ### Notice
 

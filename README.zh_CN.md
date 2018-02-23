@@ -64,8 +64,7 @@
 
 [record.zh_CN.jpg](https://raw.githubusercontent.com/Ray-Eldath/Avalon/master/img/record.zh_CN.jpg)
 
-## 维护
-[![Open Source Helpers](https://www.codetriage.com/ray-eldath/avalon/badges/users.svg?style=flat-square)](https://www.codetriage.com/ray-eldath/avalon)
+## 维护 [![Open Source Helpers](https://www.codetriage.com/ray-eldath/avalon/badges/users.svg?style=flat-square)](https://www.codetriage.com/ray-eldath/avalon)
 
 ### 须知
 
