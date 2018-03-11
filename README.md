@@ -29,11 +29,11 @@ All commands listed below can be triggered by some particular command as long as
 
 :grey_exclamation:: **Admin command.** Only users specficed as admin in `group.json` and owner could execute these commands.
 
-:exclamation:: **Owner command.** Only user specficed as owner in `group.json` could execute these commands.
+:exclamation:: **Owner command.** Only user specified as owner in `group.json` could execute these commands.
 
 :white_circle:: **Unmanagerable command.** These command *can not* be managed by `avalon manager`, but *can* be disabled in `config.json`.
 
-:red_circle:: **Basic command.** These command can *neither* be managerd by `avalon manager` *nor* disabled in `config.json`.
+:red_circle:: **Basic command.** These command can *neither* be managed by `avalon manager` *nor* disabled in `config.json`.
 
 | Name        | Trigger command                                    | Description                                                  |
 | ----------- | -------------------------------------------------- | ------------------------------------------------------------ |
@@ -58,8 +58,8 @@ All following extension are push-type, they will sent message automatically when
 
 | Name        | Description                                                  |
 | ----------- | ------------------------------------------------------------ |
-| BuildStatus | Notification will be sent when configed CI build state of given project update. [TravisCI](https://travis-ci.org) and [AppVeyor](https://ci.appveyor.com) now supported. |
-| RSSFeeder   | Message will sent when configed RSS update.                  |
+| BuildStatus | Notification will be sent when configured CI build state of given project update. [TravisCI](https://travis-ci.org) and [AppVeyor](https://ci.appveyor.com) now supported. |
+| RSSFeeder   | Message will sent when configured for RSS update.                  |
 
 **If you want Avalon to have some new functions, welcome new [issue](https://github.com/Ray-Eldath/Avalon/issues).**
 
