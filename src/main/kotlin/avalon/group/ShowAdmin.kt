@@ -16,6 +16,10 @@ object ShowAdmin : GroupMessageResponder() {
 			if (!card.isEmpty())
 				builder.append(card).append(" - ").append(uid).append(", ")
 		}
+		if (builder.isEmpty()) {
+			message.response("${AT(message)} ${LANG.getString("group.show_admin.no_admin")}")
+			return
+		}
 		val toDisplay = LANG.getString("group.show_admin.reply")
 				.format("\n" + builder.toString().substring(0, builder.length - 2))
 		message.response("${AT(message)} $toDisplay")

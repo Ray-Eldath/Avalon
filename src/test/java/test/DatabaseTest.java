@@ -1,18 +1,18 @@
 package test;
 
-import avalon.tool.database.SQLiteDatabaseOperator;
+import avalon.tool.database.H2DatabaseOperator;
 import avalon.tool.database.Table;
 import avalon.util.FriendMessage;
 import avalon.util.GroupMessage;
 
 /**
- * Created by Eldath Ray on 2017/4/19 0019.
+ * Created by Ray Eldath on 2017/4/19 0019.
  *
- * @author Eldath Ray
+ * @author Ray Eldath
  */
 public class DatabaseTest {
 	public static void main(String[] args) {
-		SQLiteDatabaseOperator.getInstance().add(new GroupMessage(
+		H2DatabaseOperator.INSTANCE.add(new GroupMessage(
 				2,
 				System.currentTimeMillis(),
 				123,
@@ -21,20 +21,23 @@ public class DatabaseTest {
 				"asas",
 				"al"));
 
-		SQLiteDatabaseOperator.getInstance().add(new FriendMessage(
+		H2DatabaseOperator.INSTANCE.add(new FriendMessage(
 				1,
 				System.currentTimeMillis(),
 				123,
 				"DEBUG dd",
 				"dddd"));
 
-		SQLiteDatabaseOperator.getInstance().addQuote(
+		H2DatabaseOperator.INSTANCE.addQuote(
 				123,
 				"DEBUG dd",
 				"asd");
 
-		System.out.println(SQLiteDatabaseOperator.getInstance().exist(Table.GROUP, "id=2"));
-		System.out.println(SQLiteDatabaseOperator.getInstance().exist(Table.FRIEND, "senderUid=123"));
-		System.out.println(SQLiteDatabaseOperator.getInstance().exist(Table.QUOTE, "speaker=\'DEBUG dd\'"));
+		System.out.println(H2DatabaseOperator.INSTANCE.exist(Table.GROUP, "id=2"));
+		System.out.println(H2DatabaseOperator.INSTANCE.exist(Table.FRIEND, "senderUid=123"));
+		System.out.println(H2DatabaseOperator.INSTANCE.exist(Table.QUOTE, "speaker=\'DEBUG+dd\'"));
+		System.out.println(H2DatabaseOperator.INSTANCE.count(Table.GROUP));
+		System.out.println(H2DatabaseOperator.INSTANCE.count(Table.FRIEND));
+		System.out.println(H2DatabaseOperator.INSTANCE.count(Table.QUOTE));
 	}
 }

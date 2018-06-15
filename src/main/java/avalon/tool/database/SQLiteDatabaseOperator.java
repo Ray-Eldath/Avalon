@@ -18,6 +18,7 @@ import java.sql.Statement;
  * Created by Eldath on 2017/2/11 0011.
  *
  * @author Eldath
+ * @deprecated v1.2.3起停止对SQLite的支持，而使用H2替代之。
  * 全功能测试通过。2018.2.8
  */
 public class SQLiteDatabaseOperator implements DatabaseOperator {

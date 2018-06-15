@@ -4,7 +4,6 @@ import avalon.friend.FriendMessageHandler
 import avalon.group.GroupMessageHandler
 import avalon.tool.database.H2DatabaseOperator
 import avalon.tool.database.MySQLDatabaseOperator
-import avalon.tool.database.SQLiteDatabaseOperator
 import avalon.tool.system.Configs
 import avalon.util.FriendMessage
 import avalon.util.GroupMessage
@@ -27,7 +26,6 @@ object Constants {
 		private val datasource = Configs.Companion.instance().getJSONObject("database").getString("datasource").toLowerCase()
 		val CURRENT_DATABASE_OPERATOR =
 				when (datasource) {
-					"sqlite" -> SQLiteDatabaseOperator.getInstance()
 					"mysql" -> MySQLDatabaseOperator.getInstance()
 					else -> H2DatabaseOperator
 				}
@@ -41,7 +39,7 @@ object Constants {
 	}
 
 	object Version {
-		const val AVALON = "1.2.3"
+		const val AVALON = "1.2.4"
 		val SERVLET = Basic.CURRENT_SERVLET.version()
 	}
 

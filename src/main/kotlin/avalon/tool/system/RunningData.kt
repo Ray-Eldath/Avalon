@@ -27,7 +27,7 @@ object RunningData : Closeable {
 
 	init {
 		Class.forName("org.h2.Driver")
-		statement = DriverManager.getConnection("jdbc:h2:./data/data;IFEXISTS=TRUE").createStatement()
+		statement = DriverManager.getConnection("jdbc:h2:./data/data.h2;IFEXISTS=TRUE").createStatement()
 		val resultSet = statement.executeQuery("SELECT * FROM DATA_")
 		resultSet.next()
 		jsonObjectString = resultSet.getString("data")

@@ -34,7 +34,7 @@ object MainServer {
 	class ShutdownHook : Thread() {
 		override fun run() {
 			logger.info("Catch INT signal, Bye!")
-			println("If you have some problems you CAN NOT SOLVE, please visit `https://github.com/Ray-Eldath/Avalon/issues` or contact with Ray-Eldath<ray-eldath@aol.com>.")
+			println("If you have some problems you CAN NOT SOLVE, please visit `https://github.com/Ray-Eldath/Avalon/issues` or contact with Ray-Eldath<ray.eldath@outlook.com>.")
 			Recorder.getInstance().flushNow()
 			RunningData.save()
 			//

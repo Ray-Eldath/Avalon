@@ -21,13 +21,14 @@ import java.time.format.DateTimeFormatter
 class BasicDatabaseOperator(private val connection: Connection) : Closeable {
 	companion object {
 		private val logger = LoggerFactory.getLogger(BasicDatabaseOperator::class.java)
-		private val groupId = RunningData.read().getInt("group_id")
-		private val friendId = RunningData.read().getInt("friend_id")
 
 		private lateinit var addGroupMessage: PreparedStatement
 		private lateinit var addFriendMessage: PreparedStatement
 		private lateinit var addQuote: PreparedStatement
 	}
+
+	private val groupId = count(connection.createStatement(), Table.GROUP)
+	private val friendId = count(connection.createStatement(), Table.FRIEND)
 
 	init {
 		try {
@@ -94,7 +95,8 @@ class BasicDatabaseOperator(private val connection: Connection) : Closeable {
 
 	fun exist(statement: Statement, table: Table, condition: String): Boolean {
 		return try {
-			val set = statement.executeQuery(String.format("SELECT COUNT(*) FROM %s WHERE %s", fromTable(table), condition))
+			val set = statement.executeQuery("SELECT COUNT(*) FROM ${fromTable(table)} WHERE $condition")
+			set.next()
 			set.getInt(1) != 0
 		} catch (e: SQLException) {
 			logger.warn("error while questing existence of table ${table.name}: `${e.localizedMessage}`")
@@ -104,7 +106,9 @@ class BasicDatabaseOperator(private val connection: Connection) : Closeable {
 
 	fun count(statement: Statement, table: Table): Int {
 		return try {
-			statement.executeQuery(String.format("SELECT COUNT(1) FROM %s", fromTable(table))).getInt(0)
+			val set = statement.executeQuery("SELECT COUNT(*) FROM ${fromTable(table)}")
+			set.next()
+			set.getInt(1)
 		} catch (e: SQLException) {
 			logger.warn("error while questing count of table ${table.name}: `${e.localizedMessage}`")
 			-1

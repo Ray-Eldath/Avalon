@@ -67,7 +67,7 @@ public class CoolQBackend extends AvalonBackend {
 					object.getString("message").replaceAll("\\[CQ:\\S+]", "")
 			));
 		} else if ("group".equals(messageType)) {
-			if (!object.getString("anonymous").isEmpty())
+			if (!object.isNull("anonymous"))
 				return;
 			long groupUid = object.getLong("group_id");
 			long senderUid = object.getLong("user_id");
@@ -106,7 +106,7 @@ public class CoolQBackend extends AvalonBackend {
 		Map<String, Object> object = new HashMap<>();
 		object.put("group_id", groupUid);
 		object.put("message", reply);
-		object.put("is_raw", !reply.contains("[CQ:"));
+		object.put("auto_escape", !reply.contains("[CQ:"));
 		sendRequest("/send_group_msg", object);
 	}
 
@@ -120,7 +120,7 @@ public class CoolQBackend extends AvalonBackend {
 		Map<String, Object> object = new HashMap<>();
 		object.put("user_id", uid);
 		object.put("message", reply);
-		object.put("is_raw", !reply.contains("[CQ:"));
+		object.put("auto_escape", !reply.contains("[CQ:"));
 		sendRequest("/send_private_msg", object);
 	}
 
