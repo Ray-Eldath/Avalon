@@ -25,8 +25,8 @@ public class Recorder {
 			(int) Configs.INSTANCE.get("max_recorded_group_message_amount");
 	private static final int MAX_RECORD_FRIEND_MESSAGE_COUNT =
 			(int) Configs.INSTANCE.get("max_recorded_friend_message_amount");
-	private static int nowGroupCount = INSTANCE.getCURRENT_DATABASE_OPERATOR().count(Table.GROUP);
-	private static int nowFriendCount = INSTANCE.getCURRENT_DATABASE_OPERATOR().count(Table.FRIEND);
+	private static int nowGroupCount = INSTANCE.getDB_OPERATOR().count(Table.GROUP);
+	private static int nowFriendCount = INSTANCE.getDB_OPERATOR().count(Table.FRIEND);
 
 	public static Recorder getInstance() {
 		if (instance == null) instance = new Recorder();
@@ -51,10 +51,10 @@ public class Recorder {
 
 	public void flushNow() {
 		for (GroupMessage thisGroupMessage: groupMessageRecord)
-			Constants.Database.INSTANCE.getCURRENT_DATABASE_OPERATOR().add(thisGroupMessage);
+			Constants.Database.INSTANCE.getDB_OPERATOR().add(thisGroupMessage);
 		groupMessageRecord.clear();
 		for (FriendMessage thisFriendMessage: friendMessageRecord)
-			Constants.Database.INSTANCE.getCURRENT_DATABASE_OPERATOR().add(thisFriendMessage);
+			Constants.Database.INSTANCE.getDB_OPERATOR().add(thisFriendMessage);
 		friendMessageRecord.clear();
 	}
 

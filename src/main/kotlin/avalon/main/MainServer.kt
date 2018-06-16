@@ -32,21 +32,23 @@ object MainServer {
 	private val logger = LoggerFactory.getLogger(MainServer::class.java)
 	val followGroup: MutableList<Long> = GroupConfigs.instance().followGroups
 
+	private lateinit var server: Server
+
 	class ShutdownHook : Thread() {
 		override fun run() {
-			if (DEBUG)
-				return
 			logger.info("Catch INT signal, Bye!")
 			println("If you have some problems you CAN NOT SOLVE, please visit `https://github.com/Ray-Eldath/Avalon/issues` or contact with Ray-Eldath<ray.eldath@outlook.com>.")
 			//
-			for (thisFollowFollow in followGroup)
-				CURRENT_SERVLET.responseGroup(thisFollowFollow, LANG.getString("base.exit"))
-			CURRENT_SERVLET.clean()
-			CURRENT_SERVLET.shutdown()
-			//
 			Recorder.getInstance().flushNow()
 			RunningData.save()
-			Constants.Database.CURRENT_DATABASE_OPERATOR.close()
+			Constants.Database.DB_OPERATOR.close()
+			if (!DEBUG) {
+				for (thisFollowFollow in followGroup)
+					CURRENT_SERVLET.responseGroup(thisFollowFollow, LANG.getString("base.exit"))
+				CURRENT_SERVLET.clean()
+				CURRENT_SERVLET.shutdown()
+			}
+			server.stop()
 		}
 	}
 
@@ -97,10 +99,11 @@ object MainServer {
 						Integer.parseInt(addressStringArray[1]))
 			}
 			//
-			val server = Server(address)
+			server = Server(address)
 			val context = ServletContextHandler(ServletContextHandler.SESSIONS)
 			server.handler = context
 			server.stopAtShutdown = true
+			server.stopTimeout = 3000
 			context.addServlet(ServletHolder(CURRENT_SERVLET), "/post_url")
 			server.join()
 			server.start()

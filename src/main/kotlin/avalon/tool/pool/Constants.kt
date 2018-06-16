@@ -21,10 +21,9 @@ import java.util.function.Consumer
  * @author Ray Eldath
  */
 object Constants {
-
 	object Database {
 		private val datasource = Configs.getJSONObject("database").getString("datasource").toLowerCase()
-		val CURRENT_DATABASE_OPERATOR =
+		val DB_OPERATOR =
 				when (datasource) {
 					"mysql" -> MySQLDatabaseOperator.getInstance()
 					else -> H2DatabaseOperator
@@ -64,7 +63,15 @@ object Constants {
 
 		val DEFAULT_PREFIX = arrayOf("avalon ")
 		val LOCAL_OUTPUT = Configs.get("local_output") as Boolean
-		val DEBUG = Configs.get("debug") as Boolean
+		val DEBUG = {
+			val forceDebug = System.getProperty("avalon.force_debug")
+			if (forceDebug != null && forceDebug.equals("true", true)) {
+				System.err.println("Debug forced enabled!")
+				true
+			} else
+				Configs.get("debug") as Boolean
+		}.invoke()
+
 		val START_TIME = System.currentTimeMillis()
 		const val DEBUG_MESSAGE_UID: Long = 10000
 		const val DEBUG_MESSAGE_GROUP_UID: Long = 11111

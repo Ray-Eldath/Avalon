@@ -9,6 +9,8 @@ public class Variables {
 	private Variables() {
 	}
 
+	public static boolean Force_Debug = false;
+
 	public static int Mo_Count = 0;
 	public static boolean Mo_Reach_Max = false;
 
