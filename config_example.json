@@ -15,6 +15,7 @@
 	  "Execute",
 	  "ExecuteInfo",
 	  "Flush",
+	  "Heartbeat",
 	  "Help",
 	  "Hitokoto",
 	  "Manager",

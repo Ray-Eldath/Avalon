@@ -50,10 +50,10 @@ public class Recorder {
 	}
 
 	public void flushNow() {
-		for (GroupMessage thisGroupMessage : groupMessageRecord)
+		for (GroupMessage thisGroupMessage: groupMessageRecord)
 			Constants.Database.INSTANCE.getCURRENT_DATABASE_OPERATOR().add(thisGroupMessage);
 		groupMessageRecord.clear();
-		for (FriendMessage thisFriendMessage : friendMessageRecord)
+		for (FriendMessage thisFriendMessage: friendMessageRecord)
 			Constants.Database.INSTANCE.getCURRENT_DATABASE_OPERATOR().add(thisFriendMessage);
 		friendMessageRecord.clear();
 	}

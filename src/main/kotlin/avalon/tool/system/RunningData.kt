@@ -19,7 +19,6 @@ object RunningData : Closeable {
 	private var jsonObject: JSONObject? = null
 	private var empty: Boolean = true
 	private lateinit var statement: Statement
-	private lateinit var jsonObjectString: String
 
 	private val default = JSONObject().let {
 		it.put("group_id", 0)
@@ -32,13 +31,10 @@ object RunningData : Closeable {
 			statement = DriverManager.getConnection("jdbc:h2:./data/data;IFEXISTS=TRUE").createStatement()
 			val resultSet = statement.executeQuery("SELECT * FROM DATA_")
 			resultSet.next()
-			jsonObjectString = resultSet.getString("data")
+			val any = JSONTokener(resultSet.getString("data")).nextValue()
 			// init
-			empty = jsonObjectString.isEmpty()
-			if (empty) {
-				jsonObject = default
-				jsonObjectString = jsonObject.toString()
-			}
+			empty = any == JSONObject.NULL
+			jsonObject = if (empty) default else any as JSONObject
 		} catch (e: Exception) {
 			logger.error("fatal error while load H2 database driver: `${e.localizedMessage}`")
 			Runtime.getRuntime().halt(-1)
@@ -46,7 +42,6 @@ object RunningData : Closeable {
 	}
 
 	fun save() {
-		jsonObjectString = jsonObject.toString()
 		try {
 			statement.execute("UPDATE data_ SET data='${jsonObject.toString()}'")
 		} catch (e: SQLException) {
@@ -54,16 +49,9 @@ object RunningData : Closeable {
 		}
 	}
 
-	fun set(key: String, value: Any) {
-		read()
-		jsonObject!!.put(key, value)
-	}
+	fun set(key: String, value: Any) = jsonObject!!.put(key, value)!!
 
-	fun read(): JSONObject =
-			jsonObject ?: (if (empty) default else JSONTokener(jsonObjectString).nextValue() as JSONObject)
-					.also { jsonObject = it }
+	fun get(key: String) = jsonObject!!.get(key)!!
 
-	override fun close() {
-		statement.close()
-	}
+	override fun close() = statement.close()
 }

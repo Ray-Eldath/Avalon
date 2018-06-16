@@ -257,7 +257,6 @@ object GroupMessageHandler {
 		val scanner = Scanner(System.`in`)
 		var id = 0L
 
-		println(enableMap) // DEBUGG
 		while (true) {
 			print("Input here:")
 			val content = scanner.nextLine()

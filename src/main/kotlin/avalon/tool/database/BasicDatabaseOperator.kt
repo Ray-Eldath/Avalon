@@ -1,6 +1,5 @@
 package avalon.tool.database
 
-import avalon.tool.system.RunningData
 import avalon.util.FriendMessage
 import avalon.util.GroupMessage
 import avalon.util.Message
@@ -26,9 +25,6 @@ class BasicDatabaseOperator(private val connection: Connection) : Closeable {
 		private lateinit var addFriendMessage: PreparedStatement
 		private lateinit var addQuote: PreparedStatement
 	}
-
-	private val groupId = count(connection.createStatement(), Table.GROUP)
-	private val friendId = count(connection.createStatement(), Table.FRIEND)
 
 	init {
 		try {
@@ -115,12 +111,7 @@ class BasicDatabaseOperator(private val connection: Connection) : Closeable {
 		}
 	}
 
-	override fun close() {
-		connection.close()
-		RunningData.set("group_id", groupId + 1)
-		RunningData.set("friend_id", friendId + 1)
-		RunningData.save()
-	}
+	override fun close() = connection.close()
 
 	private fun time(message: Message): String =
 			message.time.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace("T", " ")
