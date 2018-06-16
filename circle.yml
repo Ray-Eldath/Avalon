@@ -1,24 +1,25 @@
+# @formatter:off
 version: 2
 jobs:
   build:
-  working_directory: ~
-  docker:
-  - image: circleci/openjdk:8
+	working_directory: ~
+	docker:
+	- image: circleci/openjdk:8
 
-  steps:
-  - checkout
-	- restore_cache:
-	  key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-	- run:
-		name: Chmod permissions
-		command: sudo chmod +x ./gradlew
-	- run:
-	name: Download Dependencies
-	command: ./gradlew buildDependents
-	- save_cache:
-	paths:
-	- ~/.gradle
-	key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-	- run:
-	name: Build
-	command: ./gradlew build
+	steps:
+	- checkout
+    - restore_cache:
+ 	    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+	  - run:
+	      name: Chmod permissions
+	      command: sudo chmod +x ./gradlew
+	  - run:
+		  name: Download Dependencies
+		  command: ./gradlew buildDependents
+	  - save_cache:
+		  paths:
+		  - ~/.gradle
+		  key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+	  - run:
+		  name: Build
+		  command: ./gradlew build

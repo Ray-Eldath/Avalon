@@ -1,18 +1,19 @@
+# @formatter:off
 sudo: required
 
 language: java
 
 jdk:
-- oraclejdk8
+  - oraclejdk8
 
 script:
-- "./gradlew build"
+  - "./gradlew build"
 
 env:
-- CI=true
+  - CI=true
 
 before_install:
-- chmod a+x gradlew
+  - chmod a+x gradlew
 
 notifications:
   email:
