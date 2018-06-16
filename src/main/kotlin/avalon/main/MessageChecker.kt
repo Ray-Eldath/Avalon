@@ -13,7 +13,7 @@ object MessageChecker {
 	private fun checkEncode(message: Message): Boolean {
 		val content = message.content
 		val charset = Charset.forName("GB2312")
-		if (!(content.contentEquals(String(content.toByteArray(charset), charset)))) {
+		if (!(content!!.contentEquals(String(content.toByteArray(charset), charset)))) {
 			message.response("${AT(message.senderUid)} ${LANG.getString("group.handler.wrong_encoding")}")
 			return false
 		}

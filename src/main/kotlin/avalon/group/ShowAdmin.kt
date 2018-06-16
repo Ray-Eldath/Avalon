@@ -27,8 +27,8 @@ object ShowAdmin : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("whoisadmin", LANG.getString("group.show_admin.help")),
-					Pattern.compile("whoisadmin")
+					Pair("(wia|whoisadmin)", LANG.getString("group.show_admin.help")),
+					Pattern.compile("(wia|whoisadmin)")
 			)
 
 	override fun instance(): GroupMessageResponder = this

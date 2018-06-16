@@ -30,8 +30,8 @@ object Version : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("(version|about)", LANG.getString("group.version.help")),
-					Pattern.compile("(version|about)"),
+					Pair("(ver|about)", LANG.getString("group.version.help")),
+					Pattern.compile("(ver|about)"),
 					manageable = false
 			)
 

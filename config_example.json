@@ -2,7 +2,8 @@
   "max_recorded_group_message_amount": 5000000,
   "max_recorded_friend_message_amount": 10000,
   "block_words": [
-	"fuck"
+	"fuck",
+	"f**k"
   ],
   "cooling_duration": 3000,
   "block_words_punish_frequency": 3,

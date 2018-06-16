@@ -15,7 +15,7 @@ object ExecuteInfo : GroupMessageResponder() {
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
 					Pair("", ""),
-					Pattern.compile("execute info")
+					Pattern.compile("(exi|execute info)")
 			)
 
 	override fun instance() = this

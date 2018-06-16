@@ -49,8 +49,8 @@ object Wolfram : GroupMessageResponder() {
 	}
 
 	override fun responderInfo(): ResponderInfo = ResponderInfo(
-			Pair("tell me <your question>", "(Only English) send your question to Wolfram Alpha and echo the return."),
-			Pattern.compile("tell me \\w+")
+			Pair("(tm|tell me) <your question>", "(Only English) send your question to Wolfram Alpha and echo the return."),
+			Pattern.compile("(tm|tell me) \\w+")
 	)
 
 	override fun instance() = this
@@ -65,13 +65,13 @@ private object WolframXMLParser {
 		val xPath = XPathFactory.instance()
 		val objects = xPath.compile("//subpod").diagnose(root, false)
 		val result = ArrayList<WolframPod>()
-		objects.result.forEach({
+		objects.result.forEach {
 			val e1 = it as Element
 			result += WolframPod(
 					handleString(e1.getAttributeValue("title")),
 					handleString(e1.getAttributeValue("id")),
 					handleString(e1.getChild("plaintext").value))
-		})
+		}
 		return result
 	}
 

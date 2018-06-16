@@ -22,8 +22,8 @@ object Echo : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("(echo|repeat)", LANG.getString("group.echo.help")),
-					Pattern.compile("(echo|repeat) ")
+					Pair("(ec|echo)", LANG.getString("group.echo.help")),
+					Pattern.compile("(ec|echo) ")
 			)
 
 	override fun instance() = this

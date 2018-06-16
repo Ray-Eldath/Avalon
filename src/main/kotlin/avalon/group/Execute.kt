@@ -67,9 +67,9 @@ object Execute : GroupMessageResponder() {
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("execute ${LANG.getString("group.execute.help.first")}",
+					Pair("(ex|execute) ${LANG.getString("group.execute.help.first")}",
 							LANG.getString("group.execute.help.second").format("avalon execute info")),
-					Pattern.compile("execute [^info]*")
+					Pattern.compile("(ex|execute) [^info]*")
 			)
 
 	override fun instance(): GroupMessageResponder = this

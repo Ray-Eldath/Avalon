@@ -39,7 +39,11 @@ object GroupMessageHandler {
 	internal fun getGroupResponderByKeywordRegex(keyword: String): GroupMessageResponder? =
 			apiTriples.firstOrNull { it.actualPattern.matcher(keyword).matches() }?.instance
 
-	internal fun isResponderEnable(api: GroupMessageResponder): Boolean = enableMap.containsKey(api)
+	internal fun isResponderEnable(api: GroupMessageResponder): Boolean {
+		if (!enableMap.containsKey(api))
+			return false
+		return enableMap[api]!!
+	}
 
 	fun handle(message: GroupMessage) {
 		if (Constants.Basic.DEBUG)
@@ -193,6 +197,7 @@ object GroupMessageHandler {
 		registerInner(Shutdown)
 		registerInner(Reboot)
 		registerInner(Flush)
+		registerInner(Heartbeat)
 		registerInner(Manager)
 		registerInner(Blacklist)
 		registerInner(Quote)
@@ -233,7 +238,7 @@ object GroupMessageHandler {
 		// 校验
 		for ((key, value) in enableMap) {
 			if (!value && disableNotAllowedResponder.contains(key))
-				throw ConfigurationError("CAN NOT disabled basic responder: `${key.javaClass.simpleName}`. Please:\n\t1. Remove this responder from entry `responders.disable` in file `config.json`.\n\t2. Add it into `responders.enable` in file`config.json`.\n\t3. Restart the program.")
+				throw ConfigurationError("CAN NOT disable basic responder: `${key.javaClass.simpleName}`. Please:\n\t1. Remove this responder from entry `responders.disable` in file `config.json`.\n\t2. Add it into `responders.enable` in file`config.json`.\n\t3. Restart the program.")
 		}
 	}
 
@@ -252,6 +257,7 @@ object GroupMessageHandler {
 		val scanner = Scanner(System.`in`)
 		var id = 0L
 
+		println(enableMap) // DEBUGG
 		while (true) {
 			print("Input here:")
 			val content = scanner.nextLine()

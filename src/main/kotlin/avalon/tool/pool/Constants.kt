@@ -16,14 +16,14 @@ import java.util.*
 import java.util.function.Consumer
 
 /**
- * Created by Eldath on 2017/2/3 0003.
+ * Created by Ray Eldath on 2017/2/3 0003.
  *
- * @author Eldath
+ * @author Ray Eldath
  */
 object Constants {
 
 	object Database {
-		private val datasource = Configs.Companion.instance().getJSONObject("database").getString("datasource").toLowerCase()
+		private val datasource = Configs.getJSONObject("database").getString("datasource").toLowerCase()
 		val CURRENT_DATABASE_OPERATOR =
 				when (datasource) {
 					"mysql" -> MySQLDatabaseOperator.getInstance()
@@ -56,15 +56,15 @@ object Constants {
 
 		val LANG = ResourceBundle.getBundle("lang.Avalon")!!
 		val CURRENT_SERVLET: AvalonBackend =
-				when (Configs.Companion.instance().getJSONObject("backend").getString("backend").trim { it <= ' ' }.toLowerCase()) {
+				when (Configs.getJSONObject("backend").getString("backend").trim { it <= ' ' }.toLowerCase()) {
 					"coolq" -> CoolQBackend.INSTANCE()
 					"discord" -> DiscordBackend
 					else -> null!!
 				}
 
 		val DEFAULT_PREFIX = arrayOf("avalon ")
-		val LOCAL_OUTPUT = Configs.Companion.instance().get("local_output") as Boolean
-		val DEBUG = Configs.Companion.instance().get("debug") as Boolean
+		val LOCAL_OUTPUT = Configs.get("local_output") as Boolean
+		val DEBUG = Configs.get("debug") as Boolean
 		val START_TIME = System.currentTimeMillis()
 		const val DEBUG_MESSAGE_UID: Long = 10000
 		const val DEBUG_MESSAGE_GROUP_UID: Long = 11111
@@ -74,7 +74,7 @@ object Constants {
 	}
 
 	object Setting {
-		val Block_Words_Punishment_Mode_Enabled = Configs.Companion.instance().get("block_words_punishment_mode_enabled") as Boolean
+		val Block_Words_Punishment_Mode_Enabled = Configs.get("block_words_punishment_mode_enabled") as Boolean
 		val RSS_Enabled = Configs.isPluginEnable("RSS")
 		val BuildStatus_Enabled = Configs.isPluginEnable("BuildStatus")
 	}

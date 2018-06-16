@@ -7,6 +7,7 @@ import avalon.tool.ServiceChecker
 import avalon.tool.pool.AvalonPluginPool
 import avalon.tool.pool.Constants
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
+import avalon.tool.pool.Constants.Basic.DEBUG
 import avalon.tool.pool.Constants.Basic.LANG
 import avalon.tool.system.Configs
 import avalon.tool.system.GroupConfigs
@@ -33,15 +34,18 @@ object MainServer {
 
 	class ShutdownHook : Thread() {
 		override fun run() {
+			if (DEBUG)
+				return
 			logger.info("Catch INT signal, Bye!")
 			println("If you have some problems you CAN NOT SOLVE, please visit `https://github.com/Ray-Eldath/Avalon/issues` or contact with Ray-Eldath<ray.eldath@outlook.com>.")
-			Recorder.getInstance().flushNow()
-			RunningData.save()
 			//
 			for (thisFollowFollow in followGroup)
-				CURRENT_SERVLET.responseGroup(thisFollowFollow, "服务已经停止。")
+				CURRENT_SERVLET.responseGroup(thisFollowFollow, LANG.getString("base.exit"))
 			CURRENT_SERVLET.clean()
 			CURRENT_SERVLET.shutdown()
+			//
+			Recorder.getInstance().flushNow()
+			RunningData.save()
 			Constants.Database.CURRENT_DATABASE_OPERATOR.close()
 		}
 	}

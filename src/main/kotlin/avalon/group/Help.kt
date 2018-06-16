@@ -59,8 +59,8 @@ For Avalon Version v${Constants.Version.AVALON}"""
 
 	override fun responderInfo(): ResponderInfo =
 			ResponderInfo(
-					Pair("help", LANG.getString("group.help.help")),
-					Pattern.compile("help"),
+					Pair("(hp|help)", LANG.getString("group.help.help")),
+					Pattern.compile("(hp|help)"),
 					manageable = false
 			)
 
