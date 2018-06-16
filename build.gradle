@@ -9,10 +9,16 @@ mainClassName = 'avalon.main.MainServer'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-repositories {
-	maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-	jcenter()
-	mavenCentral()
+allprojects {
+	repositories {
+		def repo = 'http://maven.aliyun.com/nexus/content/groups/public/'
+		if (System.getenv().containsKey("CI")) {
+			repo = 'https://jcenter.bintray.com/'
+		}
+		println("Now using reposity `$repo`")
+		maven { url repo }
+		mavenCentral()
+	}
 }
 
 dependencies {
