@@ -1,14 +1,14 @@
 version: 2
 
 machine:
-  java:
-	version: openjdk8
+java:
+version: openjdk8
 
 dependencies:
-  pre:
-  - chmod a+x gradlew
+pre:
+- chmod a+x gradlew
 
 jobs:
-  build:
-	environment:
-	- CI: "true"
+build:
+environment:
+- CI: "true"
