@@ -1,4 +1,4 @@
-# Avalon v1.2.3    [![GNU Affero General Public License, version 3](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl.html) [![GitHub stars](https://img.shields.io/github/stars/Ray-Eldath/Avalon.svg?style=social&label=Stars)](https://github.com/Ray-Eldath/Avalon/stargazers) [![GitHub followers](https://img.shields.io/github/followers/Ray-Eldath.svg?style=social&label=Follow)](https://github.com/Ray-Eldath)
+# Avalon v1.3.0    [![GNU Affero General Public License, version 3](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl.html) [![GitHub stars](https://img.shields.io/github/stars/Ray-Eldath/Avalon.svg?style=social&label=Stars)](https://github.com/Ray-Eldath/Avalon/stargazers) [![GitHub followers](https://img.shields.io/github/followers/Ray-Eldath.svg?style=social&label=Follow)](https://github.com/Ray-Eldath)
 
 [![Build Status](https://img.shields.io/travis/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://travis-ci.org/Ray-Eldath/Avalon) [![Build status](https://img.shields.io/appveyor/ci/RayEldath/avalon/master.svg?style=flat-square)](https://ci.appveyor.com/project/RayEldath/avalon/branch/master) [![Codeship Status for Ray-Eldath/Avalon](https://img.shields.io/codeship/28b37980-8a1d-0135-1242-62d9615dc8b0/master.svg?style=flat-square)](https://app.codeship.com/projects/248940) [![CircleCI](https://img.shields.io/circleci/project/github/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master) [![](https://jitpack.io/v/Ray-Eldath/Avalon.svg?style=flat-square)](https://jitpack.io/#Ray-Eldath/Avalon) [![Known Vulnerabilities](https://snyk.io/test/github/ray-eldath/avalon/badge.svg?style=flat-square)](https://snyk.io/test/github/ray-eldath/avalon) [![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-ProgramLeague-blue.svg?style=flat-square)](https://jq.qq.com/?_wv=1027&k=46GveNI)
 
@@ -33,20 +33,22 @@
 | AnswerMe    | `avalon answer me`                                    | 使用[微软小冰](http://www.msxiaoice.com)提供的智能回复       |
 | Blacklist   | `avalon blacklist (list OR add OR remove)`            | :white_circle: :grey_exclamation: 查看黑名单；将指定的帐号添加至黑名单或从黑名单移除 |
 | Echo        | `avalon (echo OR repeat`                              | 让阿瓦隆重复给定语句                                         |
-| Execute     | `avalon execute <语言>{换行}<代码>`                   | 执行给定代码并回显输出                                       |
-| ExecuteInfo | `avalon execute info`                                 | 输出代码执行器信息                                           |
+| Execute     | `avalon (ex OR execute) <语言>{换行}<代码>`           | 执行给定代码并回显输出                                       |
+| ExecuteInfo | `avalon(exi OR execute info)`                         | 输出代码执行器信息                                           |
 | Flush       | `avalon flush`                                        | :white_circle: :grey_exclamation: 刷新缓存并清除临时文件     |
-| Help        | `avalon help`                                         | :red_circle: 显示帮助文本                                    |
+| Heartbeat | `avalon (hb OR heartbeat)` |Avalon存活检测|
+| Help        | `avalon (hp OR help)`                                 | :red_circle: 显示帮助文本                                    |
 | Hitokoto    | `avalon (hitokoto OR 一言)`                           | 获取一条一言                                                 |
 | Manager     | `avalon manager (start OR stop) <指令响应器触发语句>` | :white_circle: :grey_exclamation: 打开或关闭指定的指令响应器 |
 | Mo          | ` - -`                                                | 随机触发膜*语句                                              |
 | Quote       | `avalon quote <发言者> <语录内容>`                    | :grey_exclamation: 记录语录到Avalon数据库。                  |
 | Reboot      | `avalon reboot`                                       | :white_circle: :exclamation: 重启Avalon                      |
-| ShowAdmin   | `avalon (whoisadmin OR 谁是管理员)`                   | 显示管理员列表                                               |
+| ShowAdmin   | `avalon (wia OR whoisadmin)`                          | 显示管理员列表                                               |
 | Shutdown    | `avalon (shutdown OR exit)`                           | :white_circle: :exclamation: 退出Avalon                      |
-| Version     | `avalon (version OR about OR 版本)`                   | :red_circle: 显示版本及相关信息                              |
+| Version     | `avalon (ver OR about)`                               | :red_circle: 显示版本及相关信息                              |
+| Wolfram | `avalon (tm OR tell me) <your question>` |(Only English) Send your question to Wolfram Alpha and echo the return.|
 
-部分指令仅对某个版本号以上的Avalon有效。具体请见各版本RELEASE Notes。
+部分指令仅对某个版本号以上的Avalon有效。具体请见各 [RELEASE](https://github.com/Ray-Eldath/Avalon/releases)的RELEASE Notes。
 
 ### 完整扩展功能列表
 

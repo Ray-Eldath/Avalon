@@ -5,11 +5,13 @@ import avalon.group.GroupMessageHandler
 import avalon.tool.database.H2DatabaseOperator
 import avalon.tool.database.MySQLDatabaseOperator
 import avalon.tool.system.Configs
+import avalon.util.ConfigurationError
 import avalon.util.FriendMessage
 import avalon.util.GroupMessage
 import avalon.util.backend.AvalonBackend
 import avalon.util.backend.CoolQBackend
 import avalon.util.backend.DiscordBackend
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.lang.management.ManagementFactory
 import java.util.*
@@ -21,6 +23,8 @@ import java.util.function.Consumer
  * @author Ray Eldath
  */
 object Constants {
+	private val logger = LoggerFactory.getLogger(this.javaClass)
+
 	object Database {
 		private val datasource = Configs.getJSONObject("database").getString("datasource").toLowerCase()
 		val DB_OPERATOR =
@@ -38,7 +42,7 @@ object Constants {
 	}
 
 	object Version {
-		const val AVALON = "1.2.4"
+		const val AVALON = "1.3.0"
 		val SERVLET = Basic.CURRENT_SERVLET.version()
 	}
 
@@ -58,7 +62,12 @@ object Constants {
 				when (Configs.getJSONObject("backend").getString("backend").trim { it <= ' ' }.toLowerCase()) {
 					"coolq" -> CoolQBackend.INSTANCE()
 					"discord" -> DiscordBackend
-					else -> null!!
+					else -> {
+						val string = "invalid configuration: only `CoolQ` and `Discord` backend are supported!"
+						logger.error(string)
+						throw ConfigurationError(string)
+						null!!
+					}
 				}
 
 		val DEFAULT_PREFIX = arrayOf("avalon ")
@@ -66,7 +75,7 @@ object Constants {
 		val DEBUG = {
 			val forceDebug = System.getProperty("avalon.force_debug")
 			if (forceDebug != null && forceDebug.equals("true", true)) {
-				System.err.println("Debug forced enabled!")
+				logger.warn("debug forced enabled!")
 				true
 			} else
 				Configs.get("debug") as Boolean

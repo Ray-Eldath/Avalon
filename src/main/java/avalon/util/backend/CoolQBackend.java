@@ -20,9 +20,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 
@@ -90,7 +88,7 @@ public class CoolQBackend extends AvalonBackend {
 				.nextValue()).getJSONArray("data");
 		String r;
 		JSONObject object;
-		for (Object obj : array) {
+		for (Object obj: array) {
 			object = (JSONObject) obj;
 			if (object.getLong("group_id") == groupUid) {
 				r = object.getString("group_name");
@@ -178,6 +176,25 @@ public class CoolQBackend extends AvalonBackend {
 		return object1.getInt("retcode") != 0 ? "" : object1.getJSONObject("data").getString("card");
 	}
 
+	/*
+	  实验性。还没改AvalonServlet。
+	  获取群内所有成员的card。可添加最后发言时间筛选条件。
+	 */
+	@NotNull
+	public List<String> getGroupMembersCards(long groupUid, long filterLastSentTime) {
+		Map<String, Object> object = new HashMap<>();
+		object.put("group_id", groupUid);
+		JSONArray object1 = ((JSONObject) (new JSONTokener(sendRequest("/get_group_member_list", object)).nextValue())).getJSONArray("data");
+
+		List<String> result = new ArrayList<>();
+		for (Object innerObject: object1) {
+			JSONObject innerObject1 = (JSONObject) innerObject;
+			if (innerObject1.getLong("last_sent_time") >= filterLastSentTime)
+				result.add(innerObject1.getString("nickname"));
+		}
+		return result;
+	}
+
 	@NotNull
 	@Override
 	public String getFriendSenderNickname(long uid) {
@@ -194,7 +211,7 @@ public class CoolQBackend extends AvalonBackend {
 		else {
 			StringBuilder requestBuilder = new StringBuilder();
 			Set<Map.Entry<String, Object>> entrySet = data.entrySet();
-			for (Map.Entry<String, Object> entry : entrySet) {
+			for (Map.Entry<String, Object> entry: entrySet) {
 				String key = entry.getKey();
 				Object value = entry.getValue();
 				requestBuilder.append(key).append("=");

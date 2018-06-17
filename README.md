@@ -1,4 +1,4 @@
-# Avalon v1.2.3    [![GNU Affero General Public License, version 3](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl.html) [![GitHub stars](https://img.shields.io/github/stars/Ray-Eldath/Avalon.svg?style=social&label=Stars)](https://github.com/Ray-Eldath/Avalon/stargazers) [![GitHub followers](https://img.shields.io/github/followers/Ray-Eldath.svg?style=social&label=Follow)](https://github.com/Ray-Eldath)
+# Avalon v1.3.0    [![GNU Affero General Public License, version 3](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl.html) [![GitHub stars](https://img.shields.io/github/stars/Ray-Eldath/Avalon.svg?style=social&label=Stars)](https://github.com/Ray-Eldath/Avalon/stargazers) [![GitHub followers](https://img.shields.io/github/followers/Ray-Eldath.svg?style=social&label=Follow)](https://github.com/Ray-Eldath)
 
 [![Build Status](https://img.shields.io/travis/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://travis-ci.org/Ray-Eldath/Avalon) [![Build status](https://img.shields.io/appveyor/ci/RayEldath/avalon/master.svg?style=flat-square)](https://ci.appveyor.com/project/RayEldath/avalon/branch/master) [![Codeship Status for Ray-Eldath/Avalon](https://img.shields.io/codeship/28b37980-8a1d-0135-1242-62d9615dc8b0/master.svg?style=flat-square)](https://app.codeship.com/projects/248940) [![CircleCI](https://img.shields.io/circleci/project/github/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master) [![](https://jitpack.io/v/Ray-Eldath/Avalon.svg?style=flat-square)](https://jitpack.io/#Ray-Eldath/Avalon) [![Known Vulnerabilities](https://snyk.io/test/github/ray-eldath/avalon/badge.svg?style=flat-square)](https://snyk.io/test/github/ray-eldath/avalon) 
 
@@ -38,17 +38,19 @@ All commands listed below can be triggered by some particular command as long as
 | Name        | Trigger command                                    | Description                                                  |
 | ----------- | -------------------------------------------------- | ------------------------------------------------------------ |
 | Blacklist   | `avalon blacklist (list OR add OR remove)`         | :white_circle: :grey_exclamation: List all accounts in blacklist. Add account to blacklist or remove from it. |
-| Echo        | `avalon (echo OR repeat)`                          | Avalon will repeat the given sentence.                       |
-| Execute     | `avalon execute <LANGUAGE>{ENTER}<CODE>`           | Execute given code and echo the return or the error message. |
-| ExecuteInfo | `avalon execute info`                              | For info about code executor.                                |
+| Echo        | `avalon (ec OR echo)`      | Avalon will repeat the given sentence.                       |
+| Execute     | `avalon (ex OR execute) <LANGUAGE>{ENTER}<CODE>` | Execute given code and echo the return or the error message. |
+| ExecuteInfo | `avalon (exi OR execute info)`                     | For info about code executor.                                |
 | Flush       | `avalon flush`                                     | :white_circle: :grey_exclamation: Flush caches and delete temp files. |
-| Help        | `avalon help`                                      | :red_circle: For help content.                               |
+| Heartbeat | `avalon (hb OR heartbeat)` |:white_circle: Test if Avalon still alives.|
+| Help        | `avalon (hp OR help)`                  | :red_circle: For help content.                               |
 | Manager     | `avalon manager (start OR stop) <TRIGGER COMMAND>` | :white_circle: :grey_exclamation: To start or stop particular command responder. |
 | Quote       | `avalon quote <SPEAKER> <CONTENT>`                 | :grey_exclamation: To quote message into Avalon's database.  |
 | Reboot      | `avalon reboot`                                    | :white_circle: :exclamation: Reboot Avalon.                  |
-| ShowAdmin   | `avalon whoisadmin`                                | Show list of all admins.                                     |
-| Shutdown    | `avalon (shutdown OR exit)`                        | :white_circle: :exclamation: Shutdown Avalon.                |
-| Version     | `avalon (version OR about)`                        | :red_circle: Show version and related info.                  |
+| ShowAdmin   | `avalon (wia OR whoisadmin)` | Show list of all admins.                                     |
+| Shutdown    | `avalon (shutdown OR exit)` | :white_circle: :exclamation: Shutdown Avalon.                |
+| Version     | `avalon (ver OR about)`         | :red_circle: Show version and related info.                  |
+| Wolfram | `avalon (tm OR tell me) <your question>` |(Only English) Send your question to Wolfram Alpha and echo the return.|
 
 Some commands only available in particular version of Avalon. For more details, see RELEASE Notes for every [RELEASE](https://github.com/Ray-Eldath/Avalon/releases).
 
@@ -65,9 +67,9 @@ All following extension are push-type, they will sent message automatically when
 
 > *Commands and extensions not work except in Chinese nations or areas may not listed. For info about these commands and extensions, see [Chinese (Simplified) version of README file](https://github.com/Ray-Eldath/Avalon/blob/master/README.zh_CN.md).*
 
-### Example
+### Coversation log
 
-
+// TODO
 
 ## Contribute [![Open Source Helpers](https://www.codetriage.com/ray-eldath/avalon/badges/users.svg?style=flat-square)](https://www.codetriage.com/ray-eldath/avalon)
 
