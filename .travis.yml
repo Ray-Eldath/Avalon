@@ -1,0 +1,20 @@
+# @formatter:off
+sudo: required
+
+language: java
+
+jdk:
+  - oraclejdk8
+
+script:
+  - "./gradlew build"
+
+env:
+  - CI=true
+
+before_install:
+  - chmod a+x gradlew
+
+notifications:
+  email:
+  - ray.eldath@outlook.com
