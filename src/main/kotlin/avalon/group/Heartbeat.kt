@@ -1,6 +1,6 @@
 package avalon.group
 
-import avalon.api.Flag.AT
+import avalon.api.Flag.at
 import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
 import avalon.util.GroupMessage
@@ -14,7 +14,7 @@ import java.util.regex.Pattern
 object Heartbeat : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		val datetime = ZonedDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME)
-		val reply = String.format("%s %s", AT(message), String.format(LANG.getString("group.heartbeat.reply"), datetime))
+		val reply = String.format("%s %s", at(message), String.format(LANG.getString("group.heartbeat.reply"), datetime))
 		message.response(reply)
 	}
 

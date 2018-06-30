@@ -19,16 +19,16 @@ import java.nio.file.Paths;
 public class GetTest {
     public static void main(String[] args) throws Exception {
         // 目前开发者已经解决问题。这个备用方法就... ...还是要完成得。不过目前暂缓。
-        String cookie = "";
+	    StringBuilder cookie = new StringBuilder();
         BufferedReader reader = Files.newBufferedReader(Paths.get(System.getProperty("java.io.tmpdir") +
                 File.separator + "mojo_webqq_cookie_default.dat"), Charset.forName("GBK"));
         String thisLine;
         while ((thisLine = reader.readLine()) != null)
-            cookie += thisLine + "\n";
+	        cookie.append(thisLine).append("\n");
         System.out.println(cookie);
         System.exit(0);
         URLConnection connection = new URL("").openConnection();
-        connection.addRequestProperty("Cookie", cookie);
+	    connection.addRequestProperty("Cookie", cookie.toString());
         JSONObject object = (JSONObject)
                 new JSONTokener(new URL("https://graph.qq.com/oauth2.0/authorize").openStream()).nextValue();
         System.out.println(object.toString());

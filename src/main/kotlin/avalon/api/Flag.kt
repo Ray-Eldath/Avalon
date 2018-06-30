@@ -7,18 +7,18 @@ import avalon.util.backend.DiscordBackend
 
 object Flag {
 	@JvmStatic
-	fun AT(message: GroupMessage) =
+	fun at(message: GroupMessage) =
 			when (CURRENT_SERVLET) {
 				is CoolQBackend -> "[CQ:at,qq=${message.senderUid}]"
 				DiscordBackend -> DiscordBackend.jda.getUserById(message.senderUid).asMention
 				else -> "@${message.senderNickName}"
-			}
+			}!!
 
 	@JvmStatic
-	fun AT(userUid: Long) =
+	fun at(userUid: Long) =
 			when (CURRENT_SERVLET) {
 				is CoolQBackend -> "[CQ:at,qq=$userUid]"
 				DiscordBackend -> DiscordBackend.jda.getUserById(userUid).asMention
 				else -> "@$userUid"
-			}
+			}!!
 }

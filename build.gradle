@@ -28,25 +28,25 @@ dependencies {
 	// https://mvnrepository.com/artifact/jaxen/jaxen
 	compile group: 'jaxen', name: 'jaxen', version: '1.1.6'
 	// https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server
-	compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.7.v20170914'
+	compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.11.v20180605'
 	// https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlet
-	compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.7.v20170914'
+	compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.11.v20180605'
 	// https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-util
-	compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.7.v20170914'
+	compile group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.11.v20180605'
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
 	// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
 	compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 	// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
 	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
 	// https://mvnrepository.com/artifact/org.json/json
-	compile group: 'org.json', name: 'json', version: '20170516'
+	compile group: 'org.json', name: 'json', version: '20180130'
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
-	compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
 	// https://mvnrepository.com/artifact/com.h2database/h2
 	compile group: 'com.h2database', name: 'h2', version: '1.4.197'
 	// https://bintray.com/dv8fromtheworld/maven/JDA/
-	compile 'net.dv8tion:JDA:3.4.0_323'
+	compile 'net.dv8tion:JDA:3.6.0_376'
 
 	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

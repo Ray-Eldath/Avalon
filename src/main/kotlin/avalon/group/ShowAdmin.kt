@@ -1,6 +1,6 @@
 package avalon.group
 
-import avalon.api.Flag.AT
+import avalon.api.Flag.at
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
 import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
@@ -17,12 +17,12 @@ object ShowAdmin : GroupMessageResponder() {
 				builder.append(card).append(" - ").append(uid).append(", ")
 		}
 		if (builder.isEmpty()) {
-			message.response("${AT(message)} ${LANG.getString("group.show_admin.no_admin")}")
+			message.response("${at(message)} ${LANG.getString("group.show_admin.no_admin")}")
 			return
 		}
 		val toDisplay = LANG.getString("group.show_admin.reply")
 				.format("\n" + builder.toString().substring(0, builder.length - 2))
-		message.response("${AT(message)} $toDisplay")
+		message.response("${at(message)} $toDisplay")
 	}
 
 	override fun responderInfo(): ResponderInfo =

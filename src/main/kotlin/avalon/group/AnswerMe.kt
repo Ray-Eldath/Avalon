@@ -1,6 +1,6 @@
 package avalon.group
 
-import avalon.api.Flag.AT
+import avalon.api.Flag.at
 import avalon.tool.XiaoIceResponder
 import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
@@ -22,19 +22,19 @@ object AnswerMe : GroupMessageResponder() {
 		val regex = responderInfo().keyWordRegex
 		text = text.replace(regex.toRegex(), "")
 		if ("" == text.replace(" ", "")) {
-			message.response("${AT(message)} ${LANG.getString("group.answer_me.empty_content")}")
+			message.response("${at(message)} ${LANG.getString("group.answer_me.empty_content")}")
 			return
 		}
 		if (StringUtils.isAlpha(text)) if (text.length < 5) {
-			message.response("${AT(message)} ${LANG.getString("group.answer_me.short_content")}")
+			message.response("${at(message)} ${LANG.getString("group.answer_me.short_content")}")
 			return
 		} else if (text.length < 3) {
-			message.response(AT(message) + " ")
+			message.response(at(message) + " ")
 			return
 		}
 		content = content.replace(regex.toRegex(), "")
 		val responseXiaoIce = XiaoIceResponder.responseXiaoIce(content) ?: return
-		message.response(AT(message) + " " + responseXiaoIce)
+		message.response(at(message) + " " + responseXiaoIce)
 	}
 
 	override fun responderInfo(): ResponderInfo =

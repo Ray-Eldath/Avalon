@@ -1,7 +1,7 @@
 package avalon.group
 
 import avalon.api.Flag
-import avalon.api.Flag.AT
+import avalon.api.Flag.at
 import avalon.tool.ExecutiveStatus
 import avalon.tool.Executives
 import avalon.tool.pool.Constants.Basic.LANG
@@ -23,7 +23,7 @@ object Execute : GroupMessageResponder() {
 			val split = contentM.split(" ") // avalon execute python print(2+3)
 			val size = split.size
 			if (size < 4) {
-				message.response("${AT(message)} ${LANG.getString("group.execute.incorrect")}")
+				message.response("${at(message)} ${LANG.getString("group.execute.incorrect")}")
 				return
 			}
 			codes = split.subList(3, size)
@@ -36,11 +36,11 @@ object Execute : GroupMessageResponder() {
 		}
 
 		if (!executive.allLanguages().contains(lang)) {
-			message.response("${AT(message)} ${LANG.getString("group.execute.unsupported_language")}")
+			message.response("${at(message)} ${LANG.getString("group.execute.unsupported_language")}")
 			return
 		}
 		if (codes.all { it.isEmpty() }) {
-			message.response("${AT(message)} ${LANG.getString("group.execute.empty_code")}")
+			message.response("${at(message)} ${LANG.getString("group.execute.empty_code")}")
 			return
 		}
 		val result = executive.execute(lang, codes)
@@ -55,7 +55,7 @@ object Execute : GroupMessageResponder() {
 					ExecutiveStatus.OK -> LANG.getString("group.execute.ok")
 							.format("exitcode: $exitcode stdout: ${handleOutput(result.stdout)}")
 				}
-		message.response("${Flag.AT(message)} $content")
+		message.response("${Flag.at(message)} $content")
 	}
 
 	private fun handleOutput(string: String): String {

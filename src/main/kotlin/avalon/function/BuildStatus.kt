@@ -24,7 +24,7 @@ object BuildStatus : Runnable {
 			(0 until ci.length())
 					.map { ci.getString(it).split(":") }
 					.forEach { ciMap.add(RepoEntry(it[1], CIs.get(it[0])!!, CIs.get(it[0])!!.getStatus(it[1]))) }
-			repos.put(name, ciMap)
+			repos[name] = ciMap
 		}
 	}
 

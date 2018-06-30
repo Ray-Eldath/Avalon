@@ -190,7 +190,7 @@ public class CoolQBackend extends AvalonBackend {
 		for (Object innerObject: object1) {
 			JSONObject innerObject1 = (JSONObject) innerObject;
 			if (innerObject1.getLong("last_sent_time") >= filterLastSentTime)
-				result.add(innerObject1.getString("nickname"));
+				result.add(innerObject1.getString("card"));
 		}
 		return result;
 	}

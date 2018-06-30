@@ -1,6 +1,6 @@
 package avalon.group
 
-import avalon.api.Flag.AT
+import avalon.api.Flag.at
 import avalon.api.getAllowArray
 import avalon.tool.pool.Constants
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
@@ -34,27 +34,27 @@ object Blacklist : GroupMessageResponder() {
 					if (Constants.Basic.DEBUG)
 						message.response(map.keys.joinToString())
 					if (map.isEmpty())
-						message.response("${AT(message)} ${LANG.getString("group.blacklist.empty_banned_list")}")
+						message.response("${at(message)} ${LANG.getString("group.blacklist.empty_banned_list")}")
 					else {
 						val to = map.keys.joinToString { CURRENT_SERVLET.getGroupSenderNickname(groupUid, it) }
-						message.response("${AT(message)} ${LANG.getString("group.blacklist.banned_list_has").format(to)}")
+						message.response("${at(message)} ${LANG.getString("group.blacklist.banned_list_has").format(to)}")
 					}
 				}
 				"add" -> {
-					message.response("${AT(message)} ${String.format(LANG.getString("group.blacklist.account_now_banned"), toBan)}")
+					message.response("${at(message)} ${String.format(LANG.getString("group.blacklist.account_now_banned"), toBan)}")
 					Blacklist.logger.info("account $toBan is baned by $senderUid : $sender.")
 					GroupMessageHandler.addBlackListPeople(toBan, max)
 				}
 				"remove" -> {
 					if (!map.containsKey(toBan))
-						message.response("${AT(message)} ${String.format(LANG.getString("group.blacklist.account_not_banned"), toBan)}")
+						message.response("${at(message)} ${String.format(LANG.getString("group.blacklist.account_not_banned"), toBan)}")
 					else {
-						message.response("${AT(message)} ${String.format(LANG.getString("group.blacklist.account_now_released"), toBan)}")
+						message.response("${at(message)} ${String.format(LANG.getString("group.blacklist.account_now_released"), toBan)}")
 						Blacklist.logger.info("account $toBan is allowed again by $senderUid : $sender.")
 						GroupMessageHandler.addBlackListPeople(toBan, 0)
 					}
 				}
-				else -> message.response("${AT(message)} ${LANG.getString("group.blacklist.incorrect")}")
+				else -> message.response("${at(message)} ${LANG.getString("group.blacklist.incorrect")}")
 			}
 		}
 	}

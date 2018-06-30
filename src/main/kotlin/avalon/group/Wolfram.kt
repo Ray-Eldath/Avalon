@@ -1,6 +1,6 @@
 package avalon.group
 
-import avalon.api.Flag.AT
+import avalon.api.Flag.at
 import avalon.tool.pool.Constants.Basic.CURRENT_SERVLET
 import avalon.tool.pool.Constants.Basic.LANG
 import avalon.tool.system.Configs
@@ -27,10 +27,10 @@ object Wolfram : GroupMessageResponder() {
 		val url = "http://api.wolframalpha.com/v2/query?input=" + UrlEncoded.encodeString(question) +
 				"&appid=" + Configs.getResponderConfig("Wolfram", "app_id")
 		if (message.content.matches(Regex("avalon tell me [\\u4e00-\\u9fa5]"))) {
-			message.response("${AT(message)} ${LANG.getString("group.wolfram.chinese_unsupported")}")
+			message.response("${at(message)} ${LANG.getString("group.wolfram.chinese_unsupported")}")
 			return
 		}
-		message.response("${AT(message)} ${LANG.getString("group.wolfram.sent_privately")}")
+		message.response("${at(message)} ${LANG.getString("group.wolfram.sent_privately")}")
 		try {
 			val builder = SAXBuilder()
 			val pods = WolframXMLParser.get(builder.build(URL(url).openStream().reader(StandardCharsets.UTF_8)).rootElement)

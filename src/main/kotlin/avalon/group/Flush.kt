@@ -1,6 +1,6 @@
 package avalon.group
 
-import avalon.api.Flag.AT
+import avalon.api.Flag.at
 import avalon.function.Recorder
 import avalon.tool.pool.Constants.Basic.LANG
 import avalon.util.GroupConfig
@@ -16,7 +16,7 @@ object Flush : GroupMessageResponder() {
 	override fun doPost(message: GroupMessage, groupConfig: GroupConfig) {
 		Recorder.getInstance().flushNow()
 		System.gc()
-		message.response("${AT(message)} ${LANG.getString("group.flush.reply")}")
+		message.response("${at(message)} ${LANG.getString("group.flush.reply")}")
 	}
 
 	override fun responderInfo(): ResponderInfo =

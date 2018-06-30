@@ -1,7 +1,7 @@
 package avalon.group
 
 import avalon.api.CustomGroupResponder
-import avalon.api.Flag.AT
+import avalon.api.Flag.at
 import avalon.api.RegisterResponder.registerInner
 import avalon.function.Recorder
 import avalon.group.GroupMessageResponderTriple.Companion.selectByName
@@ -78,7 +78,7 @@ object GroupMessageHandler {
 				if (blacklistPeopleMap[senderUid]!! >= punishFrequency) {
 					LOGGER.info("account $senderUid : $sender was blocked. Please entered `avalon blacklist remove $senderUid` to group $groupUid : ${message.groupName} if you really want to unblock this account.")
 					if (!admin)
-						message.response("${AT(message)} ${LANG.getString("group.handler.account_banned")}")
+						message.response("${at(message)} ${LANG.getString("group.handler.account_banned")}")
 					return
 				}
 			}
@@ -92,7 +92,7 @@ object GroupMessageHandler {
 				if (!APISurvivePool.getInstance().isSurvive(value)) {
 					if (!APISurvivePool.getInstance().isNoticed(value)) {
 						if (value != Mo)
-							message.response("${AT(message)} ${LANG.getString("group.handler.call_stopped_responder")}")
+							message.response("${at(message)} ${LANG.getString("group.handler.call_stopped_responder")}")
 						APISurvivePool.getInstance().setNoticed(value)
 					}
 				} else if (MessageChecker.check(message) && isResponderEnable(value) &&
@@ -125,7 +125,7 @@ object GroupMessageHandler {
 		}
 
 		if (!result)
-			message.response("${AT(message)} ${LANG.getString("group.handler.permission_denied")}")
+			message.response("${at(message)} ${LANG.getString("group.handler.permission_denied")}")
 		return result
 	}
 
@@ -147,7 +147,7 @@ object GroupMessageHandler {
 					notice = String.format(LANG.getString("group.handler.block_word_e"), punishFrequency)
 					blackListPlus(groupMessage.senderUid)
 				}
-				groupMessage.response(AT(groupMessage) + " " + notice)
+				groupMessage.response(at(groupMessage) + " " + notice)
 				return false
 			}
 
@@ -157,7 +157,7 @@ object GroupMessageHandler {
 			if (Cooling_Not_Notice_Times > 4 || !Cooling_Noticed) {
 				if (key.matcher("+1s").find())
 					return false
-				groupMessage.response("${AT(groupMessage)} ${String.format(LANG.getString("group.handler.cooling"), coolingDuration, coolingDuration)}")
+				groupMessage.response("${at(groupMessage)} ${String.format(LANG.getString("group.handler.cooling"), coolingDuration, coolingDuration)}")
 				Cooling_Noticed = true
 			}
 			if (Cooling_Not_Notice_Times >= 4) {

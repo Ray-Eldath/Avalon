@@ -27,7 +27,7 @@ object GlotRun : Executive {
 		val map = HashMap<String, URL>(array.length())
 		(0 until array.length())
 				.map(array::getJSONObject)
-				.forEach { map.put(it.getString("name"), URL("${it.getString("url")}/latest")) }
+				.forEach { map[it.getString("name")] = URL("${it.getString("url")}/latest") }
 		return map
 	}
 

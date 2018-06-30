@@ -1,6 +1,6 @@
 package avalon.group
 
-import avalon.api.Flag.AT
+import avalon.api.Flag.at
 import avalon.tool.pool.APISurvivePool
 import avalon.tool.pool.Constants
 import avalon.tool.pool.Constants.Basic.LANG
@@ -18,7 +18,7 @@ object Manager : GroupMessageResponder() {
 		val sender = message.senderNickName
 		val senderUid = message.senderUid
 
-		val incorrect = "${AT(message)} ${LANG.getString("group.manager.incorrect_e")}"
+		val incorrect = "${at(message)} ${LANG.getString("group.manager.incorrect_e")}"
 		if (" " !in content) {
 			message.response(incorrect)
 			return
@@ -36,30 +36,30 @@ object Manager : GroupMessageResponder() {
 
 		var thisAPI = GroupMessageHandler.getGroupResponderByKeywordRegex(apiName)
 		if (thisAPI == null) {
-			thisAPI = GroupMessageHandler.getGroupResponderByKeywordRegex(apiName + " ")
+			thisAPI = GroupMessageHandler.getGroupResponderByKeywordRegex("$apiName ")
 			if (thisAPI == null) {
-				message.response("${AT(message)} ${LANG.getString("group.manager.not_exist")}")
+				message.response("${at(message)} ${LANG.getString("group.manager.not_exist")}")
 				return
 			}
 		}
 
 		if (!thisAPI.responderInfo().manageable) {
-			message.response("${AT(message)} ${LANG.getString("group.manager.can_not_stop")}")
+			message.response("${at(message)} ${LANG.getString("group.manager.can_not_stop")}")
 			return
 		}
 
 		when (action) {
 			"start" -> {
 				APISurvivePool.getInstance().setAPISurvive(thisAPI, true)
-				message.response("${AT(message)} ${LANG.getString("group.manager.start")}")
+				message.response("${at(message)} ${LANG.getString("group.manager.start")}")
 				Manager.logger.info("GroupMessageResponder ${thisAPI.javaClass.simpleName} is reopened by $senderUid  : $sender.")
 			}
 			"stop" -> {
 				APISurvivePool.getInstance().setAPISurvive(thisAPI, false)
-				message.response("${AT(message)} ${LANG.getString("group.manager.stop")}")
+				message.response("${at(message)} ${LANG.getString("group.manager.stop")}")
 				Manager.logger.info("GroupMessageResponder ${thisAPI.javaClass.simpleName} is closed by $senderUid : $sender.")
 			}
-			else -> message.response("${AT(message)} ${LANG.getString("group.manager.incorrect")}")
+			else -> message.response("${at(message)} ${LANG.getString("group.manager.incorrect")}")
 		}
 	}
 
