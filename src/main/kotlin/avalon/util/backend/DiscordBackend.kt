@@ -62,11 +62,11 @@ object DiscordBackend : AvalonBackend() {
 		JDABuilder(AccountType.BOT)
 				.setToken(obj.getString("token"))
 				.addEventListener(DiscordMessageListener(outerGroupMessageHook, outerFriendMessageHook))
-				.buildBlocking()
+				.build().awaitReady()
 	}
 
 	class DiscordMessageListener(private val groupMessageHook: Consumer<GroupMessage>,
-	                             private val friendMessageHook: Consumer<FriendMessage>) : ListenerAdapter() {
+								 private val friendMessageHook: Consumer<FriendMessage>) : ListenerAdapter() {
 		override fun onMessageReceived(event: MessageReceivedEvent?) {
 			if (!event!!.isFromType(ChannelType.TEXT) || event.author.isBot)
 				return

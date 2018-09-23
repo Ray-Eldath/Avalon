@@ -60,7 +60,7 @@ object Constants {
 		val LANG = ResourceBundle.getBundle("lang.Avalon")!!
 		val CURRENT_SERVLET: AvalonBackend =
 				when (Configs.getJSONObject("backend").getString("backend").trim { it <= ' ' }.toLowerCase()) {
-					"coolq" -> CoolQBackend.INSTANCE()
+					"coolq" -> CoolQBackend
 					"discord" -> DiscordBackend
 					else -> {
 						val string = "invalid configuration: only `CoolQ` and `Discord` backend are supported!"
