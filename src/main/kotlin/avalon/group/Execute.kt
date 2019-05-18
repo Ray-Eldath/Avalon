@@ -32,7 +32,8 @@ object Execute : GroupMessageResponder() {
 			val split = contentM.split("\n")
 			val first = split[0]
 			codes = split.subList(1, split.size)
-			lang = first.replace("avalon execute ", "").trim()
+			lang = first.replace("avalon execute ", "")
+				.replace("avalon ex ", "").trim()
 		}
 
 		if (!executive.allLanguages().contains(lang)) {
@@ -47,14 +48,14 @@ object Execute : GroupMessageResponder() {
 		val exitcode = result.exitcode
 		val stderr = handleOutput(result.stderr)
 		val content =
-				when (result.status) {
-					ExecutiveStatus.ERROR -> LANG.getString("group.execute.error")
-							.format("exitcode: $exitcode} stderr: $stderr error: ${handleOutput(result.error)}")
-					ExecutiveStatus.STDERR -> LANG.getString("group.execute.stderr")
-							.format("exitcode: $exitcode stderr: $stderr")
-					ExecutiveStatus.OK -> LANG.getString("group.execute.ok")
-							.format("exitcode: $exitcode stdout: ${handleOutput(result.stdout)}")
-				}
+			when (result.status) {
+				ExecutiveStatus.ERROR -> LANG.getString("group.execute.error")
+					.format("exitcode: $exitcode} stderr: $stderr error: ${handleOutput(result.error)}")
+				ExecutiveStatus.STDERR -> LANG.getString("group.execute.stderr")
+					.format("exitcode: $exitcode stderr: $stderr")
+				ExecutiveStatus.OK -> LANG.getString("group.execute.ok")
+					.format("exitcode: $exitcode stdout: ${handleOutput(result.stdout)}")
+			}
 		message.response("${Flag.at(message)} $content")
 	}
 
@@ -66,11 +67,11 @@ object Execute : GroupMessageResponder() {
 	}
 
 	override fun responderInfo(): ResponderInfo =
-			ResponderInfo(
-					Pair("(ex|execute) ${LANG.getString("group.execute.help.first")}",
-							LANG.getString("group.execute.help.second").format("avalon execute info")),
-					Pattern.compile("(ex|execute) [^info]*")
-			)
+		ResponderInfo(
+			Pair("(ex|execute) ${LANG.getString("group.execute.help.first")}",
+				LANG.getString("group.execute.help.second").format("avalon execute info")),
+			Pattern.compile("(ex|execute) [^info]*")
+		)
 
 	override fun instance(): GroupMessageResponder = this
 }

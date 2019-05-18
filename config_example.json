@@ -1,82 +1,80 @@
 {
-  "max_recorded_group_message_amount": 5000000,
-  "max_recorded_friend_message_amount": 10000,
-  "block_words": [
-	"fuck",
-	"f**k"
-  ],
-  "cooling_duration": 3000,
-  "block_words_punish_frequency": 3,
-  "block_words_punishment_mode_enabled": true,
-  "responders": {
-	"enable": [
-	  "Blacklist",
-	  "Echo",
-	  "Execute",
-	  "ExecuteInfo",
-	  "Flush",
-	  "Heartbeat",
-	  "Help",
-	  "Hitokoto",
-	  "Manager",
-	  "Mo",
-	  "Quote",
-	  "Reboot",
-	  "ShowAdmin",
-	  "Shutdown",
-	  "Version",
-	  "Wolfram"
+	"max_recorded_group_message_amount": 5000000,
+	"max_recorded_friend_message_amount": 10000,
+	"block_words": [
+		"fuck",
+		"f**k"
 	],
-	"disable": [
-	  "AnswerMe"
-	]
-  },
-  "responder_config": {
-	"AnswerMe": {
-	  "mojo-weixin_api_address": "http://127.0.0.1:3500"
+	"cooling_duration": 3000,
+	"block_words_punish_frequency": 3,
+	"block_words_punishment_mode_enabled": true,
+	"responders": {
+		"enable": [
+			"Blacklist",
+			"Echo",
+			"Execute",
+			"ExecuteInfo",
+			"Flush",
+			"Heartbeat",
+			"Help",
+			"Hitokoto",
+			"Manager",
+			"Mo",
+			"Quote",
+			"ShowAdmin",
+			"Shutdown",
+			"Version",
+			"Wolfram"
+		],
+		"disable": [
+			"AnswerMe"
+		]
 	},
-	"Wolfram": {
-	  "app_id": "XXXXXX-ZZZZZZZZZZ"
-	},
-	"Execute": {
-	  "backend": "Glot-Run",
-	  "token": "1111111-aaaa-bbbb-cccc-dddddddddddd"
-	},
-	"Hitokoto": {
-	  "push_when_start": true,
-	  "category": "b"
-	}
-  },
-  "function_config": {
-	"RSS": {
-		"enable": true,
-	  "feed": [
-		"http://ice1000.org/feed.xml"
-	  ]
-	},
-	"BuildStatus": {
-	  "enable": false,
-	  "listen": [
-		{
-		  "name": "Ray-Eldath/Avalon",
-		  "ci": [
-			"TravisCI:Ray-Eldath/Avalon",
-			"AppVeyor:RayEldath/avalon"
-		  ]
+	"responder_config": {
+		"AnswerMe": {
+			"mojo-weixin_api_address": "http://127.0.0.1:3500"
+		},
+		"Wolfram": {
+			"app_id": "XXXXXX-ZZZZZZZZZZ"
+		},
+		"Execute": {
+			"backend": "Glot-Run",
+			"token": "1111111-aaaa-bbbb-cccc-dddddddddddd"
+		},
+		"Hitokoto": {
+			"push_when_start": true,
+			"category": "b"
 		}
-	  ]
-	}
-  },
-  "database": {
-	"datasource": "H2"
-  },
-  "backend": {
-	"backend": "CoolQ",
-	"listen_address": "http://127.0.0.1:5050",
-	"api_address": "http://127.0.0.1:5000",
-	"token": "A34543AAA453A34AAAAAA45AAAAAAAA34AAAA453AAAAA34AAAAAAAA45AA"
-  },
-  "running_on_pc": true,
-  "debug": false,
-  "local_output": false
+	},
+	"function_config": {
+		"RSS": {
+			"enable": true,
+			"feed": [
+				"http://ice1000.org/feed.xml"
+			]
+		},
+		"BuildStatus": {
+			"enable": false,
+			"listen": [
+				{
+					"name": "Ray-Eldath/Avalon",
+					"ci": [
+						"TravisCI:Ray-Eldath/Avalon",
+						"AppVeyor:RayEldath/avalon"
+					]
+				}
+			]
+		}
+	},
+	"database": {
+		"datasource": "H2"
+	},
+	"backend": {
+		"backend": "CoolQ",
+		"listen_address": "http://127.0.0.1:5050",
+		"api_address": "http://127.0.0.1:5000"
+	},
+	"running_on_pc": true,
+	"debug": false,
+	"local_output": false
 }
