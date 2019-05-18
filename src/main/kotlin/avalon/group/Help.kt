@@ -25,7 +25,8 @@ object Help : GroupMessageResponder() {
 		for (api in apiTriple.map { it.instance }.sortedBy { it.responderInfo().helpMessage.first }) {
 			val flags = ArrayList<String>()
 			if (!GroupMessageHandler.isResponderEnable(api))
-				flags.add(disabled)
+//				flags.add(disabled)
+				continue
 			val info = api.responderInfo()
 			val helpMessage = info.helpMessage
 			if (helpMessage.first.isEmpty() || helpMessage.second.isEmpty())
@@ -35,19 +36,19 @@ object Help : GroupMessageResponder() {
 			else if (info.permission == ResponderPermission.OWNER)
 				flags.add(owner)
 			messageShow.append("\n$prefixString")
-					.append(helpMessage.first)
-					.append("：")
-					.append(if (flags.isEmpty()) "" else flags.joinToString(separator = " ", postfix = " "))
-					.append(helpMessage.second)
+				.append(helpMessage.first)
+				.append("：")
+				.append(if (flags.isEmpty()) "" else flags.joinToString(separator = " ", postfix = " "))
+				.append(helpMessage.second)
 		}
 		for (thisPlugin in AvalonPluginPool.getPluginList()) {
 			val temp = RegisterResponder.queryAvalonPlugin(thisPlugin)
-					.forEach { e -> messageShow.append("\n").append(e.getHelpMessage()) }
+				.forEach { e -> messageShow.append("\n").append(e.getHelpMessage()) }
 			messageShow.append(LANG.getString("group.help.plugin_command").format(thisPlugin.name(), temp))
 		}
 		val displayPrefix = Constants.Basic.DEFAULT_PREFIX
-				.joinToString(separator = LANG.getString("base.or"))
-				.replace(" ", "")
+			.joinToString(separator = LANG.getString("base.or"))
+			.replace(" ", "")
 		"""${LANG.getString("group.help.reply").format(displayPrefix)}$messageShow
 For Avalon Version v${Constants.Version.AVALON}"""
 		// "\n（我才不会告诉你我有一些没有写在这里的彩蛋指令呢~哈哈`(*∩_∩*)′）");
@@ -58,11 +59,11 @@ For Avalon Version v${Constants.Version.AVALON}"""
 	}
 
 	override fun responderInfo(): ResponderInfo =
-			ResponderInfo(
-					Pair("(hp|help)", LANG.getString("group.help.help")),
-					Pattern.compile("(hp|help)"),
-					manageable = false
-			)
+		ResponderInfo(
+			Pair("(hp|help)", LANG.getString("group.help.help")),
+			Pattern.compile("(hp|help)"),
+			manageable = false
+		)
 
 	override fun instance(): GroupMessageResponder? = this
 }

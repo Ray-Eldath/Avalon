@@ -14,7 +14,7 @@ import java.time.format.FormatStyle
 import java.util.*
 
 object RSSFeeder : Runnable {
-	private val urls = toURLList(Configs.getResponderConfigArray("RSS", "feed"))
+	private val urls = toURLList(Configs.getPluginConfigArray("RSS", "feed"))
 	private val updated = hashMapOf(*urls.map { it to LocalDateTime.MIN }.toTypedArray())
 	private val random = Random()
 

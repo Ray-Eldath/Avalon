@@ -26,8 +26,8 @@ object GlotRun : Executive {
 		val array = arrayT.getJSONArray("array")
 		val map = HashMap<String, URL>(array.length())
 		(0 until array.length())
-				.map(array::getJSONObject)
-				.forEach { map[it.getString("name")] = URL("${it.getString("url")}/latest") }
+			.map(array::getJSONObject)
+			.forEach { map[it.getString("name")] = URL("${it.getString("url")}/latest") }
 		return map
 	}
 
@@ -55,21 +55,21 @@ object GlotRun : Executive {
 		obj.put("files", array)
 
 
-		val result = Share.post(lang[language]!!, obj,
-				hashMapOf(
-						Pair("Content-type", "application/json"),
-						Pair("Authorization", "Token $token"))) ?: throw RuntimeException("nonnull `result`")
+		val result = Share.post(lang.getValue(language), obj,
+			hashMapOf(
+				Pair("Content-type", "application/json"),
+				Pair("Authorization", "Token $token"))) ?: throw RuntimeException("nonnull `result`")
 
 		val errorB = result.getBoolean("internal_error")
 
 		val error =
-				if (errorB) {
-					if (result.has("message") && result.notNull("message"))
-						result.getString("message")
-					else
-						"internal error"
-				} else
-					result.getString("error")
+			if (errorB) {
+				if (result.has("message") && result.notNull("message"))
+					result.getString("message")
+				else
+					"internal error"
+			} else
+				result.getString("error")
 
 		val stdout = if (errorB) "" else result.getString("stdout")
 		val stderr = if (errorB) "" else result.getString("stderr")

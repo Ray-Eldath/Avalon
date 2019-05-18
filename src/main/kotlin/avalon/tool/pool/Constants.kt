@@ -42,7 +42,7 @@ object Constants {
 	}
 
 	object Version {
-		const val AVALON = "1.3.0"
+		const val AVALON = "1.3.1"
 		val SERVLET = Basic.CURRENT_SERVLET.version()
 	}
 

@@ -49,7 +49,7 @@
   },
   "function_config": {
 	"RSS": {
-	  "enable": false,
+		"enable": true,
 	  "feed": [
 		"http://ice1000.org/feed.xml"
 	  ]

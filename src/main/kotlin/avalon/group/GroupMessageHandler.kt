@@ -37,7 +37,7 @@ import kotlin.collections.ArrayList
 object GroupMessageHandler {
 
 	internal fun getGroupResponderByKeywordRegex(keyword: String): GroupMessageResponder? =
-			apiTriples.firstOrNull { it.actualPattern.matcher(keyword).matches() }?.instance
+		apiTriples.firstOrNull { it.actualPattern.matcher(keyword).matches() }?.instance
 
 	internal fun isResponderEnable(api: GroupMessageResponder): Boolean {
 		if (!enableMap.containsKey(api))
@@ -54,10 +54,10 @@ object GroupMessageHandler {
 		val senderUid = message.senderUid
 
 		val groupConfig =
-				if (groupUid != DEBUG_MESSAGE_GROUP_UID)
-					GroupConfigs.instance().getConfig(groupUid)
-				else
-					GroupConfig(true, false, DEBUG_MESSAGE_UID, longArrayOf(), longArrayOf(), listOf())
+			if (groupUid != DEBUG_MESSAGE_GROUP_UID)
+				GroupConfigs.instance().getConfig(groupUid)
+			else
+				GroupConfig(true, false, DEBUG_MESSAGE_UID, longArrayOf(), longArrayOf(), listOf())
 
 		if (groupConfig == null) {
 			LOGGER.warn("listened message from not configured group $groupUid. Ignored this message. Please config this group in `group.json`.")
@@ -96,7 +96,7 @@ object GroupMessageHandler {
 						APISurvivePool.getInstance().setNoticed(value)
 					}
 				} else if (MessageChecker.check(message) && isResponderEnable(value) &&
-						permissionCheck(info.permission, groupConfig, message))
+					permissionCheck(info.permission, groupConfig, message))
 					value.doPost(message, groupConfig)
 				return
 			}
@@ -138,10 +138,10 @@ object GroupMessageHandler {
 		// 屏蔽词判断
 		for (thisBlockString in blockWordList)
 			if (groupMessage.content
-							.trim { it <= ' ' }
-							.toLowerCase()
-							.replace("[\\pP\\p{Punct}]".toRegex(), "")
-							.contains(thisBlockString)) {
+					.trim { it <= ' ' }
+					.toLowerCase()
+					.replace("[\\pP\\p{Punct}]".toRegex(), "")
+					.contains(thisBlockString)) {
 				var notice = LANG.getString("group.handler.block_word")
 				if (Constants.Setting.Block_Words_Punishment_Mode_Enabled && !admin) {
 					notice = String.format(LANG.getString("group.handler.block_word_e"), punishFrequency)
@@ -195,7 +195,7 @@ object GroupMessageHandler {
 		*/
 		// 管理类
 		registerInner(Shutdown)
-		registerInner(Reboot)
+//		registerInner(Reboot) v1.3.1：安全和稳健性问题，废止Reboot API
 		registerInner(Flush)
 		registerInner(Heartbeat)
 		registerInner(Manager)
@@ -226,14 +226,14 @@ object GroupMessageHandler {
 		}
 
 		for (thisEnable in enable
-				.map { selectByName(apiTriples, it) }
-				.filterNot { enableMap.containsKey(it) }) {
+			.map { selectByName(apiTriples, it) }
+			.filterNot { enableMap.containsKey(it) }) {
 			enableMap[thisEnable ?: continue] = true
 		}
 
 		apiTriples.map { it.instance }
-				.filterNot { enableMap.containsKey(it) }
-				.forEach { enableMap[it] = false }
+			.filterNot { enableMap.containsKey(it) }
+			.forEach { enableMap[it] = false }
 
 		// 校验
 		for ((key, value) in enableMap) {
@@ -261,7 +261,7 @@ object GroupMessageHandler {
 			print("Input here:")
 			val content = scanner.nextLine()
 			val message = GroupMessage(++id, System.currentTimeMillis(),
-					DEBUG_MESSAGE_UID, "Test", DEBUG_MESSAGE_GROUP_UID, "Test Group", content)
+				DEBUG_MESSAGE_UID, "Test", DEBUG_MESSAGE_GROUP_UID, "Test Group", content)
 			GroupMessageHandler.handle(message)
 			println("===")
 		}
@@ -269,16 +269,16 @@ object GroupMessageHandler {
 
 	fun addGroupMessageResponder(responder: GroupMessageResponder) {
 		val matchPattern =
-				if (responder == Mo)
-					responder.responderInfo().keyWordRegex
-				else
-					Pattern.compile("^(" + Constants.Basic.DEFAULT_PREFIX.joinToString(separator = "|") + ")" +
-							responder.responderInfo().keyWordRegex.pattern())
+			if (responder == Mo)
+				responder.responderInfo().keyWordRegex
+			else
+				Pattern.compile("^(" + Constants.Basic.DEFAULT_PREFIX.joinToString(separator = "|") + ")" +
+					responder.responderInfo().keyWordRegex.pattern())
 		apiTriples.add(GroupMessageResponderTriple(
-				responder.javaClass.simpleName,
-				matchPattern,
-				responder.responderInfo().keyWordRegex,
-				responder))
+			responder.javaClass.simpleName,
+			matchPattern,
+			responder.responderInfo().keyWordRegex,
+			responder))
 	}
 
 	fun addCustomGroupResponder(responder: CustomGroupResponder) = customApiList.put(responder.getKeyWordRegex(), responder)
