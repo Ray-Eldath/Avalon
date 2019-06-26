@@ -82,3 +82,9 @@
 ## 配置
 
 请见[Avalon.wiki](https://github.com/Ray-Eldath/Avalon/wiki)。
+
+## 致谢
+
+本项目使用 IntelliJ IDEA Ultimate 开发，且许可由 [Jetbrains 开源支持计划](https://www.jetbrains.com/community/opensource/) 免费提供。感谢 Jetbrains 对开源软件的支持！
+
+[![Jetbrains logo](/img/jetbrains-variant-4.jpg)](https://www.jetbrains.com/?from=Avalon)

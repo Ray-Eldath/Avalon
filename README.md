@@ -87,3 +87,9 @@ See [Projects / Avalon](https://github.com/Ray-Eldath/Avalon/projects/1).
 ## Configuration
 
 See [Avalon.wiki](https://github.com/Ray-Eldath/Avalon/wiki). (Only Chinese (Simplified) version provided yet ;-) )
+
+## Acknowledgement
+
+This project is developed with IntelliJ IDEA Ultimate and the subscription is obtained freely from [Jetbrains Open Source Support Program](https://www.jetbrains.com/community/opensource/). Thanks to Jetbrains!
+
+[![Jetbrains logo](/img/jetbrains-variant-4.jpg)](https://www.jetbrains.com/?from=Avalon)
