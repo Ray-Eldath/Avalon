@@ -1,6 +1,7 @@
 # Avalon v1.3.1    [![GNU Affero General Public License, version 3](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl.html) [![GitHub stars](https://img.shields.io/github/stars/Ray-Eldath/Avalon.svg?style=social&label=Stars)](https://github.com/Ray-Eldath/Avalon/stargazers) [![GitHub followers](https://img.shields.io/github/followers/Ray-Eldath.svg?style=social&label=Follow)](https://github.com/Ray-Eldath)
 
-[![Build Status](https://img.shields.io/travis/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://travis-ci.org/Ray-Eldath/Avalon) [![Build status](https://img.shields.io/appveyor/ci/RayEldath/avalon/master.svg?style=flat-square)](https://ci.appveyor.com/project/RayEldath/avalon/branch/master) [![CircleCI](https://img.shields.io/circleci/project/github/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master) [![](https://jitpack.io/v/Ray-Eldath/Avalon.svg?style=flat-square)](https://jitpack.io/#Ray-Eldath/Avalon) [![Known Vulnerabilities](https://snyk.io/test/github/ray-eldath/avalon/badge.svg?style=flat-square)](https://snyk.io/test/github/ray-eldath/avalon) 
+[![Build Status](https://img.shields.io/travis/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://travis-ci.org/Ray-Eldath/Avalon) [![Build status](https://img.shields.io/appveyor/ci/RayEldath/avalon/master.svg?style=flat-square)](https://ci.appveyor.com/project/RayEldath/avalon/branch/master) [![CircleCI](https://img.shields.io/circleci/project/github/Ray-Eldath/Avalon/master.svg?style=flat-square)](https://circleci.com/gh/Ray-Eldath/Avalon/tree/master) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FRay-Eldath%2FAvalon.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FRay-Eldath%2FAvalon?ref=badge_shield)
+[![](https://jitpack.io/v/Ray-Eldath/Avalon.svg?style=flat-square)](https://jitpack.io/#Ray-Eldath/Avalon) [![Known Vulnerabilities](https://snyk.io/test/github/ray-eldath/avalon/badge.svg?style=flat-square)](https://snyk.io/test/github/ray-eldath/avalon) 
 
 [中文（简体）](https://github.com/Ray-Eldath/Avalon/blob/master/README.zh_CN.md)
 
@@ -93,3 +94,6 @@ See [Avalon.wiki](https://github.com/Ray-Eldath/Avalon/wiki). (Only Chinese (Sim
 This project is developed with IntelliJ IDEA Ultimate and the subscription is obtained freely from [Jetbrains Open Source Support Program](https://www.jetbrains.com/community/opensource/). Thanks to Jetbrains!
 
 [![Jetbrains logo](/img/jetbrains-variant-4.jpg)](https://www.jetbrains.com/?from=Avalon)
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FRay-Eldath%2FAvalon.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FRay-Eldath%2FAvalon?ref=badge_large)
